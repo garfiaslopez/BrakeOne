@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import './reset.css';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import red from 'material-ui/colors/red';
-import blue from 'material-ui/colors/blue';
-import indigo from 'material-ui/colors/indigo';
+import 'antd/dist/antd.css';
+
 import { FetchXHR } from './helpers/generals';
 import {
     Router,
@@ -15,22 +13,13 @@ import {
 } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
-import CarwashDetail from './components/Home/Sections/Carwash/CarwashDetail/CarwashDetail';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import NotFound from './helpers/NotFound';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
 injectTapEventPlugin();
 
 const history = createBrowserHistory();
-const theme = createMuiTheme({
-    palette: {
-        primary: blue,
-        secondary: indigo,
-        error: red,
-    }
-});
 
 class PrivateHandler extends Component {
     constructor(props) {
@@ -62,22 +51,10 @@ class PrivateHandler extends Component {
             const url = process.env.REACT_APP_API_URL + '/authenticate';
             FetchXHR(url, 'POST', POSTDATA).then((response) => {
                 if (response.json.success) {
-                    if (session.carwash) {
-                        FetchXHR(process.env.REACT_APP_API_URL + '/carwash/' + session.carwash._id, 'GET').then((response) => {
-                            if (response.json.success) {
-                                session.carwash = response.json.carwash;
-                                const continueObj = (<ComponentToRender session={session} {...this.props}/>);
-                                this.setState({
-                                    toRender: continueObj
-                                });
-                            }
-                        });
-                    } else {
-                        const continueObj = <ComponentToRender session={session} {...this.props}/>;
-                        this.setState({
-                            toRender: continueObj
-                        });
-                    }
+                    const continueObj = <ComponentToRender session={session} {...this.props}/>;
+                    this.setState({
+                        toRender: continueObj
+                    });
                 } else {
                     const redirect = (<Redirect to={{
                         pathname: '/login',
@@ -107,6 +84,7 @@ class PrivateHandler extends Component {
         );
     }
 }
+
 const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
         <Route {...rest} render={ (props) => {
@@ -124,24 +102,16 @@ const initialView = () => {
 }
 
 ReactDOM.render(
-    <MuiThemeProvider theme={theme}>
-        <Router history={history}>
-            <Switch>
-                <PrivateRoute exact path="/index.html" component={initialView}/>
-                <PrivateRoute exact path="/" component= {initialView}/>
-                <Route path="/login" component={Login} />
+    <Router history={history}>
+        <Switch>
+            <PrivateRoute exact path="/" component= {initialView}/>
+            <Route path="/login" component={Login} />
 
-                <PrivateRoute exact path="/home" component={Home}/>
-                <PrivateRoute exact path="/home/:menu" component={Home}/>
+            <PrivateRoute exact path="/home" component={Home}/>
 
-                <PrivateRoute exact path="/carwash" component={CarwashDetail}/>
-                <PrivateRoute exact path="/carwash/:carwash_id" component={CarwashDetail}/>
-                <PrivateRoute exact path="/carwash/:carwash_id/:menu" component={CarwashDetail}/>
-
-                <Route path="/*" component={NotFound} />
-            </Switch>
-        </Router>
-    </MuiThemeProvider>
+            <Route path="/*" component={NotFound} />
+        </Switch>
+    </Router>
 ,document.getElementById('root'));
 
 

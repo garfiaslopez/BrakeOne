@@ -1,6 +1,6 @@
-export default (theme) => ({
+export default {
     containerStyle: {
-        backgroundColor: '#2196F3',
+        backgroundColor: '#C2C3C5',
         display: 'block',
         position: 'absolute',
         bottom: 0,
@@ -15,6 +15,10 @@ export default (theme) => ({
         justifyContent: 'center',
         alignContent: 'center'
     },
+    formContainer: {
+        marginLeft: '30%',
+        marginRight: '30%'
+    },
     mainLogo:{
         width: 200,
         height: 200,
@@ -24,8 +28,6 @@ export default (theme) => ({
         paddingBottom: 10
     },
     textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
         width: 300,
         height: 50,
         alignSelf: 'center',
@@ -43,4 +45,4 @@ export default (theme) => ({
         height: 50,
         alignSelf: 'center'
     }
-});
+};
