@@ -45,35 +45,39 @@ class PrivateHandler extends Component {
     }
 
     validateSession(ComponentToRender) {
-        const session = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE));
-        if (session) {
-            const POSTDATA = { username: session.user.username, password: session.user.password};
-            const url = process.env.REACT_APP_API_URL + '/authenticate';
-            FetchXHR(url, 'POST', POSTDATA).then((response) => {
-                if (response.json.success) {
-                    const continueObj = <ComponentToRender session={session} {...this.props}/>;
-                    this.setState({
-                        toRender: continueObj
-                    });
-                } else {
-                    const redirect = (<Redirect to={{
-                        pathname: '/login',
-                        state: { from: this.props.location }
-                    }}/>);
-                    this.setState({
-                        toRender: redirect
-                    });
-                }
-            });
-        } else {
-            const redirect = (<Redirect to={{
-                pathname: '/login',
-                state: { from: this.props.location }
-            }}/>);
-            this.setState({
-                toRender: redirect
-            });
-        }
+        const continueObj = <ComponentToRender session={{}} {...this.props}/>;
+        this.setState({
+            toRender: continueObj
+        });
+        // const session = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE));
+        // if (session) {
+        //     const POSTDATA = { username: session.user.username, password: session.user.password};
+        //     const url = process.env.REACT_APP_API_URL + '/authenticate';
+        //     FetchXHR(url, 'POST', POSTDATA).then((response) => {
+        //         if (response.json.success) {
+        //             const continueObj = <ComponentToRender session={session} {...this.props}/>;
+        //             this.setState({
+        //                 toRender: continueObj
+        //             });
+        //         } else {
+        //             const redirect = (<Redirect to={{
+        //                 pathname: '/login',
+        //                 state: { from: this.props.location }
+        //             }}/>);
+        //             this.setState({
+        //                 toRender: redirect
+        //             });
+        //         }
+        //     });
+        // } else {
+        //     const redirect = (<Redirect to={{
+        //         pathname: '/login',
+        //         state: { from: this.props.location }
+        //     }}/>);
+        //     this.setState({
+        //         toRender: redirect
+        //     });
+        // }
     }
 
     render() {

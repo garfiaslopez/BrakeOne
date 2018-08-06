@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Styles';
-import { Form, Icon, Input, Button, Alert } from 'antd';
+import { Form, Icon, Input, Button, Alert, Layout } from 'antd';
+import moment from 'moment';
 
 import { FetchXHR } from '../../helpers/generals';
 
 const FormItem = Form.Item;
+const { Header, Footer, Sider, Content } = Layout;
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -74,7 +76,6 @@ class HorizontalLoginForm extends React.Component {
 
 const WrappedHorizontalLoginForm = Form.create()(HorizontalLoginForm);
 
-
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -128,22 +129,29 @@ class Login extends Component {
         }
 
         return (
-            <div style={styles.containerStyle}>
-                {alert}
-                <div style={styles.centerContainer}>
-                    <img
-                        src={process.env.REACT_APP_CDN + '/images/MainLogo.png'}
-                        style={styles.mainLogo}
-                        alt="enterpriseImage"
-                    />
-                    <div style={styles.formContainer}>
-                        <WrappedHorizontalLoginForm 
-                            onSubmitForm={this.doLogin}
+            <Layout style={styles.layout}>
+                <Header style={styles.header} > 
+                    Brake One - Iniciar Sesión 
+                </Header>
+                <Content>
+                    {alert}
+                    <div style={styles.centerContainer}>
+                        <img
+                            src={process.env.REACT_APP_CDN + '/images/MainLogo.png'}
+                            style={styles.mainLogo}
+                            alt="enterpriseImage"
                         />
+                        <div style={styles.formContainer}>
+                            <WrappedHorizontalLoginForm 
+                                onSubmitForm={this.doLogin}
+                            />
+                        </div>
                     </div>
-
-                </div>
-            </div>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    Brake One  © {moment().format('YYYY')}
+                </Footer>
+            </Layout>
         );
     }
 }
