@@ -13,6 +13,7 @@ import {
 } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
+import SubsidiaryGrid from './components/SubsidiaryGrid/SubsidiaryGrid';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import NotFound from './helpers/NotFound';
@@ -25,9 +26,9 @@ class PrivateHandler extends Component {
     constructor(props) {
         super(props);
         const initialRender = (
-            <div style={{ height: 1000, backgroundColor: '#2196F3', padding: 50 }}>
+            <div style={{ height: 1000, backgroundColor: '#f0f2f5', padding: 50 }}>
                 <div className="loader"></div>
-                <p className="label"> Iniciando Admin </p>
+                <p className="label"> Iniciando... </p>
             </div>
         );
         this.state = {
@@ -45,39 +46,47 @@ class PrivateHandler extends Component {
     }
 
     validateSession(ComponentToRender) {
-        const continueObj = <ComponentToRender session={{}} {...this.props}/>;
-        this.setState({
-            toRender: continueObj
-        });
-        // const session = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE));
-        // if (session) {
-        //     const POSTDATA = { username: session.user.username, password: session.user.password};
-        //     const url = process.env.REACT_APP_API_URL + '/authenticate';
-        //     FetchXHR(url, 'POST', POSTDATA).then((response) => {
-        //         if (response.json.success) {
-        //             const continueObj = <ComponentToRender session={session} {...this.props}/>;
-        //             this.setState({
-        //                 toRender: continueObj
-        //             });
-        //         } else {
-        //             const redirect = (<Redirect to={{
-        //                 pathname: '/login',
-        //                 state: { from: this.props.location }
-        //             }}/>);
-        //             this.setState({
-        //                 toRender: redirect
-        //             });
-        //         }
-        //     });
-        // } else {
-        //     const redirect = (<Redirect to={{
-        //         pathname: '/login',
-        //         state: { from: this.props.location }
-        //     }}/>);
-        //     this.setState({
-        //         toRender: redirect
-        //     });
-        // }
+        const session = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE));
+        if (session) {
+            const POSTDATA = { username: session.user.username, password: session.user.password};
+            const url = process.env.REACT_APP_API_URL + '/authenticate';
+            FetchXHR(url, 'POST', POSTDATA).then((response) => {
+                if (response.json.success) {
+                    if (session.subsidiary) {
+                        FetchXHR(process.env.REACT_APP_API_URL + '/subsidiary/' + session.subsidiary._id, 'GET').then((response) => {
+                            if (response.json.success) {
+                                session.subsidiary = response.json.obj;
+                                const continueObj = (<ComponentToRender session={session} {...this.props}/>);
+                                this.setState({
+                                    toRender: continueObj
+                                });
+                            }
+                        });
+                    } else {
+                        const continueObj = <ComponentToRender session={session} {...this.props}/>;
+                        this.setState({
+                            toRender: continueObj
+                        });
+                    }
+                } else {
+                    const redirect = (<Redirect to={{
+                        pathname: '/login',
+                        state: { from: this.props.location }
+                    }}/>);
+                    this.setState({
+                        toRender: redirect
+                    });
+                }
+            });
+        } else {
+            const redirect = (<Redirect to={{
+                pathname: '/login',
+                state: { from: this.props.location }
+            }}/>);
+            this.setState({
+                toRender: redirect
+            });
+        }
     }
 
     render() {
@@ -111,6 +120,7 @@ ReactDOM.render(
             <PrivateRoute exact path="/" component= {initialView}/>
             <Route path="/login" component={Login} />
 
+            <PrivateRoute exact path="/subsidiarys" component={SubsidiaryGrid}/>
             <PrivateRoute exact path="/home" component={Home}/>
 
             <Route path="/*" component={NotFound} />

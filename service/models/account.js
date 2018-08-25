@@ -11,7 +11,7 @@ var AccountSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
-    fiscal_data:{
+    fiscal_data: {
         name: { type: String },
         phone: { type: String },
         address: { type: String },

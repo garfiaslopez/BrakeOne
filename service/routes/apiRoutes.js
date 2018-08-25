@@ -7,38 +7,56 @@ var CRUDController = require("../controllers/CRUDController");
 var Models = [
     {
         model_name: 'account',
+        singular: 'account',
+        plural: 'plural',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'client',
+        singular: 'client',
+        plural: 'clients',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'product_package',
+        singular: 'product-package',
+        plural: 'product-packages',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'product_transaction',
+        singular: 'product-transaction',
+        plural: 'product-transactions',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'product',
+        singular: 'product',
+        plural: 'products',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'provider',
+        singular: 'provider',
+        plural: 'providers',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'sell',
+        singular: 'sell',
+        plural: 'sells',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'subsidiary',
+        singular: 'subsidiary',
+        plural: 'subsidiarys',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
         model_name: 'user',
+        singular: 'user',
+        plural: 'users',
         methods: ['create', 'read', 'update', 'delete', 'search']
     }
 ]

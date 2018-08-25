@@ -92,12 +92,12 @@ class Login extends Component {
             const url = process.env.REACT_APP_API_URL + '/authenticate';
             FetchXHR(url, 'POST', POSTDATA).then((response) => {
                 if (response.json.success) {
-                    if (response.json.user.rol !== 'user') {
-                        const toSave = { token: response.json.token, user: response.json.user };
-                        localStorage.setItem(process.env.REACT_APP_LOCALSTORAGE, JSON.stringify(toSave));
+                    const toSave = { token: response.json.token, user: response.json.user };
+                    localStorage.setItem(process.env.REACT_APP_LOCALSTORAGE, JSON.stringify(toSave));
+                    if (response.json.user.rol === 'admin') {
                         this.props.history.push('/home');
                     } else {
-                        this.setState({ error: 'Los usuarios no pueden acceder.' });
+                        this.props.history.push('/subsidiarys');
                     }
                 } else {
                     this.setState({ error: response.json.message });
@@ -112,7 +112,7 @@ class Login extends Component {
     render() {
 
         let alert = <div></div>
-        if (this.state.error != '') {
+        if (this.state.error !== '') {
             alert = (
                 <Alert
                     message={'Error'} 

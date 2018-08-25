@@ -1,96 +1,145 @@
 import React, { Component, Fragment } from 'react';
 import styles from './Styles';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Layout, Menu, Breadcrumb, Icon, Divider, Avatar } from 'antd';
+import { 
+	Layout, 
+	Menu, 
+	Icon, 
+	Divider, 
+	Avatar,
+	Dropdown,
+	Button
+} from 'antd';
+import Menus from './Menu';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class Home extends React.Component {
-  state = {
-    collapsed: false,
-  };
+	state = {
+		collapsed: false,
+		selectedMenu: '0'
+	};
 
-  onCollapse = (collapsed) => {
-    console.log(collapsed);
-    this.setState({ collapsed });
-  }
+	onCollapse = (collapsed) => {
+		this.setState({ collapsed });
+	}
+	onSelectMenu = (index) => {
+		this.setState({ selectedMenu: index });
+	}
 
-  render() {
-    const data = [
-        {
-          title: 'Jose Garfias Lopez'
-        }
-    ];
-      
-    return (
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider
-          collapsible
-          collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}
-        >
-          <img
-            src={process.env.REACT_APP_CDN + '/images/MainLogo.png'}
-            style={styles.mainLogo}
-            alt="enterpriseImage"
-        />
+	handleMenuClick = (e) => {
+		if (e.key === "logout") {
+			localStorage.removeItem(process.env.REACT_APP_LOCALSTORAGE);
+			this.props.history.push('/login');
+		} else if (e.key === "subsidiarys") {
+			this.props.history.push('/subsidiarys');
+		}
+	}
 
-          <Divider orientation="left">Perfil</Divider>
-          <div>
-          <Avatar size="large" icon="user" />
-         <p>Jose Garfias Lopez </p>
-            </div>
-          <Divider orientation="left">Menu</Divider>
+	getSelectedMenu = () => {
+		const MenuCategories = Menus[this.props.session.user.rol];
+		if (this.state.selectedMenu) {
+			let indices = this.state.selectedMenu.split('.');
+			if (MenuCategories[indices[0]].sub_menus) {
+				if (MenuCategories[indices[0]].sub_menus.length > 0) {
+					return MenuCategories[indices[0]].sub_menus[indices[1]];
+				}
+			}
+			return MenuCategories[indices[0]];
+		}
+		return 'Brake One';
+	}
 
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
-              <Icon type="pie-chart" />
-              <span>Option 1</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="desktop" />
-              <span>Option 2</span>
-            </Menu.Item>
-            <SubMenu
-              key="sub1"
-              title={<span><Icon type="user" /><span>User</span></span>}
-            >
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub2"
-              title={<span><Icon type="team" /><span>Team</span></span>}
-            >
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
-            </SubMenu>
-            <Menu.Item key="9">
-              <Icon type="file" />
-              <span>File</span>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout>
-          <Header style={{ padding: 0 }}> Submenu </Header>
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              Bill is a cat.
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
-        </Layout>
-      </Layout>
-    );
-  }
+	render() {
+		const MenuCategories = Menus[this.props.session.user.rol];
+		let selectedMenu = this.getSelectedMenu();
+		const menu = (
+			<Menu onClick={this.handleMenuClick}>
+				{(()=>{
+					if(this.props.session.user.rol !== 'admin') {
+						return(<Menu.Item key="subsidiarys"><Icon type="user" />Cambiar sucursal</Menu.Item>);
+					}
+				})()}
+				<Menu.Item key="logout"><Icon type="logout" />Cerrar Sesión</Menu.Item>
+			</Menu>
+		);
+
+		let menuCat = MenuCategories.map((m, k) => {
+			if (!m.sub_menus) {
+				return (
+					<Menu.Item 
+						key={k}
+						onClick={() => {this.onSelectMenu(k.toString())}}
+					>
+						<Icon type={m.icon} />
+						<span>{m.name}</span>
+					</Menu.Item>
+				);
+			} else {
+				let submenus = m.sub_menus.map((sm, ik) => (
+					<Menu.Item
+						key={k + '.' + ik}
+						onClick={() => {this.onSelectMenu(k + '.' + ik)}}
+					>
+						<Icon type={sm.icon} />
+						<span>{sm.name}</span>
+					</Menu.Item>
+				));
+				return (
+					<SubMenu
+						key={k}
+						title={<span><Icon type={m.icon} /><span>{m.name}</span></span>}
+					>
+						{submenus}
+					</SubMenu>
+				);
+			}
+		});
+		return (
+			<Layout style={{ minHeight: '100vh' }}>
+				<Sider
+					collapsible
+					collapsed={this.state.collapsed}
+					onCollapse={this.onCollapse}
+				>
+					<img
+						src={process.env.REACT_APP_CDN + '/images/MainLogo.png'}
+						style={styles.mainLogo}
+						alt="enterpriseImage"
+					/>
+					<Divider style={styles.divider}>Menu</Divider>
+					<Menu theme="dark" defaultSelectedKeys={['0']} mode="inline">
+						{menuCat}
+					</Menu>
+				</Sider>
+				<Layout>
+					<Header 
+						style={styles.header}
+					>
+						{selectedMenu.name}
+						<Dropdown 
+							overlay={menu}
+							placement="bottomRight"
+						>
+							<Avatar 
+								style={styles.avatar}
+								icon="user"
+								size="large"
+							/>
+						</Dropdown>
+					</Header>
+					<Content style={styles.content}>
+						<selectedMenu.component {...this.props} />
+					</Content>
+					<Footer style={styles.footer}>
+						Brake One  © {moment().format('YYYY')}
+					</Footer>
+				</Layout>
+			</Layout>
+		);
+	}
 }
 
 export default Home;

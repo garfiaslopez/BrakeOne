@@ -52,13 +52,13 @@ table {
 .label {
     font-family: roboto;
     font-size: 20px;
-    color: #E3F2FD;
+    color: #001529;
     text-align: center;
 }
 .loader {
     margin: 0 auto;
-    border: 20px solid #E3F2FD; /* Light grey */
-    border-top: 20px solid #0D47A1; /* Blue */
+    border: 20px solid #001529; /* Light grey */
+    border-top: 20px solid #E3F2FD; /* Blue */
     border-radius: 50%;
     width: 100px;
     height: 100px;

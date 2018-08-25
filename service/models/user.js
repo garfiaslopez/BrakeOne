@@ -25,8 +25,11 @@ var UserSchema = new Schema({
 	},
 	rol: {
 		type: String,
-		default: "user",
+		default: "user", // user | manager | admin
 		required: true,
+	},
+	clave: {
+		type: String
 	},
 	name: {
 		type: String
@@ -87,7 +90,7 @@ var UserSchema = new Schema({
 	},
 	status: {
 		type: String,
-		default: 'active'
+		default: 'ACTIVO'
 	},
     created: {
         type: Date,

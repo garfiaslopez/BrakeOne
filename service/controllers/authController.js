@@ -11,7 +11,7 @@ module.exports = {
 		UserModel.findOne({
 				username: req.body.username,
 				password: req.body.password
-			}).populate('carwashes').exec( function(err, Usuario){
+			}).populate('subsidiary_id').exec( function(err, Usuario){
 				if(err){
 					res.json({success:false,error:err});
 				}

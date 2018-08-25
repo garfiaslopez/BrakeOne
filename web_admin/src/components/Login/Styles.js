@@ -1,8 +1,8 @@
-
 export default {
     header: {
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: 20
     },
     layout: {
         height: window.innerHeight.toString() + 'px',
@@ -20,12 +20,13 @@ export default {
         textAlign: 'center'
     },
     mainLogo:{
-        width: 200,
-        height: 200,
+        width: 350,
+        height: 83.1,
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto',
-        paddingBottom: 10
+        marginTop: 20,
+        marginBottom: 40
     },
     textField: {
         width: 300,
