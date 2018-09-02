@@ -10,13 +10,22 @@ var SubsidiarySchema = new Schema({
 		required: true
 	},
 	denomination: {
-		type: String
+		type: String,
+		unique: true,
+		required: true,
+		uppercase: true,
+		trim: true
 	},
 	phone: {
-		type: String
+		type: String,
+		required: true,
+		trim: true
 	},
 	address: {
-		type: String
+		type: String,
+		required: true,
+		uppercase: true,
+		trim: true
 	},
 	type: {
 		type: String,
@@ -33,6 +42,11 @@ var SubsidiarySchema = new Schema({
 });
 
 SubsidiarySchema.plugin(mongoosePaginate);
+
+SubsidiarySchema.index({
+	denomination: 'text', 
+	address: 'text'
+});
 
 //Return the module
 module.exports = mongoose.model("Subsidiary",SubsidiarySchema);

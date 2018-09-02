@@ -1,53 +1,44 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
-import UsersSchema from './UsersSchema';
+import SubsidiarysSchema from './SubsidiarysSchema';
 
 import { 
     Divider,
-    Popconfirm
+	Popconfirm
 } from 'antd';
 
-class Users extends CrudLayout {
+class Subsidiarys extends CrudLayout {
     constructor(props) {
-        super(props);
-        console.log('On User Props');
-        console.log(props);
-        this.model = {
-			name: 'user',
-			singular: 'user',
-			plural: 'users',
-			label: 'Personal'
+		super(props);
+		this.schema = SubsidiarysSchema;
+		this.state = { // render vars:
+			filters_layout: ['search']
 		};
-
-		this.schema = UsersSchema;
+        this.model = {
+			name: 'subsidiary',
+			singular: 'subsidiary',
+			plural: 'subsidiarys',
+			label: 'Sucursales'
+		};
 		this.additional_submit_data = {
 			account_id: this.props.session.user.account_id
 		}
         this.table_columns = [
 			{
-            	title: 'Nombre',
-            	dataIndex: 'name',
-            	key: 'name'
+            	title: 'Denominacion',
+            	dataIndex: 'denomination',
+				key: 'denomination',
+				sorter: true
 			}, 
 			{
-            	title: 'Nombre Corto',
-            	dataIndex: 'nickname',
-            	key: 'nickname'
-			}, 
-			{
-            	title: 'Dirección',
+            	title: 'Direccion',
             	dataIndex: 'address',
             	key: 'address'
 			},
 			{
             	title: 'Telefono',
-            	dataIndex: 'phone_mobil',
-            	key: 'phone_mobil'
-			},
-			{
-            	title: 'Status',
-            	dataIndex: 'status',
-            	key: 'status'
+            	dataIndex: 'phone',
+            	key: 'phone'
 			},
 			{
             	title: 'Acciones',
@@ -68,12 +59,7 @@ class Users extends CrudLayout {
             	),
 		  	}
 		];
-    }
-
-    onSubmitted(saved) {
-        console.log('on submitted form');
-        console.log(saved);
-    }
+	}
 }
 
-export default Users;
+export default Subsidiarys;

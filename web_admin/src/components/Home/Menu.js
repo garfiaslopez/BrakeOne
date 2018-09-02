@@ -1,4 +1,11 @@
+import Subsidiarys from '../Subsidiarys/Subsidiarys';
 import Users from '../Users/Users';
+import Providers from '../Providers/Providers';
+import Products from '../Products/Products';
+import Paysheet from '../Paysheet/Paysheet';
+import Packages from '../Packages/Packages';
+import Clients from '../Clients/Clients';
+import Cashdrawer from '../Cashdrawer/Cashdrawer';
 
 const adminMenu = [
     {
@@ -7,9 +14,9 @@ const adminMenu = [
         'component': Users,
     },
     {
-        'name': 'Nomina',
+        'name': 'Nómina',
         'icon': 'credit-card',
-        'component': Users,
+        'component': Paysheet,
     },
     {
         'name': 'Productos',
@@ -18,19 +25,24 @@ const adminMenu = [
             {
                 'name': 'Catalogo',
                 'icon': 'folder',
-                'component': Users
+                'component': Products
             },
             {
                 'name': 'Paquetes',
                 'icon': 'inbox',
-                'component': Users,
+                'component': Products,
             },
             {
                 'name': 'Kardex',
                 'icon': 'swap',
-                'component': Users
+                'component': Products,
             }
         ]
+    },
+    {
+        'name': 'Paquetes',
+        'icon': 'inbox',
+        'component': Packages,
     },
     {
         'name': 'Servicios',
@@ -40,22 +52,22 @@ const adminMenu = [
     {
         'name': 'Clientes',
         'icon': 'smile-o',
-        'component': Users,
+        'component': Clients,
     },
     {
         'name': 'Proveedores',
         'icon': 'global',
-        'component': Users,
+        'component': Providers,
     },
     {
         'name': 'Caja',
         'icon': 'wallet',
-        'component': Users,
+        'component': Cashdrawer,
     },
     {
         'name': 'Sucursales',
-        'icon': 'home',
-        'component': Users,
+        'icon': 'shop',
+        'component': Subsidiarys,
     }
     
 ];

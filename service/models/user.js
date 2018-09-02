@@ -25,7 +25,7 @@ var UserSchema = new Schema({
 	},
 	rol: {
 		type: String,
-		default: "user", // user | manager | admin
+		default: "MOSTRADOR", // user | manager | admin
 		required: true,
 	},
 	clave: {
@@ -99,5 +99,15 @@ var UserSchema = new Schema({
 });
 
 UserSchema.plugin(mongoosePaginate);
+
+UserSchema.index({
+	name: 'text',
+	nickname: 'text',
+	username: 'text',
+	rfc: 'text',
+	curp: 'text',
+	imss: 'text',
+	email: 'text'
+});
 
 module.exports = mongoose.model("User",UserSchema);

@@ -1,25 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
-import UsersSchema from './UsersSchema';
+import Schema from './PackagesSchema';
 
 import { 
     Divider,
-    Popconfirm
+	Popconfirm
 } from 'antd';
 
-class Users extends CrudLayout {
+class Packages extends CrudLayout {
     constructor(props) {
-        super(props);
-        console.log('On User Props');
-        console.log(props);
-        this.model = {
-			name: 'user',
-			singular: 'user',
-			plural: 'users',
-			label: 'Personal'
+		super(props);
+		this.schema = Schema;
+		this.state = { // render vars:
+			filters_layout: ['search']
 		};
-
-		this.schema = UsersSchema;
+        this.model = {
+			name: 'product-package',
+			singular: 'product-package',
+			plural: 'product-packages',
+			label: 'Paquetes'
+		};
 		this.additional_submit_data = {
 			account_id: this.props.session.user.account_id
 		}
@@ -27,27 +27,18 @@ class Users extends CrudLayout {
 			{
             	title: 'Nombre',
             	dataIndex: 'name',
-            	key: 'name'
+				key: 'name',
+				sorter: true
 			}, 
 			{
-            	title: 'Nombre Corto',
-            	dataIndex: 'nickname',
-            	key: 'nickname'
-			}, 
-			{
-            	title: 'Dirección',
+            	title: 'Descripcion',
             	dataIndex: 'address',
             	key: 'address'
 			},
 			{
-            	title: 'Telefono',
-            	dataIndex: 'phone_mobil',
-            	key: 'phone_mobil'
-			},
-			{
-            	title: 'Status',
-            	dataIndex: 'status',
-            	key: 'status'
+            	title: 'Precio',
+            	dataIndex: 'price',
+            	key: 'price'
 			},
 			{
             	title: 'Acciones',
@@ -68,12 +59,7 @@ class Users extends CrudLayout {
             	),
 		  	}
 		];
-    }
-
-    onSubmitted(saved) {
-        console.log('on submitted form');
-        console.log(saved);
-    }
+	}
 }
 
-export default Users;
+export default Packages;

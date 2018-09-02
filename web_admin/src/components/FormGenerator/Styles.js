@@ -41,5 +41,25 @@ export default {
         width: '100%',
         paddingLeft: 10,
         paddingRight: 10
+    },
+    alertContainer: {
+        margin: '-24px -24px 24px -24px'
+    },
+    inputNumberContainer: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        borderColor: '#80808033',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        height: 40
+    },
+    labelInputNumber: {
+        margin: 10,
+        textAlign: 'center'
+    },
+    datePickerContainer: {
+        width: '100%'
     }
 }

@@ -42,7 +42,7 @@ var ProviderSchema = new Schema({
     contacts: [{
         name: { type: String },
         job_role: { type: String },
-        phone_mobil: { type: String },
+        phone_number: { type: String },
         email: { type: String }
     }],
     created: {
@@ -52,5 +52,11 @@ var ProviderSchema = new Schema({
 });
 
 ProviderSchema.plugin(mongoosePaginate);
+
+ProviderSchema.index({
+	name: 'text', 
+    rfc: 'text',
+    email: 'text'
+});
 
 module.exports = mongoose.model("Provider", ProviderSchema);

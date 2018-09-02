@@ -1,39 +1,40 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
-import UsersSchema from './UsersSchema';
+import Schema from './ProvidersSchema';
 
 import { 
     Divider,
-    Popconfirm
+	Popconfirm
 } from 'antd';
 
-class Users extends CrudLayout {
+class Providers extends CrudLayout {
     constructor(props) {
-        super(props);
-        console.log('On User Props');
-        console.log(props);
-        this.model = {
-			name: 'user',
-			singular: 'user',
-			plural: 'users',
-			label: 'Personal'
+		super(props);
+		this.schema = Schema;
+		this.state = { // render vars:
+			filters_layout: ['search','date_range']
 		};
-
-		this.schema = UsersSchema;
+        this.model = {
+			name: 'provider',
+			singular: 'provider',
+			plural: 'providers',
+			label: 'Proveedores'
+		};
 		this.additional_submit_data = {
 			account_id: this.props.session.user.account_id
 		}
         this.table_columns = [
 			{
-            	title: 'Nombre',
+            	title: 'Proveedor',
             	dataIndex: 'name',
-            	key: 'name'
+				key: 'name',
+				sorter: true
 			}, 
 			{
-            	title: 'Nombre Corto',
-            	dataIndex: 'nickname',
-            	key: 'nickname'
-			}, 
+            	title: 'RFC',
+            	dataIndex: 'rfc',
+            	key: 'rfc'
+			},
 			{
             	title: 'Dirección',
             	dataIndex: 'address',
@@ -41,13 +42,13 @@ class Users extends CrudLayout {
 			},
 			{
             	title: 'Telefono',
-            	dataIndex: 'phone_mobil',
-            	key: 'phone_mobil'
+            	dataIndex: 'phone_number',
+            	key: 'phone_number'
 			},
 			{
-            	title: 'Status',
-            	dataIndex: 'status',
-            	key: 'status'
+            	title: 'Compras',
+            	dataIndex: 'buys',
+            	key: 'buys'
 			},
 			{
             	title: 'Acciones',
@@ -68,12 +69,7 @@ class Users extends CrudLayout {
             	),
 		  	}
 		];
-    }
-
-    onSubmitted(saved) {
-        console.log('on submitted form');
-        console.log(saved);
-    }
+	}
 }
 
-export default Users;
+export default Providers;

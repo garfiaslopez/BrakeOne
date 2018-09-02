@@ -18,9 +18,12 @@ var ClientSchema = new Schema({
     credit_days: {
         type: Number
     },
+    sells: {
+        type: Number
+    },
     price_type: {
         type: String,
-        default: 'public'
+        default: 'PUBLICO'
     },
     address: {
         type: String
@@ -60,7 +63,7 @@ var ClientSchema = new Schema({
         economic_number: { type: String },
         brand: { type: String },
         model: { type: String },
-        year: { type: Number },
+        year: { type: String },
         color: { type: String },
         vin: { type: String }
     }],
@@ -71,5 +74,11 @@ var ClientSchema = new Schema({
 });
 
 ClientSchema.plugin(mongoosePaginate);
+
+ClientSchema.index({
+	name: 'text', 
+    email: 'text',
+    rfc: 'text'
+});
 
 module.exports = mongoose.model("Client", ClientSchema);

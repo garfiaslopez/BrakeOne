@@ -58,7 +58,7 @@ class Home extends React.Component {
 		const menu = (
 			<Menu onClick={this.handleMenuClick}>
 				{(()=>{
-					if(this.props.session.user.rol !== 'admin') {
+					if(this.props.session.user.rol !== 'MANAGER' || this.props.session.user.rol !== 'admin') {
 						return(<Menu.Item key="subsidiarys"><Icon type="user" />Cambiar sucursal</Menu.Item>);
 					}
 				})()}

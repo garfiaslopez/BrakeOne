@@ -20,5 +20,8 @@ export default {
     },
     inputSearchButton: {
         width: 120
+    },
+    tableLayout: {
+        width: '100%'
     }
 }

@@ -15,7 +15,7 @@ module.exports = (method, model) => {
         obj.save((err, savedObj) => {
             if (err) {
                 if (err.code == 11000) {
-                    return next(new errs.BadRequestError("Duply entry"));
+                    return next(new errs.BadRequestError("Ya existe este registro en la base de datos."));
                 } else {
                     return next(new errs.InternalServerError(err));
                 }
@@ -33,7 +33,7 @@ module.exports = (method, model) => {
                 if (newObj) {
                     return res.json({ success: true , obj: newObj });
                 } else {
-                    return next(new errs.BadRequestError("Element doesn't exists."));
+                    return next(new errs.BadRequestError("El elemento no existe."));
                 }
             }
         });
@@ -58,7 +58,7 @@ module.exports = (method, model) => {
                     }
                 });
             } else {
-                return next(new errs.BadRequestError("Element doesn't exists."));
+                return next(new errs.BadRequestError("El elemento no existe."));
             }
         });
     }
@@ -70,7 +70,7 @@ module.exports = (method, model) => {
 			} else if (newObj) {
                 return res.json({ success: true, message: "Succesfully deleted.", obj: newObj });
             } else {
-                return next(new errs.BadRequestError("Element doesn't exists."));
+                return next(new errs.BadRequestError("El elemento no existe."));
             }
         });
     }
@@ -83,7 +83,6 @@ module.exports = (method, model) => {
                 created: -1, // desc
             }
         };
-
         // FOR PAGINATOR
         if (req.body.page != undefined) {
             Paginator.page = req.body.page;
@@ -91,7 +90,6 @@ module.exports = (method, model) => {
         if (req.body.limit != undefined) {
             Paginator.limit = req.body.limit;
         }
-
         // FOR FILTER
         var Filter = {}
         if (req.body.account_id != undefined) {
@@ -100,14 +98,16 @@ module.exports = (method, model) => {
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
+        if (req.body.search_text != undefined) {
+            Filter['$text'] = { '$search': req.body.search_text };
+        }
 
-        // FOR SORT
+        // FOR SORT: 
         if (req.body.sort_field != undefined) {
-            Paginator.sort =   {};
+            Paginator.sort = {};
             Paginator.sort[req.body.sort_field] = -1;
-
             if (req.body.sort_order != undefined) {
-                Paginator.sort[req.body.sort_field] = req.body.sort_order;
+                Paginator.sort[req.body.sort_field] = Number(req.body.sort_order);
             }
         }
         objectModel.paginate(Filter, Paginator, (err, result) => {
@@ -120,7 +120,7 @@ module.exports = (method, model) => {
     }
 
     let NoValidMethod = (req, res, next) => {
-        return next(new errs.BadRequestError("No valid method."));
+        return next(new errs.BadRequestError("Metodo no valido."));
     }
 
     if (method == 'create') {

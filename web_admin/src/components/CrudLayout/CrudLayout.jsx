@@ -14,7 +14,8 @@ import {
     Table,
     Tag,
 	Modal,
-	Pagination
+	Pagination,
+	Alert
 } from 'antd';
 
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
@@ -22,7 +23,8 @@ import FormGenerator from '../FormGenerator/FormGenerator';
   
 class CrudLayout extends Component {
     state = {
-        data: [],
+		data: [],
+		selected_data: null,
 		loading_data: false,
 		loading_submit: false,
         error: null,
@@ -32,10 +34,16 @@ class CrudLayout extends Component {
 		docs_per_page: 10,
 		page: 1,
 		total_docs: 0,
-		opened_submit: false
+		opened_submit: false,
+		sortedInfo: {
+			order: 'descend',
+			columnKey: 'denomination',
+		}
 	}
 
 	componentDidMount() {
+		this.limit = 10;
+		this.page = 1;
 		this.getData();
 	}
 
@@ -46,22 +54,23 @@ class CrudLayout extends Component {
 		});
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.plural;
         const POSTDATA = {
-            'limit': this.state.docs_per_page,
-			'page': this.state.page
+            limit: this.limit,
+			page: this.page
 		}
-		if (this.state.search_text) {
-			POSTDATA['search_text'] = this.state.search_text;
+		if (this.sort_field) {
+			POSTDATA['sort_field'] = this.sort_field;
+			POSTDATA['sort_order'] = this.sort_order;			
 		}
-		if (this.state.initial_date && this.state.final_date) {
-			POSTDATA['date'] = [this.state.initial_date.toISOString(),
-								 this.state.final_date.toISOString()];
+		if (this.search_text) {
+			POSTDATA['search_text'] = this.search_text;
 		}
-        if (this.props.session.subsidiary) {
-            POSTDATA.subsidiary_id = this.props.session.subsidiary._id;
-        } else {
-            if (this.props.session.user.rol !== 'admin') {
-                POSTDATA.account_id = this.props.session.user.account_id;
-            }
+		if (this.initial_date && this.final_date) {
+			POSTDATA['date'] = [this.initial_date.toISOString(), this.final_date.toISOString()];
+		}
+        if (this.aditionalPostData) {
+			Object.keys(this.aditionalPostData).forEach(({key, value}) => {
+				POSTDATA[key] = value;
+			});
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
@@ -93,78 +102,213 @@ class CrudLayout extends Component {
 			opened_submit: true,
 		});
 	}
+
 	onCloseSubmitForm = () => {
 		this.setState({
 			opened_submit: false,
+			error: null,
+			selected_data: null
 		});
 	}
 
 	// CREATE 
 	onSubmitForm = (values) => {
-		console.log('onSubmitFormModal');
-		console.log(values);
 		this.setState({
 			loading_submit: true
 		});
-		setTimeout(()=>{
+		const POSTDATA = {
+			...values,
+			...this.additional_submit_data
+		}
+		let method = 'POST';
+		let url = process.env.REACT_APP_API_URL + '/' + this.model.singular;
+		if (this.state.selected_data) {
+			method = 'PUT';
+			url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + this.state.selected_data._id;
+		}
+		FetchXHR(url, method, POSTDATA).then((response) => {
+            if (response.json.success) {
+				const newArray = Object.assign([],this.state.table_data);
+				if (this.state.selected_data) {
+					const i = newArray.findIndex((el)=>(el._id === this.state.selected_data._id));
+					newArray[i] = {
+						...response.json.obj,
+						key: i
+					}
+				} else {
+					newArray.unshift({
+						...response.json.obj,
+						key: newArray.length
+					});
+				}
+                this.setState({
+					table_data: newArray,
+					total_docs: newArray.length,
+					loading_submit: false,
+					opened_submit: false,
+					error: null,
+					selected_data: null
+				});
+            } else {
+				console.log(response);
+				this.setState({
+					error: response.json.message,
+					loading_submit: false
+				});
+            }
+        }).catch((onError) => {
+			console.log(onError);
 			this.setState({
-				opened_submit: false,
+				error: onError.message,
 				loading_submit: false
 			});
-		}, 2000);
+        });
+	}
+
+	onDelete = (record) => {
+		const url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + record._id;
+		FetchXHR(url, 'DELETE').then((response) => {
+            if (response.json.success) {
+				const newArray = Object.assign([],this.state.table_data);
+				const i = newArray.findIndex((el)=>(el._id === record._id));
+				if (i !== -1) {
+					newArray.splice(i,1);
+					this.setState({
+						table_data: newArray,
+						total_docs: newArray.length
+					});
+				}
+                
+            } else {
+				console.log(response);
+				this.setState({
+					error: response.json.message
+				});
+            }
+        }).catch((onError) => {
+			console.log(onError);
+			this.setState({
+				error: onError.message
+			});
+        });
+
+	}
+
+	onEdit = (record) => {
+		this.setState({
+			selected_data: record,
+			opened_submit: true,
+		});
 	}
 
 	// ACTIONS HANDLERS:
 	onClickDownload = () => {
 
+
 	}
 
 	onClickPrint = () => {
+		
+
 		
 	}
 
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {
-		this.setState({
-			search_text: search_text,
-		});
+		this.search_text = search_text;
+		this.getData();
 	}
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
-		this.setState({
-			initial_date: date[0],
-			final_date: date[1]
-		});
+		this.initial_date = date[0];
+		this.final_date = date[1];
+		this.getData();
 	}
 
 	// TABLE:
 	//PAGINATOR:
 	onChangePagination = (current, page_size) => {
 		console.log(current, page_size);
-		this.setState({
-			docs_per_page: page_size,
-			page: current
-		});
+		this.limit = page_size;
+		this.page = current;
+		this.getData();
 	}
 
+	onChangeTable = (pagination, filters, sorter) => {
+		if (pagination.current) {
+			this.limit = pagination.pageSize;
+			this.page = pagination.current;
+		}
+		if (sorter.columnKey) {
+			this.sort_field = sorter.columnKey;
+			this.sort_order = sorter.order == 'ascend' ? 1 : -1;
+		}
+		this.getData();
+	}
+
+	renderFilters = () => {
+		const SearchFilter = (
+			<Input.Search
+				key="search_filter"
+				placeholder="Buscador..."
+				enterButton="Buscar"
+				size="large"
+				onSearch={this.onClickSearch}
+				style={styles.inputSearch}
+			/>
+		);
+		const DateRangeFilter = (
+			<DatePicker.RangePicker 
+				key="date_range_filter"
+				style={styles.inputRangedate}
+				size="large"
+				onChange={this.onChangeRangeDate}
+				locale={locale_es}
+			/>
+		);
+		if (this.state.filters_layout) {
+			return this.state.filters_layout.map((f) => {
+				switch (f) {
+					case 'search':
+						return (SearchFilter);
+					case 'date_range':
+						return (DateRangeFilter);
+				}
+			});
+		}
+		return ([SearchFilter, DateRangeFilter]);
+	}
 
     render() {
 		let title = "Agregar " + this.model.label;
 		if (this.state.selectedData) {
 			title = "Editar " + this.model.label;
 		}
-        return (
-            <Fragment>
-				<FormGenerator 
+		let form = <div></div>;
+		if (this.state.opened_submit) {
+			form = (
+				<FormGenerator
+					key={"Create_Form"}
 					title={title}
 					open={this.state.opened_submit}
 					loading={this.state.loading_submit}
 					onClose={this.onCloseSubmitForm}
 					onSubmit={this.onSubmitForm}
 					schema={this.schema}
+					error={this.state.error}
+					dismissError={() => {
+						this.setState({ error:null });
+					}}
+					fields={this.state.selected_data}
 				/>
+			);
+		}
+		console.log(window.innerWidth - 272);
+        return (
+            <Fragment>
+				{form}
                 <Divider dashed={true} orientation="left">Acciones</Divider>
                 <div style={styles.actions}>
                     <Button.Group>
@@ -182,30 +326,19 @@ class CrudLayout extends Component {
                 </div>
                 <Divider dashed={true} orientation="left">Filtros</Divider>
                 <div style={styles.filters}>
-                    <Input.Search
-						placeholder="Buscador..."
-						enterButton="Buscar"
-						size="large"
-						onSearch={this.onClickSearch}
-						style={styles.inputSearch}
-					/>
-                    <DatePicker.RangePicker 
-                        style={styles.inputRangedate}
-                        size="large"
-						onChange={this.onChangeRangeDate}
-						locale={locale_es}
-                    />
+                    {this.renderFilters()}
                 </div>
                 <Divider dashed={true} orientation="left">Resultados</Divider>
 				<Table 
+					style={styles.tableLayout}
+					scroll={{ x: this.scroll_on_table || window.innerWidth - 272 }}
+					onChange={this.onChangeTable}
 					columns={this.table_columns}
 					dataSource={this.state.table_data}
 					loading={this.state.loading_data}
 					pagination={{
 						showSizeChanger: true,
-						onShowSizeChange: this.onChangePagination,
-						onChange: this.onChangePagination,
-						defaultCurrent: this.state.page,
+						defaultCurrent: this.page,
 						total: this.state.total_docs
 					}}
 					locale={{

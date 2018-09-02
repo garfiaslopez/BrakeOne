@@ -61,5 +61,14 @@ var ProductSchema = new Schema({
 ProductSchema.plugin(mongoosePaginate);
 
 
+ProductSchema.index({
+	description: 'text', 
+    key_id: 'text',
+    fmsi: 'text',
+    line: 'text',
+    brand: 'text',
+    location: 'text'
+});
+
 //Return the module
 module.exports = mongoose.model("Product", ProductSchema);

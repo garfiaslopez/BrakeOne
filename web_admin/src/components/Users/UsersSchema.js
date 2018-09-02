@@ -163,6 +163,13 @@ export default [
 			placeholder: 'Estatus',
 			options: ['ACTIVO','VACACIONES','INACTIVO'],
 			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+		},
+		{
+			id: 'rol',
+			type: 'Dropdown',
+			placeholder: 'Nivel de usuario',
+			options: ['MANAGER','MOSTRADOR'],
+			rules: [{ required: true }, { min: 3 }, { max: 32 }],
 		}
 	]
 ];

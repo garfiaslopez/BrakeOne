@@ -18,6 +18,12 @@ var Models = [
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
+        model_name: 'paysheet',
+        singular: 'paysheet',
+        plural: 'paysheets',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
         model_name: 'product_package',
         singular: 'product-package',
         plural: 'product-packages',
@@ -57,6 +63,12 @@ var Models = [
         model_name: 'user',
         singular: 'user',
         plural: 'users',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'cashdrawer',
+        singular: 'cashdrawer',
+        plural: 'cashdrawers',
         methods: ['create', 'read', 'update', 'delete', 'search']
     }
 ]
