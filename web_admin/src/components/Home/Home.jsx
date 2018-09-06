@@ -49,7 +49,7 @@ class Home extends React.Component {
 			}
 			return MenuCategories[indices[0]];
 		}
-		return 'Brake One';
+		return 'BrakeOne';
 	}
 
 	render() {
@@ -134,7 +134,7 @@ class Home extends React.Component {
 						<selectedMenu.component {...this.props} />
 					</Content>
 					<Footer style={styles.footer}>
-						Brake One  © {moment().format('YYYY')}
+						BrakeOne  © {moment().format('YYYY')}
 					</Footer>
 				</Layout>
 			</Layout>

@@ -27,6 +27,16 @@ var SubsidiarySchema = new Schema({
 		uppercase: true,
 		trim: true
 	},
+	location: {
+        type: {
+			type: String, 
+			default: 'Point' 
+		},
+        coordinates: { 
+			type: [Number], 
+			default: [0, 0] 
+		}
+    },
 	type: {
 		type: String,
 		default: "workshop"
@@ -44,8 +54,9 @@ var SubsidiarySchema = new Schema({
 SubsidiarySchema.plugin(mongoosePaginate);
 
 SubsidiarySchema.index({
-	denomination: 'text', 
-	address: 'text'
+	denomination: 'text',
+	address: 'text',
+	location: '2dsphere'
 });
 
 //Return the module

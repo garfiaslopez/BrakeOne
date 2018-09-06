@@ -21,6 +21,7 @@ export default {
     rowCol: {
         backgroundColor: '#1890ff',
         height: 120,
+        width: '100%',
         lineHeight: '120px',
         textAlign: 'center',
         fontSize: 16,

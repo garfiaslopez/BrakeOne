@@ -131,7 +131,7 @@ class Login extends Component {
         return (
             <Layout style={styles.layout}>
                 <Header style={styles.header} > 
-                    Brake One - Iniciar Sesión 
+                    BrakeOne - Iniciar Sesión 
                 </Header>
                 <Content>
                     {alert}
@@ -149,7 +149,7 @@ class Login extends Component {
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                    Brake One  © {moment().format('YYYY')}
+                    BrakeOne  © {moment().format('YYYY')}
                 </Footer>
             </Layout>
         );

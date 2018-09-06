@@ -22,6 +22,22 @@ export default [
 			placeholder: 'Dirección',
 			prefixIcon: 'environment',
 			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+		},
+		{
+			id: 'location.coordinates[0]',
+			type: 'Number',
+			placeholder: 'Longitud',
+			prefixIcon: 'environment',
+			options: { max: 180, min: -180, step: 0.1 },
+			rules: [{ required: true }],
+		},
+		{
+			id: 'location.coordinates[1]',
+			type: 'Number',
+			placeholder: 'Latitud',
+			prefixIcon: 'environment',
+			options: { max: 90, min: -90, step: 0.1 },
+			rules: [{ required: true }],
 		}
 	]
 ];

@@ -126,6 +126,12 @@ class CrudLayout extends Component {
 			method = 'PUT';
 			url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + this.state.selected_data._id;
 		}
+		if (values.location) { // has geo, need create obj properly
+			POSTDATA['location'] = {
+				type: 'Point',
+				coordinates: values.location.coordinates
+			}
+		}
 		FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
 				const newArray = Object.assign([],this.state.table_data);

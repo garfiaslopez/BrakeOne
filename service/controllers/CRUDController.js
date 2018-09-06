@@ -101,6 +101,17 @@ module.exports = (method, model) => {
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
         }
+        if (req.body.coordinates != undefined) {
+            Filter['location'] = {
+                '$near': {
+                    '$maxDistance': 1000,
+                    '$geometry': {
+                        'type': 'Point',
+                        'coordinates': [coordinates[0], coordinates[1]]
+                    }
+                }
+            }
+        }
 
         // FOR SORT: 
         if (req.body.sort_field != undefined) {

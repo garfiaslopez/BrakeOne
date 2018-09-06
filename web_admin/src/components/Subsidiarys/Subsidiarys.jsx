@@ -29,7 +29,7 @@ class Subsidiarys extends CrudLayout {
             	dataIndex: 'denomination',
 				key: 'denomination',
 				sorter: true
-			}, 
+			},
 			{
             	title: 'Direccion',
             	dataIndex: 'address',
