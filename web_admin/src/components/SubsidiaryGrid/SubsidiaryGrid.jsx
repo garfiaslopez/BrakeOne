@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { geolocated } from 'react-geolocated';
 
 import { 
-    Row, 
+    Row,
     Col,
     Layout,
     Spin
@@ -49,13 +49,14 @@ class SubsidiaryGrid extends Component {
         if (this.props.coords) {
             const cols = [];
             this.props.session.user.subsidiary_id.forEach((subsidiary, index) => {
+
                 let distance = calculateDistance(
                     this.props.coords.longitude,
                     this.props.coords.latitude,
                     subsidiary.location.coordinates[0],
                     subsidiary.location.coordinates[1]
                 );
-                if (distance <= 7) {
+                if (distance <= 7 || this.props.session.user.rol === 'admin') {
                     cols.push(
                         <Col 
                             key={`subsidiary_${index}`} 

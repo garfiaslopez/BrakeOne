@@ -20,6 +20,7 @@ import {
 
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
 import FormGenerator from '../FormGenerator/FormGenerator';
+import PrinterDownload from '../PrinterDownload/PrinterDownload'
   
 class CrudLayout extends Component {
     state = {
@@ -35,6 +36,7 @@ class CrudLayout extends Component {
 		page: 1,
 		total_docs: 0,
 		opened_submit: false,
+		opened_print: false,
 		sortedInfo: {
 			order: 'descend',
 			columnKey: 'denomination',
@@ -55,7 +57,8 @@ class CrudLayout extends Component {
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.plural;
         const POSTDATA = {
             limit: this.limit,
-			page: this.page
+			page: this.page,
+			...this.additional_get_data
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
@@ -67,11 +70,9 @@ class CrudLayout extends Component {
 		if (this.initial_date && this.final_date) {
 			POSTDATA['date'] = [this.initial_date.toISOString(), this.final_date.toISOString()];
 		}
-        if (this.aditionalPostData) {
-			Object.keys(this.aditionalPostData).forEach(({key, value}) => {
-				POSTDATA[key] = value;
-			});
-        }
+		if (this.populate_ids) {
+			POSTDATA['populate_ids'] = this.populate_ids;
+		}
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 this.setState({
@@ -85,12 +86,14 @@ class CrudLayout extends Component {
             } else {
 				console.log(response.message);
 				this.setState({
+					loading_data: false,
 					error: response.message
 				});
             }
         }).catch((onError) => {
 			console.log(onError);
 			this.setState({
+				loading_data: false,
 				error: onError.message
 			});
         });
@@ -131,6 +134,9 @@ class CrudLayout extends Component {
 				type: 'Point',
 				coordinates: values.location.coordinates
 			}
+		}
+		if (this.populate_ids) {
+			POSTDATA['populate_ids'] = this.populate_ids;
 		}
 		FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
@@ -208,16 +214,7 @@ class CrudLayout extends Component {
 	}
 
 	// ACTIONS HANDLERS:
-	onClickDownload = () => {
 
-
-	}
-
-	onClickPrint = () => {
-		
-
-		
-	}
 
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
@@ -293,33 +290,85 @@ class CrudLayout extends Component {
 			title = "Editar " + this.model.label;
 		}
 		let form = <div></div>;
-		if (this.state.opened_submit) {
+
+		if (this.schema) {
+			if (this.state.opened_submit) {
+				form = (
+					<FormGenerator
+						key={"Create_Form"}
+						title={title}
+						open={this.state.opened_submit}
+						loading={this.state.loading_submit}
+						onClose={this.onCloseSubmitForm}
+						onSubmit={this.onSubmitForm}
+						schema={this.schema}
+						error={this.state.error}
+						dismissError={() => {
+							this.setState({ error:null });
+						}}
+						fields={this.state.selected_data}
+					/>
+				);
+			}
+		} else {
+			if (this.state.opened_submit && this.custom_submit) {
+				form = (
+					<this.custom_submit
+						key={"Create_Form"}
+						title={title}
+						open={this.state.opened_submit}
+						loading={this.state.loading_submit}
+						onClose={this.onCloseSubmitForm}
+						onSubmit={this.onSubmitForm}
+						schema={this.schema}
+						error={this.state.error}
+						dismissError={() => {
+							this.setState({ error:null });
+						}}
+						fields={this.state.selected_data}
+					/>
+				);
+			}
+		}
+		
+		let print_modal = <div></div>;
+		if (this.state.opened_print) {
 			form = (
-				<FormGenerator
-					key={"Create_Form"}
-					title={title}
-					open={this.state.opened_submit}
-					loading={this.state.loading_submit}
-					onClose={this.onCloseSubmitForm}
-					onSubmit={this.onSubmitForm}
-					schema={this.schema}
-					error={this.state.error}
-					dismissError={() => {
-						this.setState({ error:null });
+				<PrinterDownload
+					key={"Print_Form"}
+					title={"Imprimir o Descargar"}
+					onClose={() => {
+						this.setState({
+							opened_print: false,
+						});
 					}}
-					fields={this.state.selected_data}
+					schema={this.schema}
+					model={this.model}
+					additional_get_data = {this.additional_get_data}
+					table_columns={this.table_columns.filter((el) => (el.key != 'action'))}
 				/>
 			);
 		}
-		console.log(window.innerWidth - 272);
+
         return (
             <Fragment>
 				{form}
+				{print_modal}
                 <Divider dashed={true} orientation="left">Acciones</Divider>
                 <div style={styles.actions}>
                     <Button.Group>
-                        <Button onClick={this.onClickDownload} size="large" type="primary" icon="cloud">Descargar</Button>
-                        <Button onClick={this.onClickPrint} size="large" type="primary" icon="printer">Imprimir</Button>
+						<Button 
+							onClick={() => {
+								this.setState({
+									opened_print: true,
+								});
+							}} 
+							size="large" 
+							type="primary" 
+							icon="printer"
+						>
+							Imprimir O Descargar
+						</Button>
                     </Button.Group>
 					<Button 
 						type="primary" 

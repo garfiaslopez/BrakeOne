@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
-import Schema from './PackagesSchema';
+import CreatePackages from './CreatePackages';
 
 import { 
     Divider,
@@ -10,7 +10,7 @@ import {
 class Packages extends CrudLayout {
     constructor(props) {
 		super(props);
-		this.schema = Schema;
+		this.custom_submit = CreatePackages;
 		this.state = { // render vars:
 			filters_layout: ['search']
 		};
@@ -20,9 +20,13 @@ class Packages extends CrudLayout {
 			plural: 'product-packages',
 			label: 'Paquetes'
 		};
-		this.additional_submit_data = {
-			account_id: this.props.session.user.account_id
+		this.additional_get_data = {
+			subsidiary_id: this.props.session.subsidiary._id
 		}
+		this.additional_submit_data = {
+			subsidiary_id: this.props.session.subsidiary._id
+		}
+		this.populate_ids = ['products.product_id'];
         this.table_columns = [
 			{
             	title: 'Nombre',
@@ -32,8 +36,8 @@ class Packages extends CrudLayout {
 			}, 
 			{
             	title: 'Descripcion',
-            	dataIndex: 'address',
-            	key: 'address'
+            	dataIndex: 'description',
+            	key: 'description'
 			},
 			{
             	title: 'Precio',

@@ -13,6 +13,8 @@ import {
 import styles from './Styles';
 import FormGeneratorChild from './FormGeneratorChild';
 import FormRender from './FormRender';
+import { FetchXHR } from '../../helpers/generals';
+
 
 class FormGenerator extends Component {
     constructor(props) {
@@ -31,20 +33,33 @@ class FormGenerator extends Component {
         }
     }
     componentWillMount() {
-        this.FormRender = new FormRender(this.props.form.getFieldDecorator);
+        this.FormRender = new FormRender(this.props.form);
     }
 
     componentDidMount() {
-        if (this.props.fields) {
+        console.log("componentDidMount - FormGEnerator");
+
+        // check for data from DB:
+        if (this.props.schema) {
+            this.props.schema.forEach((row) => {
+                row.forEach((el) => {
+                    if (el.type === 'Dropdown_DataDB') {
+                        this.getData(el.data);
+                    }
+                });
+            });
+        }
+        
+        if (this.props.fields) { // IS EDITING:
             this.props.form.setFieldsValue(this.props.fields);
             // check nested objects:
             let data = {};
             this.props.schema.forEach((row) => {
                 row.forEach((el) => {
-                    if (el.type == 'Nested_Object') {
+                    if (el.type === 'Nested_Object') {
                         data[el.id] = this.props.fields[el.id];
                     }
-                    if (el.type == 'Tab_Component') {
+                    if (el.type === 'Tab_Component') {
                         el.fields.forEach((row_nested) => {
                             row_nested.forEach((el_nested) => {
                                 if (el_nested.type == 'Nested_Object') {
@@ -57,13 +72,52 @@ class FormGenerator extends Component {
             });
             this.setState({sub_form_data: data});
         }
+        
     }
     componentWillUnmount() {
         this.props.form.resetFields();
     }
     componentWillReceiveProps(nextProps) {
-
+        // check the state for recovered data values from dropdowns DB: 
+        // compare and set manually with setfield....
+        
     }
+
+    getData(model_data) {
+        console.log("getting...." + model_data);
+		this.setState({
+			loading: true,
+		});
+		const url = process.env.REACT_APP_API_URL + '/' + model_data;
+        const POSTDATA = {
+            limit: 1000,
+			page: 1,
+		}
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
+                let newState = Object.assign({}, this.state);
+                newState[model_data] = response.json.data.docs.map((el, index)=>({
+                    ...el,
+                    key: index
+                }));
+                newState['loading'] = false;
+                this.setState(newState);
+            } else {
+				console.log(response.message);
+				this.setState({
+                    loading: false,
+					error: response.message
+				});
+            }
+        }).catch((onError) => {
+			console.log(onError);
+			this.setState({
+                loading: false,
+				error: onError.message
+			});
+        });
+	}
+
     onSubmit = (event) => {
         event.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -185,6 +239,9 @@ class FormGenerator extends Component {
                     if (field_input.type === 'Number_Money') {
                         rows.push(this.FormRender.renderNumberMoneyField(field_input));
                     }
+                    if (field_input.type === 'Color_Picker') {
+                        rows.push(this.FormRender.renderColorPicker(field_input));
+                    }
                     if (field_input.type === 'Dropdown') {
                         rows.push(this.FormRender.renderDropdown(field_input));
                     }
@@ -200,9 +257,9 @@ class FormGenerator extends Component {
                     if (field_input.type === 'Tab_Component') {
                         rows.push(this.renderTabObject(field_input));
                     }
-                    // if (field_input.type === 'Dropdown_DataDB') {
-                    //     rows.push(this.FormRender.renderDropdownDataDB(field_input));
-                    // }
+                    if (field_input.type === 'Dropdown_DataDB') {
+                        rows.push(this.FormRender.renderDropdownDataDB(field_input, this.state[field_input.data]));
+                    }
                 });
                 fieldsToReturn.push(
                     <div 
@@ -283,6 +340,7 @@ class FormGenerator extends Component {
                 {subForm}
                 <Modal
                     width="80%"
+                    bodyStyle={styles.modalContainer}
                     style={styles.modalContainer}
                     visible={this.state.open}
                     title={this.props.title}
@@ -305,7 +363,10 @@ class FormGenerator extends Component {
                         </Button>,
                     ]}
                     >
-                    <Fragment>
+                    <div
+                        key="sub_modal_container"
+                        style={styles.modalContainer}
+                    >
                         {alert}
                         <Form
                             width="100%"
@@ -313,7 +374,7 @@ class FormGenerator extends Component {
                         >
                             {Fields}
                         </Form>
-                    </Fragment>
+                    </div>
                 </Modal>
             </Fragment>
         );

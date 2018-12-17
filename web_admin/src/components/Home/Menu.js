@@ -6,8 +6,19 @@ import Paysheet from '../Paysheet/Paysheet';
 import Packages from '../Packages/Packages';
 import Clients from '../Clients/Clients';
 import Cashdrawer from '../Cashdrawer/Cashdrawer';
+import Sells from '../Sells/Sells';
 
 const adminMenu = [
+    {
+        'name': 'Ventas',
+        'icon': 'shopping-cart',
+        'component': Sells,
+    },
+    {
+        'name': 'Servicios',
+        'icon': 'shopping-cart',
+        'component': Users,
+    },
     {
         'name': 'Personal',
         'icon': 'user',
@@ -30,7 +41,7 @@ const adminMenu = [
             {
                 'name': 'Paquetes',
                 'icon': 'inbox',
-                'component': Products,
+                'component': Packages,
             },
             {
                 'name': 'Kardex',
@@ -38,16 +49,6 @@ const adminMenu = [
                 'component': Products,
             }
         ]
-    },
-    {
-        'name': 'Paquetes',
-        'icon': 'inbox',
-        'component': Packages,
-    },
-    {
-        'name': 'Servicios',
-        'icon': 'shopping-cart',
-        'component': Users,
     },
     {
         'name': 'Clientes',

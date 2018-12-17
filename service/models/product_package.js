@@ -33,5 +33,11 @@ var ProductPackage = new Schema({
 
 ProductPackage.plugin(mongoosePaginate);
 
+ProductPackage.index({
+	name: 'text', 
+    description: 'text'
+});
+
+
 //Return the module
 module.exports = mongoose.model("Product_Package", ProductPackage);

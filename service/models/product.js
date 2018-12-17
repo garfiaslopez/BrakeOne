@@ -15,6 +15,9 @@ var ProductSchema = new Schema({
     description: {
         type: String
     },
+    barcode: {
+        type: String
+    },
     key_id: {
         type: String
     },
@@ -29,7 +32,7 @@ var ProductSchema = new Schema({
     },
     units: {
         type: String,
-        default: 'PZ'
+        default: 'PZA'
     },
     stock: {
         type: Number
@@ -37,7 +40,7 @@ var ProductSchema = new Schema({
     stock_ideal: {
         type: Number
     },
-    location: {
+    localization: {
         type: String
     },
     price: {
@@ -64,10 +67,11 @@ ProductSchema.plugin(mongoosePaginate);
 ProductSchema.index({
 	description: 'text', 
     key_id: 'text',
+    barcode: 'text',
     fmsi: 'text',
     line: 'text',
     brand: 'text',
-    location: 'text'
+    localization: 'text'
 });
 
 //Return the module

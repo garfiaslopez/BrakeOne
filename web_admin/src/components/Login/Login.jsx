@@ -85,8 +85,6 @@ class Login extends Component {
         this.doLogin = this.doLogin.bind(this);
     }
     doLogin(values) {
-        console.log("on login func");
-        console.log(values);
         if(values.username !== '' && values.password !== '') {
             const POSTDATA = { username: values.username, password: values.password};
             const url = process.env.REACT_APP_API_URL + '/authenticate';
@@ -155,6 +153,5 @@ class Login extends Component {
         );
     }
 }
-
 
 export default Login;

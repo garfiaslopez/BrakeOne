@@ -66,6 +66,17 @@ class Home extends React.Component {
 			</Menu>
 		);
 
+		let sessionInfo = <div></div>;
+		if (!this.state.collapsed) {
+			sessionInfo = (
+				<Fragment>
+					<Divider style={styles.divider}>Sesión</Divider>
+					<p style={styles.sessionLabel}>Sucursal: {this.props.session.subsidiary.denomination}</p>
+					<p style={styles.sessionLabel}>Usuario: {this.props.session.user.name}</p>
+				</Fragment>
+			);
+		}
+
 		let menuCat = MenuCategories.map((m, k) => {
 			if (!m.sub_menus) {
 				return (
@@ -109,6 +120,7 @@ class Home extends React.Component {
 						style={styles.mainLogo}
 						alt="enterpriseImage"
 					/>
+					{sessionInfo}
 					<Divider style={styles.divider}>Menu</Divider>
 					<Menu theme="dark" defaultSelectedKeys={['0']} mode="inline">
 						{menuCat}

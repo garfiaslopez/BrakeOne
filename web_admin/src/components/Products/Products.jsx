@@ -21,8 +21,11 @@ class Products extends CrudLayout {
 			plural: 'products',
 			label: 'Productos'
 		};
+		this.additional_get_data = {
+			subsidiary_id: this.props.session.subsidiary._id
+		}
 		this.additional_submit_data = {
-			account_id: this.props.session.user.account_id
+			subsidiary_id: this.props.session.subsidiary._id
 		}
 		this.scroll_on_table = 1500;
         this.table_columns = [
@@ -103,18 +106,6 @@ class Products extends CrudLayout {
             	),
 		  	}
 		];
-		//this.getProviders();
-	}
-
-	getProviders() {
-		this.setState({
-			providers_data: [
-				{
-					_id: 'abcdefghij',
-					name: 'PROVEEDOR'
-				}
-			]
-		});
 	}
 }
 

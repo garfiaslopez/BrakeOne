@@ -54,7 +54,17 @@ module.exports = (method, model) => {
                     if (err) {
                         return next(new errs.InternalServerError(err));
                     } else {
-                        return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
+                        if (req.body.populate_ids) {
+                            newObj.populate(req.body.populate_ids, (err_populated, populated_doc) => {
+                                if (err_populated){
+                                    return next(new errs.InternalServerError(err_populated));
+                                } else {
+                                    return res.json({ success: true, message: "Succesfully updated.", obj: populated_doc });
+                                }
+                            });
+                        } else {
+                            return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
+                        }
                     }
                 });
             } else {
@@ -90,6 +100,10 @@ module.exports = (method, model) => {
         if (req.body.limit != undefined) {
             Paginator.limit = req.body.limit;
         }
+        if (req.body.populate_ids != undefined) {
+            Paginator.populate = req.body.populate_ids;
+        }
+
         // FOR FILTER
         var Filter = {}
         if (req.body.account_id != undefined) {

@@ -41,6 +41,10 @@ var SubsidiarySchema = new Schema({
 		type: String,
 		default: "workshop"
 	},
+	color: {
+		type: String,
+		default: "#ffffff"
+	},
     created: {
         type: Date,
 		default: Date.now
@@ -55,8 +59,7 @@ SubsidiarySchema.plugin(mongoosePaginate);
 
 SubsidiarySchema.index({
 	denomination: 'text',
-	address: 'text',
-	location: '2dsphere'
+	address: 'text'
 });
 
 //Return the module

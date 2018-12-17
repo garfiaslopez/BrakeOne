@@ -23,6 +23,9 @@ class Paysheet extends CrudLayout {
 		this.additional_submit_data = {
 			account_id: this.props.session.user.account_id
 		}
+		this.additional_get_data = {
+			account_id: this.props.session.user.account_id
+		}
         this.table_columns = [
 			{
             	title: 'Fecha',

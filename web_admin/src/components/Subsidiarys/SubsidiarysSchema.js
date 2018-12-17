@@ -13,6 +13,12 @@ export default [
 			placeholder: 'Telefono',
 			prefixIcon: 'phone',
 			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+		},
+		{
+			id: 'color',
+			type: 'Color_Picker',
+			placeholder: 'Color',
+			prefixIcon: 'bg-colors'
 		}
 	], 
 	[

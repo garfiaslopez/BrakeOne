@@ -7,6 +7,7 @@ import {
     Select,
     DatePicker
 } from 'antd';
+import ColorPicker from '../../helpers/ColorPicker';
 import toPairs from 'lodash/toPairs';
 import styles from './Styles';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
@@ -38,8 +39,10 @@ const getMessage = (currentRule) => {
 
 
 class FormRender {
-    constructor(getFieldDecorator) {
-      this.getFieldDecorator = getFieldDecorator;
+    constructor(form) {
+        this.getFieldDecorator = form.getFieldDecorator;
+        this.setFieldsValue = form.setFieldsValue;
+        this.getFieldValue = form.getFieldValue;
     }
     public
     renderStringField(field_input) {
@@ -156,6 +159,25 @@ class FormRender {
         );
     }
 
+    renderColorPicker(field_input) {
+        return (
+            <FormItem 
+                key={field_input.id}
+                style={styles.formComponent}
+            >
+                <div style={styles.inputNumberContainer} >
+                    <p style={styles.labelInputNumber} >Color </p>
+                    <ColorPicker
+                        value={this.getFieldValue('color')}
+                        onClose={(color) => {
+                            this.setFieldsValue({'color': color});
+                        }}
+                    />
+                </div>
+            </FormItem>
+        );
+    }
+
     renderDropdown(field_input) {
         const getFieldDecorator = this.getFieldDecorator;
         const Options = field_input.options.map((item, index) => {
@@ -191,14 +213,14 @@ class FormRender {
         );
     }
 
-    renderDropdownDataDB(field_input) {
+    renderDropdownDataDB(field_input, data) {
         const getFieldDecorator = this.getFieldDecorator;
-        if (this.state[field_input.data]) {
-            const Options = this.state[field_input.data].map((obj, index) => {
+        if (data) {
+            const Options = data.map((obj, index) => {
                 return (
                     <Select.Option
-                        value={obj[field_input.label]}
-                        key={`${obj['key']} - ${index}`} 
+                        value={obj._id}
+                        key={`${obj._id} - ${index}`} 
                     >
                         {obj[field_input.label]}
                     </Select.Option>
@@ -227,7 +249,7 @@ class FormRender {
             );
         }
         return (
-            <div>"Cargando Proovedores..."</div>
+            <div key="loading_label">"Cargando Proovedores..."</div>
         );
     }
 

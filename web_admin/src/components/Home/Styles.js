@@ -38,5 +38,11 @@ export default {
     },
     footer: {
         textAlign: 'center'
+    },
+    sessionLabel: {
+        paddingLeft: 10,
+        textAlign: 'left',
+        color: 'white',
+
     }
 }

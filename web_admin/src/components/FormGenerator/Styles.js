@@ -26,7 +26,7 @@ export default {
         minHeight: 360
     },
     modalContainer: {
-        height: 'calc(100vh - 150px)'
+        height: 'calc(100vh - 250px)'
     },
     modalFormContainer: {
         height: '100%',

@@ -17,8 +17,8 @@ import SubsidiaryGrid from './components/SubsidiaryGrid/SubsidiaryGrid';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import NotFound from './helpers/NotFound';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+//import injectTapEventPlugin from 'react-tap-event-plugin';
+//injectTapEventPlugin();
 
 const history = createBrowserHistory();
 
@@ -63,10 +63,20 @@ class PrivateHandler extends Component {
                             }
                         });
                     } else {
-                        const continueObj = <ComponentToRender session={session} {...this.props}/>;
-                        this.setState({
-                            toRender: continueObj
-                        });
+                        if (this.props.history.location.pathname === '/subsidiarys') {
+                            const continueObj = <ComponentToRender session={session} {...this.props}/>;
+                            this.setState({
+                                toRender: continueObj
+                            });
+                        } else {
+                            const redirect = (<Redirect to={{
+                                pathname: '/subsidiarys',
+                                state: { from: this.props.location }
+                            }}/>);
+                            this.setState({
+                                toRender: redirect
+                            });
+                        }
                     }
                 } else {
                     const redirect = (<Redirect to={{

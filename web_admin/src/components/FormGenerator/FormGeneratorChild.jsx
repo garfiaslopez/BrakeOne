@@ -20,7 +20,7 @@ class FormGeneratorChild extends Component {
         }
     }
     componentWillMount() {
-        this.FormRender = new FormRender(this.props.form.getFieldDecorator);
+        this.FormRender = new FormRender(this.props.form);
     }
     componentDidMount() {
         if (this.props.fields) {

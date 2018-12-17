@@ -2,7 +2,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
-
+var autoIncrement = require('mongoose-auto-increment');
 var SellSchema = new Schema({
     subsidiary_id: {
         type: Schema.ObjectId,
@@ -11,16 +11,16 @@ var SellSchema = new Schema({
     user: {
         user_id: {
             type: Schema.ObjectId,
-            ref: 'Subsidiary'
+            ref: 'User'
         },
         name: { type: String }
     },
     folio: {
-        type: String
+        type: Number
     },
     status: {
         type: String,
-        default: 'presale'
+        default: 'quotation'
     },
     date_in: {
         type: Date,
@@ -43,10 +43,34 @@ var SellSchema = new Schema({
         type: String
     },
     products: [{
+        product_id: {
+            type: Schema.ObjectId,
+            ref: 'Product'
+        },
         description: { type: String },
         quantity: { type: Number },
         price: { type: Number }
     }],
+    packages: {
+        package_id: {
+            type: Schema.ObjectId,
+            ref: 'Product_Package'
+        },
+        products: [{
+            product_id: {
+                type: Schema.ObjectId,
+                ref: 'Product'
+            },
+            quantity: { type: Number },
+            price: { type: Number }
+        }],
+        name: {
+            type: String
+        },
+        description: {
+            type: String
+        },
+    },
     total: {
         type: Number
     },
@@ -56,6 +80,9 @@ var SellSchema = new Schema({
     is_remission: { 
         type: Boolean
     },
+    is_service: { 
+        type: Boolean
+    },
     created: {
         type: Date,
         default: Date.now
@@ -63,6 +90,11 @@ var SellSchema = new Schema({
 });
 
 SellSchema.plugin(mongoosePaginate);
+SellSchema.plugin(autoIncrement.plugin, {
+    model: 'Sell',
+    field: 'folio',
+    startAt: 1
+});
 
 //Return the module
 module.exports = mongoose.model("Sell", SellSchema);
