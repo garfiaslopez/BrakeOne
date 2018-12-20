@@ -1,3 +1,5 @@
+import Rules from '../../helpers/rules';
+
 export default [
 	[
 		{
@@ -5,14 +7,14 @@ export default [
 			type: 'String',
 			placeholder: 'Nombre Sucursal',
 			prefixIcon: 'home',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'phone',
 			type: 'String',
 			placeholder: 'Telefono',
 			prefixIcon: 'phone',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['phone']
 		}
 	], 
 	[
@@ -21,7 +23,7 @@ export default [
 			type: 'String',
 			placeholder: 'Dirección',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string']
 		}
 	]
 ];

@@ -86,6 +86,35 @@ class Products extends CrudLayout {
 				],
 			}
 		];
+
+		if (this.props.session.user.rol === 'admin' ||
+			this.props.session.user.rol === 'manager') {
+			this.table_columns.push({
+            	title: 'Acciones',
+            	key: 'action',
+            	render: (text, record) => (
+					<span>
+						<Popconfirm
+							onClick={(event)=> {
+								event.stopPropagation();
+							}}
+							title="¿Esta seguro de eliminar?" 
+							okText="Eliminar"
+							cancelText="Cancelar"
+							onCancel={(event) => {
+								event.stopPropagation();
+							}}
+							onConfirm={(event) => {
+								event.stopPropagation();
+								this.onDelete(record);
+							}}
+						>
+                			<a>Eliminar</a>
+              			</Popconfirm>
+					</span>
+            	),
+			});
+		}
 	}
 }
 

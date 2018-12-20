@@ -5,12 +5,15 @@ import {
     Icon,
     InputNumber,
     Select,
-    DatePicker
+    DatePicker,
+    Divider
 } from 'antd';
 import ColorPicker from '../../helpers/ColorPicker';
 import toPairs from 'lodash/toPairs';
 import styles from './Styles';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
+import init_postal_codes from '../../helpers/postal_code';
+import Barcode from 'react-barcode';
 
 const FormItem = Form.Item;
 
@@ -19,6 +22,8 @@ const FormItem = Form.Item;
 const rules = {
 	required: 'Campo requerido',
 	min: 'Ingrese los caracteres minimos para el campo',
+	max: 'Se ha excedido del mínimo',
+	pattern: 'Ingresa un email valido',
 	types: {
 		email: 'Ingresa un email valido',
 		array: 'Ingresa almenos un elemento',
@@ -37,18 +42,34 @@ const getMessage = (currentRule) => {
     });
 };
 
-
 class FormRender {
     constructor(form) {
         this.getFieldDecorator = form.getFieldDecorator;
         this.setFieldsValue = form.setFieldsValue;
         this.getFieldValue = form.getFieldValue;
+        this.getFieldsValue = form.getFieldsValue;
+
+        this.postal_codes = [];
     }
     public
-    renderStringField(field_input) {
+
+    renderDivider(field_input) {
+        return (
+            <Divider
+                style={styles.divider} 
+                key={field_input.id}
+                style={styles.divider}
+            >
+                    {field_input.placeholder}
+            </Divider>
+        );
+    }
+
+    renderStringField(field_input, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         const FieldRender = (
             <Input
+                disabled={is_disabled}
                 prefix={
                     field_input.prefixIcon ? (
                         <Icon
@@ -63,6 +84,101 @@ class FormRender {
             />
         );
         return (
+            <FormItem
+                key={field_input.id}
+                style={styles.formComponent}
+            >
+                {getFieldDecorator(field_input.id, {
+                    rules: field_input.rules.map(rule => getMessage(rule)),
+                    })(FieldRender)
+                }
+            </FormItem>
+        );
+    }
+
+    renderBarcodeField(field_input, is_disabled) {
+        const getFieldDecorator = this.getFieldDecorator;
+        const FieldRender = (
+            <Input
+                disabled={is_disabled}
+                prefix={
+                    field_input.prefixIcon ? (
+                        <Icon
+                            type={field_input.prefixIcon}
+                            className="field-icon"
+                        />
+                    ) : ''
+                }
+                type={field_input.type || 'text'}
+                placeholder={field_input.placeholder || ''}
+                size="large"
+            />
+        );
+        const barcode_options = {
+            width: 2,
+            height: 40,
+            format: "CODE128",
+            displayValue: false,
+            background: "#ffffff",
+            lineColor: "#000000",
+        };
+
+        return (
+            <div
+                style={styles.barcodeContainer}
+            >
+                <FormItem 
+                    key={field_input.id}
+                    style={styles.formComponent}
+                >
+                    {getFieldDecorator(field_input.id, {
+                        rules: field_input.rules.map(rule => getMessage(rule)),
+                        })(FieldRender)
+                    }
+                </FormItem>
+                <Barcode 
+                    {...barcode_options}
+                    value={this.getFieldValue(field_input.id)} 
+                />
+            </div>
+            
+
+        );
+    }
+
+    renderPostalCode(field_input, is_disabled) {
+        init_postal_codes();
+        const getFieldDecorator = this.getFieldDecorator;
+        const FieldRender = (
+            <Input
+                disabled={is_disabled}
+                prefix={
+                    field_input.prefixIcon ? (
+                        <Icon
+                            type={field_input.prefixIcon}
+                            className="field-icon"
+                        />
+                    ) : ''
+                }
+                onPressEnter={(e) => {
+                    const info = window.postal_codes[e.target.value];
+                    if (info) {
+                        console.log(info);
+                        this.postal_codes = info;
+                        this.setFieldsValue({
+                            'address_city': info[0].address_city,
+                            'address_country': info[0].address_country,
+                            'address_state': info[0].address_state
+                        });
+                    }
+                }}
+                type={field_input.type || 'text'}
+                placeholder={field_input.placeholder || ''}
+                size="large"
+            />
+        );
+
+        return (
             <FormItem 
                 key={field_input.id}
                 style={styles.formComponent}
@@ -75,10 +191,47 @@ class FormRender {
         );
     }
 
-    renderTextAreaField(field_input) {
+    renderDropdownPostalCode(field_input, is_disabled) {
+        const getFieldDecorator = this.getFieldDecorator;
+        const Options = this.postal_codes.map((item, index) => {
+            return (
+                <Select.Option
+                    value={item[field_input.id]}
+                    key={`${item} - ${index}`} 
+                >
+                    {item[field_input.id]}
+                </Select.Option>
+            );
+        });
+        const FieldRender = (
+            <Select
+                disabled={is_disabled}
+                showSearch
+                optionFilterProp="children"
+                placeholder={field_input.placeholder || ''}
+                size="large"
+            >
+                {Options}
+            </Select>
+        );
+        return (
+            <FormItem 
+                key={field_input.id}
+                style={styles.formComponent}
+            >
+                {getFieldDecorator(field_input.id, {
+                    rules: field_input.rules.map(rule => getMessage(rule)),
+                    })(FieldRender)
+                }
+            </FormItem>
+        );
+    }
+
+    renderTextAreaField(field_input, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         const FieldRender = (
             <Input.TextArea
+                disabled={is_disabled}
                 prefix={
                     field_input.prefixIcon ? (
                         <Icon
@@ -105,10 +258,11 @@ class FormRender {
         );
     }
 
-    renderNumberField(field_input) {
+    renderNumberField(field_input,is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         const FieldRender = (
             <InputNumber
+                disabled={is_disabled}
                 size="100%"
                 max={field_input.options.max}
                 min={field_input.options.min}
@@ -131,10 +285,11 @@ class FormRender {
         );
     }
 
-    renderNumberMoneyField(field_input) {
+    renderNumberMoneyField(field_input, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         const FieldRender = (
             <InputNumber
+                disabled={is_disabled}
                 size="100%"
                 max={field_input.options.max}
                 min={field_input.options.min}
@@ -159,30 +314,40 @@ class FormRender {
         );
     }
 
-    renderColorPicker(field_input) {
+    renderColorPicker(field_input, is_disabled) {
+        const getFieldDecorator = this.getFieldDecorator;
+        const color_picker = this.getFieldValue(field_input.id);
+        const ColorField = (
+            <div style={styles.inputNumberContainer} >
+                    <p style={styles.labelInputNumber} >Color </p>
+                    <ColorPicker
+                        disabled={is_disabled}
+                        value={color_picker}
+                        onClose={(color) => {
+                            console.log(color);
+                            this.setFieldsValue({'color': color});
+                        }}
+                    />
+            </div>
+        );
         return (
             <FormItem 
                 key={field_input.id}
                 style={styles.formComponent}
             >
-                <div style={styles.inputNumberContainer} >
-                    <p style={styles.labelInputNumber} >Color </p>
-                    <ColorPicker
-                        value={this.getFieldValue('color')}
-                        onClose={(color) => {
-                            this.setFieldsValue({'color': color});
-                        }}
-                    />
-                </div>
+                {getFieldDecorator(field_input.id, {
+                    rules: field_input.rules.map(rule => getMessage(rule)),
+                    })(ColorField)
+                }
             </FormItem>
         );
     }
 
-    renderDropdown(field_input) {
+    renderDropdown(field_input, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         const Options = field_input.options.map((item, index) => {
             return (
-                <Select.Option
+                <Select.Option 
                     value={item}
                     key={`${item} - ${index}`} 
                 >
@@ -192,6 +357,7 @@ class FormRender {
         });
         const FieldRender = (
             <Select
+                disabled={is_disabled}
                 showSearch
                 optionFilterProp="children"
                 placeholder={field_input.placeholder || ''}
@@ -213,7 +379,7 @@ class FormRender {
         );
     }
 
-    renderDropdownDataDB(field_input, data) {
+    renderDropdownDataDB(field_input, data, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         if (data) {
             const Options = data.map((obj, index) => {
@@ -228,6 +394,7 @@ class FormRender {
             });
             const FieldRender = (
                 <Select
+                    disabled={is_disabled}
                     showSearch
                     optionFilterProp="children"
                     placeholder={field_input.placeholder || ''}
@@ -253,10 +420,12 @@ class FormRender {
         );
     }
 
-    renderDate(field_input) {
+    renderDate(field_input, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         const FieldRender = (
-            <DatePicker 
+            <DatePicker
+                disabled={is_disabled}
+                placeholder={field_input.placeholder}
                 size="medium"
                 locale={locale_es}
                 size="large"

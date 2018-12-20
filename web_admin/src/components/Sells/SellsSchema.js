@@ -1,3 +1,5 @@
+import Rules from '../../helpers/rules';
+
 const Lines = [
 	{
 		id: 28,

@@ -1,3 +1,5 @@
+import Rules from '../../helpers/rules';
+
 export default [
 	[
 		{
@@ -5,14 +7,14 @@ export default [
 			type: 'String',
 			placeholder: 'Cliente',
 			prefixIcon: 'user',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'rfc',
 			type: 'String',
 			placeholder: 'RFC',
 			prefixIcon: 'idcard',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['rfc']
 		}
 	], 
 	[
@@ -21,37 +23,37 @@ export default [
 			type: 'String',
 			placeholder: 'Domicilio',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
-			id: 'address_city',
-			type: 'String',
-			placeholder: 'Colonia',
+			id: 'address_cp',
+			type: 'Postal_Code',
+			placeholder: 'Código Postal',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string']
 		}
 	],
 	[
+		{
+			id: 'address_city',
+			type: 'Dropdown_Postal_Code',
+			placeholder: 'Colonia',
+			prefixIcon: 'environment',
+			rules: Rules['string']
+		},
 		{
 			id: 'address_country',
 			type: 'String',
 			placeholder: 'Zona / Municipio',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'address_state',
 			type: 'String',
 			placeholder: 'Ciudad / Estado',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
-		},
-		{
-			id: 'address_cp',
-			type: 'String',
-			placeholder: 'Código Postal',
-			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string']
 		}
 	],
 	[
@@ -60,21 +62,21 @@ export default [
 			type: 'String',
 			placeholder: 'Teléfono Particular',
 			prefixIcon: 'phone',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['phone']
 		},
 		{
 			id: 'phone_office',
 			type: 'String',
 			placeholder: 'Teléfono Oficina',
 			prefixIcon: 'phone',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['phone']
 		},
 		{
 			id: 'phone_mobil',
 			type: 'String',
 			placeholder: 'Teléfono Móvil',
 			prefixIcon: 'phone',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['phone']
 		},
 	],
 	[
@@ -83,22 +85,22 @@ export default [
 			type: 'String',
 			placeholder: 'Email',
 			prefixIcon: 'mail',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['email']
 		},
 		{
 			id: 'credit_days',
 			type: 'Number',
 			placeholder: 'Crédito',
 			prefixIcon: 'credit-card',
-			options: { max: 120, min: 0, step: 15 },
-			rules: [{ required: true }],
+			options: { max: 30, min: 0, step: 15 },
+			rules: Rules['number_credit']
 		},
 		{
 			id: 'price_type',
 			type: 'Dropdown',
-			placeholder: 'Estatus',
+			placeholder: 'Tipo de precio',
 			options: ['PUBLICO','TALLER','MAYOREO'],
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string']
 		},	
 	],
 	[
@@ -115,13 +117,13 @@ export default [
 								id: 'name',
 								type: 'String',
 								placeholder: 'Nombre',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							},
 							{
 								id: 'job_role',
 								type: 'String',
 								placeholder: 'Puesto',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							}
 						],
 						[
@@ -129,13 +131,13 @@ export default [
 								id: 'phone_number',
 								type: 'String',
 								placeholder: 'Numero Celular',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['phone']
 							},
 							{
 								id: 'email',
 								type: 'String',
 								placeholder: 'Email',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['email']
 							}
 						]
 					]
@@ -150,25 +152,25 @@ export default [
 								id: 'plates',
 								type: 'String',
 								placeholder: 'Placas',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							},
 							{
 								id: 'economic_number',
 								type: 'String',
 								placeholder: 'Numero Economico',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							},
 							{
 								id: 'brand',
 								type: 'String',
 								placeholder: 'Marca',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							},
 							{
 								id: 'model',
 								type: 'String',
 								placeholder: 'Modelo',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							}
 						],
 						[
@@ -176,19 +178,19 @@ export default [
 								id: 'year',
 								type: 'String',
 								placeholder: 'Año',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['number']
 							},
 							{
 								id: 'color',
 								type: 'String',
 								placeholder: 'Color',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							},
 							{
 								id: 'vin',
 								type: 'String',
 								placeholder: 'VIN',
-								rules: [{ required: true }, { min: 3 }, { max: 32 }],
+								rules: Rules['string']
 							}
 						]
 					]

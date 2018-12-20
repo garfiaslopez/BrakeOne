@@ -1,3 +1,5 @@
+import Rules from '../../helpers/rules';
+
 const Lines = [
 	{
 		id: 28,
@@ -217,37 +219,40 @@ export default [
 			type: 'String',
 			placeholder: 'Llave',
 			prefixIcon: 'key',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'fmsi',
 			type: 'String',
 			placeholder: 'FMSI',
 			prefixIcon: 'idcard',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'line',
 			type: 'Dropdown',
 			placeholder: 'Línea',
 			options: Lines.map((el) => (el.denomination)),
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string']
 		}
 	], 
 	[
 		{
 			id: 'barcode',
-			type: 'String',
+			type: 'Barcode',
 			placeholder: 'Código de barras',
 			prefixIcon: 'barcode',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
-		},
+			rules: Rules['string']
+		}
+
+	],
+	[
 		{
 			id: 'brand',
 			type: 'String',
 			placeholder: 'Marca',
 			prefixIcon: 'tool',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'provider_id',
@@ -255,7 +260,7 @@ export default [
 			placeholder: 'Proveedor',
 			data: 'providers',
 			label: 'name',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string']
 		}
 	],
 	[
@@ -264,7 +269,7 @@ export default [
 			type: 'TextArea',
 			placeholder: 'Descripción',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['text']
 		}
 	],
 	[
@@ -273,22 +278,22 @@ export default [
 			type: 'String',
 			placeholder: 'Unidades',
 			prefixIcon: 'plus-square',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'stock_ideal',
 			type: 'Number',
 			placeholder: 'Stock Ideal',
 			prefixIcon: 'inbox',
-			options: { max: 9999, min: 0, step: 1 },
-			rules: [{ required: true }],
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
 		},
 		{
 			id: 'localization',
 			type: 'String',
 			placeholder: 'Localización',
 			prefixIcon: 'folder-open',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['text']
 		}
 	],
 	[
@@ -297,32 +302,32 @@ export default [
 			type: 'Number_Money',
 			placeholder: 'Precio Neto',
 			prefixIcon: 'dollar',
-			options: { max: 9999, min: 0, step: 1 },
-			rules: [{ required: true }]
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
 		},
 		{
 			id: 'price_public',
 			type: 'Number_Money',
 			placeholder: 'Precio Público',
 			prefixIcon: 'dollar',
-			options: { max: 9999, min: 0, step: 1 },
-			rules: [{ required: true }],
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
 		},
 		{
 			id: 'price_workshop',
 			type: 'Number_Money',
 			placeholder: 'Precio Taller',
 			prefixIcon: 'dollar',
-			options: { max: 9999, min: 0, step: 1 },
-			rules: [{ required: true }],
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
 		},
 		{
 			id: 'price_wholesale',
 			type: 'Number_Money',
 			placeholder: 'Precio Mayoreo',
 			prefixIcon: 'dollar',
-			options: { max: 9999, min: 0, step: 1 },
-			rules: [{ required: true }],
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
 		}
 	]
 ];

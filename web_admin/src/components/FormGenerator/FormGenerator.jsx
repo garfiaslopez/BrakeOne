@@ -14,7 +14,7 @@ import styles from './Styles';
 import FormGeneratorChild from './FormGeneratorChild';
 import FormRender from './FormRender';
 import { FetchXHR } from '../../helpers/generals';
-
+import moment from 'moment';
 
 class FormGenerator extends Component {
     constructor(props) {
@@ -51,9 +51,13 @@ class FormGenerator extends Component {
         }
         
         if (this.props.fields) { // IS EDITING:
-            this.props.form.setFieldsValue(this.props.fields);
-            // check nested objects:
+
+            /// parse values from DB to field:
+
+            // DATES: if user_schema has dates objs:
+            // NESTED_OBJS: check nested objects:
             let data = {};
+            let new_fields = Object.assign({}, this.props.fields);
             this.props.schema.forEach((row) => {
                 row.forEach((el) => {
                     if (el.type === 'Nested_Object') {
@@ -68,9 +72,31 @@ class FormGenerator extends Component {
                             });
                         });
                     }
+
+                    if (el.type === 'Date') {
+                        new_fields[el.id] = moment(new_fields[el.id]);
+                    }
+
                 });
             });
+
+            this.props.form.setFieldsValue(new_fields);
+
             this.setState({sub_form_data: data});
+            
+        } else {
+            // initial values on create form:
+            let new_fields = {};
+            this.props.schema.forEach((row) => {
+                row.forEach((el) => {
+                    if (el.type === 'Barcode') {
+                        new_fields[el.id] = moment().unix();
+                    }
+                });
+            });
+
+            this.props.form.setFieldsValue(new_fields);
+
         }
         
     }
@@ -80,7 +106,6 @@ class FormGenerator extends Component {
     componentWillReceiveProps(nextProps) {
         // check the state for recovered data values from dropdowns DB: 
         // compare and set manually with setfield....
-        
     }
 
     getData(model_data) {
@@ -120,13 +145,22 @@ class FormGenerator extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
+
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if (this.state.sub_form_data) {
-                    this.props.onSubmit({
-                        ...values,
-                        ...this.state.sub_form_data
-                    });
+                    if (values.contacts) {
+                        this.props.onSubmit({
+                            ...values,
+                            ...this.state.sub_form_data
+                        });
+                    } else {
+                        this.setState({
+                            loading: false,
+                            error: 'Agregar al menos un contacto.'
+                        });
+                    }
+                    
                 } else {
                     this.props.onSubmit(values);
                 }
@@ -231,35 +265,48 @@ class FormGenerator extends Component {
                 const rows = [];
                 row_components.forEach((field_input, j) => {
                     if (field_input.type === 'String') {
-                        rows.push(this.FormRender.renderStringField(field_input));
+                        rows.push(this.FormRender.renderStringField(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Number') {
-                        rows.push(this.FormRender.renderNumberField(field_input));
+                        rows.push(this.FormRender.renderNumberField(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Number_Money') {
-                        rows.push(this.FormRender.renderNumberMoneyField(field_input));
+                        rows.push(this.FormRender.renderNumberMoneyField(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Color_Picker') {
-                        rows.push(this.FormRender.renderColorPicker(field_input));
+                        rows.push(this.FormRender.renderColorPicker(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Dropdown') {
-                        rows.push(this.FormRender.renderDropdown(field_input));
+                        rows.push(this.FormRender.renderDropdown(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Date') {
-                        rows.push(this.FormRender.renderDate(field_input));
+                        rows.push(this.FormRender.renderDate(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'TextArea') {
-                        rows.push(this.FormRender.renderTextAreaField(field_input));
+                        rows.push(this.FormRender.renderTextAreaField(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Nested_Object') {
-                        rows.push(this.renderNestedObject(field_input));
+                        rows.push(this.renderNestedObject(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Tab_Component') {
-                        rows.push(this.renderTabObject(field_input));
+                        rows.push(this.renderTabObject(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Dropdown_DataDB') {
-                        rows.push(this.FormRender.renderDropdownDataDB(field_input, this.state[field_input.data]));
+                        rows.push(this.FormRender.renderDropdownDataDB(field_input, this.state[field_input.data], this.props.is_disabled));
                     }
+                    if (field_input.type === 'Postal_Code') {
+                        rows.push(this.FormRender.renderPostalCode(field_input, this.props.is_disabled));
+                    }
+                    if (field_input.type === 'Dropdown_Postal_Code') {
+                        rows.push(this.FormRender.renderDropdownPostalCode(field_input, this.props.is_disabled));
+                    }
+                    if (field_input.type === 'Barcode') {
+                        rows.push(this.FormRender.renderBarcodeField(field_input, this.props.is_disabled));
+                    }
+                    if (field_input.type === 'Divider') {
+                        rows.push(this.FormRender.renderDivider(field_input, this.props.is_disabled));
+                    }
+                    
                 });
                 fieldsToReturn.push(
                     <div 
@@ -335,6 +382,32 @@ class FormGenerator extends Component {
                 />
             );
         }
+        let FooterButtons = [
+            <Button 
+                key="cancel"
+                onClick={this.props.onClose}
+            >
+                Cancelar
+            </Button>,
+            <Button 
+                key="submit" 
+                type="primary" 
+                loading={this.state.loading}
+                onClick={this.onSubmit}
+            >
+                Guardar
+            </Button>,
+        ];
+        if (this.props.is_disabled) {
+            FooterButtons = [
+                <Button 
+                    key="cancel"
+                    onClick={this.props.onClose}
+                >
+                    Cerrar
+                </Button>
+            ];
+        }
         return (
             <Fragment>
                 {subForm}
@@ -346,22 +419,7 @@ class FormGenerator extends Component {
                     title={this.props.title}
                     onCancel={this.props.onClose}
                     keyboard={true}
-                    footer={[
-                        <Button 
-                            key="cancel"
-                            onClick={this.props.onClose}
-                        >
-                            Cancelar
-                        </Button>,
-                        <Button 
-                            key="submit" 
-                            type="primary" 
-                            loading={this.state.loading}
-                            onClick={this.onSubmit}
-                        >
-                            Guardar
-                        </Button>,
-                    ]}
+                    footer={FooterButtons}
                     >
                     <div
                         key="sub_modal_container"

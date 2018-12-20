@@ -43,26 +43,47 @@ class Packages extends CrudLayout {
             	title: 'Precio',
             	dataIndex: 'price',
             	key: 'price'
-			},
-			{
+			}
+		];
+
+		if (this.props.session.user.rol === 'admin' ||
+			this.props.session.user.rol === 'manager') {
+			this.table_columns.push({
             	title: 'Acciones',
             	key: 'action',
             	render: (text, record) => (
 					<span>
-						<a href="javascript:;" onClick={()=> this.onEdit(record)}>Editar</a>
+						<a 
+							href="javascript:;" 
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						>
+							Editar
+						</a>
 						<Divider type="vertical" />
-						<Popconfirm 
+						<Popconfirm
+							onClick={(event)=> {
+								event.stopPropagation();
+							}}
 							title="¿Esta seguro de eliminar?" 
 							okText="Eliminar"
 							cancelText="Cancelar"
-							onConfirm={() => this.onDelete(record)}
+							onCancel={(event) => {
+								event.stopPropagation();
+							}}
+							onConfirm={(event) => {
+								event.stopPropagation();
+								this.onDelete(record);
+							}}
 						>
                 			<a>Eliminar</a>
               			</Popconfirm>
 					</span>
             	),
-		  	}
-		];
+			});
+		}
 	}
 }
 

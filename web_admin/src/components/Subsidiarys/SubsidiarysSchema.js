@@ -1,3 +1,5 @@
+import Rules from '../../helpers/rules';
+
 export default [
 	[
 		{
@@ -5,20 +7,21 @@ export default [
 			type: 'String',
 			placeholder: 'Nombre Sucursal',
 			prefixIcon: 'home',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'phone',
 			type: 'String',
 			placeholder: 'Telefono',
 			prefixIcon: 'phone',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['phone']
 		},
 		{
 			id: 'color',
 			type: 'Color_Picker',
 			placeholder: 'Color',
-			prefixIcon: 'bg-colors'
+			prefixIcon: 'bg-colors',
+			rules: Rules['string']
 		}
 	], 
 	[
@@ -27,7 +30,7 @@ export default [
 			type: 'String',
 			placeholder: 'Dirección',
 			prefixIcon: 'environment',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }],
+			rules: Rules['string'],
 		},
 		{
 			id: 'location.coordinates[0]',
@@ -35,7 +38,7 @@ export default [
 			placeholder: 'Longitud',
 			prefixIcon: 'environment',
 			options: { max: 180, min: -180, step: 0.1 },
-			rules: [{ required: true }],
+			rules: Rules['number'],
 		},
 		{
 			id: 'location.coordinates[1]',
@@ -43,7 +46,7 @@ export default [
 			placeholder: 'Latitud',
 			prefixIcon: 'environment',
 			options: { max: 90, min: -90, step: 0.1 },
-			rules: [{ required: true }],
+			rules: Rules['number']
 		}
 	]
 ];

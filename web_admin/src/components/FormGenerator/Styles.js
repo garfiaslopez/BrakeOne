@@ -61,5 +61,12 @@ export default {
     },
     datePickerContainer: {
         width: '100%'
+    },
+    barcodeContainer: {
+        display: 'flex',
+        justifyContent: 'space-around'
+    },
+    divider: {
+        color: 'black'
     }
 }

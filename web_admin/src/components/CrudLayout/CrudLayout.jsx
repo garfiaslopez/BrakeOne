@@ -36,6 +36,7 @@ class CrudLayout extends Component {
 		page: 1,
 		total_docs: 0,
 		opened_submit: false,
+		opened_view: false,
 		opened_print: false,
 		sortedInfo: {
 			order: 'descend',
@@ -114,6 +115,14 @@ class CrudLayout extends Component {
 		});
 	}
 
+	onCloseViewForm = () => {
+		this.setState({
+			opened_view: false,
+			error: null,
+			selected_data: null
+		});
+	}
+
 	// CREATE 
 	onSubmitForm = (values) => {
 		this.setState({
@@ -138,6 +147,7 @@ class CrudLayout extends Component {
 		if (this.populate_ids) {
 			POSTDATA['populate_ids'] = this.populate_ids;
 		}
+
 		FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
 				const newArray = Object.assign([],this.state.table_data);
@@ -177,6 +187,20 @@ class CrudLayout extends Component {
         });
 	}
 
+	onView = (record) => {
+		this.setState({
+			selected_data: record,
+			opened_view: true,
+		});
+	} 
+
+	onEdit = (record) => {
+		this.setState({
+			selected_data: record,
+			opened_submit: true,
+		});
+	}
+
 	onDelete = (record) => {
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + record._id;
 		FetchXHR(url, 'DELETE').then((response) => {
@@ -204,13 +228,6 @@ class CrudLayout extends Component {
 			});
         });
 
-	}
-
-	onEdit = (record) => {
-		this.setState({
-			selected_data: record,
-			opened_submit: true,
-		});
 	}
 
 	// ACTIONS HANDLERS:
@@ -296,11 +313,28 @@ class CrudLayout extends Component {
 				form = (
 					<FormGenerator
 						key={"Create_Form"}
+						is_disabled = {false}
 						title={title}
 						open={this.state.opened_submit}
 						loading={this.state.loading_submit}
 						onClose={this.onCloseSubmitForm}
 						onSubmit={this.onSubmitForm}
+						schema={this.schema}
+						error={this.state.error}
+						dismissError={() => {
+							this.setState({ error:null });
+						}}
+						fields={this.state.selected_data}
+					/>
+				);
+			} else if (this.state.opened_view) {
+				form = (
+					<FormGenerator
+						key={"View_Form"}
+						is_disabled = {true}
+						title={title}
+						open={this.state.opened_view}
+						onClose={this.onCloseViewForm}
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
@@ -331,7 +365,6 @@ class CrudLayout extends Component {
 			}
 		}
 		
-		let print_modal = <div></div>;
 		if (this.state.opened_print) {
 			form = (
 				<PrinterDownload
@@ -353,7 +386,6 @@ class CrudLayout extends Component {
         return (
             <Fragment>
 				{form}
-				{print_modal}
                 <Divider dashed={true} orientation="left">Acciones</Divider>
                 <div style={styles.actions}>
                     <Button.Group>
@@ -401,6 +433,13 @@ class CrudLayout extends Component {
 						filterConfirm: 'Ok',
 						filterReset: 'Reset',
 						emptyText: 'Sin Datos'
+					}}
+					onRow={(record) => {
+						return {
+							onClick: () => {
+								this.onView(record);
+							},
+						};
 					}}
 				/>
             </Fragment>

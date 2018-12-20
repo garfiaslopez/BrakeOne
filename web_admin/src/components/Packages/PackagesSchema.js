@@ -1,3 +1,5 @@
+import Rules from '../../helpers/rules';
+
 export default [
 	[
 		{
@@ -5,22 +7,22 @@ export default [
 			type: 'String',
 			placeholder: 'Nombre',
 			prefixIcon: 'inbox',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'denomination',
 			type: 'String',
 			placeholder: 'Descripcion',
 			prefixIcon: 'profile',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: Rules['string']
 		},
 		{
 			id: 'price',
 			type: 'Number',
 			placeholder: 'Precio',
 			prefixIcon: 'credit-card',
-			options: { max: 120, min: 0, step: 1 },
-			rules: [{ required: true }],
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
 		}
 	]
 ];
