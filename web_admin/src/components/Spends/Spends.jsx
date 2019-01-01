@@ -1,24 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
-import Schema from './ProvidersSchema';
+import Schema from './SpendSchema';
 
 import { 
     Divider,
 	Popconfirm
 } from 'antd';
 
-class Providers extends CrudLayout {
+class Spends extends CrudLayout {
     constructor(props) {
 		super(props);
 		this.schema = Schema;
 		this.state = { // render vars:
-			filters_layout: ['search']
+			filters_layout: ['search','date_range']
 		};
         this.model = {
-			name: 'provider',
-			singular: 'provider',
-			plural: 'providers',
-			label: 'Proveedores'
+			name: 'spend',
+			singular: 'spend',
+			plural: 'spends',
+			label: 'Gastos'
 		};
 		this.additional_submit_data = {
 			account_id: this.props.session.user.account_id
@@ -29,30 +29,29 @@ class Providers extends CrudLayout {
 		
         this.table_columns = [
 			{
-            	title: 'Proveedor',
-            	dataIndex: 'name',
-				key: 'name',
-				sorter: true
+            	title: 'Fecha',
+            	dataIndex: 'date',
+				key: 'date'
 			}, 
 			{
-            	title: 'RFC',
-            	dataIndex: 'rfc',
-            	key: 'rfc'
+            	title: 'Folio',
+            	dataIndex: 'folio',
+            	key: 'folio'
 			},
 			{
-            	title: 'Dirección',
-            	dataIndex: 'address',
-            	key: 'address'
+            	title: 'Descripción',
+            	dataIndex: 'description',
+            	key: 'description'
 			},
 			{
-            	title: 'Telefono',
-            	dataIndex: 'phone_number',
-            	key: 'phone_number'
+            	title: 'Tipo',
+            	dataIndex: 'type',
+            	key: 'type'
 			},
 			{
-            	title: 'Compras',
-            	dataIndex: 'buys',
-            	key: 'buys'
+            	title: 'Total',
+            	dataIndex: 'total',
+            	key: 'total'
 			}
 		];
 		
@@ -97,4 +96,4 @@ class Providers extends CrudLayout {
 	}
 }
 
-export default Providers;
+export default Spends;

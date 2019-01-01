@@ -105,12 +105,20 @@ export default [
 	],
 	[
 		{
+			id: 'div1',
+			type: 'Divider',
+			placeholder: 'Mas información'
+		}
+	],
+	[
+		{
 			type: 'Tab_Component',
 			fields: [
 				[{
 					id: 'contacts',
 					type: 'Nested_Object',
 					placeholder: 'Contacto',
+					rules: Rules['contacts'],
 					schema: [
 						[
 							{
@@ -145,6 +153,7 @@ export default [
 				[{
 					id: 'cars',
 					type: 'Nested_Object',
+					relationship: 'car',
 					placeholder: 'Carro',
 					schema: [
 						[

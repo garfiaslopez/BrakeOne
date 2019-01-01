@@ -124,12 +124,13 @@ class CrudLayout extends Component {
 	}
 
 	// CREATE 
-	onSubmitForm = (values) => {
+	onSubmitForm = (values, nested_values) => {
 		this.setState({
 			loading_submit: true
 		});
 		const POSTDATA = {
 			...values,
+			...nested_values,
 			...this.additional_submit_data
 		}
 		let method = 'POST';
@@ -147,6 +148,8 @@ class CrudLayout extends Component {
 		if (this.populate_ids) {
 			POSTDATA['populate_ids'] = this.populate_ids;
 		}
+
+		// check for relationships and save it apart in her owns models.
 
 		FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
@@ -341,6 +344,7 @@ class CrudLayout extends Component {
 							this.setState({ error:null });
 						}}
 						fields={this.state.selected_data}
+						session={this.props.session}
 					/>
 				);
 			}
@@ -360,6 +364,7 @@ class CrudLayout extends Component {
 							this.setState({ error:null });
 						}}
 						fields={this.state.selected_data}
+						session={this.props.session}
 					/>
 				);
 			}
@@ -382,26 +387,32 @@ class CrudLayout extends Component {
 				/>
 			);
 		}
+		let PrinterDownloadButton = <div></div>;
+		if (this.props.session.user.rol === 'admin' || this.props.session.user.rol === 'manager') {
+			PrinterDownloadButton = (
+				<Button.Group>
+					<Button 
+						onClick={() => {
+							this.setState({
+								opened_print: true,
+							});
+						}} 
+						size="large" 
+						type="primary" 
+						icon="printer"
+					>
+						Imprimir O Descargar
+					</Button>
+				</Button.Group>
+			);
+		}
 
         return (
             <Fragment>
 				{form}
                 <Divider dashed={true} orientation="left">Acciones</Divider>
                 <div style={styles.actions}>
-                    <Button.Group>
-						<Button 
-							onClick={() => {
-								this.setState({
-									opened_print: true,
-								});
-							}} 
-							size="large" 
-							type="primary" 
-							icon="printer"
-						>
-							Imprimir O Descargar
-						</Button>
-                    </Button.Group>
+					{PrinterDownloadButton}
 					<Button 
 						type="primary" 
 						size="large"
@@ -415,7 +426,7 @@ class CrudLayout extends Component {
                 <div style={styles.filters}>
                     {this.renderFilters()}
                 </div>
-                <Divider dashed={true} orientation="left">Resultados</Divider>
+                <Divider dashed={true} orientation="left">{"[" + this.state.total_docs + "]   "} Resultados.</Divider>
 				<Table 
 					style={styles.tableLayout}
 					scroll={{ x: this.scroll_on_table || window.innerWidth - 272 }}

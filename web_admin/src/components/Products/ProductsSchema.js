@@ -235,16 +235,6 @@ export default [
 			options: Lines.map((el) => (el.denomination)),
 			rules: Rules['string']
 		}
-	], 
-	[
-		{
-			id: 'barcode',
-			type: 'Barcode',
-			placeholder: 'Código de barras',
-			prefixIcon: 'barcode',
-			rules: Rules['string']
-		}
-
 	],
 	[
 		{
@@ -328,6 +318,22 @@ export default [
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
 			rules: Rules['number']
+		}
+	],
+	[
+		{
+			id: 'div1',
+			type: 'Divider',
+			placeholder: 'Código de barras'
+		}
+	],
+	[
+		{
+			id: 'barcode',
+			type: 'Barcode',
+			placeholder: 'Código de barras',
+			prefixIcon: 'barcode',
+			rules: Rules['text']
 		}
 	]
 ];

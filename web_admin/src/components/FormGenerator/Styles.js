@@ -39,8 +39,12 @@ export default {
     },
     formComponent: {
         width: '100%',
-        paddingLeft: 10,
-        paddingRight: 10
+        marginLeft: 10,
+        marginRight: 10
+    },
+    inputElement: {
+        width: '100%',
+        height: 40
     },
     alertContainer: {
         margin: '-24px -24px 24px -24px'
@@ -66,7 +70,36 @@ export default {
         display: 'flex',
         justifyContent: 'space-around'
     },
+    barcodeButton: {
+        height: 40,
+        width: 100,
+        marginLeft: 10,
+        marginRight: 10
+    },
     divider: {
         color: 'black'
-    }
+    },
+    nestedObjectContainer: {
+        width: '100%',
+        height: 300,
+        marginLeft: 10,
+        marginRight: 10
+    },
+    nestedButton: {
+        marginBottom: 20,
+        display: 'flex',
+        justifyContent: 'right'
+    },
+    nestedObjectTable: {
+        width: '100%',
+        paddingRight: 5
+    },
+    tabContainer: {
+        width: '100%',
+        height: '100%'
+    },
+    nestedTab: {
+        marginLeft: 10,
+        marginRight: 10
+    },
 }

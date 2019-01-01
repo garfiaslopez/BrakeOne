@@ -1,16 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import {
-    AutoComplete,
-    Form,
-    InputNumber,
     Icon,
     Modal,
     Button,
     Alert,
-    Table,
-    Tabs,
-    Popconfirm,
-    Divider,
     Input,
     Select
 } from 'antd';
@@ -19,7 +12,7 @@ import { FetchXHR } from '../../helpers/generals';
 import moment from 'moment';
 import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
 
-class CreateSell extends Component {
+class CreateQuotation extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,13 +28,28 @@ class CreateSell extends Component {
         }
 
         this.onChangeField = this.onChangeField.bind(this);
+        this.onChangeDropdown = this.onChangeDropdown.bind(this);
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
 
     }
 
-    onChangeField(value, key) {
+    componentWillReceiveProps(nextProps) {
+        // check the state for recovered data values from dropdowns DB: 
+        // compare and set manually with setfield....
+        this.setState({
+            error: nextProps.error
+        });
+    }
+
+    onChangeField(event, key) {
+        let obj = {};
+        obj[key] = event.target.value;
+        this.setState(obj);
+    }
+
+    onChangeDropdown(value, key) {
         let obj = {};
         obj[key] = value;
         this.setState(obj);
@@ -49,11 +57,34 @@ class CreateSell extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        const Quotation =  {
-
+        // do validations:
+        if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
+            if (this.state.products.length > 0 || this.state.services.length > 0) {
+                const Quotation =  {
+                    subsidiary_id: this.props.session.subsidiary._id,
+                    user_id: this.props.session.user._id,
+                    price_type: this.state.price_type,
+                    client_name: this.state.client_name,
+                    client_phone: this.state.client_phone,
+                    client_job: this.state.client_job,
+                    car_brand: this.state.car_brand,
+                    car_model: this.state.car_model,
+                    notes: this.state.notes,
+                    products: this.state.products,
+                    services: this.state.services,
+                    total: this.state.total
+                }
+                this.props.onSubmit(Quotation);
+            } else {
+                this.setState({
+                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
+                });
+            }
+        } else {
+            this.setState({
+                error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
+            });
         }
-
-        this.props.onSubmit({});
     }
 
     onErrorOrderCreator(err) {
@@ -82,7 +113,10 @@ class CreateSell extends Component {
                     banner={true}
                     showIcon={true}
                     closable={true}
-                    onClose={()=>{this.props.dismissError()}}
+                    onClose={() => {
+                        console.log("dismissingErr");
+                        this.props.dismissError();
+                    }}
                 />
             )
         }
@@ -99,7 +133,7 @@ class CreateSell extends Component {
         return (
             <Fragment>
                 <Modal
-                    width="80%"
+                    width="100%"
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
                     visible={this.state.open}
@@ -146,7 +180,7 @@ class CreateSell extends Component {
                                         />
                                     )}
                                     type="text"
-                                    placeholder="Nombre"
+                                    placeholder="Nombre (*)"
                                     size="large"
                                 />
                                 <Input
@@ -161,7 +195,7 @@ class CreateSell extends Component {
                                         />
                                     )}
                                     type="text"
-                                    placeholder="Numero"
+                                    placeholder="Numero (*)"
                                     size="large"
                                 />
                                 <Input
@@ -195,7 +229,7 @@ class CreateSell extends Component {
                                         />
                                     )}
                                     type="text"
-                                    placeholder="Marca Vehiculo"
+                                    placeholder="Marca Vehiculo (*)"
                                     size="large"
                                 />
                                 <Input
@@ -210,7 +244,7 @@ class CreateSell extends Component {
                                         />
                                     )}
                                     type="text"
-                                    placeholder="Modelo Vehiculo"
+                                    placeholder="Modelo Vehiculo (*)"
                                     size="large"
                                 />
                                 <Select
@@ -218,19 +252,31 @@ class CreateSell extends Component {
                                     placeholder="Tipo de precio"
                                     size="large"
                                     onChange={(value) => {
-                                        this.onChangeField(value, 'price_type');
+                                        this.onChangeDropdown(value, 'price_type');
                                     }}
                                 >
                                     {OptionsTypes}
                                 </Select>
                             </div>
+                            <div
+                                style={styles.inputsRowContainer}
+                            >
+                                <Input.TextArea
+                                    autosize={{ minRows: 2, maxRows: 6 }}
+                                    placeholder="Notas adicionales..."
+                                    size="large"
+                                    onChange={(value) => {
+                                        this.onChangeField(value, 'notes');
+                                    }}
+                                />
+                            </div>
                         </div>
-
 
                         <OrderCreator
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
                             price_type={this.state.price_type}
+                            session={this.props.session}
                         />
                     </div>
                 </Modal>
@@ -240,4 +286,4 @@ class CreateSell extends Component {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default CreateSell;
+export default CreateQuotation;

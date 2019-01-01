@@ -14,7 +14,7 @@ import {
     Input
 } from 'antd';
 import styles from './Styles';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from '../../../helpers/generals';
 
 class CreatePackages extends Component {
     constructor(props) {

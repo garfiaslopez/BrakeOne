@@ -5,10 +5,13 @@ import {
     Row,
     Col,
     Layout,
-    Spin
+    Spin,
+    Icon,
+    Button
 } from 'antd';
 import moment from 'moment';
 import styles from './Styles';
+import { FetchXHR } from '../../helpers/generals';
 
 const Footer = Layout.Footer;
 const Header = Layout.Header;
@@ -35,7 +38,60 @@ function calculateDistance(lon1, lat1, lon2, lat2) {
 
 class SubsidiaryGrid extends Component {
 
-    selectSubsidiary = (subsidiary) => {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading_subsidiaries: false,
+            subsidiaries: []
+        }
+
+        this.selectSubsidiary = this.selectSubsidiary.bind(this);
+        this.getSubsidiaries = this.getSubsidiaries.bind(this);
+    }
+
+    componentDidMount() {
+        this.getSubsidiaries();
+    }
+
+    getSubsidiaries() {
+        this.setState({
+			loading_subsidiaries: true,
+		});
+		const url = process.env.REACT_APP_API_URL + '/subsidiarys';
+        const POSTDATA = {
+            limit: 100,
+			page: 1
+		}
+        POSTDATA['account_id'] = this.props.session.user.account_id;
+        
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
+                this.setState({
+					subsidiaries: response.json.data.docs.map((el, index)=>({
+						...el,
+						key: index
+					})),
+					total_docs: response.json.data.total,
+                    loading_subsidiaries: false
+                });
+            } else {
+				console.log(response.message);
+				this.setState({
+					loading_subsidiaries: false,
+					error: response.message
+				});
+            }
+        }).catch((onError) => {
+			console.log(onError);
+			this.setState({
+				loading_subsidiaries: false,
+				error: onError.message
+			});
+        });
+    }
+
+    selectSubsidiary(subsidiary) {
         //save on local and send to main;
         const toSave = { 
             ...this.props.session,
@@ -46,53 +102,106 @@ class SubsidiaryGrid extends Component {
     }
     
     render() {
-        if (this.props.coords) {
-            const cols = [];
-            this.props.session.user.subsidiary_id.forEach((subsidiary, index) => {
-
-                let distance = calculateDistance(
-                    this.props.coords.longitude,
-                    this.props.coords.latitude,
-                    subsidiary.location.coordinates[0],
-                    subsidiary.location.coordinates[1]
-                );
-                if (distance <= 7 || this.props.session.user.rol === 'admin') {
-                    cols.push(
-                        <Col 
-                            key={`subsidiary_${index}`} 
-                            span={6}
-                            style={styles.rowCol}
-                            onClick={()=>{
-                                this.selectSubsidiary(subsidiary);
-                            }}
-                        >
-                            <div>{subsidiary.denomination}</div>
-                        </Col>
+        if (this.props.coords && this.state.subsidiaries.length > 0) {
+            // filter subsidiaries objects:
+            let subsidiaries = Object.assign([], this.state.subsidiaries);
+            if (this.props.session.user.rol !== 'admin') {
+                subsidiaries = this.state.subsidiaries.filter((subsidiary) => {
+                    let distance = calculateDistance(
+                        this.props.coords.longitude,
+                        this.props.coords.latitude,
+                        subsidiary.location.coordinates[0],
+                        subsidiary.location.coordinates[1]
                     );
-                }
+                    if (distance <= 7) {
+                        return true;
+                    }
+                    return false;
+                });
+            }
+
+            //convert to react objs.
+            const cols = [];
+            subsidiaries.forEach((subsidiary, index) => {
+                cols.push(
+                    <Col 
+                        key={`subsidiary_${index}`} 
+                        span={6}
+                        style={styles.rowCol}
+                        onClick={()=>{
+                            this.selectSubsidiary(subsidiary);
+                        }}
+                    >
+                        <p style={styles.labelGrid} >{subsidiary.denomination}</p>
+                    </Col>
+                );
             });
-            return (
-                <Layout style={styles.layout}>
-                    <Header style={styles.header} > 
-                        Selecciona la sucursal
-                    </Header>
-                    <Content>
-                        <div style={styles.centerContainer}>
-                            <Row
-                                justify="center"
-                                align="middle"
-                                gutter={{ xs: 8, sm: 16, md: 24, lg: 36 }}
-                                style={styles.rowContainer}
-                            >
-                                    {cols}
-                            </Row>
-                        </div>
-                    </Content>
-                    <Footer style={{ textAlign: 'center' }}>
-                        BrakeOne  © {moment().format('YYYY')}
-                    </Footer>
-                </Layout>
-            );
+
+            if (subsidiaries.length > 0) {
+                return (
+                    <Layout style={styles.layout}>
+                        <Header style={styles.header} > 
+                            Selecciona la sucursal
+                        </Header>
+                        <Content>
+                            <div style={styles.centerContainer}>
+                                <Row
+                                    justify="center"
+                                    align="middle"
+                                    gutter={16}
+                                    style={styles.rowContainer}
+                                >
+                                        {cols}
+                                </Row>
+                            </div>
+                        </Content>
+                        <Footer style={{ textAlign: 'center' }}>
+                            BrakeOne  © {moment().format('YYYY')}
+                        </Footer>
+                    </Layout>
+                );
+
+            } else {
+                return (
+                    <Layout style={styles.layout}>
+                        <Header style={styles.header} > 
+                            No hay sucursales cerca
+                        </Header>
+                        <Content>
+                            <div style={styles.centerContainer}>
+                                <Icon 
+                                    type="frown"
+                                    style={styles.iconEmpty}
+                                />
+                                <p style={styles.label}> Lamentablemente no se ha encontrado una sucursal cercana a ti, revisa que las coordenadas sean correctas al momento de dar de alta una sucursal o contacta con tu admnistrador.</p>
+                                <Button
+                                    type="primary"
+                                    icon="reload"
+                                    style={styles.backButton}
+                                    onClick={() => {
+                                        window.location.reload();
+                                    }}
+                                >
+                                    Volver a buscar
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    icon="login"
+                                    style={styles.backButton}
+                                    onClick={() => {
+                                        this.props.history.replace('/login');
+                                    }}
+                                >
+                                    Regresar a login
+                                </Button>
+                            </div>
+                        </Content>
+                        <Footer style={{ textAlign: 'center' }}>
+                            BrakeOne  © {moment().format('YYYY')}
+                        </Footer>
+                    </Layout>
+                );
+            }
         } else {
             return (
                 <Layout style={styles.layout}>
@@ -102,7 +211,7 @@ class SubsidiaryGrid extends Component {
                     <Content>
                         <div style={styles.centerContainer}>
                             <Spin size="large" />
-                            <p>Favor de aceptar la localización del navegador, sino aparece favor de pulsar F5 o abrir en otro navegador web.</p>
+                            <p style={styles.label}>Favor de aceptar la localización del navegador, sino aparece favor de pulsar F5 o abrir en otro navegador web.</p>
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>

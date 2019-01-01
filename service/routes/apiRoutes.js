@@ -42,6 +42,12 @@ var Models = [
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
+        model_name: 'service',
+        singular: 'service',
+        plural: 'services',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
         model_name: 'provider',
         singular: 'provider',
         plural: 'providers',
@@ -69,6 +75,30 @@ var Models = [
         model_name: 'cashdrawer',
         singular: 'cashdrawer',
         plural: 'cashdrawers',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'notification',
+        singular: 'notification',
+        plural: 'notifications',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'payment',
+        singular: 'payment',
+        plural: 'payments',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'quotation',
+        singular: 'quotation',
+        plural: 'quotations',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'spend',
+        singular: 'spend',
+        plural: 'spends',
         methods: ['create', 'read', 'update', 'delete', 'search']
     }
 ]

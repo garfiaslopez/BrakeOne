@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { SketchPicker } from 'react-color'
+import { ChromePicker } from 'react-color'
 
 class ColorPicker extends React.Component {
 
@@ -9,7 +9,8 @@ class ColorPicker extends React.Component {
         console.log(props);
         this.state = {
             displayColorPicker: false,
-            color_hex: props.value
+            color_hex: props.value,
+            disabled: props.disabled
         };
     }
 
@@ -74,9 +75,10 @@ class ColorPicker extends React.Component {
                 <div style={ styles.swatch } onClick={ this.handleClick }>
                     <div style={ styles.color } />
                 </div>
-                { this.state.displayColorPicker ? <div style={ styles.popover }>
+                { this.state.displayColorPicker && !this.state.disabled ? <div style={ styles.popover }>
                 <div style={ styles.cover } onClick={ this.handleClose }/>
-                    <SketchPicker 
+                    <ChromePicker
+                        disableAlpha={false}
                         color={ this.state.color_hex } 
                         onChange={ this.handleChange } 
                     />

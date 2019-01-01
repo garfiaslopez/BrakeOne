@@ -1,61 +1,51 @@
 import React, { Component, Fragment } from 'react';
-import CrudLayout from '../CrudLayout/CrudLayout';
-import Schema from './ProvidersSchema';
+import CrudLayout from '../../CrudLayout/CrudLayout';
+import CreatePackages from './CreatePackages';
 
 import { 
     Divider,
 	Popconfirm
 } from 'antd';
 
-class Providers extends CrudLayout {
+class Packages extends CrudLayout {
     constructor(props) {
 		super(props);
-		this.schema = Schema;
+		this.custom_submit = CreatePackages;
 		this.state = { // render vars:
 			filters_layout: ['search']
 		};
         this.model = {
-			name: 'provider',
-			singular: 'provider',
-			plural: 'providers',
-			label: 'Proveedores'
+			name: 'product-package',
+			singular: 'product-package',
+			plural: 'product-packages',
+			label: 'Paquetes'
 		};
-		this.additional_submit_data = {
-			account_id: this.props.session.user.account_id
-		}
 		this.additional_get_data = {
-			account_id: this.props.session.user.account_id
+			subsidiary_id: this.props.session.subsidiary._id
 		}
-		
+		this.additional_submit_data = {
+			subsidiary_id: this.props.session.subsidiary._id
+		}
+		this.populate_ids = ['products.product_id'];
         this.table_columns = [
 			{
-            	title: 'Proveedor',
+            	title: 'Nombre',
             	dataIndex: 'name',
 				key: 'name',
 				sorter: true
 			}, 
 			{
-            	title: 'RFC',
-            	dataIndex: 'rfc',
-            	key: 'rfc'
+            	title: 'Descripcion',
+            	dataIndex: 'description',
+            	key: 'description'
 			},
 			{
-            	title: 'Dirección',
-            	dataIndex: 'address',
-            	key: 'address'
-			},
-			{
-            	title: 'Telefono',
-            	dataIndex: 'phone_number',
-            	key: 'phone_number'
-			},
-			{
-            	title: 'Compras',
-            	dataIndex: 'buys',
-            	key: 'buys'
+            	title: 'Precio',
+            	dataIndex: 'price',
+            	key: 'price'
 			}
 		];
-		
+
 		if (this.props.session.user.rol === 'admin' ||
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
@@ -92,9 +82,9 @@ class Providers extends CrudLayout {
               			</Popconfirm>
 					</span>
             	),
-			  });
+			});
 		}
 	}
 }
 
-export default Providers;
+export default Packages;

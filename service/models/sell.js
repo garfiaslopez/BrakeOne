@@ -3,24 +3,33 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
 var autoIncrement = require('mongoose-auto-increment');
+
 var SellSchema = new Schema({
     subsidiary_id: {
         type: Schema.ObjectId,
         ref: 'Subsidiary'
     },
-    user: {
-        user_id: {
-            type: Schema.ObjectId,
-            ref: 'User'
-        },
-        name: { type: String }
+    user_id: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
+    payments: {
+        type: Schema.ObjectId,
+        ref: 'Payments'
+    },
+    client_id: {
+        type: Schema.ObjectId,
+        ref: 'Client'
+    },
+    car_id: {
+        type: String
     },
     folio: {
         type: Number
     },
     status: {
         type: String,
-        default: 'quotation'
+        default: 'quotation' // remission, pending, 
     },
     date_in: {
         type: Date,
@@ -29,48 +38,29 @@ var SellSchema = new Schema({
     date_out: {
         type: Date
     },
-    car: {
-        kilometers: { type: Number },
-        plates: { type: String },
-        economic_number: { type: String },
-        brand: { type: String },
-        model: { type: String },
-        year: { type: Number },
-        color: { type: String },
-        vin: { type: String }
-    },
-    notes: { 
+    notes: {
         type: String
     },
     products: [{
+        user_id: {
+            type: Schema.ObjectId,
+            ref: 'User'
+        },
         product_id: {
             type: Schema.ObjectId,
             ref: 'Product'
         },
-        description: { type: String },
         quantity: { type: Number },
-        price: { type: Number }
+        discount: { type: Number },
     }],
-    packages: {
-        package_id: {
+    services: [{
+        user_id: {
             type: Schema.ObjectId,
-            ref: 'Product_Package'
+            ref: 'User'
         },
-        products: [{
-            product_id: {
-                type: Schema.ObjectId,
-                ref: 'Product'
-            },
-            quantity: { type: Number },
-            price: { type: Number }
-        }],
-        name: {
-            type: String
-        },
-        description: {
-            type: String
-        },
-    },
+        description: { type: String },
+        price: { type: Number },
+    }],
     total: {
         type: Number
     },
@@ -90,6 +80,7 @@ var SellSchema = new Schema({
 });
 
 SellSchema.plugin(mongoosePaginate);
+
 SellSchema.plugin(autoIncrement.plugin, {
     model: 'Sell',
     field: 'folio',

@@ -6,7 +6,8 @@ import {
     InputNumber,
     Select,
     DatePicker,
-    Divider
+    Divider,
+    Button
 } from 'antd';
 import ColorPicker from '../../helpers/ColorPicker';
 import toPairs from 'lodash/toPairs';
@@ -14,6 +15,7 @@ import styles from './Styles';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
 import init_postal_codes from '../../helpers/postal_code';
 import Barcode from 'react-barcode';
+import ReactToPrint from 'react-to-print';
 
 const FormItem = Form.Item;
 
@@ -69,6 +71,7 @@ class FormRender {
         const getFieldDecorator = this.getFieldDecorator;
         const FieldRender = (
             <Input
+                style={styles.inputElement}
                 disabled={is_disabled}
                 prefix={
                     field_input.prefixIcon ? (
@@ -116,13 +119,19 @@ class FormRender {
         );
         const barcode_options = {
             width: 2,
-            height: 40,
+            height: 20,
             format: "CODE128",
             displayValue: false,
             background: "#ffffff",
             lineColor: "#000000",
         };
-
+        const BarcodeRender = (
+            <Barcode
+                ref={el => (this.barcodeToPrint = el)}
+                {...barcode_options}
+                value={this.getFieldValue(field_input.id)} 
+            />
+        );
         return (
             <div
                 style={styles.barcodeContainer}
@@ -136,10 +145,21 @@ class FormRender {
                         })(FieldRender)
                     }
                 </FormItem>
-                <Barcode 
-                    {...barcode_options}
-                    value={this.getFieldValue(field_input.id)} 
+                <div>
+                    {BarcodeRender}
+                </div>
+                <ReactToPrint
+                    trigger={() => (
+                        <Button 
+                            key="print_barcode" 
+                            type="primary" 
+                        > 
+                            Imprimir
+                        </Button>
+                    )}
+                    content={() => this.barcodeToPrint}
                 />
+                
             </div>
             
 
@@ -385,6 +405,7 @@ class FormRender {
             const Options = data.map((obj, index) => {
                 return (
                     <Select.Option
+                        placeholder={obj.placeholder}
                         value={obj._id}
                         key={`${obj._id} - ${index}`} 
                     >

@@ -82,9 +82,17 @@ export default [
 	],
 	[
 		{
+			id: 'div1',
+			type: 'Divider',
+			placeholder: 'Información de contacto'
+		}
+	],
+	[
+		{
 			id: 'contacts',
 			type: 'Nested_Object',
 			placeholder: 'Contacto',
+			rules: Rules['contacts'],
 			schema: [
 				[
 					{

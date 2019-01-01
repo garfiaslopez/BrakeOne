@@ -2,13 +2,21 @@ import Subsidiarys from '../Subsidiarys/Subsidiarys';
 import Users from '../Users/Users';
 import Providers from '../Providers/Providers';
 import Products from '../Products/Products';
+import Packages from '../Products/Packages/Packages';
+import ProductServices from '../Products/Services/Services';
 import Paysheet from '../Paysheet/Paysheet';
-import Packages from '../Packages/Packages';
 import Clients from '../Clients/Clients';
 import Cashdrawer from '../Cashdrawer/Cashdrawer';
 import Sells from '../Sells/Sells';
+import Quotations from '../Quotations/Quotations';
+import Spends from '../Spends/Spends';
 
 const adminMenu = [
+    {
+        'name': 'Cotizaciones',
+        'icon': 'file-search',
+        'component': Quotations,
+    },
     {
         'name': 'Ventas',
         'icon': 'shopping-cart',
@@ -16,8 +24,13 @@ const adminMenu = [
     },
     {
         'name': 'Servicios',
-        'icon': 'shopping-cart',
+        'icon': 'tool',
         'component': Users,
+    },
+    {
+        'name': 'Gastos',
+        'icon': 'dollar',
+        'component': Spends,
     },
     {
         'name': 'Personal',
@@ -37,6 +50,11 @@ const adminMenu = [
                 'name': 'Catalogo',
                 'icon': 'folder',
                 'component': Products
+            },
+            {
+                'name': 'Servicios',
+                'icon': 'tool',
+                'component': ProductServices,
             },
             {
                 'name': 'Paquetes',
