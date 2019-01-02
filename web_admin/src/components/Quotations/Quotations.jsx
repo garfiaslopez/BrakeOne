@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import CreateQuotation from './CreateQuotation';
+import RenderRows from '../../helpers/render_rows';
 
 import { 
     Divider,
@@ -12,7 +13,7 @@ class Quotations extends CrudLayout {
 		super(props);
 		this.custom_submit = CreateQuotation;
 		this.state = { // render vars:
-			filters_layout: ['search','data_range'],
+			filters_layout: ['search','date_range']
 		};
         this.model = {
 			name: 'quotation',
@@ -26,33 +27,40 @@ class Quotations extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-		this.scroll_on_table = 1500;
+
         this.table_columns = [
 			{
             	title: 'Fecha',
             	dataIndex: 'date',
 				key: 'date',
 				fixed: 'left',
+				render: RenderRows.renderRowDate,
+				width: '15%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
-            	key: 'folio'
+				key: 'folio',
+				width: '15%'
 			},
 			{
             	title: 'Cliente',
             	dataIndex: 'client_name',
-            	key: 'client_name'
+				key: 'client_name',
+				width: '20%'
 			},
 			{
             	title: 'Carro',
             	dataIndex: 'car_model',
-            	key: 'car_model'
+				key: 'car_model',
+				width: '10%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
-            	key: 'total'
+				key: 'total',
+				render: RenderRows.renderRowNumber,
+				width: '15%'
 			}
 		];
 
@@ -60,7 +68,8 @@ class Quotations extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '15%',
             	render: (text, record) => (
 					<span>
 						<a 

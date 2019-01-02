@@ -32,21 +32,25 @@ class ProductService extends CrudLayout {
             	dataIndex: 'description',
 				key: 'description',
 				fixed: 'left',
+				width: '50%'
 			},
 			{
             	title: 'Publico',
             	dataIndex: 'price_public',
-            	key: 'price_public'
+				key: 'price_public',
+				width: '10%'
 			},
 			{
             	title: 'Taller',
             	dataIndex: 'price_workshop',
-            	key: 'price_workshop'
+				key: 'price_workshop',
+				width: '10%'
 			},
 			{
             	title: 'Mayoreo',
             	dataIndex: 'price_wholesale',
-            	key: 'price_wholesale'
+				key: 'price_wholesale',
+				width: '10%'
 			}
 		];
 
@@ -55,7 +59,8 @@ class ProductService extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '20%',
             	render: (text, record) => (
 					<span>
 						<a 

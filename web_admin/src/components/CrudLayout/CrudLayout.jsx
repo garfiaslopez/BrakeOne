@@ -447,7 +447,7 @@ class CrudLayout extends Component {
                 <Divider dashed={true} orientation="left">{"[" + this.state.total_docs + "]   "} Resultados.</Divider>
 				<Table 
 					style={styles.tableLayout}
-					scroll={{ x: this.scroll_on_table || window.innerWidth - 272 }}
+					scroll={{ x: this.x_scroll_on_table | window.innerWidth - 272, y: this.y_scroll_on_table | 300 }}
 					onChange={this.onChangeTable}
 					columns={this.table_columns}
 					dataSource={this.state.table_data}

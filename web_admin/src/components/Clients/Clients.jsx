@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import Schema from './ClientsSchema';
+import RenderRows from '../../helpers/render_rows';
 
 import { 
     Divider,
@@ -31,22 +32,27 @@ class Clients extends CrudLayout {
             	title: 'Cliente',
             	dataIndex: 'name',
 				key: 'name',
-				sorter: true
+				sorter: true,
+				width: '30%'
 			}, 
 			{
             	title: 'Dirección',
             	dataIndex: 'address',
-            	key: 'address'
+				key: 'address',
+				width: '20%'
 			},
 			{
             	title: 'Telefono',
             	dataIndex: 'phone_number',
-            	key: 'phone_number'
+				key: 'phone_number',
+				width: '20%'
 			},
 			{
             	title: 'Ventas',
             	dataIndex: 'sells',
-            	key: 'sells'
+				key: 'sells',
+				render: RenderRows.renderRowNumber,
+				width: '10%'
 			}
 		];
 
@@ -54,7 +60,8 @@ class Clients extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '20%',
             	render: (text, record) => (
 					<span>
 						<a 

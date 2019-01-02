@@ -31,14 +31,14 @@ export default [
 			type: 'String',
 			placeholder: 'Banco',
 			prefixIcon: 'bank',
-			rules: Rules['string']
+			rules: Rules['string_no_req']
 		},
 		{
 			id: 'reference',
 			type: 'String',
 			placeholder: 'Referencia',
 			prefixIcon: 'bank',
-			rules: Rules['string']
+			rules: Rules['string_no_req']
 		}
 	],
 	[
@@ -47,7 +47,7 @@ export default [
 			type: 'TextArea',
 			placeholder: 'Información Adicional.',
 			prefixIcon: 'idcard',
-			rules: Rules['text']
+			rules: Rules['text_no_req']
 		}
 	]
 ];

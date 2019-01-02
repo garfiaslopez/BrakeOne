@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import Schema from './ProvidersSchema';
+import RenderRows from '../../helpers/render_rows';
 
 import { 
     Divider,
@@ -32,27 +33,33 @@ class Providers extends CrudLayout {
             	title: 'Proveedor',
             	dataIndex: 'name',
 				key: 'name',
-				sorter: true
+				sorter: true,
+				width: '20%'
 			}, 
 			{
             	title: 'RFC',
             	dataIndex: 'rfc',
-            	key: 'rfc'
+            	key: 'rfc',
+				width: '20%'
 			},
 			{
             	title: 'Dirección',
             	dataIndex: 'address',
-            	key: 'address'
+				key: 'address',
+				width: '20%'
 			},
 			{
             	title: 'Telefono',
             	dataIndex: 'phone_number',
-            	key: 'phone_number'
+				key: 'phone_number',
+				width: '20%'
 			},
 			{
             	title: 'Compras',
             	dataIndex: 'buys',
-            	key: 'buys'
+				key: 'buys',
+				render: RenderRows.renderRowNumber,
+				width: '10%'
 			}
 		];
 		
@@ -60,7 +67,8 @@ class Providers extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '10%',
             	render: (text, record) => (
 					<span>
 						<a 

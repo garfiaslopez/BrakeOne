@@ -30,34 +30,40 @@ class Users extends CrudLayout {
 			{
             	title: 'Nombre',
             	dataIndex: 'name',
-            	key: 'name'
+				key: 'name',
+				width: '20%'
 			}, 
 			{
             	title: 'Nombre Corto',
             	dataIndex: 'nickname',
-            	key: 'nickname'
+				key: 'nickname',
+				width: '10%'
 			}, 
 			{
             	title: 'Dirección',
             	dataIndex: 'address',
-            	key: 'address'
+				key: 'address',
+				width: '20%'
 			},
 			{
             	title: 'Telefono',
             	dataIndex: 'phone_mobil',
-            	key: 'phone_mobil'
+				key: 'phone_mobil',
+				width: '20%'
 			},
 			{
             	title: 'Status',
             	dataIndex: 'status',
-            	key: 'status'
+				key: 'status',
+				width: '10%'
 			}
 		];
 		if (this.props.session.user.rol === 'admin' ||
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '20%',
             	render: (text, record) => (
 					<span>
 						<a 

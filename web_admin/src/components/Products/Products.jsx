@@ -12,7 +12,7 @@ class Products extends CrudLayout {
 		super(props);
 		this.schema = Schema;
 		this.state = { // render vars:
-			filters_layout: ['search','data_range'],
+			filters_layout: ['search'],
 			async_data: ['providers']
 		};
         this.model = {
@@ -27,60 +27,70 @@ class Products extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-		this.scroll_on_table = 1500;
+		this.x_scroll_on_table = 2000;
         this.table_columns = [
 			{
             	title: 'Llave',
             	dataIndex: 'key_id',
 				key: 'key_id',
 				fixed: 'left',
+				width: '10%',
 			},
 			{
             	title: 'FMSI',
             	dataIndex: 'fmsi',
-            	key: 'fmsi'
+				key: 'fmsi',
+				width: '10%',
 			},
 			{
             	title: 'Linea',
             	dataIndex: 'line',
-            	key: 'line'
+				key: 'line',
+				width: '10%',
 			},
 			{
             	title: 'Marca',
             	dataIndex: 'brand',
-            	key: 'brand'
+				key: 'brand',
+				width: '10%',
 			},
 			{
             	title: 'Descripción',
             	dataIndex: 'description',
 				key: 'description',
-				sorter: true
+				sorter: true,
+				width: '25%',
 			}, 
 			{
             	title: 'Costo',
             	dataIndex: 'price',
-            	key: 'price'
+				key: 'price',
+				width: '5%',
 			},
 			{
             	title: 'Publico',
             	dataIndex: 'price_public',
-            	key: 'price_public'
+				key: 'price_public',
+				width: '5%',
 			},
 			{
             	title: 'Taller',
             	dataIndex: 'price_workshop',
-            	key: 'price_workshop'
+				key: 'price_workshop',
+				width: '5%',
 			},
 			{
             	title: 'Mayoreo',
             	dataIndex: 'price_wholesale',
-            	key: 'price_wholesale'
+				key: 'price_wholesale',
+				width: '5%',
 			},
 			{
-            	title: 'Existencias',
+            	title: 'Stock',
             	dataIndex: 'stock',
 				key: 'stock',
 				sorter: true,
+				width: '5%',
 				filters: [
 					{ text: 'Con Existencia', value: 'stock.exists' },
 					{ text: 'Sin Existencia', value: 'stock.no.exists'},
@@ -93,7 +103,8 @@ class Products extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '10%',
             	render: (text, record) => (
 					<span>
 						<a 

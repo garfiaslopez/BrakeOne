@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import Schema from './SpendSchema';
+import RenderRows from '../../helpers/render_rows';
 
 import { 
     Divider,
@@ -31,27 +32,34 @@ class Spends extends CrudLayout {
 			{
             	title: 'Fecha',
             	dataIndex: 'date',
-				key: 'date'
+				key: 'date',
+				render: RenderRows.renderRowDate,
+				width: '15%'
 			}, 
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
-            	key: 'folio'
+				key: 'folio',
+				width: '15%'
 			},
 			{
             	title: 'Descripción',
             	dataIndex: 'description',
-            	key: 'description'
+				key: 'description',
+				width: '30%'
 			},
 			{
             	title: 'Tipo',
             	dataIndex: 'type',
-            	key: 'type'
+				key: 'type',
+				width: '10%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
-            	key: 'total'
+				key: 'total',
+				render: RenderRows.renderRowNumber,
+				width: '15%'
 			}
 		];
 		
@@ -59,7 +67,8 @@ class Spends extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '15%',
             	render: (text, record) => (
 					<span>
 						<a 

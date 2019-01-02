@@ -27,7 +27,7 @@ export default {
     },
     content: {
         overflow: 'auto',
-        height: 'calc(100vh - 149px)',
+        height: '100%',
         marginTop: 16,
         marginRight: 16,
         marginLeft: 16,

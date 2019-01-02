@@ -28,17 +28,20 @@ class Subsidiarys extends CrudLayout {
             	title: 'Denominacion',
             	dataIndex: 'denomination',
 				key: 'denomination',
-				sorter: true
+				sorter: true,
+				width: '40%',
 			},
 			{
             	title: 'Direccion',
             	dataIndex: 'address',
-            	key: 'address'
+				key: 'address',
+				width: '20%',
 			},
 			{
             	title: 'Telefono',
             	dataIndex: 'phone',
-            	key: 'phone'
+				key: 'phone',
+				width: '20%',
 			}
 		];
 
@@ -46,7 +49,8 @@ class Subsidiarys extends CrudLayout {
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
+				key: 'action',
+				width: '20%',
             	render: (text, record) => (
 					<span>
 						<a 
