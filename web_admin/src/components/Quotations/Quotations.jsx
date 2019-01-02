@@ -63,6 +63,16 @@ class Quotations extends CrudLayout {
             	key: 'action',
             	render: (text, record) => (
 					<span>
+						<a 
+							href="javascript:;" 
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						>
+							Editar
+						</a>
+						<Divider type="vertical" />
 						<Popconfirm
 							onClick={(event)=> {
 								event.stopPropagation();
@@ -80,6 +90,24 @@ class Quotations extends CrudLayout {
 						>
                 			<a>Eliminar</a>
               			</Popconfirm>
+					</span>
+            	),
+			});
+		} else {
+			this.table_columns.push({
+            	title: 'Acciones',
+            	key: 'action',
+            	render: (text, record) => (
+					<span>
+						<a 
+							href="javascript:;" 
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						>
+							Editar
+						</a>
 					</span>
             	),
 			});

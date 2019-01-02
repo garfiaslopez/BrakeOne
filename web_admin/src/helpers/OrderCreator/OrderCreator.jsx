@@ -24,6 +24,14 @@ const renderRow = (text, record) => {
         props: {
             style: { background: record.subsidiary_id.color },
         },
+        children: <p>{text}</p>,
+    });
+}
+const rederRowNumber = (text, record) => {
+    return ({
+        props: {
+            style: { background: record.subsidiary_id.color },
+        },
         children: <div>{text}</div>,
     });
 }
@@ -33,16 +41,26 @@ const round2 = (number) => (Math.round(number * 100) / 100);
 class OrderCreator extends Component {
     constructor(props) {
         super(props);
+        const init_selected_data = [];
+
+        if (props.init_data) { 
+            if (props.init_data.products) {
+                props.init_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el})});
+            }
+            if (props.init_data.services) {
+                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el})});
+            }
+        }
         this.state = {
             loading_data: false,
             results_data: [],
             users: [],
-            selected_data: [],
+            selected_data: init_selected_data,
             price_type: props.price_type,
             selected_quantity: 1,
             selected_discount: 0,
             selected_user: {},
-            total: 0
+            total: props.init_data.total | 0
         }
 
         this.scroll_table = 300;
@@ -52,83 +70,107 @@ class OrderCreator extends Component {
             	dataIndex: 'subsidiary_id.denomination',
 				key: 'subsidiary_id.denomination',
                 sorter: true,
-                render: renderRow
+                render: renderRow,
+                width: '20%'
 			},
 			{
             	title: 'Descripción',
             	dataIndex: 'description',
 				key: 'description',
-                render: renderRow
+                render: renderRow,
+                width: '40%'
 			},
 			{
             	title: 'Publico',
             	dataIndex: 'price_public',
             	key: 'price_public',
-                render: renderRow
+                render: renderRow,
+                width: '10%'
 			},
 			{
             	title: 'Taller',
             	dataIndex: 'price_workshop',
             	key: 'price_workshop',
-                render: renderRow
+                render: renderRow,
+                width: '10%'
 			},
 			{
             	title: 'Mayoreo',
             	dataIndex: 'price_wholesale',
             	key: 'price_wholesale',
-                render: renderRow
+                render: renderRow,
+                width: '10%'
 			},
 			{
             	title: 'Existencias',
             	dataIndex: 'stock',
 				key: 'stock',
-                render: renderRow
+                render: renderRow,
+                width: '10%'
 			}
         ];
 
         this.table_columns_selected = [
             {
-            	title: 'Cantidad',
+            	title: 'Cant.',
             	dataIndex: 'quantity',
-				key: 'quantity'
+                key: 'quantity',
+                width: '10%'
             },
             {
             	title: 'Usuario',
             	dataIndex: 'user_name',
-				key: 'user_name'
+                key: 'user_name',
+                width: '20%'
 			},
 			{
             	title: 'Descripción',
             	dataIndex: 'description',
-				key: 'description'
+                key: 'description',
+                width: '30%'
             }, 
             {
             	title: 'Descuento',
             	dataIndex: 'discount',
-            	key: 'discount'
+                key: 'discount',
+                width: '10%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
-            	key: 'total'
-			},
-			{
-            	title: 'Acciones',
-				key: 'action',
-            	render: (text, record) => (
-					<span>
-						<Popconfirm 
-							title="¿Esta seguro de eliminar?" 
-							okText="Eliminar"
-							cancelText="Cancelar"
-							onConfirm={() => this.deleteRecord(record)}
-						>
-                			<a>Eliminar</a>
-              			</Popconfirm>
-					</span>
-            	),
-		  	}
+                key: 'total',
+                width: '10%'
+			}
         ];
+
+        if (!props.disabled) {
+            this.table_columns_selected.push({
+            	title: 'Acciones',
+                key: 'action',
+                width: '20%',
+            	render: (text, record) => (
+                    <span>
+                        <Popconfirm
+                            onClick={(event)=> {
+                                event.stopPropagation();
+                            }}
+                            title="¿Esta seguro de eliminar?" 
+                            okText="Eliminar"
+                            cancelText="Cancelar"
+                            onCancel={(event) => {
+                                event.stopPropagation();
+                            }}
+                            onConfirm={(event) => {
+                                event.stopPropagation();
+                                this.deleteRecord(record);
+                            }}
+                        >
+                            <a>Eliminar</a>
+                        </Popconfirm>
+                    </span>
+                ),
+		  	});
+        }
 
         this.onChangeDiscount = this.onChangeDiscount.bind(this);
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
@@ -403,92 +445,99 @@ class OrderCreator extends Component {
                 </Select.Option>
             );
         });
+
+        let SearcherProducts = <div></div>;
+        if (!this.props.disabled) {
+            SearcherProducts = (
+                <div
+                    style={styles.columnContainer}
+                >
+                    <Divider> Buscar producto, paquete o servicio</Divider>
+                    <div
+                        style={styles.rowContainer}
+                    >
+                        <Input.Search
+                            size="large"
+                            style={styles.rowElement}
+                            placeholder="Buscar..."
+                            onSearch={(value) => { this.getData(value); }}
+                            enterButton
+                        />
+                    </div>
+                    
+                    <div
+                        style={styles.rowContainer}
+                    >
+                        <InputNumber
+                            style={styles.rowElement}
+                            placeholder="Cantidad (#)"
+                            value={this.state.selected_quantity}
+                            onChange={this.onChangeQuantity}
+                            size="100%"
+                            step={1}
+                        />
+                        <Select
+                            style={styles.rowElement}
+                            value={this.state.selected_user._id}
+                            showSearch
+                            optionFilterProp="children"
+                            placeholder="Usuario"
+                            size="large"
+                            onChange={this.onChangeUser}
+                        >
+                                {OptionsUsers}
+                        </Select>
+                        <InputNumber
+                            style={styles.rowElement}
+                            placeholder="Descuento (%)"
+                            value={this.state.selected_discount}
+                            onChange={this.onChangeDiscount}
+                            size="100%"
+                            step={1}
+                            min={1}
+                        />
+                    </div>
+
+                    <div
+                        style={styles.rowContainer}
+                    >
+                        <Table
+                            size="small"
+                            scroll={{ y: 200 }}
+                            style={styles.tableLayout}
+                            columns={this.table_columns_results}
+                            dataSource={this.state.results_data}
+                            locale={{
+                                filterTitle: 'Filtro',
+                                filterConfirm: 'Ok',
+                                filterReset: 'Reset',
+                                emptyText: 'Sin Datos'
+                            }}
+                            onRow={(record) => {
+                                return {
+                                    onClick: () => {
+                                        this.addRecord(record);
+                                    },
+                                };
+                            }}
+                        />
+                    </div>
+                </div>
+            );
+        }
         return (
             <Fragment>
                 <div
                     style={styles.rowContainer}
                 >
-                    <div
-                        style={styles.columnContainer}
-                    >
-                        <Divider> Buscar producto, paquete o servicio</Divider>
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Input.Search
-                                size="large"
-                                style={styles.rowElement}
-                                placeholder="Buscar..."
-                                onSearch={(value) => { this.getData(value); }}
-                                enterButton
-                            />
-                        </div>
-                        
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <InputNumber
-                                style={styles.rowElement}
-                                placeholder="Cantidad (#)"
-                                value={this.state.selected_quantity}
-                                onChange={this.onChangeQuantity}
-                                size="100%"
-                                step={1}
-                            />
-                            <Select
-                                style={styles.rowElement}
-                                value={this.state.selected_user._id}
-                                showSearch
-                                optionFilterProp="children"
-                                placeholder="Usuario"
-                                size="large"
-                                onChange={this.onChangeUser}
-                            >
-                                    {OptionsUsers}
-                            </Select>
-                            <InputNumber
-                                style={styles.rowElement}
-                                placeholder="Descuento (%)"
-                                value={this.state.selected_discount}
-                                onChange={this.onChangeDiscount}
-                                size="100%"
-                                step={1}
-                                min={1}
-                            />
-                        </div>
-
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Table
-                                size="small"
-                                scroll={{ y: 200 }}
-                                style={styles.tableLayout}
-                                columns={this.table_columns_results}
-                                dataSource={this.state.results_data}
-                                locale={{
-                                    filterTitle: 'Filtro',
-                                    filterConfirm: 'Ok',
-                                    filterReset: 'Reset',
-                                    emptyText: 'Sin Datos'
-                                }}
-                                onRow={(record) => {
-                                    return {
-                                        onClick: () => {
-                                            this.addRecord(record);
-                                        },
-                                    };
-                                }}
-                            />
-                        </div>
-                        
-                    </div>
+                    {SearcherProducts}
                     <Divider type="vertical" />
                     <div
                         style={styles.columnContainer}
                     >
                         <Divider> Orden de venta </Divider>
                         <Table
+                            bordered
                             size="small"
                             scroll={{ y: 200 }}
                             style={styles.tableLayout}

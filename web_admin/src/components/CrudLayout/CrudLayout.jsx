@@ -316,7 +316,7 @@ class CrudLayout extends Component {
 				form = (
 					<FormGenerator
 						key={"Create_Form"}
-						is_disabled = {false}
+						is_disabled={false}
 						title={title}
 						open={this.state.opened_submit}
 						loading={this.state.loading_submit}
@@ -334,7 +334,7 @@ class CrudLayout extends Component {
 				form = (
 					<FormGenerator
 						key={"View_Form"}
-						is_disabled = {true}
+						is_disabled={true}
 						title={title}
 						open={this.state.opened_view}
 						onClose={this.onCloseViewForm}
@@ -352,8 +352,10 @@ class CrudLayout extends Component {
 			if (this.state.opened_submit && this.custom_submit) {
 				form = (
 					<this.custom_submit
-						key={"Create_Form"}
+						key={"Create_Custom_Form"}
 						title={title}
+						is_disabled={false}
+						fields={this.state.selected_data}
 						open={this.state.opened_submit}
 						loading={this.state.loading_submit}
 						onClose={this.onCloseSubmitForm}
@@ -363,7 +365,23 @@ class CrudLayout extends Component {
 						dismissError={() => {
 							this.setState({ error:null });
 						}}
+						session={this.props.session}
+					/>
+				);
+			} else if (this.state.opened_view) {
+				form = (
+					<this.custom_submit
+						key={"View_Custom_Form"}
+						is_disabled={true}
 						fields={this.state.selected_data}
+						title={title}
+						open={this.state.opened_view}
+						onClose={this.onCloseViewForm}
+						schema={this.schema}
+						error={this.state.error}
+						dismissError={() => {
+							this.setState({ error:null });
+						}}
 						session={this.props.session}
 					/>
 				);

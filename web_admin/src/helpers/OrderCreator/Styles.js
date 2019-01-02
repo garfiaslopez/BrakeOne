@@ -18,9 +18,7 @@ export default {
         marginBottom: 10
     },
     tableLayout: {
-        width: '100%',
-        marginLeft: 5,
-        marginRight: 5
+        width: '100%'
     },
     labelContainer: {
         paddingTop: 20,

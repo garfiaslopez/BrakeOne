@@ -15,7 +15,7 @@ import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
 class CreateQuotation extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        let initial_state = {
             error: this.props.error,
             open: this.props.open,
             price_type: null,
@@ -25,7 +25,33 @@ class CreateQuotation extends Component {
             car_brand: '',
             car_model: '',
             notes: ''
+        };
+
+        if (props.fields) {
+            if (props.fields.price_type) {
+                initial_state.price_type = props.fields.price_type;
+            }
+            if (props.fields.client_name) {
+                initial_state.client_name = props.fields.client_name;
+            }
+            if (props.fields.client_phone) {
+                initial_state.client_phone = props.fields.client_phone;
+            }
+            if (props.fields.client_job) {
+                initial_state.client_job = props.fields.client_job;
+            }
+            if (props.fields.car_brand) {
+                initial_state.car_brand = props.fields.car_brand;
+            }
+            if (props.fields.car_model) {
+                initial_state.car_model = props.fields.car_model;
+            }
+            if (props.fields.notes) {
+                initial_state.notes = props.fields.notes;
+            }
         }
+        
+        this.state = initial_state;
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
@@ -130,6 +156,33 @@ class CreateQuotation extends Component {
                 </Select.Option>
             );
         });
+        let ModalButtons = [
+            <Button 
+                key="cancel"
+                onClick={this.props.onClose}
+            >
+                Cancelar
+            </Button>,
+            <Button 
+                key="submit" 
+                type="primary" 
+                loading={this.state.loading}
+                onClick={this.onSubmit}
+            >
+                Guardar
+            </Button>,
+        ];
+
+        if (this.props.is_disabled) {
+            ModalButtons = [
+                <Button 
+                    key="cancel"
+                    onClick={this.props.onClose}
+                >
+                    Cerrar
+                </Button>
+            ];
+        }
         return (
             <Fragment>
                 <Modal
@@ -140,22 +193,7 @@ class CreateQuotation extends Component {
                     title={this.props.title}
                     onCancel={this.props.onClose}
                     keyboard={true}
-                    footer={[
-                        <Button 
-                            key="cancel"
-                            onClick={this.props.onClose}
-                        >
-                            Cancelar
-                        </Button>,
-                        <Button 
-                            key="submit" 
-                            type="primary" 
-                            loading={this.state.loading}
-                            onClick={this.onSubmit}
-                        >
-                            Guardar
-                        </Button>,
-                    ]}
+                    footer={ModalButtons}
                     >
                     <div
                         key="sub_modal_container"
@@ -169,6 +207,8 @@ class CreateQuotation extends Component {
                                 style={styles.inputsRowContainer}
                             >
                                 <Input
+                                    disabled={this.props.is_disabled}
+                                    value={this.state.client_name}
                                     style={styles.inputElement}
                                     onChange={(value) => {
                                         this.onChangeField(value, 'client_name');
@@ -184,6 +224,8 @@ class CreateQuotation extends Component {
                                     size="large"
                                 />
                                 <Input
+                                    disabled={this.props.is_disabled}
+                                    value={this.state.client_phone}
                                     style={styles.inputElement}
                                     onChange={(value) => {
                                         this.onChangeField(value, 'client_phone');
@@ -199,6 +241,8 @@ class CreateQuotation extends Component {
                                     size="large"
                                 />
                                 <Input
+                                    disabled={this.props.is_disabled}
+                                    value={this.state.client_job}
                                     style={styles.inputElement}
                                     onChange={(value) => {
                                         this.onChangeField(value, 'client_job');
@@ -218,6 +262,8 @@ class CreateQuotation extends Component {
                                 style={styles.inputsRowContainer}
                             >
                                 <Input
+                                    disabled={this.props.is_disabled}
+                                    value={this.state.car_brand}
                                     style={styles.inputElement}
                                     onChange={(value) => {
                                         this.onChangeField(value, 'car_brand');
@@ -233,6 +279,8 @@ class CreateQuotation extends Component {
                                     size="large"
                                 />
                                 <Input
+                                    disabled={this.props.is_disabled}
+                                    value={this.state.car_model}
                                     style={styles.inputElement}
                                     onChange={(value) => {
                                         this.onChangeField(value, 'car_model');
@@ -248,6 +296,8 @@ class CreateQuotation extends Component {
                                     size="large"
                                 />
                                 <Select
+                                    disabled={this.props.is_disabled}
+                                    value={this.state.price_type}
                                     style={styles.inputElement}
                                     placeholder="Tipo de precio"
                                     size="large"
@@ -262,6 +312,9 @@ class CreateQuotation extends Component {
                                 style={styles.inputsRowContainer}
                             >
                                 <Input.TextArea
+                                    disabled={this.props.is_disabled}
+                                    style={styles.inputElement}
+                                    value={this.state.notes}
                                     autosize={{ minRows: 2, maxRows: 6 }}
                                     placeholder="Notas adicionales..."
                                     size="large"
@@ -273,10 +326,16 @@ class CreateQuotation extends Component {
                         </div>
 
                         <OrderCreator
+                            disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
                             price_type={this.state.price_type}
                             session={this.props.session}
+                            init_data={{
+                                products: this.props.fields ? this.props.fields.products : null,
+                                services: this.props.fields ? this.props.fields.services : null,
+                                total: this.props.fields ? this.props.fields.total : null
+                            }}
                         />
                     </div>
                 </Modal>

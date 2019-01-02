@@ -73,6 +73,9 @@ var SellSchema = new Schema({
     is_service: { 
         type: Boolean
     },
+    is_finished: {
+        type: Boolean
+    },
     created: {
         type: Date,
         default: Date.now
