@@ -49,6 +49,15 @@ class CreateQuotation extends Component {
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
             }
+            if (props.fields.products) {
+                initial_state.products = props.fields.products;
+            }
+            if (props.fields.services) {
+                initial_state.services = props.fields.services;
+            }
+            if (props.fields.total) {
+                initial_state.total = props.fields.total;
+            }
         }
         
         this.state = initial_state;
@@ -120,6 +129,8 @@ class CreateQuotation extends Component {
     }
 
     onChangeOrderCreator(values) {
+        console.log("received:");
+        console.log(values);
         this.setState({
             products: values.products,
             services: values.services,

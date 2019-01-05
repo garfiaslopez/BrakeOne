@@ -58,8 +58,10 @@ class CrudLayout extends Component {
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.plural;
         const POSTDATA = {
             limit: this.limit,
-			page: this.page,
-			...this.additional_get_data
+			page: this.page
+		}
+		if (this.additional_get_data) {
+			POSTDATA['filters'] = this.additional_get_data;
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
@@ -128,7 +130,7 @@ class CrudLayout extends Component {
 		this.setState({
 			loading_submit: true
 		});
-		const POSTDATA = {
+		let POSTDATA = {
 			...values,
 			...nested_values,
 			...this.additional_submit_data

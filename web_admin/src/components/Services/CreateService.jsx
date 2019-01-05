@@ -13,14 +13,18 @@ import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
+import moment from 'moment';
 
-class CreateSell extends Component {
+class CreateService extends Component {
     constructor(props) {
         super(props);
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
             loading_clients: false,
+            selected_car: undefined,
+            kilometers: undefined,
+            car_id: '',
             client_id: {},
             clients: [],
             notes: '',
@@ -32,6 +36,10 @@ class CreateSell extends Component {
         if (props.fields) {
             if (props.fields.client_id) {
                 initial_state.client_id = props.fields.client_id;
+                if (props.fields.car_id) {
+                    initial_state.car_id = props.fields.car_id;
+                    initial_state.selected_car = props.fields.client_id.cars.find((el)=>(el._id === props.fields.car_id))
+                }
             }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
@@ -44,6 +52,9 @@ class CreateSell extends Component {
             }
             if (props.fields.total) {
                 initial_state.total = props.fields.total;
+            }
+            if (props.fields.kilometers) {
+                initial_state.kilometers = props.fields.kilometers;
             }
         }
         
@@ -59,6 +70,7 @@ class CreateSell extends Component {
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
 
+        this.deliverService = this.deliverService.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -111,6 +123,7 @@ class CreateSell extends Component {
 
     onChangeCar(car_id) {
         this.setState({
+            selected_car: this.state.client_id.cars.find((el)=>(el._id === car_id)), 
             car_id
         });
     }
@@ -130,7 +143,7 @@ class CreateSell extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (!isEmpty(this.state.client_id)) {
+        if (!isEmpty(this.state.client_id) && this.state.car_id != '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
                 const Sell =  {
                     subsidiary_id: this.props.session.subsidiary._id,
@@ -140,7 +153,42 @@ class CreateSell extends Component {
                     products: this.state.products,
                     services: this.state.services,
                     total: this.state.total,
-                    is_service: false
+                    is_service: true,
+                    car_id: this.state.car_id,
+                    kilometers: this.state.kilometers
+                }
+                this.props.onSubmit(Sell);
+            } else {
+                this.setState({
+                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
+                });
+            }
+        } else {
+            this.setState({
+                error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
+            });
+        }
+    }
+
+    deliverService(event) {
+        // submit and update with changed flags and dates
+        event.preventDefault();
+        // do validations:
+        if (!isEmpty(this.state.client_id) && this.state.car_id != '' && this.state.kilometers ) {
+            if (this.state.products.length > 0 || this.state.services.length > 0) {
+                const Sell =  {
+                    subsidiary_id: this.props.session.subsidiary._id,
+                    user_id: this.props.session.user._id,
+                    client_id: this.state.client_id._id,
+                    notes: this.state.notes,
+                    products: this.state.products,
+                    services: this.state.services,
+                    total: this.state.total,
+                    is_service: true,
+                    car_id: this.state.car_id,
+                    kilometers: this.state.kilometers,
+                    date_out: moment().toISOString(),
+                    is_finished: true
                 }
                 this.props.onSubmit(Sell);
             } else {
@@ -214,7 +262,16 @@ class CreateSell extends Component {
                 Guardar
             </Button>,
         ];
-
+        if(this.props.fields) { // editing:
+            ModalButtons.unshift(
+                <Button 
+                    key="cancel"
+                    onClick={this.props.deliverService}
+                >
+                    Entregar
+                </Button>
+            )
+        }
         if (this.props.is_disabled) {
             ModalButtons = [
                 <Button 
@@ -237,6 +294,20 @@ class CreateSell extends Component {
             );
         });
 
+        const OptionsCars = [];
+        if (this.state.client_id.cars) {
+            this.state.client_id.cars.forEach((item, index) => {
+                OptionsCars.push(
+                    <Select.Option 
+                        value={item._id}
+                        key={`${item._id} - ${index}`} 
+                    >
+                        {item.brand + ' _ ' + item.model}
+                    </Select.Option>
+                );
+            });
+        }
+
         let CardContent = <div> Favor de buscar y seleccionar un cliente. </div>;
         if (this.state.client_id._id) {
             CardContent = (
@@ -258,20 +329,28 @@ class CreateSell extends Component {
                         <p style={styles.label_value} >{this.state.client_id.email}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Número teléfono:</p>
-                        <p style={styles.label_value}>{this.state.client_id.phone_number}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Número Móvil:</p>
                         <p style={styles.label_value}>{this.state.client_id.phone_mobil}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Compras:</p>
-                        <p style={styles.label_value}>${this.state.client_id.sells}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Días Crédito:</p>
                         <p style={styles.label_value}>{this.state.client_id.credit_days}</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >Marca y modelo:</p>
+                        <p style={styles.label_value}>{this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : ''}</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >Año y Placas:</p>
+                        <p style={styles.label_value}>{this.state.selected_car ? this.state.selected_car.year + ' - ' + this.state.selected_car.plates : '' }</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >Numero economico:</p>
+                        <p style={styles.label_value}>{this.state.selected_car ? this.state.selected_car.economic_number : ''}</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >VIN:</p>
+                        <p style={styles.label_value}>{this.state.selected_car ? this.state.selected_car.vin : ''}</p>
                     </Card.Grid>
                 </Fragment>
             );
@@ -304,22 +383,53 @@ class CreateSell extends Component {
                                 <Card
                                     title="Información de cliente"
                                     extra={
-                                        <Select
-                                            disabled={this.props.is_disabled}
-                                            size="large"
-                                            showSearch
-                                            value={this.state.client_id.name}
-                                            placeholder={'Buscar Cliente...'}
-                                            style={styles.inputSearch}
-                                            defaultActiveFirstOption={false}
-                                            showArrow={false}
-                                            filterOption={false}
-                                            onSearch={(value) => { this.getClients(value) }}
-                                            onChange={(value) => { this.onChangeClient(value) }}
-                                            notFoundContent={this.state.loading_clients ? <Spin size="small" /> : null}
-                                        >
-                                            {OptionsClients}
-                                        </Select>
+                                        <Fragment>
+                                            <Select
+                                                disabled={this.props.is_disabled}
+                                                size="large"
+                                                showSearch
+                                                value={this.state.client_id.name}
+                                                placeholder={'Buscar Cliente...'}
+                                                style={styles.inputSearch}
+                                                defaultActiveFirstOption={false}
+                                                showArrow={false}
+                                                filterOption={false}
+                                                onSearch={(value) => { this.getClients(value) }}
+                                                onChange={(value) => { this.onChangeClient(value) }}
+                                                notFoundContent={this.state.loading_clients ? <Spin size="small" /> : null}
+                                            >
+                                                {OptionsClients}
+                                            </Select>
+                                            <Select
+                                                disabled={this.props.is_disabled}
+                                                style={styles.inputSearch}
+                                                value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
+                                                showSearch
+                                                optionFilterProp="children"
+                                                placeholder="Seleccionar Auto"
+                                                size="large"
+                                                onChange={this.onChangeCar}
+                                            >
+                                                {OptionsCars}
+                                            </Select>
+                                            <Input
+                                                disabled={this.props.is_disabled}
+                                                value={this.state.kilometers}
+                                                style={styles.inputSearch}
+                                                onChange={(value) => {
+                                                    this.onChangeField(value, 'kilometers');
+                                                }}
+                                                prefix={(
+                                                    <Icon
+                                                        type="car"
+                                                        className="field-icon"
+                                                    />
+                                                )}
+                                                type="text"
+                                                placeholder="Kilometros (*)"
+                                                size="large"
+                                            />
+                                        </Fragment>
                                     }
                                     style={styles.cardContainer}
                                 >
@@ -363,4 +473,4 @@ class CreateSell extends Component {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default CreateSell;
+export default CreateService;

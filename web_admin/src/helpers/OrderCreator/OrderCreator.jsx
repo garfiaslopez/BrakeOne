@@ -45,10 +45,10 @@ class OrderCreator extends Component {
 
         if (props.init_data) { 
             if (props.init_data.products) {
-                props.init_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el})});
+                props.init_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
             if (props.init_data.services) {
-                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el})});
+                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
         }
         this.state = {
@@ -347,11 +347,11 @@ class OrderCreator extends Component {
         }
     }
 
-    sendToOnChange(actual_total) {
+    sendToOnChange( actual_products, actual_total) {
         // split the arrays and do calculation for total:
         const p = [];
         const s = [];
-        this.state.selected_data.forEach((el) => {
+        actual_products.forEach((el) => {
             const newEl = Object.assign({}, el);
             if (newEl.type === 'product') {
                 delete newEl.key;
@@ -410,7 +410,7 @@ class OrderCreator extends Component {
                     selected_discount: 0,
                     total: new_total
                 });
-                this.sendToOnChange(new_total);
+                this.sendToOnChange(actualProducts, new_total);
             } else {
                 this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
             }
@@ -431,7 +431,7 @@ class OrderCreator extends Component {
             selected_data: actualProducts,
             total: new_total
         });
-        this.sendToOnChange(new_total);
+        this.sendToOnChange(actualProducts, new_total);
     }
 
     render() {

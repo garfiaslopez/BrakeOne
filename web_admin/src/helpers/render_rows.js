@@ -11,7 +11,6 @@ export default {
         });
     },
     renderRowNumber: (text, record) => {
-        console.log(text);
         return ({
             children: <p>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
         });

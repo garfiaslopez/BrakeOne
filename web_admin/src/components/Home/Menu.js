@@ -10,6 +10,7 @@ import Cashdrawer from '../Cashdrawer/Cashdrawer';
 import Sells from '../Sells/Sells';
 import Quotations from '../Quotations/Quotations';
 import Spends from '../Spends/Spends';
+import Services from '../Services/Services';
 
 const adminMenu = [
     {
@@ -25,7 +26,7 @@ const adminMenu = [
     {
         'name': 'Servicios',
         'icon': 'tool',
-        'component': Users,
+        'component': Services,
     },
     {
         'name': 'Gastos',

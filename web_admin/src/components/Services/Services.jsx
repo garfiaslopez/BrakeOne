@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
-import CreateSell from './CreateSell';
+import CreateService from './CreateService';
 import RenderRows from '../../helpers/render_rows';
 
 import { 
@@ -8,10 +8,18 @@ import {
 	Popconfirm
 } from 'antd';
 
-class Sells extends CrudLayout {
+const renderCar = (text, record) => {
+	console.log(record);
+	const car = record.client_id.cars.find((el)=>(el._id === text));
+	return ({
+		children: <p>{car.brand + ' - ' + car.model}</p>,
+	});
+};
+
+class Services extends CrudLayout {
     constructor(props) {
 		super(props);
-		this.custom_submit = CreateSell;
+		this.custom_submit = CreateService;
 		this.state = { // render vars:
 			filters_layout: ['search','date_range']
 		};
@@ -19,11 +27,11 @@ class Sells extends CrudLayout {
 			name: 'sell',
 			singular: 'sell',
 			plural: 'sells',
-			label: 'Ventas'
+			label: 'Servicios'
 		};
 		this.additional_get_data = {
 			subsidiary_id: this.props.session.subsidiary._id,
-			is_service: false
+			is_service: true
 		}
 		this.populate_ids = ['client_id'];
 		this.additional_submit_data = {
@@ -50,6 +58,13 @@ class Sells extends CrudLayout {
             	dataIndex: 'client_id.name',
 				key: 'client_id.name',
 				width: '20%'
+			},
+			{
+            	title: 'Carro',
+            	dataIndex: 'car_id',
+				key: 'car_id',
+				width: '10%',
+				render: renderCar
 			},
 			{
             	title: 'Total',
@@ -120,4 +135,4 @@ class Sells extends CrudLayout {
 	}
 }
 
-export default Sells;
+export default Services;
