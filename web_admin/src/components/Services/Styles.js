@@ -45,7 +45,13 @@ export default {
     },
     inputSearch: {
         height: 40,
-        width: 300,
+        width: 200,
+        paddingRight:5,
+        paddingLeft: 5
+    },
+    buttonHistory: {
+        height: 40,
+        width: 100,
         paddingRight:5,
         paddingLeft: 5
     },

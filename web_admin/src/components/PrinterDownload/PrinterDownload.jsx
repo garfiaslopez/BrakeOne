@@ -46,9 +46,25 @@ class PrinterDownload extends Component {
 		const url = process.env.REACT_APP_API_URL + '/' + this.props.model.plural;
         let POSTDATA = {
             limit: 10000,
-            page: 1,
-            ...this.props.additional_get_data
+            page: 1
         }
+        if (this.props.additional_get_data) {
+			POSTDATA['filters'] = this.props.additional_get_data;
+		}
+		if (this.props.sort_field) {
+			POSTDATA['sort_field'] = this.props.sort_field;
+			POSTDATA['sort_order'] = this.props.sort_order;			
+		}
+		if (this.props.search_text) {
+			POSTDATA['search_text'] = this.props.search_text;
+		}
+		if (this.props.initial_date && this.props.final_date) {
+			POSTDATA['date'] = [this.props.initial_date.toISOString(), this.props.final_date.toISOString()];
+		}
+		if (this.props.populate_ids) {
+			POSTDATA['populate_ids'] = this.props.populate_ids;
+        }
+        
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 this.setState({

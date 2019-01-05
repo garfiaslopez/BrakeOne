@@ -22,6 +22,7 @@ class CreateService extends Component {
             error: this.props.error,
             open: this.props.open,
             loading_clients: false,
+            loading_car_history: false,
             selected_car: undefined,
             kilometers: undefined,
             car_id: '',
@@ -71,6 +72,7 @@ class CreateService extends Component {
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
 
         this.deliverService = this.deliverService.bind(this);
+        this.printCarHistory = this.printCarHistory.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -202,6 +204,44 @@ class CreateService extends Component {
             });
         }
     }
+
+    printCarHistory() {
+        if (this.state.car_id) {
+            this.setState({
+                loading_car_history: true,
+            });
+            const url = process.env.REACT_APP_API_URL + '/sells';
+            const POSTDATA = {
+                limit: 100,
+                page: 1,
+                filters: {
+                    client_id: this.state.client_id,
+                    car_id: this.state.car_id,
+                    is_service: true,
+                    is_finished: true,
+                }
+            }
+            FetchXHR(url, 'POST', POSTDATA).then((response) => {
+                if (response.json.success) {
+                    const sells_by_car = response.json.data.docs;
+                    this.setState({
+                        loading_car_history: false
+                    });
+                } else {
+                    this.setState({
+                        loading_car_history: false,
+                        error: response.message
+                    });
+                }
+            }).catch((onError) => {
+                this.setState({
+                    loading_car_history: false,
+                    error: onError.message
+                });
+            });
+        }
+    }
+
 
     onErrorOrderCreator(err) {
         this.setState({
@@ -429,6 +469,16 @@ class CreateService extends Component {
                                                 placeholder="Kilometros (*)"
                                                 size="large"
                                             />
+                                            <Button
+                                                icon="reconciliation"
+                                                disabled={this.state.car_id ? true : false}
+                                                type="primary"
+                                                onClick={this.printCarHistory}
+                                                style={styles.buttonHistory}
+                                                loading={this.state.loading_car_history}
+                                            >
+                                                Historial
+                                            </Button>
                                         </Fragment>
                                     }
                                     style={styles.cardContainer}

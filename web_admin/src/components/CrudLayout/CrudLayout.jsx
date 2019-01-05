@@ -403,6 +403,12 @@ class CrudLayout extends Component {
 					schema={this.schema}
 					model={this.model}
 					additional_get_data = {this.additional_get_data}
+					search_text={this.search_text}
+					initial_date={this.initial_date}
+					final_date={this.final_date}
+					sort_field={this.sort_field}
+					sort_order={this.sort_order}
+					populate_ids={this.populate_ids}
 					table_columns={this.table_columns.filter((el) => (el.key != 'action'))}
 				/>
 			);
