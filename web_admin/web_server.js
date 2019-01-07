@@ -3,6 +3,6 @@ const app = express();
 
 app.use('/', express.static(__dirname + '/build'));
 
-app.listen(7000, () => {
-    console.log('Running app on port 7000!');
+app.listen(80, () => {
+    console.log('Running app on port 80!');
 });
