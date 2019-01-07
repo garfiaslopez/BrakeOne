@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "production": "pm2 startOrRestart ecosystem.json --env production"
   },
   "browserslist": [
     ">0.2%",

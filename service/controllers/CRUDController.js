@@ -20,7 +20,17 @@ module.exports = (method, model) => {
                     return next(new errs.InternalServerError(err));
                 }
             } else {
-                return res.json({ success: true, message: "Succesfully added.", obj: savedObj });
+                if (req.body.populate_ids) {
+                    savedObj.populate(req.body.populate_ids, (err_populated, populated_doc) => {
+                        if (err_populated){
+                            return next(new errs.InternalServerError(err_populated));
+                        } else {
+                            return res.json({ success: true, message: "Succesfully added.", obj: populated_doc });
+                        }
+                    });
+                } else {
+                    return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
+                }
             }
         });
     }
@@ -114,6 +124,12 @@ module.exports = (method, model) => {
         }
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
+        }
+        if (req.body.filters != undefined) {
+            Object.keys(req.body.filters).forEach((filter_key)  => { 
+                Filter[filter_key] = req.body.filters[filter_key];
+            });
+            
         }
         if (req.body.coordinates != undefined) {
             Filter['location'] = {

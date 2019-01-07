@@ -13,10 +13,6 @@ var SellSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
-    payments: {
-        type: Schema.ObjectId,
-        ref: 'Payments'
-    },
     client_id: {
         type: Schema.ObjectId,
         ref: 'Client'
@@ -24,12 +20,15 @@ var SellSchema = new Schema({
     car_id: {
         type: String
     },
+    kilometers: {
+        type: String
+    },
     folio: {
         type: Number
     },
     status: {
         type: String,
-        default: 'quotation' // remission, pending, 
+        default: 'remission' // remission, pending, 
     },
     date_in: {
         type: Date,
@@ -42,39 +41,52 @@ var SellSchema = new Schema({
         type: String
     },
     products: [{
-        user_id: {
-            type: Schema.ObjectId,
-            ref: 'User'
-        },
-        product_id: {
+        id: {
             type: Schema.ObjectId,
             ref: 'Product'
         },
-        quantity: { type: Number },
-        discount: { type: Number },
-    }],
-    services: [{
         user_id: {
             type: Schema.ObjectId,
             ref: 'User'
         },
+        user_name: { type: String },
         description: { type: String },
+        price_type: { type: String },
         price: { type: Number },
+        quantity: { type: Number },
+        discount: { type: Number },
+        total: { type: Number }
+    }],
+    services: [{
+        id: {
+            type: Schema.ObjectId,
+            ref: 'Service'
+        },
+        user_id: {
+            type: Schema.ObjectId,
+            ref: 'User'
+        },
+        user_name: { type: String },
+        description: { type: String },
+        price_type: { type: String },
+        price: { type: Number },
+        quantity: { type: Number },
+        discount: { type: Number },
+        total: { type: Number }
     }],
     total: {
         type: Number
     },
-    is_estimation: { 
-        type: Boolean
-    },
     is_remission: { 
-        type: Boolean
+        type: Boolean,
+        default: true
     },
     is_service: { 
         type: Boolean
     },
     is_finished: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     created: {
         type: Date,
@@ -88,6 +100,11 @@ SellSchema.plugin(autoIncrement.plugin, {
     model: 'Sell',
     field: 'folio',
     startAt: 1
+});
+
+SellSchema.index({
+    folio: 'text',
+    client_id: 'text'
 });
 
 //Return the module

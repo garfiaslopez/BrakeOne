@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "NODE_ENV=test PORT=3001 node server.js"
+    "test": "NODE_ENV=test PORT=3001 node server.js",
+    "production": "pm2 startOrRestart ecosystem.json --env production"
   },
   "author": "Jose Garfias Lopez (@garfiaslopez)",
   "license": "ISC",
