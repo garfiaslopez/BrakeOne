@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name"      : "API",
+    "name"      : "Web_Server",
     "script"    : "web_server.js",
     "env": {
       "COMMON_VARIABLE": "true"
