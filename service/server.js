@@ -3,7 +3,6 @@
 //  Module dependencies.
 var restify = require('restify');
 var mongoose = require('mongoose');
-var autoIncrement = require('mongoose-plugin-autoinc');
 var Logger = require('bunyan');
 var winston = require('winston');
 var moment = require('moment');
@@ -21,7 +20,6 @@ var config = require('./config/config');
 var dbMongo = mongoose.connect(config.dbMongo, {
     useMongoClient: true,
 });
-autoIncrement.initialize(dbMongo);
 
 // Create a Winston logger
 // Only terminal
