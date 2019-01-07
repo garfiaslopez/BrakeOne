@@ -2,7 +2,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
-var autoIncrement = require('mongoose-auto-increment');
+var autoIncrement = require('mongoose-plugin-autoinc');
 
 var SpendSchema = new Schema({
     subsidiary_id: {

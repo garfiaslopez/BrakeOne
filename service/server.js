@@ -3,7 +3,7 @@
 //  Module dependencies.
 var restify = require('restify');
 var mongoose = require('mongoose');
-var autoIncrement = require('mongoose-auto-increment');
+var autoIncrement = require('mongoose-plugin-autoinc');
 var Logger = require('bunyan');
 var winston = require('winston');
 var moment = require('moment');
