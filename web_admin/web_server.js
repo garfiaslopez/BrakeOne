@@ -1,6 +1,8 @@
-const serve = require('serve');
+const express = require('express');
+const app = express();
 
-const server = serve(__dirname + '/build', {
-    port: 7000,
-    ignore: ['node_modules']
+app.use('/', express.static(__dirname + '/build'));
+
+app.listen(7000, () => {
+    console.log('Running app on port 7000!');
 });
