@@ -1,7 +1,6 @@
-var fs = require('fs'),
-    http = require('http'),
-    https = require('https'),
-    express = require('express');
+const fs = require('fs');
+const https = require('https');
+const express = require('express');
 
 const app = express();
 const port = 80;
@@ -13,6 +12,9 @@ var options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/brakeonesystem.com/cert.pem'),
 };
 
-var server = https.createServer(options, app).listen(port, () => {
+var server = https.createServer(options, app);
+
+server.listen(port, (err) => {
+    if (err) console.log(err);
     console.log("Express server listening on port " + port);
 });
