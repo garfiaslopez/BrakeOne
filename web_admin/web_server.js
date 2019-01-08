@@ -13,14 +13,11 @@ var options = {
 };
 
 var server_https = https.createServer(options, app);
-var server_http = http.createServer({}, app);
-
 server_https.listen(443, (err) => {
     if (err) console.log(err);
     console.log("Express https server listening on port 443");
 });
 
-server_http.listen(80, (err) => {
-    if (err) console.log(err);
-    console.log("Express http server listening on port 80");
+app.listen(80, () => {
+    console.log("Express https server listening on port 80");
 });
