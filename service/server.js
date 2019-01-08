@@ -7,6 +7,7 @@ var Logger = require('bunyan');
 var winston = require('winston');
 var moment = require('moment');
 var bluebird = require('bluebird');
+var fs = require('fs');
 
 mongoose.Promise = bluebird;
 
@@ -55,10 +56,21 @@ var log = new Logger({
     },
 });
 
-var server = restify.createServer({
-    log: log,
-    name: config.app.name,
-});
+var server = null;
+if (process.env.NODE_ENV !== 'production') {
+    server = restify.createServer({
+        log: log,
+        name: config.app.name
+    });
+} else {
+    server = restify.createServer({
+        log: log,
+        name: config.app.name,
+        key: fs.readFileSync('/etc/letsencrypt/live/brakeonesystem.com/privkey.pem'),
+        certificate: fs.readFileSync('/etc/letsencrypt/live/brakeonesystem.com/cert.pem'),
+    });
+}
+
 
 //  Restify base settings
 require('./config/system/restify')( server, logger );
