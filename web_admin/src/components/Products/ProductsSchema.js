@@ -271,6 +271,14 @@ export default [
 			rules: Rules['string']
 		},
 		{
+			id: 'stock',
+			type: 'Number',
+			placeholder: 'Stock',
+			prefixIcon: 'inbox',
+			options: { min: 0, step: 1 },
+			rules: Rules['number']
+		},
+		{
 			id: 'stock_ideal',
 			type: 'Number',
 			placeholder: 'Stock Ideal',

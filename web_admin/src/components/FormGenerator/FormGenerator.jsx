@@ -36,11 +36,7 @@ class FormGenerator extends Component {
     }
     componentWillMount() {
         this.FormRender = new FormRender(this.props.form);
-    }
 
-    componentDidMount() {
-        console.log("componentDidMount - FormGEnerator");
-        this.nested_rules = {};
 
         if (this.props.schema) {
             this.props.schema.forEach((row) => {
@@ -71,6 +67,11 @@ class FormGenerator extends Component {
                 });
             });
         }
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount - FormGEnerator");
+        this.nested_rules = {};
 
         
         if (this.props.fields) { // IS EDITING:
@@ -105,7 +106,7 @@ class FormGenerator extends Component {
                 });
             });
 
-            this.props.form.setFieldsValue(new_fields);
+            setTimeout(()=>{this.props.form.setFieldsValue(new_fields)}, 500);
 
             this.setState({sub_form_data: data});
             

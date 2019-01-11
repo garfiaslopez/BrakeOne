@@ -40,21 +40,11 @@ const adminMenu = [
         'component': Spends,
     },
     {
-        'name': 'Personal',
-        'icon': 'user',
-        'component': Users,
-    },
-    {
-        'name': 'Nómina',
-        'icon': 'credit-card',
-        'component': Paysheet,
-    },
-    {
-        'name': 'Productos',
+        'name': 'Catalogo',
         'icon': 'tool',
         'sub_menus': [
             {
-                'name': 'Catalogo',
+                'name': 'Productos',
                 'icon': 'folder',
                 'component': Products
             },
@@ -62,16 +52,6 @@ const adminMenu = [
                 'name': 'Servicios',
                 'icon': 'tool',
                 'component': ProductServices,
-            },
-            {
-                'name': 'Paquetes',
-                'icon': 'inbox',
-                'component': Packages,
-            },
-            {
-                'name': 'Kardex',
-                'icon': 'swap',
-                'component': Products,
             }
         ]
     },
@@ -84,6 +64,16 @@ const adminMenu = [
         'name': 'Proveedores',
         'icon': 'global',
         'component': Providers,
+    },
+    {
+        'name': 'Personal',
+        'icon': 'user',
+        'component': Users,
+    },
+    {
+        'name': 'Nómina',
+        'icon': 'credit-card',
+        'component': Paysheet,
     },
     {
         'name': 'Caja',
