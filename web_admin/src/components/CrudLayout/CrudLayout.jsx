@@ -18,6 +18,7 @@ import {
 	Alert
 } from 'antd';
 
+import isEmpty from 'lodash/isEmpty';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
 import FormGenerator from '../FormGenerator/FormGenerator';
 import PrinterDownload from '../PrinterDownload/PrinterDownload'
@@ -56,9 +57,10 @@ class CrudLayout extends Component {
 			loading_data: true,
 		});
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.plural;
-        const POSTDATA = {
+        let POSTDATA = {
             limit: this.limit,
-			page: this.page
+			page: this.page,
+			filters: {}
 		}
 		if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
@@ -67,8 +69,13 @@ class CrudLayout extends Component {
 			POSTDATA['sort_field'] = this.sort_field;
 			POSTDATA['sort_order'] = this.sort_order;			
 		}
-		if (this.search_text) {
-			POSTDATA['search_text'] = this.search_text;
+
+		if (!isEmpty(this.search_text)) {
+			if (this.model.name === 'sell' | this.model.name === 'quotation' | this.model.name === 'payment') {
+				POSTDATA['filters']['folio'] = Number(this.search_text);
+			} else {
+				POSTDATA['search_text'] = this.search_text;
+			}
 		}
 		if (this.initial_date && this.final_date) {
 			POSTDATA['date'] = [this.initial_date.toISOString(), this.final_date.toISOString()];

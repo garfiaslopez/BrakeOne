@@ -11,6 +11,7 @@ import Sells from '../Sells/Sells';
 import Quotations from '../Quotations/Quotations';
 import Spends from '../Spends/Spends';
 import Services from '../Services/Services';
+import Payments from '../Payments/Payments';
 
 const adminMenu = [
     {
@@ -27,6 +28,11 @@ const adminMenu = [
         'name': 'Servicios',
         'icon': 'tool',
         'component': Services,
+    },
+    {
+        'name': 'Pagos',
+        'icon': 'credit-card',
+        'component': Payments,
     },
     {
         'name': 'Gastos',
