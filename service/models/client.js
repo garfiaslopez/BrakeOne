@@ -89,6 +89,9 @@ var ClientSchema = new Schema({
             type: String 
         },
     }],
+    legacy_id: {
+		type: String
+	},
     created: {
         type: Date,
         default: Date.now

@@ -103,8 +103,7 @@ SellSchema.plugin(autoIncrement.plugin, {
 });
 
 SellSchema.index({
-    folio: 'text',
-    client_id: 'text'
+    folio: 'text'
 });
 
 //Return the module

@@ -55,6 +55,9 @@ var ProductSchema = new Schema({
     price_wholesale: {
         type: Number
     },
+    legacy_id: {
+		type: String
+	},
 	created: {
 		type: Date,
 		default: Date.now
@@ -62,7 +65,6 @@ var ProductSchema = new Schema({
 });
 
 ProductSchema.plugin(mongoosePaginate);
-
 
 ProductSchema.index({
 	description: 'text', 

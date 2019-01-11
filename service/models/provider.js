@@ -45,6 +45,9 @@ var ProviderSchema = new Schema({
         phone_number: { type: String },
         email: { type: String }
     }],
+    legacy_id: {
+		type: String
+	},
     created: {
         type: Date,
         default: Date.now

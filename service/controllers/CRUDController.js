@@ -151,6 +151,9 @@ module.exports = (method, model) => {
                 Paginator.sort[req.body.sort_field] = Number(req.body.sort_order);
             }
         }
+
+        console.log(Filter);
+        
         objectModel.paginate(Filter, Paginator, (err, result) => {
             if (err) {
                 return next(new errs.InternalServerError(err));

@@ -92,6 +92,9 @@ var UserSchema = new Schema({
 		type: String,
 		default: 'ACTIVO'
 	},
+	legacy_id: {
+		type: String
+	},
     created: {
         type: Date,
 		default: Date.now
