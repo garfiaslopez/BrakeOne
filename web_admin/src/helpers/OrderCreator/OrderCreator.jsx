@@ -17,6 +17,7 @@ import {
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
 import moment from 'moment';
+import RenderRows from '../render_rows';
 
 
 const renderRow = (text, record) => {

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../../CrudLayout/CrudLayout';
 import Schema from './ServicesSchema';
+import RenderRows from '../../../helpers/render_rows';
 
 import { 
     Divider,
@@ -38,18 +39,21 @@ class ProductService extends CrudLayout {
             	title: 'Publico',
             	dataIndex: 'price_public',
 				key: 'price_public',
+				render: RenderRows.renderRowNumber,
 				width: '10%'
 			},
 			{
             	title: 'Taller',
             	dataIndex: 'price_workshop',
 				key: 'price_workshop',
+				render: RenderRows.renderRowNumber,
 				width: '10%'
 			},
 			{
             	title: 'Mayoreo',
             	dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
+				render: RenderRows.renderRowNumber,
 				width: '10%'
 			}
 		];

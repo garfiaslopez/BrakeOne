@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import Schema from './ProductsSchema';
+import RenderRows from '../../helpers/render_rows';
 
 import { 
     Divider,
@@ -34,24 +35,28 @@ class Products extends CrudLayout {
             	dataIndex: 'key_id',
 				key: 'key_id',
 				fixed: 'left',
+				render: RenderRows.renderRowTextProducts,
 				width: '10%',
 			},
 			{
             	title: 'FMSI',
             	dataIndex: 'fmsi',
 				key: 'fmsi',
+				render: RenderRows.renderRowTextProducts,
 				width: '10%',
 			},
 			{
             	title: 'Linea',
             	dataIndex: 'line',
 				key: 'line',
+				render: RenderRows.renderRowTextProducts,
 				width: '10%',
 			},
 			{
             	title: 'Marca',
             	dataIndex: 'brand',
 				key: 'brand',
+				render: RenderRows.renderRowTextProducts,
 				width: '10%',
 			},
 			{
@@ -59,36 +64,42 @@ class Products extends CrudLayout {
             	dataIndex: 'description',
 				key: 'description',
 				sorter: true,
+				render: RenderRows.renderRowTextProducts,
 				width: '25%',
 			}, 
 			{
             	title: 'Costo',
             	dataIndex: 'price',
 				key: 'price',
+				render: RenderRows.renderRowNumberProducts,
 				width: '5%',
 			},
 			{
             	title: 'Publico',
             	dataIndex: 'price_public',
 				key: 'price_public',
+				render: RenderRows.renderRowNumberProducts,
 				width: '5%',
 			},
 			{
             	title: 'Taller',
             	dataIndex: 'price_workshop',
 				key: 'price_workshop',
+				render: RenderRows.renderRowNumberProducts,
 				width: '5%',
 			},
 			{
             	title: 'Mayoreo',
             	dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
+				render: RenderRows.renderRowNumberProducts,
 				width: '5%',
 			},
 			{
             	title: 'Stock',
             	dataIndex: 'stock',
 				key: 'stock',
+				render: RenderRows.renderRowTextProducts,
 				sorter: true,
 				width: '5%',
 				filters: [
