@@ -17,7 +17,7 @@ const ACCOUNT_ID = "5b79c3755526c91360058100";
 // from personal db
 var userModel = require('../../models/user');
 
-const client = new MongoClient("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509", { useNewUrlParser: true });
+const client = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
 
 
 function migrate_personas(personas) {

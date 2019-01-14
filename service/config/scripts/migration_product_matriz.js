@@ -15,7 +15,7 @@ const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
 var productModel = require('../../models/product');
 var providerModel = require('../../models/provider');
 
-const client = new MongoClient("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509", { useNewUrlParser: true });
+const client = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
 
 function migrate_products(productos, lineas, mapping_providers) {
     productos.forEach((producto) => {
