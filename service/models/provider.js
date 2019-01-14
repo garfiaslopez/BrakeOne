@@ -10,12 +10,16 @@ var ProviderSchema = new Schema({
         required: true
     },
     name: {
-        type: String
+        type: String,
+        unique: true
     },
     rfc: {
         type: String
     },
     credit_days: {
+        type: Number
+    },
+    buys: {
         type: Number
     },
     address: {
@@ -34,6 +38,12 @@ var ProviderSchema = new Schema({
         type: String
     },
     phone_number: {
+        type: String
+    },
+    phone_mobil: {
+        type: String
+    },
+    phone_office: {
         type: String
     },
     email: {

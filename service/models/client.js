@@ -10,9 +10,13 @@ var ClientSchema = new Schema({
         required: true
     },
     name: {
-        type: String
+        type: String,
+        unique: true
     },
     rfc: {
+        type: String
+    },
+    curp: {
         type: String
     },
     credit_days: {

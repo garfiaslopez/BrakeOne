@@ -29,7 +29,7 @@ module.exports = (method, model) => {
                         }
                     });
                 } else {
-                    return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
+                    return res.json({ success: true, message: "Succesfully updated.", obj: savedObj });
                 }
             }
         });
