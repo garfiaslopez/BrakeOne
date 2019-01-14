@@ -12,8 +12,8 @@ var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { us
 const SUBSIDIARY_ID = "5b79c3755526c91360058101";
 
 // from productos db
-var productModel = require('./models/product');
-var providerModel = require('./models/provider');
+var productModel = require('../../models/product');
+var providerModel = require('../../models/provider');
 
 
 const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true });

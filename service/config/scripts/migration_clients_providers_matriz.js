@@ -15,16 +15,9 @@ const ACCOUNT_ID = "5b79c3755526c91360058100";
 const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
 
 
-// from personal db
-var userModel = require('./models/user');
-
 // from entidades db
-var providerModel = require('./models/provider');
-var clientModel = require('./models/client');
-
-// from productos db
-var productModel = require('./models/product');
-
+var providerModel = require('../../models/provider');
+var clientModel = require('../../models/client');
 
 const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true });
 
