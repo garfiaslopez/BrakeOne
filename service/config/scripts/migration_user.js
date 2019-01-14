@@ -9,7 +9,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var MongoClient = require('mongodb').MongoClient;
 
-var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOneResult", { useNewUrlParser: true });
+var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useNewUrlParser: true });
 
 // VARS:
 const ACCOUNT_ID = "5b79c3755526c91360058100";
