@@ -6,7 +6,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var MongoClient = require('mongodb').MongoClient;
 
-var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useNewUrlParser: true });
+var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
 
 // VARS:
 const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
@@ -15,7 +15,7 @@ const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
 var productModel = require('../../models/product');
 var providerModel = require('../../models/provider');
 
-const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true });
+const client = new MongoClient("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509", { useNewUrlParser: true });
 
 function migrate_products(productos, lineas, mapping_providers) {
     productos.forEach((producto) => {

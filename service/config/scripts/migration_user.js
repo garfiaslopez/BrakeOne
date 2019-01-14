@@ -9,7 +9,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var MongoClient = require('mongodb').MongoClient;
 
-var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useNewUrlParser: true });
+var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
 
 // VARS:
 const ACCOUNT_ID = "5b79c3755526c91360058100";
@@ -17,7 +17,7 @@ const ACCOUNT_ID = "5b79c3755526c91360058100";
 // from personal db
 var userModel = require('../../models/user');
 
-const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true });
+const client = new MongoClient("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509", { useNewUrlParser: true });
 
 
 function migrate_personas(personas) {

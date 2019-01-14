@@ -6,20 +6,18 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var MongoClient = require('mongodb').MongoClient;
 
-var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useNewUrlParser: true });
+var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
 
 
 // VARS:
 
 const ACCOUNT_ID = "5b79c3755526c91360058100";
-const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
-
 
 // from entidades db
 var providerModel = require('../../models/provider');
 var clientModel = require('../../models/client');
 
-const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true });
+const client = new MongoClient("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509", { useNewUrlParser: true });
 
 client.connect(function(err, client) {
     const db = client.db("BrakeOneMatriz");
