@@ -1,12 +1,15 @@
 var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 var moment = require('moment');
+var fs = require('fs'); 
+var parse = require('csv-parse');
 mongoose.Promise = bluebird;
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var MongoClient = require('mongodb').MongoClient;
 
-var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
+//var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
+var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useMongoClient: true });
 
 // VARS:
 const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
@@ -15,11 +18,33 @@ const SUBSIDIARY_ID = "5c3ccee7a7fc2a43e520fccd";
 var productModel = require('../../models/product');
 var providerModel = require('../../models/provider');
 
-const client = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
+async function getFromCSV(dir, keys) {
+    let index = 0;
+    const results =  new Promise((resolve, reject) => {
+        var objects=[];
+        fs.createReadStream( __dirname + dir ).pipe(parse({delimiter: ','})).on('data', (csvrow) => {
+            if (index != 0) {
+                const newObj = {};
+                keys.forEach((k, i) => {
+                    newObj[k] = csvrow[i];
+                });
+                objects.push(newObj);
+            } else {
+                index++;
+            }
+        }).on('end',function() {
+            console.log("total: " + objects.length);
+            console.log(objects[0]);
+            resolve(objects);
+        });
+    });
+    return await results.then((r)=>{
+        return r;
+    });
+}
 
-function migrate_products(productos, lineas, mapping_providers) {
-    productos.forEach((producto) => {
-
+async function migrate_products(productos, lineas, mapping_providers, mapping_stock) {
+    productos.forEach(async (producto) => {
         const newProducto = new productModel();
         newProducto.legacy_id = producto.IdProducto;
         newProducto.subsidiary_id = SUBSIDIARY_ID;
@@ -29,51 +54,53 @@ function migrate_products(productos, lineas, mapping_providers) {
         newProducto.description = producto.Descripcion;
         newProducto.key_id = producto.Clave;
         newProducto.fmsi = producto.FMSI;
-        newProducto.line = lineas[producto.Linea];
+        newProducto.line = lineas[producto.IdLinea];
         newProducto.brand = producto.Marca;
         newProducto.units = producto.Unidades;
-        newProducto.stock = 0;
+        newProducto.stock = mapping_stock[producto.Clave] !== undefined ? Number(mapping_stock[producto.Clave]) : 0;
         newProducto.stock_ideal = producto.StockIdeal !== '' ? Number(producto.StockIdeal) : 3;
         newProducto.localizatio = producto.Ubicacion;
-        newProducto.price = producto.Costo !== '' ? producto.Costo : 0
-        newProducto.price_public = producto.Precio1 !== '' ? producto.Precio1 : 0
-        newProducto.price_workshop = producto.Precio2 !== '' ? producto.Precio2 : 0
-        newProducto.price_wholesale = producto.Precio3 !== '' ? producto.Precio3 : 0
+        newProducto.price = Number(producto.Costo.replace(/,/g,'')) !== NaN ? Number(producto.Costo.replace(/,/g,'')) : 0
+        newProducto.price_public = Number(producto.Precio1.replace(/,/g,'')) !== '' ? Number(producto.Precio1.replace(/,/g,'')) : 0
+        newProducto.price_workshop = Number(producto.Precio2.replace(/,/g,'')) !== '' ? Number(producto.Precio2.replace(/,/g,'')) : 0
+        newProducto.price_wholesale = Number(producto.Precio3.replace(/,/g,'')) !== '' ? Number(producto.Precio3.replace(/,/g,'')) : 0
 
-        newProducto.save((err, savedObj) => {
-            if (err) console.log(err);
-            console.log("saved product...");
+        const savedObj = await newProducto.save().catch((err) => {
+            console.log(err);
         });
+        console.log("saved product");
     });
 }
 
+async  function doMigration() {
+    const stock_products = await getFromCSV(
+        '/brakeone_tables/matriz_tables/ConProdAzul.csv',
+        ['Clave','FMSI','Linea','Marca','Descripcion','Costo','Precio1','Precio2','Precio3','Exist','SumaExist']
+    );
+    const products = await getFromCSV(
+        '/brakeone_tables/matriz_tables/Productos.csv',
+        ['IdProducto','Clave','FMSI','IdLinea','Marca','Descripcion','IdEntidad','Unidades','StockIdeal','Ubicacion','Costo','Precio1','Precio2','Precio3','Marg1','Marg2','Marg3']
+    );
+    const lines = await getFromCSV('/brakeone_tables/matriz_tables/Lineas.csv',['IdLinea','Nombre']);
+    const providers = await providerModel.find().catch((err) => {console.log(err)});
 
-client.connect(function(err, client) {
-    const db = client.db("BrakeOneBackup");
-
-    var productos = db.collection('Productos');
-    var lineas = db.collection('Lineas');
-
-
-    providerModel.find({}, (err, providers) => {
-        const mapping_providers = {};
-        providers.forEach((prov) => {
-            mapping_providers[prov.legacy_id] = prov._id;
-        });
-        lineas.find().toArray((err, lineas_result) => {
-            const mapping_lineas = {};
-            lineas_result.forEach((linea) => {
-                mapping_lineas[linea.IdLinea] = linea.Nombre;
-            });
-            productos.find().toArray((err, productos_result) => {
-                migrate_products(productos_result, mapping_lineas, mapping_providers);
-            });
-        });
+    const mapping_providers = {};
+    providers.forEach((prov) => {
+        mapping_providers[prov.legacy_id] = prov._id;
     });
 
+    const mapping_lineas = {};
+    lines.forEach((linea) => {
+        mapping_lineas[linea.IdLinea] = linea.Nombre;
+    });
 
-   
+    const mapping_stock = {};
+    stock_products.forEach((stock) => {
+        mapping_stock[stock.Clave] = stock.Exist;
+    });
 
-});
+    await migrate_products(products, mapping_lineas, mapping_providers, mapping_stock);
+}
 
+doMigration().catch((err) => {console.log(err)});
 
