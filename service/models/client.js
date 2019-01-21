@@ -71,6 +71,9 @@ var ClientSchema = new Schema({
         }
     }],
     cars: [{
+        legacy_id: { 
+            type: String 
+        },
         plates: { 
             type: String 
         },

@@ -36,7 +36,7 @@ class FormGenerator extends Component {
     }
     componentWillMount() {
         this.FormRender = new FormRender(this.props.form);
-
+        this.nested_rules = {};
 
         if (this.props.schema) {
             this.props.schema.forEach((row) => {
@@ -71,9 +71,6 @@ class FormGenerator extends Component {
 
     componentDidMount() {
         console.log("componentDidMount - FormGEnerator");
-        this.nested_rules = {};
-
-        
         if (this.props.fields) { // IS EDITING:
 
             /// parse values from DB to field:

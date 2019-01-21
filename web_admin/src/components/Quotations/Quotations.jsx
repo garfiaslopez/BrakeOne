@@ -21,13 +21,10 @@ class Quotations extends CrudLayout {
 			plural: 'quotations',
 			label: 'Cotizaciones'
 		};
-		this.additional_get_data = {
-			subsidiary_id: this.props.session.subsidiary._id
-		}
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-
+		this.populate_ids = ['subsidiary_id'];
         this.table_columns = [
 			{
             	title: 'Fecha',
@@ -35,6 +32,12 @@ class Quotations extends CrudLayout {
 				key: 'date',
 				fixed: 'left',
 				render: RenderRows.renderRowDate,
+				width: '20%'
+			},
+			{
+            	title: 'Sucursal',
+            	dataIndex: 'subsidiary_id.denomination',
+				key: 'subsidiary_id.denomination',
 				width: '15%'
 			},
 			{
@@ -60,7 +63,7 @@ class Quotations extends CrudLayout {
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumber,
-				width: '15%'
+				width: '10%'
 			}
 		];
 
@@ -69,7 +72,7 @@ class Quotations extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '15%',
+				width: '10%',
             	render: (text, record) => (
 					<span>
 						<a 

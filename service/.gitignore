@@ -85,3 +85,4 @@ node_modules/
 /public/dist
 
 /config/env
+/config/scripts/brakeone_tables

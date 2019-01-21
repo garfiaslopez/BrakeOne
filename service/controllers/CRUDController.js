@@ -129,8 +129,18 @@ module.exports = (method, model) => {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
             });
-            
         }
+
+        if (req.body.or_filters != undefined) {
+            const or_array = [];
+            Object.keys(req.body.or_filters).forEach((filter_key)  => {
+                let new_or = {};
+                new_or[filter_key] = req.body.or_filters[filter_key];
+                or_array.push(new_or);
+            });
+            Filter['$or'] = or_array;
+        }
+
         if (req.body.coordinates != undefined) {
             Filter['location'] = {
                 '$near': {

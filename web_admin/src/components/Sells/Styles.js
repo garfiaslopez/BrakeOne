@@ -39,7 +39,7 @@ export default {
         marginRight: 10,
     },
     grid_element: {
-        height: 100,
+        height: 80,
         width: '25%',
         textAlign: 'center',
     },

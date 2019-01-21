@@ -77,6 +77,10 @@ var SellSchema = new Schema({
     total: {
         type: Number
     },
+    is_claim: { 
+        type: Boolean,
+        default: false
+    },
     is_remission: { 
         type: Boolean,
         default: true

@@ -90,6 +90,7 @@ async function doMigration() {
     const mapping_vehiculos = {};
     vehiculos.forEach((vehiculo) => {
         const newVehiculo = {
+            legacy_id: vehiculo.IdVehiculo,
             plates: vehiculo.Placas,
             economic_number: vehiculo.NumEco,
             brand: vehiculo.Marca,

@@ -20,20 +20,39 @@ import moment from 'moment';
 import RenderRows from '../render_rows';
 
 
+const FontTable = 11;
+
+
+const renderRowSmall = (text, record) => {
+    return ({
+        children: <p style={{fontSize: FontTable}}>{text}</p>,
+    });
+}
+
 const renderRow = (text, record) => {
     return ({
         props: {
             style: { background: record.subsidiary_id.color },
         },
-        children: <p>{text}</p>,
+        children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
 }
-const rederRowNumber = (text, record) => {
+
+const renderTruncateRow = (text, record) => {
     return ({
         props: {
             style: { background: record.subsidiary_id.color },
         },
-        children: <div>{text}</div>,
+        children: <p style={{fontSize: FontTable}}>{text.substring(0,30) + '...'}</p>,
+    });
+}
+
+const renderRowNumber = (text, record) => {
+    return ({
+        props: {
+            style: { background: record.subsidiary_id.color },
+        },
+        children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
 }
 
@@ -67,43 +86,57 @@ class OrderCreator extends Component {
         this.scroll_table = 300;
         this.table_columns_results = [
             {
-            	title: 'Sucursal',
+            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
             	dataIndex: 'subsidiary_id.denomination',
 				key: 'subsidiary_id.denomination',
                 sorter: true,
                 render: renderRow,
-                width: '20%'
+                width: '10%'
+            },
+            {
+            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+            	dataIndex: 'fmsi',
+				key: 'fmsi',
+                render: renderRow,
+                width: '10%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Clave</div>,
+            	dataIndex: 'key_id',
+				key: 'key_id',
+                render: renderRow,
+                width: '10%'
 			},
 			{
-            	title: 'Descripción',
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
             	dataIndex: 'description',
 				key: 'description',
-                render: renderRow,
-                width: '40%'
+                render: renderTruncateRow,
+                width: '30%'
 			},
 			{
-            	title: 'Publico',
+                title: <div style={{ fontSize: FontTable }}>Publico</div>,
             	dataIndex: 'price_public',
             	key: 'price_public',
-                render: renderRow,
+                render: renderRowNumber,
                 width: '10%'
 			},
 			{
-            	title: 'Taller',
+                title: <div style={{ fontSize: FontTable }}>Taller</div>,
             	dataIndex: 'price_workshop',
             	key: 'price_workshop',
-                render: renderRow,
+                render: renderRowNumber,
                 width: '10%'
 			},
 			{
-            	title: 'Mayoreo',
+                title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
             	dataIndex: 'price_wholesale',
             	key: 'price_wholesale',
-                render: renderRow,
+                render: renderRowNumber,
                 width: '10%'
 			},
 			{
-            	title: 'Existencias',
+                title: <div style={{ fontSize: FontTable }}>Stock</div>,
             	dataIndex: 'stock',
 				key: 'stock',
                 render: renderRow,
@@ -113,31 +146,36 @@ class OrderCreator extends Component {
 
         this.table_columns_selected = [
             {
-            	title: 'Cant.',
+                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
+                render: renderRowSmall,
                 width: '10%'
             },
             {
-            	title: 'Usuario',
+                title: <div style={{ fontSize: FontTable }}>Usuario</div>,
+                render: renderRowSmall,
             	dataIndex: 'user_name',
                 key: 'user_name',
                 width: '20%'
 			},
 			{
-            	title: 'Descripción',
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+                render: renderRowSmall,
             	dataIndex: 'description',
                 key: 'description',
                 width: '30%'
             }, 
             {
-            	title: 'Descuento',
+                title: <div style={{ fontSize: FontTable }}>Descuento</div>,
+                render: renderRowSmall,
             	dataIndex: 'discount',
                 key: 'discount',
                 width: '10%'
 			},
 			{
-            	title: 'Total',
+                title: <div style={{ fontSize: FontTable }}>Total</div>,
+                render: renderRowSmall,
             	dataIndex: 'total',
                 key: 'total',
                 width: '10%'
@@ -146,7 +184,7 @@ class OrderCreator extends Component {
 
         if (!props.disabled) {
             this.table_columns_selected.push({
-            	title: 'Acciones',
+                title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
                 width: '20%',
             	render: (text, record) => (
@@ -264,10 +302,15 @@ class OrderCreator extends Component {
         const POSTDATA = {
             limit: 100,
             page: 1,
-            populate_ids: ['subsidiary_id']
+            populate_ids: ['subsidiary_id'],
+            sort_field: 'stock',
         }
+
         if (search_text) {
-			POSTDATA['search_text'] = search_text;
+			POSTDATA['or_filters'] = {
+                fmsi: search_text,
+                key_id: search_text
+            };
         }
 
         FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
@@ -503,6 +546,10 @@ class OrderCreator extends Component {
                         style={styles.rowContainer}
                     >
                         <Table
+                            onHeaderRow = {(column, index)=>{
+                                console.log(column, index);
+
+                            }}
                             size="small"
                             scroll={{ y: 200 }}
                             style={styles.tableLayout}
