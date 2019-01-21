@@ -8,8 +8,8 @@ var parse = require('csv-parse');
 mongoose.Promise = bluebird;
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-//var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
-var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useMongoClient: true });
+var DestinyConnect = mongoose.connect("mongodb://BrakeOneService:bmnqdQUObC4AS11i@127.0.0.1:18509/BrakeOne", { useNewUrlParser: true });
+//var DestinyConnect = mongoose.connect("mongodb://localhost:27017/BrakeOne", { useMongoClient: true });
 
 // VARS:
 const ACCOUNT_ID = "5b79c3755526c91360058100";
