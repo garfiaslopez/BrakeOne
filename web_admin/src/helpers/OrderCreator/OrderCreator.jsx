@@ -300,17 +300,15 @@ class OrderCreator extends Component {
         const urlPackages = process.env.REACT_APP_API_URL + '/product-packages';
         
         const POSTDATA = {
-            limit: 100,
+            limit: 1000,
             page: 1,
-            populate_ids: ['subsidiary_id'],
             sort_field: 'stock',
+            populate_ids: ['subsidiary_id'],
+            
         }
 
         if (search_text) {
-			POSTDATA['or_filters'] = {
-                fmsi: search_text,
-                key_id: search_text
-            };
+			POSTDATA['search_text'] = search_text;
         }
 
         FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {

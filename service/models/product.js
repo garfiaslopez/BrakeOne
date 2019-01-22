@@ -67,7 +67,6 @@ var ProductSchema = new Schema({
 ProductSchema.plugin(mongoosePaginate);
 
 ProductSchema.index({
-	description: 'text', 
     key_id: 'text',
     barcode: 'text',
     fmsi: 'text',
