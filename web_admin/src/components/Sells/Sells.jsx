@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import CreateSell from './CreateSell';
 import RenderRows from '../../helpers/render_rows';
+import CreatePayment from './CreatePayment';
 
-import { 
+import {
     Divider,
 	Popconfirm
 } from 'antd';
@@ -12,6 +13,9 @@ class Sells extends CrudLayout {
     constructor(props) {
 		super(props);
 		this.custom_submit = CreateSell;
+		this.custom_modals = {
+			'open_create_payment': CreatePayment
+		}
 		this.state = { // render vars:
 			filters_layout: ['search','date_range']
 		};
@@ -36,26 +40,28 @@ class Sells extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				fixed: 'left',
-				render: RenderRows.renderRowDate,
+				render: RenderRows.renderRowDateSells,
 				width: '15%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
+				render: RenderRows.renderRowTextSells,
 				width: '15%'
 			},
 			{
             	title: 'Cliente',
             	dataIndex: 'client_id.name',
 				key: 'client_id.name',
+				render: RenderRows.renderRowTextSells,
 				width: '20%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
-				render: RenderRows.renderRowNumber,
+				render: RenderRows.renderRowNumberSells,
 				width: '15%'
 			}
 		];
@@ -69,6 +75,19 @@ class Sells extends CrudLayout {
             	render: (text, record) => (
 					<span>
 						<a 
+							href="javascript:;" 
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.setState({
+									selected_data: record,
+									open_custom_modal: 'open_create_payment'
+								});
+							}}
+						>
+							Pagar
+						</a>
+						<Divider type="vertical" />
+						<a
 							href="javascript:;" 
 							onClick={(event)=> {
 								event.stopPropagation();

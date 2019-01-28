@@ -4,29 +4,23 @@ var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
 var autoIncrement = require('mongoose-plugin-autoinc');
 
-var PaymentSchema = new Schema({
+var ReceptionPaymentSchema = new Schema({
 	subsidiary_id: {
 		type: Schema.ObjectId,
 		ref: 'Subsidiary'
 	},
-	client_id: {
+	provider_id: {
 		type: Schema.ObjectId,
-		ref: 'Client'
+		ref: 'Provider'
 	},
 	user_id: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
-	sell_id: {
+	reception_id: {
 		type: Schema.ObjectId,
-		ref: 'Sell'
+		ref: 'Reception'
 	},
-	legacy_id: {
-        type: String
-	},
-	legacy_folio: {
-        type: String
-    },
 	folio: {
         type: Number
 	},
@@ -59,10 +53,10 @@ var PaymentSchema = new Schema({
 	}
 });
 
-PaymentSchema.plugin(mongoosePaginate);
+ReceptionPaymentSchema.plugin(mongoosePaginate);
 
-PaymentSchema.plugin(autoIncrement.plugin, {
-    model: 'Payment',
+ReceptionPaymentSchema.plugin(autoIncrement.plugin, {
+    model: 'ReceptionPayment',
     field: 'folio',
     startAt: 1
 });
@@ -70,4 +64,4 @@ PaymentSchema.plugin(autoIncrement.plugin, {
 
 
 //Return the module
-module.exports = mongoose.model("Payment",PaymentSchema);
+module.exports = mongoose.model("Reception_Payment",ReceptionPaymentSchema);

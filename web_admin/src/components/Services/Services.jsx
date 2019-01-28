@@ -9,10 +9,16 @@ import {
 } from 'antd';
 
 const renderCar = (text, record) => {
-	console.log(record);
 	const car = record.client_id.cars.find((el)=>(el._id === text));
+	let color = 'black';
+	if (!record.is_payed) {
+		color = 'red';
+	}
+	if (!record.is_finished) {
+		color = 'blue';
+	}
 	return ({
-		children: <p>{car.brand + ' - ' + car.model}</p>,
+		children: <p style={{color}}>{car.brand + ' - ' + car.model}</p>,
 	});
 };
 
@@ -44,19 +50,21 @@ class Services extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				fixed: 'left',
-				render: RenderRows.renderRowDate,
+				render: RenderRows.renderRowDateSells,
 				width: '15%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
+				render: RenderRows.renderRowTextSells,
 				width: '15%'
 			},
 			{
             	title: 'Cliente',
             	dataIndex: 'client_id.name',
 				key: 'client_id.name',
+				render: RenderRows.renderRowTextSells,
 				width: '20%'
 			},
 			{

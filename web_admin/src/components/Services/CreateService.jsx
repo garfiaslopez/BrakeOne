@@ -176,6 +176,8 @@ class CreateService extends Component {
         // submit and update with changed flags and dates
         event.preventDefault();
         // do validations:
+        console.log("DELIVER SERVICE");
+
         if (!isEmpty(this.state.client_id) && this.state.car_id != '' && this.state.kilometers ) {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
                 const Sell =  {
@@ -305,8 +307,8 @@ class CreateService extends Component {
         if(this.props.fields) { // editing:
             ModalButtons.unshift(
                 <Button 
-                    key="cancel"
-                    onClick={this.props.deliverService}
+                    key="Entregar"
+                    onClick={this.deliverService}
                 >
                     Entregar
                 </Button>
