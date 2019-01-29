@@ -1,0 +1,80 @@
+@page {
+    size: 216mm 279mm;
+    margin: 2cm 1cm;
+    @top-left {
+        content: "holiholiholi";
+    }
+    @bottom-left { 
+        content: "Department of Strategy"; 
+    } 
+}
+
+.sell-recipe__wrapper {
+    font-size: 10pt;
+}
+
+.sell-recipe__wrapper
+.ant-divider-inner-text {
+    font-size: .8em;
+    text-transform: uppercase;
+}
+
+.sell-recipe__wrapper
+.ant-divider {
+    margin: 0;
+}
+
+.sell-recipe__wrapper
+.ant-table-wrapper {
+    margin: 40pt 0;
+}
+
+.sell-recipe__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sell-recipe__logo {
+    max-width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.sell-recipe__title {
+    margin: 8px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.sell-recipe__item-data {
+    text-transform: uppercase;
+}
+
+.sell-recipe__item-title {
+    font-size: 0.8em;
+    color: rgba(0,0,0,0.30);
+    text-transform: uppercase;
+}
+
+.sell-recipe__flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sell-recipe__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10pt 0;
+    border-top: 1px solid #eee;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.sell-recipe__footer p {
+    margin: 0;
+    line-height: 1.7;
+}
