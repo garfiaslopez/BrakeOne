@@ -140,7 +140,8 @@ class CreateSell extends Component {
                     products: this.state.products,
                     services: this.state.services,
                     total: this.state.total,
-                    is_service: false
+                    is_service: false,
+                    is_finished: true,
                 }
                 this.props.onSubmit(Sell);
             } else {

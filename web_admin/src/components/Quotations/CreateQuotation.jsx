@@ -5,7 +5,9 @@ import {
     Button,
     Alert,
     Input,
-    Select
+    Select,
+    Spin,
+    Card
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
@@ -18,13 +20,19 @@ class CreateQuotation extends Component {
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
-            price_type: null,
+            price_type: undefined,
             client_name: '',
             client_phone: '',
             client_job: '',
             car_brand: '',
             car_model: '',
-            notes: ''
+            car_year: '',
+            car_vin: '',
+            notes: '',
+            client_id: {},
+            clients: [],
+            car_id: '',
+            selected_car: undefined,
         };
 
         if (props.fields) {
@@ -46,6 +54,12 @@ class CreateQuotation extends Component {
             if (props.fields.car_model) {
                 initial_state.car_model = props.fields.car_model;
             }
+            if (props.fields.car_year) {
+                initial_state.car_year = props.fields.car_year;
+            }
+            if (props.fields.car_vin) {
+                initial_state.car_vin = props.fields.car_vin;
+            }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
             }
@@ -61,9 +75,12 @@ class CreateQuotation extends Component {
         }
         
         this.state = initial_state;
+        this.getClients = this.getClients.bind(this);
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
+        this.onChangeClient = this.onChangeClient.bind(this);
+        this.onChangeCar = this.onChangeCar.bind(this);
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
@@ -138,6 +155,61 @@ class CreateQuotation extends Component {
         });
     }
 
+    getClients(search_text) {
+        this.setState({
+			loading_clients: true,
+		});
+		const url = process.env.REACT_APP_API_URL + '/clients';
+        const POSTDATA = {
+            limit: 100,
+            page: 1,
+            search_text
+        }
+        
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
+                this.setState({
+					clients: response.json.data.docs.map((el, index)=>({
+						...el,
+						key: index
+                    })),
+                    loading_users: false
+                });
+            } else {
+				this.setState({
+                    loading_clients: false,
+                    error: response.message
+				});
+            }
+        }).catch((onError) => {
+			this.setState({
+                loading_clients: false,
+                error: onError.message
+			});
+        });
+    }
+
+    onChangeClient(client_id) {
+        const client = this.state.clients.find((el) => (el._id === client_id));
+        this.setState({
+            client_id: client,
+            client_name: client.name,
+            client_phone: client.phone_number
+        });
+    }
+
+    onChangeCar(car_id) {
+        const car = this.state.client_id.cars.find((el)=>(el._id === car_id));
+        this.setState({
+            selected_car: car,
+            car_id,
+            car_brand: car.brand,
+            car_model: car.model,
+            car_vin: car.vin,
+            car_year: car.year
+        });
+    }
+
     render() {
         let alert=<div></div>;
 		if (this.state.error) {
@@ -194,6 +266,32 @@ class CreateQuotation extends Component {
                 </Button>
             ];
         }
+
+        const OptionsClients = this.state.clients.map((item, index) => {
+            return (
+                <Select.Option 
+                    value={item._id}
+                    key={`${item._id} - ${index}`} 
+                >
+                    {item.name}
+                </Select.Option>
+            );
+        });
+
+        const OptionsCars = [];
+        if (this.state.client_id.cars) {
+            this.state.client_id.cars.forEach((item, index) => {
+                OptionsCars.push(
+                    <Select.Option 
+                        value={item._id}
+                        key={`${item._id} - ${index}`} 
+                    >
+                        {item.brand + ' _ ' + item.model}
+                    </Select.Option>
+                );
+            });
+        }
+
         return (
             <Fragment>
                 <Modal
@@ -201,7 +299,7 @@ class CreateQuotation extends Component {
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
                     visible={this.state.open}
-                    title={this.props.title}
+                    title={"Cotización"}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={ModalButtons}
@@ -217,122 +315,189 @@ class CreateQuotation extends Component {
                             <div
                                 style={styles.inputsRowContainer}
                             >
-                                <Input
-                                    disabled={this.props.is_disabled}
-                                    value={this.state.client_name}
-                                    style={styles.inputElement}
-                                    onChange={(value) => {
-                                        this.onChangeField(value, 'client_name');
-                                    }}
-                                    prefix={(
-                                        <Icon
-                                            type="user"
-                                            className="field-icon"
-                                        />
-                                    )}
-                                    type="text"
-                                    placeholder="Nombre (*)"
-                                    size="large"
-                                />
-                                <Input
-                                    disabled={this.props.is_disabled}
-                                    value={this.state.client_phone}
-                                    style={styles.inputElement}
-                                    onChange={(value) => {
-                                        this.onChangeField(value, 'client_phone');
-                                    }}
-                                    prefix={(
-                                        <Icon
-                                            type="phone"
-                                            className="field-icon"
-                                        />
-                                    )}
-                                    type="text"
-                                    placeholder="Numero (*)"
-                                    size="large"
-                                />
-                                <Input
-                                    disabled={this.props.is_disabled}
-                                    value={this.state.client_job}
-                                    style={styles.inputElement}
-                                    onChange={(value) => {
-                                        this.onChangeField(value, 'client_job');
-                                    }}
-                                    prefix={(
-                                        <Icon
-                                            type="trademark"
-                                            className="field-icon"
-                                        />
-                                    )}
-                                    type="text"
-                                    placeholder="Empresa"
-                                    size="large"
-                                />
-                            </div>
-                            <div
-                                style={styles.inputsRowContainer}
-                            >
-                                <Input
-                                    disabled={this.props.is_disabled}
-                                    value={this.state.car_brand}
-                                    style={styles.inputElement}
-                                    onChange={(value) => {
-                                        this.onChangeField(value, 'car_brand');
-                                    }}
-                                    prefix={(
-                                        <Icon
-                                            type="car"
-                                            className="field-icon"
-                                        />
-                                    )}
-                                    type="text"
-                                    placeholder="Marca Vehiculo (*)"
-                                    size="large"
-                                />
-                                <Input
-                                    disabled={this.props.is_disabled}
-                                    value={this.state.car_model}
-                                    style={styles.inputElement}
-                                    onChange={(value) => {
-                                        this.onChangeField(value, 'car_model');
-                                    }}
-                                    prefix={(
-                                        <Icon
-                                            type="car"
-                                            className="field-icon"
-                                        />
-                                    )}
-                                    type="text"
-                                    placeholder="Modelo Vehiculo (*)"
-                                    size="large"
-                                />
-                                <Select
-                                    disabled={this.props.is_disabled}
-                                    value={this.state.price_type}
-                                    style={styles.inputElement}
-                                    placeholder="Tipo de precio"
-                                    size="large"
-                                    onChange={(value) => {
-                                        this.onChangeDropdown(value, 'price_type');
-                                    }}
+                                <Card
+                                    title="Información de cliente"
+                                    extra={
+                                        <Fragment>
+                                            <Select
+                                                disabled={this.props.is_disabled}
+                                                size="large"
+                                                showSearch
+                                                value={this.state.client_id.name}
+                                                placeholder={'Buscar Cliente...'}
+                                                style={styles.inputSearch}
+                                                defaultActiveFirstOption={false}
+                                                showArrow={false}
+                                                filterOption={false}
+                                                onSearch={(value) => { this.getClients(value) }}
+                                                onChange={(value) => { this.onChangeClient(value) }}
+                                                notFoundContent={this.state.loading_clients ? <Spin size="small" /> : null}
+                                            >
+                                                {OptionsClients}
+                                            </Select>
+                                            <Select
+                                                disabled={this.props.is_disabled}
+                                                style={styles.inputSearch}
+                                                value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
+                                                showSearch
+                                                optionFilterProp="children"
+                                                placeholder="Seleccionar Auto"
+                                                size="large"
+                                                onChange={this.onChangeCar}
+                                            >
+                                                {OptionsCars}
+                                            </Select>
+                                        </Fragment>
+                                    }
+                                    style={styles.cardContainer}
                                 >
-                                    {OptionsTypes}
-                                </Select>
-                            </div>
-                            <div
-                                style={styles.inputsRowContainer}
-                            >
-                                <Input.TextArea
-                                    disabled={this.props.is_disabled}
-                                    style={styles.inputElement}
-                                    value={this.state.notes}
-                                    autosize={{ minRows: 2, maxRows: 6 }}
-                                    placeholder="Notas adicionales..."
-                                    size="large"
-                                    onChange={(value) => {
-                                        this.onChangeField(value, 'notes');
-                                    }}
-                                />
+                                <div
+                                    style={styles.inputsContainer}
+                                >
+                                    <div
+                                        style={styles.inputsRowContainer}
+                                    >
+                                        <Input
+                                            disabled={this.props.is_disabled}
+                                            value={this.state.client_name}
+                                            style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeField(value, 'client_name');
+                                            }}
+                                            prefix={(
+                                                <Icon
+                                                    type="user"
+                                                    className="field-icon"
+                                                />
+                                            )}
+                                            type="text"
+                                            placeholder="Nombre (*)"
+                                            size="large"
+                                        />
+                                        <Input
+                                            disabled={this.props.is_disabled}
+                                            value={this.state.client_phone}
+                                            style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeField(value, 'client_phone');
+                                            }}
+                                            prefix={(
+                                                <Icon
+                                                    type="phone"
+                                                    className="field-icon"
+                                                />
+                                            )}
+                                            type="text"
+                                            placeholder="Numero (*)"
+                                            size="large"
+                                        />
+                                        <Select
+                                            showSearch
+                                            disabled={this.props.is_disabled}
+                                            value={this.state.price_type}
+                                            style={styles.inputElement}
+                                            placeholder="Tipo de precio"
+                                            size="large"
+                                            optionFilterProp="children"
+                                            onChange={(value) => {
+                                                this.onChangeDropdown(value, 'price_type');
+                                            }}
+                                        >
+                                            {OptionsTypes}
+                                        </Select>
+                                    </div>
+                                </div>
+                                <div
+                                    style={styles.inputsRowContainer}
+                                >
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_brand}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_brand');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Marca Vehiculo (*)"
+                                        size="large"
+                                    />
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_model}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_model');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Modelo Vehiculo (*)"
+                                        size="large"
+                                    />
+
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_year}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_year');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Año (*)"
+                                        size="large"
+                                    />
+
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_vin}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_vin');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="VIN"
+                                        size="large"
+                                    />
+                                </div>
+                                <div
+                                    style={styles.inputsRowContainer}
+                                >
+                                    <Input.TextArea
+                                        disabled={this.props.is_disabled}
+                                        style={styles.inputElement}
+                                        value={this.state.notes}
+                                        autosize={{ minRows: 2, maxRows: 6 }}
+                                        placeholder="Notas adicionales..."
+                                        size="large"
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'notes');
+                                        }}
+                                    />
+                                </div>
+                                    
+                                </Card>
                             </div>
                         </div>
 

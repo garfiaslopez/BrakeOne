@@ -20,11 +20,20 @@ var SellSchema = new Schema({
     car_id: {
         type: String
     },
+    legacy_id: {
+        type: String
+    },
     kilometers: {
         type: String
     },
     folio: {
         type: Number
+    },
+    legacy_folio: {
+        type: String
+    },
+    folio_fact: {
+        type: String
     },
     status: {
         type: String,
@@ -77,7 +86,19 @@ var SellSchema = new Schema({
     total: {
         type: Number
     },
+    payed: {
+        type: Number,
+        default: 0
+    },
+    is_payed: { 
+        type: Boolean,
+        default: false
+    },
     is_claim: { 
+        type: Boolean,
+        default: false
+    },
+    is_return: { 
         type: Boolean,
         default: false
     },

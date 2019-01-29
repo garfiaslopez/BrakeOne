@@ -106,34 +106,55 @@ class OrderCreator extends Component {
 				key: 'key_id',
                 render: renderRow,
                 width: '10%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRow,
+                width: '10%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRow,
+                width: '10%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descripción</div>,
             	dataIndex: 'description',
 				key: 'description',
                 render: renderTruncateRow,
-                width: '30%'
+                width: '20%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Costo</div>,
+            	dataIndex: 'price',
+            	key: 'price',
+                render: renderRowNumber,
+                width: '5%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Publico</div>,
             	dataIndex: 'price_public',
             	key: 'price_public',
                 render: renderRowNumber,
-                width: '10%'
+                width: '5%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Taller</div>,
             	dataIndex: 'price_workshop',
             	key: 'price_workshop',
                 render: renderRowNumber,
-                width: '10%'
+                width: '5%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
             	dataIndex: 'price_wholesale',
             	key: 'price_wholesale',
                 render: renderRowNumber,
-                width: '10%'
+                width: '5%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Stock</div>,
@@ -414,47 +435,51 @@ class OrderCreator extends Component {
     }
 
     addRecord(record) {
-        if (record.subsidiary_id._id === this.props.session.subsidiary._id) {
-            if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
-                let actualProducts = Object.assign([] ,this.state.selected_data);
-                let Price = Number(record.price_public);
-
-                if (this.state.price_type === 'PUBLICO') {
-                    Price = Number(record.price_public);
-                } else if (this.state.price_type === 'MAYOREO') {
-                    Price = Number(record.price_wholesale);
-                } else if (this.state.price_type === 'TALLER' ) {
-                    Price = Number(record.price_workshop);
+        if ((record.subsidiary_id._id === this.props.session.subsidiary._id)) {
+            if (record.stock > 0) {
+                if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
+                    let actualProducts = Object.assign([] ,this.state.selected_data);
+                    let Price = Number(record.price_public);
+    
+                    if (this.state.price_type === 'PUBLICO') {
+                        Price = Number(record.price_public);
+                    } else if (this.state.price_type === 'MAYOREO') {
+                        Price = Number(record.price_wholesale);
+                    } else if (this.state.price_type === 'TALLER' ) {
+                        Price = Number(record.price_workshop);
+                    }
+    
+                    const P = Number(this.state.selected_quantity) * Price;
+                    const Discount = (P * Number(this.state.selected_discount)) / 100;
+                    
+                    console.log(Price, P, Discount);
+    
+                    actualProducts.push({
+                        key: this.state.selected_data.length + 1,
+                        type: record.fmsi ? 'product' : 'service',
+                        id: record._id,
+                        user_id: this.state.selected_user._id,
+                        user_name: this.state.selected_user.name,
+                        description: record.description,
+                        price_type: this.state.price_type | 'PUBLICO',
+                        price: Price,
+                        quantity: this.state.selected_quantity,
+                        discount: this.state.selected_discount | 0,
+                        total: round2(P - Discount)
+                    });
+                    const new_total = round2(this.state.total + (P - Discount));
+                    this.setState({
+                        selected_data: actualProducts,
+                        selected_quantity: 1,
+                        selected_discount: 0,
+                        total: new_total
+                    });
+                    this.sendToOnChange(actualProducts, new_total);
+                } else {
+                    this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
                 }
-
-                const P = Number(this.state.selected_quantity) * Price;
-                const Discount = (P * Number(this.state.selected_discount)) / 100;
-                
-                console.log(Price, P, Discount);
-
-                actualProducts.push({
-                    key: this.state.selected_data.length + 1,
-                    type: record.fmsi ? 'product' : 'service',
-                    id: record._id,
-                    user_id: this.state.selected_user._id,
-                    user_name: this.state.selected_user.name,
-                    description: record.description,
-                    price_type: this.state.price_type | 'PUBLICO',
-                    price: Price,
-                    quantity: this.state.selected_quantity,
-                    discount: this.state.selected_discount | 0,
-                    total: round2(P - Discount)
-                });
-                const new_total = round2(this.state.total + (P - Discount));
-                this.setState({
-                    selected_data: actualProducts,
-                    selected_quantity: 1,
-                    selected_discount: 0,
-                    total: new_total
-                });
-                this.sendToOnChange(actualProducts, new_total);
             } else {
-                this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
+                this.props.onError('No se pueden vender productos sin stock.');
             }
         } else {
             this.props.onError('No se pueden vender productos de otra sucursal.');
@@ -546,7 +571,6 @@ class OrderCreator extends Component {
                         <Table
                             onHeaderRow = {(column, index)=>{
                                 console.log(column, index);
-
                             }}
                             size="small"
                             scroll={{ y: 200 }}

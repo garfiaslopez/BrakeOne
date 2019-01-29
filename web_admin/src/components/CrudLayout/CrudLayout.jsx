@@ -42,7 +42,8 @@ class CrudLayout extends Component {
 		sortedInfo: {
 			order: 'descend',
 			columnKey: 'denomination',
-		}
+		},
+		open_custom_modal: undefined,
 	}
 
 	componentDidMount() {
@@ -437,6 +438,24 @@ class CrudLayout extends Component {
 						Imprimir O Descargar
 					</Button>
 				</Button.Group>
+			);
+		}
+
+		if (this.state.open_custom_modal) {
+			const ComponentToOpen = this.custom_modals[this.state.open_custom_modal];
+			form = (
+				<ComponentToOpen
+					key={"CustomForm"}
+					fields={this.state.selected_data}
+					onClose={()=>{
+						this.setState({open_custom_modal: undefined})
+					}}
+					error={this.state.error}
+					dismissError={() => {
+						this.setState({ error: null });
+					}}
+					session={this.props.session}
+				/>
 			);
 		}
 

@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
 var autoIncrement = require('mongoose-plugin-autoinc');
 
-var QuotationSchema = new Schema({
+var ReceptionSchema = new Schema({
     subsidiary_id: {
         type: Schema.ObjectId,
         ref: 'Subsidiary'
@@ -13,21 +13,20 @@ var QuotationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
-    price_type: { type: String },
-    client_name: { type: String },
-    client_phone: { type: String },
-    client_job: { type: String },
+    provider_id: {
+        type: Schema.ObjectId,
+        ref: 'Provider'
+    },
     folio: {
         type: Number
+    },
+    folio_fact: {
+        type: String
     },
     date: {
         type: Date,
         default: Date.now
     },
-    car_brand: { type: String },
-    car_model: { type: String },
-    car_year: { type: String },
-    car_vin: { type: String },
     notes: {
         type: String
     },
@@ -48,25 +47,16 @@ var QuotationSchema = new Schema({
         discount: { type: Number },
         total: { type: Number }
     }],
-    services: [{
-        id: {
-            type: Schema.ObjectId,
-            ref: 'Service'
-        },
-        user_id: {
-            type: Schema.ObjectId,
-            ref: 'User'
-        },
-        user_name: { type: String },
-        description: { type: String },
-        price_type: { type: String },
-        price: { type: Number },
-        quantity: { type: Number },
-        discount: { type: Number },
-        total: { type: Number }
-    }],
     total: {
         type: Number
+    },
+    is_payed: { 
+        type: Boolean,
+        default: false
+    },
+    is_remission: { 
+        type: Boolean,
+        default: false
     },
     created: {
         type: Date,
@@ -74,19 +64,17 @@ var QuotationSchema = new Schema({
     }
 });
 
-QuotationSchema.plugin(mongoosePaginate);
+ReceptionSchema.plugin(mongoosePaginate);
 
-QuotationSchema.plugin(autoIncrement.plugin, {
-    model: 'Quotation',
+ReceptionSchema.plugin(autoIncrement.plugin, {
+    model: 'Reception',
     field: 'folio',
     startAt: 1
 });
 
-QuotationSchema.index({
-    client_name: 'text',
-    folio: 'text',
-
+ReceptionSchema.index({
+    folio: 'text'
 });
 
 //Return the module
-module.exports = mongoose.model("Quotation", QuotationSchema);
+module.exports = mongoose.model("Reception", ReceptionSchema);

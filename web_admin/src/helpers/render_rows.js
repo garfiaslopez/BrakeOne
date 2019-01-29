@@ -44,4 +44,59 @@ export default {
             children: <p style={{color}}>{text.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} %</p>,
         });
     },
+
+    /*
+        NEGRO -> TODO NORMAL. 
+        ROJO  -> SE HIZO LA VENTA Y TODO PERO TODAVIA NO PAGA.  ENTREGADO Y NO PAGADO
+        AZUL. -> ESTA ABIERTA LA ORDEN PERO YA PAGADA. VENTA NO CERRADA.
+    */
+
+    renderRowTextSells: (text, record) => {
+        let color = 'black';
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        return ({
+            children: <p style={{color}}>{text}</p>,
+        });
+    },
+    renderRowDateSells: (text, record) => {
+        let color = 'black';
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        return ({
+            children: <p style={{color}}>{moment(text).format('DD/MM/YYYY')}</p>,
+        });
+    },
+    renderRowNumberSells: (text, record) => {
+        let color = 'black';
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        return ({
+            children: <p style={{color}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
+        });
+    },
+    renderRowPercentSells: (text, record) => {
+        let color = 'black';
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        return ({
+            children: <p style={{color}}>{text.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} %</p>,
+        });
+    },
 }

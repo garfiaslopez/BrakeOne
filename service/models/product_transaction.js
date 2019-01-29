@@ -25,6 +25,9 @@ var ProductTransactionSchema = new Schema({
     total: {
         type: Number
     },
+    type: {
+        type: String // COMPRA OR VENTA
+    },
     date: {
         type: Date,
         default: Date.now
