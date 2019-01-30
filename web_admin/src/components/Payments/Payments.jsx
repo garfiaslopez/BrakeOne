@@ -12,6 +12,7 @@ class Payments extends CrudLayout {
     constructor(props) {
 		super(props);
 		this.custom_submit = CreatePayment;
+		this.no_render_add = true;
 		this.state = { // render vars:
 			filters_layout: ['search','date_range']
 		};

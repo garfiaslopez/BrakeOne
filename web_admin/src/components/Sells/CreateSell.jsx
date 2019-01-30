@@ -7,12 +7,17 @@ import {
     Input,
     Select,
     Spin,
-    Card
+    Card,
+    Divider,
+    Table
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
+import RenderRows from '../../helpers/render_rows';
+import async from 'async';
+import moment from 'moment';
 
 class CreateSell extends Component {
     constructor(props) {
@@ -26,7 +31,9 @@ class CreateSell extends Component {
             notes: '',
             products: [],
             services: [],
-            total: 0
+            total: 0,
+            payments: [],
+            total_payments: 0
         };
 
         if (props.fields) {
@@ -50,6 +57,7 @@ class CreateSell extends Component {
         this.state = initial_state;
 
         this.getClients = this.getClients.bind(this);
+        this.getPayments = this.getPayments.bind(this);
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
@@ -58,7 +66,12 @@ class CreateSell extends Component {
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+    }
 
+    componentDidMount() {
+        if(this.props.fields) {
+            this.getPayments();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -66,6 +79,45 @@ class CreateSell extends Component {
         // compare and set manually with setfield....
         this.setState({
             error: nextProps.error
+        });
+    }
+
+    getPayments() {
+        console.log("getting payments");
+		const url = process.env.REACT_APP_API_URL + '/payments';
+        let POSTDATA = {
+            limit: 1000,
+			page: 1,
+			filters: {
+                subsidiary_id: this.props.session.subsidiary._id,
+                sell_id: this.props.fields._id,
+            }
+		}
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
+                let total_payments = 0;
+                const payments = response.json.data.docs.map((el, index) => {
+                    total_payments += el.total;
+                    return ({
+                        ...el,
+                        key: index
+                    });
+                })
+                this.setState({
+                    total_payments, 
+					payments
+                });
+            } else {
+				console.log(response.message);
+				this.setState({
+					error: response.message
+				});
+            }
+        }).catch((onError) => {
+			console.log(onError);
+			this.setState({
+				error: onError.message
+			});
         });
     }
 
@@ -142,8 +194,121 @@ class CreateSell extends Component {
                     total: this.state.total,
                     is_service: false,
                     is_finished: true,
+                    is_payed: this.state.total_payments < this.state.total ? false : true
                 }
-                this.props.onSubmit(Sell);
+                //this.props.onSubmit(Sell);
+
+                // CUSTOM UPLOAD FUNCTION AND SEND THE NEW ARRAY TO CRUDLAYOUT
+                let POSTDATA = {
+                    ...Sell,
+                    subsidiary_id: this.props.session.subsidiary._id,
+                    populate_ids: ['client_id']
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/sell';
+                if (this.props.fields) {
+                    method = 'PUT';
+                    url = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
+                }
+
+                // group products for calculate minus stock.... and exclude the already saved products.
+                // check for relationships and save it apart in her owns models
+                FetchXHR(url, method, POSTDATA).then((response) => {
+                    if (response.json.success) {
+                        const saved_sell = response.json.obj;
+
+                        const OperationsProducts = [];
+                        let mapped_products_stock = {}; // product_id -> sum_quantity.
+                        let actual_max_stock = {};
+                        this.state.products.forEach((p) => {
+                            if (!p._id) {
+                                if (mapped_products_stock[p.id]) {
+                                    mapped_products_stock[p.id] += p.quantity;
+                                } else {
+                                    mapped_products_stock[p.id] = p.quantity;
+                                }
+
+                                if (actual_max_stock[p.id]) {
+                                    actual_max_stock[p.id] = Math.max(actual_max_stock[p.id], p.old_stock);
+                                } else {
+                                    actual_max_stock[p.id] = p.old_stock;
+                                }
+                            }
+                        });
+
+                        Object.keys(mapped_products_stock).forEach((el) => {
+                            OperationsProducts.push((callback) => {
+                                const new_p = {
+                                    stock: actual_max_stock[el] - mapped_products_stock[el]
+                                }
+                                const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
+                                FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
+                                    if (response_p.json.success) {
+                                        callback(null, response_p.json.obj);
+                                    }
+                                });
+                            });
+                        });
+
+                        this.state.products.forEach((p) => {
+                            OperationsProducts.push((callback) => {
+                                //create transaction obj...
+                                const new_transaction = {
+                                    subsidiary_id: this.props.session.subsidiary._id,
+                                    product_id: p.id,
+                                    user_id: p.user_id,
+                                    quantity: p.quantity,
+                                    price: p.price,
+                                    discount: p.discount,
+                                    total: p.total,
+                                    type: 'VENTA',
+                                    date: moment().toISOString()
+                                }
+                                console.log(new_transaction);
+                                //te creas! :'v
+                                const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
+                                FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
+                                    if (response_pt.json.success) {
+                                        callback(null, response_pt.json.obj);
+                                    }
+                                });
+                            });
+
+                        });
+
+                        async.series(OperationsProducts,(err, responses) => {
+                            if (!err) {
+                                console.log("NO ERROR");
+                                console.log(saved_sell);
+                                this.props.onCustomSubmit(saved_sell);
+                            } else {
+                                console.log(err);
+                                console.log("ERROR");
+                                console.log(responses);
+                                this.setState({
+                                    error: 'Error al procesar la petición',
+                                    loading_submit: false
+                                });
+                            }
+                        });
+                    } else {
+                        console.log(response);
+                        this.setState({
+                            error: response.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+
+
+
+
             } else {
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
@@ -278,6 +443,70 @@ class CreateSell extends Component {
             );
         }
 
+        let PaymentsModel = <div></div>;
+        if (this.state.payments.length > 0) {
+            const payments_table_columns = [
+                {
+                    title: 'Fecha',
+                    dataIndex: 'date',
+                    key: 'date',
+                    render: RenderRows.renderRowDate,
+                    width: '20%'
+                },
+                {
+                    title: 'Folio',
+                    dataIndex: 'folio',
+                    key: 'folio',
+                    width: '20%'
+                },
+                {
+                    title: 'Tipo',
+                    dataIndex: 'type',
+                    key: 'type',
+                    width: '10%'
+                },
+                {
+                    title: 'Banco',
+                    dataIndex: 'bank',
+                    key: 'bank',
+                    width: '20%'
+                },
+                {
+                    title: 'Referencia',
+                    dataIndex: 'reference',
+                    key: 'reference',
+                    width: '20%'
+                },
+                {
+                    title: 'Total',
+                    dataIndex: 'total',
+                    key: 'total',
+                    render: RenderRows.renderRowNumber,
+                    width: '10%'
+                }
+            ];
+
+            PaymentsModel = (
+                <Fragment>
+                    <Divider> Pagos </Divider>
+                    <Table
+                        bordered
+                        size="small"
+                        scroll={{ y: 200 }}
+                        style={styles.tableLayout}
+                        columns={payments_table_columns}
+                        dataSource={this.state.payments}
+                        locale={{
+                            filterTitle: 'Filtro',
+                            filterConfirm: 'Ok',
+                            filterReset: 'Reset',
+                            emptyText: 'Sin Datos'
+                        }}
+                    />
+                </Fragment>
+            );
+        }
+
         return (
             <Fragment>
                 <Modal
@@ -306,7 +535,7 @@ class CreateSell extends Component {
                                     title="Información de cliente"
                                     extra={
                                         <Select
-                                            disabled={this.props.is_disabled}
+                                            disabled={this.props.is_disabled || this.props.fields ? true : false }
                                             size="large"
                                             showSearch
                                             value={this.state.client_id.name}
@@ -356,6 +585,8 @@ class CreateSell extends Component {
                                 total: this.props.fields ? this.props.fields.total : null
                             }}
                         />
+
+                        {PaymentsModel}
                     </div>
                 </Modal>
             </Fragment>

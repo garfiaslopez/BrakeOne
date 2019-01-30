@@ -34,6 +34,9 @@ class CreatePayment extends Component {
             if (props.fields.sell_id) {
                 initial_state.sell_id = props.fields.sell_id;
             }
+            if (props.fields.client_id) {
+                initial_state.client_id = props.fields.client_id;
+            }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
             }
@@ -52,7 +55,6 @@ class CreatePayment extends Component {
         }
         
         this.state = initial_state;
-
         this.getSells = this.getSells.bind(this);
 
         this.onChangeField = this.onChangeField.bind(this);
@@ -159,9 +161,9 @@ class CreatePayment extends Component {
             alert = (
                 <Alert
                     style={styles.alertContainer}
-                    message={'Error'} 
+                    message={'Error'}
                     description={this.state.error} 
-                    type="error" 
+                    type="error"
                     banner={true}
                     showIcon={true}
                     closable={true}
@@ -231,7 +233,7 @@ class CreatePayment extends Component {
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Cliente:</p>
-                        <p style={styles.label_value}>{this.state.sell_id.client_id.name}</p>
+                        <p style={styles.label_value}>{this.state.client_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Folio:</p>

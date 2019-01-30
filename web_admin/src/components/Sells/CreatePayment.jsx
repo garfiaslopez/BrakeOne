@@ -82,7 +82,6 @@ class CreatePayment extends Component {
         let method_put = 'PUT';
 
         let url = process.env.REACT_APP_API_URL + '/payment';
-
         let url_sell = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
         const new_price = this.props.fields.payed + values.total;
         const NEW_SELL = {
@@ -90,16 +89,38 @@ class CreatePayment extends Component {
             is_payed: new_price === this.props.fields.total ? true : false,
         }
         
-        FetchXHR(url_sell, method_put, NEW_SELL).then((response) => {
-            if (response.json.success) {
+        let url_user = process.env.REACT_APP_API_URL + '/client/' + this.props.fields.client_id._id;
+        const NEW_CLIENT =  {
+            sells: this.props.fields.client_id.sells + values.total
+        }
+
+        FetchXHR(url_sell, method_put, NEW_SELL).then((response_sell) => {
+            if (response_sell.json.success) {
                 // sell updated:
-                FetchXHR(url, method, POSTDATA).then((response) => {
-                    if (response.json.success) {
-                        this.props.onClose();
+                FetchXHR(url, method, POSTDATA).then((response_payment) => {
+                    if (response_payment.json.success) {
+                        FetchXHR(url_user, method_put, NEW_CLIENT).then((response_client) => {
+                            if (response_client.json.success) {
+                                this.props.refreshTable();
+                                this.props.onClose();
+                            } else {
+                                console.log(response_client);
+                                this.setState({
+                                    error: response_client.json.message,
+                                    loading_submit: false
+                                });
+                            }
+                        }).catch((onError) => {
+                            console.log(onError);
+                            this.setState({
+                                error: onError.message,
+                                loading_submit: false
+                            });
+                        });
                     } else {
-                        console.log(response);
+                        console.log(response_payment);
                         this.setState({
-                            error: response.json.message,
+                            error: response_payment.json.message,
                             loading_submit: false
                         });
                     }
@@ -110,11 +131,10 @@ class CreatePayment extends Component {
                         loading_submit: false
                     });
                 });
-
             } else {
-				console.log(response);
+				console.log(response_sell);
 				this.setState({
-					error: response.json.message,
+					error: response_sell.json.message,
 					loading_submit: false
 				});
             }
@@ -127,7 +147,6 @@ class CreatePayment extends Component {
         });
     }
     
-
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
@@ -239,12 +258,12 @@ class CreatePayment extends Component {
                         <p style={styles.label_value}>{this.state.sell_id.client_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Folio:</p>
-                        <p style={styles.label_value}>{this.state.sell_id.folio}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Total:</p>
                         <p style={styles.label_value} >{this.state.sell_id.total}</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >Por pagar:</p>
+                        <p style={styles.label_value} >{this.state.sell_id.total - this.state.sell_id.payed}</p>
                     </Card.Grid>
                 </Fragment>
             );
@@ -346,7 +365,7 @@ class CreatePayment extends Component {
                                             className="field-icon"
                                         />
                                     )}
-                                    max={this.props.fields.total}
+                                    max={this.state.sell_id.total - this.state.sell_id.payed}
                                     type="text"
                                     placeholder="Total ($)"
                                     size="large"
