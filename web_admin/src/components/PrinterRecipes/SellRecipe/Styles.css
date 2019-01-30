@@ -64,6 +64,13 @@
     justify-content: space-between;
 }
 
+.sell-recipe__total {
+    width: 100%;
+    position: absolute;
+    bottom: 72px;
+    left: 0;
+}
+
 .sell-recipe__footer {
     position: absolute;
     bottom: 0;

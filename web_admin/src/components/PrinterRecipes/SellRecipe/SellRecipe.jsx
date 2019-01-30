@@ -98,7 +98,7 @@ const SellRecipe = () => (
             columns={sellColumns}
         />
 
-        <ul className="sell-recipe__flex">
+        <ul className="sell-recipe__flex sell-recipe__total">
             <li>
                 <h3 className="sell-recipe__item-title">
                     Importe con letra
