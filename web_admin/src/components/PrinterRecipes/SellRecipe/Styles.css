@@ -1,0 +1,55 @@
+.sell-recipe {
+    font-size: 10pt;
+}
+
+.sell-recipe
+.ant-divider-inner-text {
+    font-size: .8em;
+    text-transform: uppercase;
+}
+
+.sell-recipe
+.ant-divider {
+    margin: 0;
+}
+
+.sell-recipe
+.ant-table-wrapper {
+    margin: 30pt 0;
+}
+
+.sell-recipe
+.recipe__flex-container {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 5pt;
+}
+
+.sell-recipe__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15pt;
+}
+
+.sell-recipe__logo {
+    max-width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.sell-recipe__title {
+    margin: 8px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.sell-recipe__total {
+    width: 100%;
+    position: absolute;
+    bottom: 72px;
+    left: 0;
+}

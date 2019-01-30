@@ -47,14 +47,13 @@ table {
 	border-spacing: 0;
 }
 
-
-
 .label {
     font-family: roboto;
     font-size: 20px;
     color: #001529;
     text-align: center;
 }
+
 .loader {
     margin: 0 auto;
     border: 20px solid #001529; /* Light grey */
@@ -64,7 +63,58 @@ table {
     height: 100px;
     animation: spin 1.5s linear infinite;
 }
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Styles of recipes */
+
+.recipe__flex-container {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.recipe__flex-container h2,
+.recipe__column-container h2 {
+    min-width: 100%;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 10pt;
+}
+
+.recipe__column-container {
+    text-align: left;
+}
+
+.recipe__column-container > *:not(:last-child){
+    margin-bottom: 8pt;
+}
+
+.recipe__item__title {
+    font-size: 0.8em;
+    color: rgba(0,0,0,0.30);
+    text-transform: uppercase;
+}
+
+.recipe__item__data {
+    text-transform: uppercase;
+}
+
+.recipe__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10pt 0;
+    border-top: 1px solid #eee;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.recipe__footer p {
+    margin: 0;
+    line-height: 1.7;
 }
