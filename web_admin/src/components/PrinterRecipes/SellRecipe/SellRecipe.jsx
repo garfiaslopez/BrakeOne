@@ -50,78 +50,80 @@ const SellRecipe = ({
     );
 
     const renderFolioAndDate = () => (
-        <ul className="sell-recipe__flex">
+        <ul className="recipe__flex-container">
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Folio
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {folio}
                 </span>
             </li>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Fecha
                 </h3>
-                <span className="sell-recipe__item-data">
-                    {moment().format('MM-DD-YYYY')}
+                <span className="recipe__item__data">
+                    {moment().format('DD-MM-YYYY')}
                 </span>
             </li>
         </ul>
     );
 
     const renderClientData = () => (
-        <ul className="sell-recipe__flex">
+        <ul className="recipe__flex-container">
+            <h2>Cliente</h2>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Nombre
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {client.name}
                 </span>
             </li>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Teléfono
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {client.phone_number}
                 </span>
             </li>
-            </ul>
+        </ul>
     );
 
     const renderVehicleData = () => (
-        <ul className="sell-recipe__flex">
+        <ul className="recipe__flex-container">
+            <h2>Vehículo</h2>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Placas
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {vehicle.plates}
                 </span>
             </li>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Marca
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {vehicle.brand}
                 </span>
             </li>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Modelo
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {vehicle.model}
                 </span>
             </li>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Kms
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {vehicle.kms}
                 </span>
             </li>
@@ -129,20 +131,20 @@ const SellRecipe = ({
     );
 
     const renderTotal = () => (
-        <ul className="sell-recipe__flex sell-recipe__total">
+        <ul className="recipe__flex-container sell-recipe__total">
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Importe con letra
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {totalString}
                 </span>
             </li>
             <li>
-                <h3 className="sell-recipe__item-title">
+                <h3 className="recipe__item__title">
                     Total
                 </h3>
-                <span className="sell-recipe__item-data">
+                <span className="recipe__item__data">
                     {totalNumber}
                 </span>
             </li>
@@ -150,19 +152,17 @@ const SellRecipe = ({
     );
 
     const renderFooter = () => (
-        <footer className="sell-recipe__footer">
+        <footer className="recipe__footer">
             <p>QUETZALCOATL 84 (ESQ. TIZOC) COL. TLAXPANA</p>
             <p>Tels. 55-6840-2850 y 55-5273-3450</p>
         </footer>
     );
 
     return (
-        <div className="sell-recipe__wrapper">
+        <div className="sell-recipe">
             {renderHeader()}
             {renderFolioAndDate()}
-            <Divider>Cliente</Divider>
             {renderClientData()}
-            <Divider>Vehículo</Divider>
             {renderVehicleData()}
             <Table
                 size="small"
