@@ -305,10 +305,6 @@ class CreateSell extends Component {
                         loading_submit: false
                     });
                 });
-
-
-
-
             } else {
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
@@ -354,16 +350,7 @@ class CreateSell extends Component {
                 />
             )
         }
-        const OptionsTypes = ['PUBLICO', 'MAYOREO', 'TALLER'].map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item}
-                    key={`${item} - ${index}`} 
-                >
-                    {item}
-                </Select.Option>
-            );
-        });
+
         let ModalButtons = [
             <Button 
                 key="cancel"

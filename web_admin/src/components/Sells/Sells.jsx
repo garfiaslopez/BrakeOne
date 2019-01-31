@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import CreateSell from './CreateSell';
 import RenderRows from '../../helpers/render_rows';
-import CreatePayment from './CreatePayment';
+import CreatePayment from '../Payments/CreatePayment';
 
 import {
     Divider,
