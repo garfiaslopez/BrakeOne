@@ -58,6 +58,7 @@ var SellSchema = new Schema({
             type: Schema.ObjectId,
             ref: 'User'
         },
+        old_stock: { type: Number },
         user_name: { type: String },
         description: { type: String },
         price_type: { type: String },

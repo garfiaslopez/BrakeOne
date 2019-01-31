@@ -7,9 +7,10 @@ import {
     Input,
     Select,
     Spin,
-    Card
+    Card,
+    InputNumber
 } from 'antd';
-import styles from './Styles';
+import styles from '../Sells/Styles';
 import { FetchXHR } from '../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
@@ -29,35 +30,13 @@ class CreatePayment extends Component {
             reference: undefined,
             total: undefined
         };
-
         if (props.fields) {
-            if (props.fields.sell_id) {
-                initial_state.sell_id = props.fields.sell_id;
-            }
-            if (props.fields.notes) {
-                initial_state.notes = props.fields.notes;
-            }
-            if (props.fields.type) {
-                initial_state.type = props.fields.type;
-            }
-            if (props.fields.bank) {
-                initial_state.bank = props.fields.bank;
-            }
-            if (props.fields.reference) {
-                initial_state.reference = props.fields.reference;
-            }
-            if (props.fields.total) {
-                initial_state.total = props.fields.total;
-            }
+            initial_state.sell_id = props.fields;
         }
-        
         this.state = initial_state;
-
-        this.getSells = this.getSells.bind(this);
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
-        this.onChangeSell = this.onChangeSell.bind (this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -68,52 +47,15 @@ class CreatePayment extends Component {
         });
     }
 
-    getSells(search_text) {
-        this.setState({
-			loading_clients: true,
-		});
-		const url = process.env.REACT_APP_API_URL + '/sells';
-        const POSTDATA = {
-            limit: 100,
-            page: 1,
-            populate_ids:['client_id'],
-            filters: {
-                folio: Number(search_text)
-            }
-        }
-        
-        FetchXHR(url, 'POST', POSTDATA).then((response) => {
-            if (response.json.success) {
-                this.setState({
-					sells: response.json.data.docs.map((el, index)=>({
-						...el,
-						key: index
-                    })),
-                    loading_sells: false
-                });
-            } else {
-				this.setState({
-                    loading_sells: false,
-                    error: response.message
-				});
-            }
-        }).catch((onError) => {
-			this.setState({
-                loading_sells: false,
-                error: onError.message
-			});
-        });
-    }
-
-    onChangeSell(sell_id) {
-        this.setState({
-            sell_id: this.state.sells.find((el) => (el._id === sell_id))
-        });
-    }
-
     onChangeField(event, key) {
         let obj = {};
         obj[key] = event.target.value;
+        this.setState(obj);
+    }
+
+    onChangeFieldNumber(value, key) {
+        let obj = {};
+        obj[key] = value;
         this.setState(obj);
     }
 
@@ -123,6 +65,84 @@ class CreatePayment extends Component {
         this.setState(obj);
     }
 
+    onSubmitForm = (values, nested_values) => {
+		this.setState({
+			loading_submit: true
+		});
+		let POSTDATA = {
+			...values,
+			...nested_values,
+			subsidiary_id: this.props.session.subsidiary._id
+		}
+		let method = 'POST';
+        let method_put = 'PUT';
+
+        let url = process.env.REACT_APP_API_URL + '/payment';
+        let url_sell = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
+        const new_price = this.props.fields.payed + values.total;
+        const NEW_SELL = {
+            payed: new_price,
+            is_payed: new_price === this.props.fields.total ? true : false,
+        }
+        
+        let url_user = process.env.REACT_APP_API_URL + '/client/' + this.props.fields.client_id._id;
+        const NEW_CLIENT =  {
+            sells: this.props.fields.client_id.sells + values.total
+        }
+
+        FetchXHR(url_sell, method_put, NEW_SELL).then((response_sell) => {
+            if (response_sell.json.success) {
+                // sell updated:
+                FetchXHR(url, method, POSTDATA).then((response_payment) => {
+                    if (response_payment.json.success) {
+                        FetchXHR(url_user, method_put, NEW_CLIENT).then((response_client) => {
+                            if (response_client.json.success) {
+                                this.props.refreshTable();
+                                this.props.onClose();
+                            } else {
+                                console.log(response_client);
+                                this.setState({
+                                    error: response_client.json.message,
+                                    loading_submit: false
+                                });
+                            }
+                        }).catch((onError) => {
+                            console.log(onError);
+                            this.setState({
+                                error: onError.message,
+                                loading_submit: false
+                            });
+                        });
+                    } else {
+                        console.log(response_payment);
+                        this.setState({
+                            error: response_payment.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+            } else {
+				console.log(response_sell);
+				this.setState({
+					error: response_sell.json.message,
+					loading_submit: false
+				});
+            }
+        }).catch((onError) => {
+			console.log(onError);
+			this.setState({
+				error: onError.message,
+				loading_submit: false
+			});
+        });
+    }
+    
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
@@ -140,7 +160,7 @@ class CreatePayment extends Component {
                     type: this.state.type,
                     total: this.state.total,
                 }
-                this.props.onSubmit(Payment);
+                this.onSubmitForm(Payment);
             } else {
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
@@ -234,12 +254,12 @@ class CreatePayment extends Component {
                         <p style={styles.label_value}>{this.state.sell_id.client_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Folio:</p>
-                        <p style={styles.label_value}>{this.state.sell_id.folio}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Total:</p>
                         <p style={styles.label_value} >{this.state.sell_id.total}</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >Por pagar:</p>
+                        <p style={styles.label_value} >{this.state.sell_id.total - this.state.sell_id.payed}</p>
                     </Card.Grid>
                 </Fragment>
             );
@@ -251,8 +271,8 @@ class CreatePayment extends Component {
                     width="80%"
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
-                    visible={this.state.open}
-                    title={this.props.title}
+                    visible={true}
+                    title={this.props.fields.is_service ? "Pago de Servicio" : "Pago de Venta"}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={ModalButtons}
@@ -272,22 +292,7 @@ class CreatePayment extends Component {
                                 <Card
                                     title="Venta o Servicio"
                                     extra={
-                                        <Select
-                                            disabled={this.props.is_disabled}
-                                            size="large"
-                                            showSearch
-                                            value={this.state.sell_id.folio}
-                                            placeholder={'Buscar Venta o Servicio...'}
-                                            style={styles.inputSearch}
-                                            defaultActiveFirstOption={false}
-                                            showArrow={false}
-                                            filterOption={false}
-                                            onSearch={(value) => { this.getSells(value) }}
-                                            onChange={(value) => { this.onChangeSell(value) }}
-                                            notFoundContent={this.state.loading_sells ? <Spin size="small" /> : null}
-                                        >
-                                            {OptionsSells}
-                                        </Select>
+                                        <p> Folio # {this.state.sell_id.folio}</p>
                                     }
                                     style={styles.cardContainer}
                                 >
@@ -343,12 +348,12 @@ class CreatePayment extends Component {
                                     placeholder="Referencia"
                                     size="large"
                                 />
-                                <Input
+                                <InputNumber
                                     disabled={this.props.is_disabled}
                                     value={this.state.total}
                                     style={styles.inputElement}
                                     onChange={(value) => {
-                                        this.onChangeField(value, 'total');
+                                        this.onChangeFieldNumber(value, 'total');
                                     }}
                                     prefix={(
                                         <Icon
@@ -356,6 +361,7 @@ class CreatePayment extends Component {
                                             className="field-icon"
                                         />
                                     )}
+                                    max={this.state.sell_id.total - this.state.sell_id.payed}
                                     type="text"
                                     placeholder="Total ($)"
                                     size="large"

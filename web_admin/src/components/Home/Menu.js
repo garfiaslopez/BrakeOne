@@ -4,6 +4,7 @@ import Providers from '../Providers/Providers';
 import Products from '../Products/Products';
 import Packages from '../Products/Packages/Packages';
 import ProductServices from '../Products/Services/Services';
+import Kardex from '../Products/Kardex/Kardex';
 import Paysheet from '../Paysheet/Paysheet';
 import Clients from '../Clients/Clients';
 import Cashdrawer from '../Cashdrawer/Cashdrawer';
@@ -52,6 +53,11 @@ const adminMenu = [
                 'name': 'Servicios',
                 'icon': 'tool',
                 'component': ProductServices,
+            }, 
+            {
+                'name': 'Kardex',
+                'icon': 'swap',
+                'component': Kardex
             }
         ]
     },
@@ -72,7 +78,7 @@ const adminMenu = [
     },
     {
         'name': 'Nómina',
-        'icon': 'credit-card',
+        'icon': 'book',
         'component': Paysheet,
     },
     {

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import CreateSell from './CreateSell';
 import RenderRows from '../../helpers/render_rows';
-import CreatePayment from './CreatePayment';
+import CreatePayment from '../Payments/CreatePayment';
 
 import {
     Divider,
@@ -65,57 +65,66 @@ class Sells extends CrudLayout {
 				width: '15%'
 			}
 		];
-
 		if (this.props.session.user.rol === 'admin' ||
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
 				width: '15%',
-            	render: (text, record) => (
-					<span>
-						<a 
-							href="javascript:;" 
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.setState({
-									selected_data: record,
-									open_custom_modal: 'open_create_payment'
-								});
-							}}
-						>
-							Pagar
-						</a>
-						<Divider type="vertical" />
-						<a
-							href="javascript:;" 
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.onEdit(record);
-							}}
-						>
-							Editar
-						</a>
-						<Divider type="vertical" />
-						<Popconfirm
-							onClick={(event)=> {
-								event.stopPropagation();
-							}}
-							title="¿Esta seguro de eliminar?" 
-							okText="Eliminar"
-							cancelText="Cancelar"
-							onCancel={(event) => {
-								event.stopPropagation();
-							}}
-							onConfirm={(event) => {
-								event.stopPropagation();
-								this.onDelete(record);
-							}}
-						>
-                			<a>Eliminar</a>
-              			</Popconfirm>
-					</span>
-            	),
+            	render: (text, record) => {
+					let PayButton = <div></div>;
+					if (!record.is_payed) {
+						PayButton = (
+							<Fragment>
+								<a 
+									href="javascript:;" 
+									onClick={(event)=> {
+										event.stopPropagation();
+										this.setState({
+											selected_data: record,
+											open_custom_modal: 'open_create_payment'
+										});
+									}}
+								>
+									Pagar
+								</a>
+								<Divider type="vertical" />
+							</Fragment>
+						);
+					};
+					return (
+						<span>
+							{PayButton}
+							<a
+								href="javascript:;" 
+								onClick={(event)=> {
+									event.stopPropagation();
+									this.onEdit(record);
+								}}
+							>
+								Editar
+							</a>
+							<Divider type="vertical" />
+							<Popconfirm
+								onClick={(event)=> {
+									event.stopPropagation();
+								}}
+								title="¿Esta seguro de eliminar?" 
+								okText="Eliminar"
+								cancelText="Cancelar"
+								onCancel={(event) => {
+									event.stopPropagation();
+								}}
+								onConfirm={(event) => {
+									event.stopPropagation();
+									this.onDelete(record);
+								}}
+							>
+								<a>Eliminar</a>
+							</Popconfirm>
+						</span>
+					);
+				}
 			});
 		} else {
 			this.table_columns.push({

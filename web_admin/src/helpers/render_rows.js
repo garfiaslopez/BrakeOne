@@ -99,4 +99,20 @@ export default {
             children: <p style={{color}}>{text.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} %</p>,
         });
     },
+
+    //RENDER CAR ROWS
+
+    renderCarServices: (text, record) => {
+        const car = record.client_id.cars.find((el)=>(el._id === text));
+        let color = 'black';
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        return ({
+            children: <p style={{color}}>{car.brand + ' - ' + car.model}</p>,
+        });
+    }
 }

@@ -2,30 +2,20 @@ import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import CreateService from './CreateService';
 import RenderRows from '../../helpers/render_rows';
+import CreatePayment from '../Payments/CreatePayment';
 
 import { 
     Divider,
 	Popconfirm
 } from 'antd';
 
-const renderCar = (text, record) => {
-	const car = record.client_id.cars.find((el)=>(el._id === text));
-	let color = 'black';
-	if (!record.is_payed) {
-		color = 'red';
-	}
-	if (!record.is_finished) {
-		color = 'blue';
-	}
-	return ({
-		children: <p style={{color}}>{car.brand + ' - ' + car.model}</p>,
-	});
-};
-
 class Services extends CrudLayout {
     constructor(props) {
 		super(props);
 		this.custom_submit = CreateService;
+		this.custom_modals = {
+			'open_create_payment': CreatePayment
+		}
 		this.state = { // render vars:
 			filters_layout: ['search','date_range']
 		};
@@ -58,7 +48,7 @@ class Services extends CrudLayout {
             	dataIndex: 'folio',
 				key: 'folio',
 				render: RenderRows.renderRowTextSells,
-				width: '15%'
+				width: '10%'
 			},
 			{
             	title: 'Cliente',
@@ -71,14 +61,14 @@ class Services extends CrudLayout {
             	title: 'Carro',
             	dataIndex: 'car_id',
 				key: 'car_id',
-				width: '10%',
-				render: renderCar
+				width: '15%',
+				render: RenderRows.renderCarServices
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
-				render: RenderRows.renderRowNumber,
+				render: RenderRows.renderRowNumberSells,
 				width: '15%'
 			}
 		];
@@ -89,37 +79,60 @@ class Services extends CrudLayout {
             	title: 'Acciones',
 				key: 'action',
 				width: '15%',
-            	render: (text, record) => (
-					<span>
-						<a 
-							href="javascript:;" 
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.onEdit(record);
-							}}
-						>
-							Editar
-						</a>
-						<Divider type="vertical" />
-						<Popconfirm
-							onClick={(event)=> {
-								event.stopPropagation();
-							}}
-							title="¿Esta seguro de eliminar?" 
-							okText="Eliminar"
-							cancelText="Cancelar"
-							onCancel={(event) => {
-								event.stopPropagation();
-							}}
-							onConfirm={(event) => {
-								event.stopPropagation();
-								this.onDelete(record);
-							}}
-						>
-                			<a>Eliminar</a>
-              			</Popconfirm>
-					</span>
-            	),
+				render: (text, record) => {
+					let PayButton = <div></div>;
+					if (!record.is_payed) {
+						PayButton = (
+							<Fragment>
+								<a 
+									href="javascript:;" 
+									onClick={(event)=> {
+										event.stopPropagation();
+										this.setState({
+											selected_data: record,
+											open_custom_modal: 'open_create_payment'
+										});
+									}}
+								>
+									Pagar
+								</a>
+								<Divider type="vertical" />
+							</Fragment>
+						);
+					};
+					return (
+						<span>
+							{PayButton}
+							<a 
+								href="javascript:;" 
+								onClick={(event)=> {
+									event.stopPropagation();
+									this.onEdit(record);
+								}}
+							>
+								Editar
+							</a>
+							<Divider type="vertical" />
+							<Popconfirm
+								onClick={(event)=> {
+									event.stopPropagation();
+								}}
+								title="¿Esta seguro de eliminar?" 
+								okText="Eliminar"
+								cancelText="Cancelar"
+								onCancel={(event) => {
+									event.stopPropagation();
+								}}
+								onConfirm={(event) => {
+									event.stopPropagation();
+									this.onDelete(record);
+								}}
+							>
+								<a>Eliminar</a>
+							  </Popconfirm>
+						</span>
+					);
+				},
 			});
 		} else {
 			this.table_columns.push({

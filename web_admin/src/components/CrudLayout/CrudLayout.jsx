@@ -111,6 +111,12 @@ class CrudLayout extends Component {
 	}
 
 	// MODAL FORM:
+
+	refreshTable = () => {
+		console.log("reload table data");
+		this.getData();
+	}
+
     onOpenSubmitForm = () => {
 		this.setState({
 			opened_submit: true,
@@ -133,7 +139,31 @@ class CrudLayout extends Component {
 		});
 	}
 
-	// CREATE 
+	onCustomSubmitForm = (new_obj) => {
+		const newArray = Object.assign([],this.state.table_data);
+		if (this.state.selected_data) {
+			const i = newArray.findIndex((el)=>(el._id === this.state.selected_data._id));
+			newArray[i] = {
+				...new_obj,
+				key: i
+			}
+		} else {
+			newArray.unshift({
+				...new_obj,
+				key: newArray.length
+			});
+		}
+		this.setState({
+			table_data: newArray,
+			total_docs: newArray.length,
+			loading_submit: false,
+			opened_submit: false,
+			error: null,
+			selected_data: null
+		});
+	}
+
+	// CREATE NORMAL SUBMIT:
 	onSubmitForm = (values, nested_values) => {
 		this.setState({
 			loading_submit: true
@@ -332,6 +362,7 @@ class CrudLayout extends Component {
 						loading={this.state.loading_submit}
 						onClose={this.onCloseSubmitForm}
 						onSubmit={this.onSubmitForm}
+						onCustomSubmit={this.onCustomSubmitForm}
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
@@ -370,6 +401,7 @@ class CrudLayout extends Component {
 						loading={this.state.loading_submit}
 						onClose={this.onCloseSubmitForm}
 						onSubmit={this.onSubmitForm}
+						onCustomSubmit={this.onCustomSubmitForm}
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
@@ -450,12 +482,26 @@ class CrudLayout extends Component {
 					onClose={()=>{
 						this.setState({open_custom_modal: undefined})
 					}}
+					refreshTable={this.refreshTable}
 					error={this.state.error}
 					dismissError={() => {
 						this.setState({ error: null });
 					}}
 					session={this.props.session}
 				/>
+			);
+		}
+		let Add_Button = <div></div>;
+		if (!this.no_render_add) {
+			Add_Button = (
+				<Button 
+						type="primary" 
+						size="large"
+						onClick={this.onOpenSubmitForm}
+					>
+					<Icon type="plus-circle-o" />
+					Agregar Nuevo
+				</Button>
 			);
 		}
 
@@ -465,14 +511,7 @@ class CrudLayout extends Component {
                 <Divider dashed={true} orientation="left">Acciones</Divider>
                 <div style={styles.actions}>
 					{PrinterDownloadButton}
-					<Button 
-						type="primary" 
-						size="large"
-						onClick={this.onOpenSubmitForm}
-					>
-                        <Icon type="plus-circle-o" />
-                        Agregar Nuevo
-                    </Button>
+					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">Filtros</Divider>
                 <div style={styles.filters}>

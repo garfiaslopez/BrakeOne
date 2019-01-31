@@ -80,7 +80,8 @@ class OrderCreator extends Component {
             selected_quantity: 1,
             selected_discount: 0,
             selected_user: {},
-            total: props.init_data.total | 0
+            total: props.init_data.total | 0,
+            products: props.init_data.products
         }
 
         this.scroll_table = 300;
@@ -208,27 +209,32 @@ class OrderCreator extends Component {
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
                 width: '20%',
-            	render: (text, record) => (
-                    <span>
-                        <Popconfirm
-                            onClick={(event)=> {
-                                event.stopPropagation();
-                            }}
-                            title="¿Esta seguro de eliminar?" 
-                            okText="Eliminar"
-                            cancelText="Cancelar"
-                            onCancel={(event) => {
-                                event.stopPropagation();
-                            }}
-                            onConfirm={(event) => {
-                                event.stopPropagation();
-                                this.deleteRecord(record);
-                            }}
-                        >
-                            <a>Eliminar</a>
-                        </Popconfirm>
-                    </span>
-                ),
+            	render: (text, record) => {
+                    if(!record._id) {
+                        return (
+                            <span>
+                                <Popconfirm
+                                    onClick={(event)=> {
+                                        event.stopPropagation();
+                                    }}
+                                    title="¿Esta seguro de eliminar?" 
+                                    okText="Eliminar"
+                                    cancelText="Cancelar"
+                                    onCancel={(event) => {
+                                        event.stopPropagation();
+                                    }}
+                                    onConfirm={(event) => {
+                                        event.stopPropagation();
+                                        this.deleteRecord(record);
+                                    }}
+                                >
+                                    <a>Eliminar</a>
+                                </Popconfirm>
+                            </span>
+                        );
+                    }
+                    return <div></div>;
+                },
 		  	});
         }
 
@@ -357,6 +363,9 @@ class OrderCreator extends Component {
                                         key: index + results.length
                                     });
                                 });
+
+                                // Get quantity diff from selected data. (?)
+
                                 this.setState({
                                     results_data: results,
                                     loading_data: false
@@ -434,13 +443,20 @@ class OrderCreator extends Component {
         });
     }
 
+    // update actual list product stock, minus selected quantity.
+    // 
     addRecord(record) {
         if ((record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if (record.stock > 0) {
+            if (record.stock > 0 && (record.stock - this.state.selected_quantity) >= 0) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
+
                     let actualProducts = Object.assign([] ,this.state.selected_data);
+
+                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
+                    // actualProducts[id].stock -= record.quantity;
+
+                    // Price selector:
                     let Price = Number(record.price_public);
-    
                     if (this.state.price_type === 'PUBLICO') {
                         Price = Number(record.price_public);
                     } else if (this.state.price_type === 'MAYOREO') {
@@ -448,11 +464,11 @@ class OrderCreator extends Component {
                     } else if (this.state.price_type === 'TALLER' ) {
                         Price = Number(record.price_workshop);
                     }
-    
+
+                    // total price:
                     const P = Number(this.state.selected_quantity) * Price;
                     const Discount = (P * Number(this.state.selected_discount)) / 100;
-                    
-                    console.log(Price, P, Discount);
+                    const new_total = round2(this.state.total + (P - Discount));
     
                     actualProducts.push({
                         key: this.state.selected_data.length + 1,
@@ -465,9 +481,10 @@ class OrderCreator extends Component {
                         price: Price,
                         quantity: this.state.selected_quantity,
                         discount: this.state.selected_discount | 0,
-                        total: round2(P - Discount)
+                        total: round2(P - Discount),
+                        old_stock: record.stock,
                     });
-                    const new_total = round2(this.state.total + (P - Discount));
+
                     this.setState({
                         selected_data: actualProducts,
                         selected_quantity: 1,

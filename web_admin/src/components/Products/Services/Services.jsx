@@ -13,7 +13,7 @@ class ProductService extends CrudLayout {
 		super(props);
 		this.schema = Schema;
 		this.state = { // render vars:
-			filters_layout: ['search','data_range'],
+			filters_layout: ['search','date_range'],
 		};
         this.model = {
 			name: 'service',

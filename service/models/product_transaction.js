@@ -22,6 +22,9 @@ var ProductTransactionSchema = new Schema({
     price: {
         type: Number
     },
+    discount: {
+        type: Number
+    },
     total: {
         type: Number
     },

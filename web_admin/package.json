@@ -5,6 +5,7 @@
   "dependencies": {
     "@react-pdf/renderer": "1.0.0",
     "antd": "3.11.0",
+    "async": "^2.6.1",
     "express": "^4.16.4",
     "html2canvas": "1.0.0-alpha.12",
     "jspdf": "1.4.1",
