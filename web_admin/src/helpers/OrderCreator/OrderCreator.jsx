@@ -12,7 +12,8 @@ import {
     Select,
     Popconfirm,
     Divider,
-    Input
+    Input,
+    Pagination
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
@@ -586,9 +587,6 @@ class OrderCreator extends Component {
                         style={styles.rowContainer}
                     >
                         <Table
-                            onHeaderRow = {(column, index)=>{
-                                console.log(column, index);
-                            }}
                             size="small"
                             scroll={{ y: 200 }}
                             style={styles.tableLayout}
@@ -599,6 +597,10 @@ class OrderCreator extends Component {
                                 filterConfirm: 'Ok',
                                 filterReset: 'Reset',
                                 emptyText: 'Sin Datos'
+                            }}
+                            pagination={{
+                                pageSize: 1000,
+                                size:'small',
                             }}
                             onRow={(record) => {
                                 return {
@@ -635,6 +637,10 @@ class OrderCreator extends Component {
                                 filterConfirm: 'Ok',
                                 filterReset: 'Reset',
                                 emptyText: 'Sin Datos'
+                            }}
+                            pagination={{
+                                pageSize: 1000,
+                                size:'small',
                             }}
                         />
                         <div style={styles.labelContainer}>

@@ -286,7 +286,7 @@ class CreateQuotation extends Component {
                         value={item._id}
                         key={`${item._id} - ${index}`} 
                     >
-                        {item.brand + ' _ ' + item.model}
+                        {item.model + ' - ' + item.plates}
                     </Select.Option>
                 );
             });
@@ -350,6 +350,7 @@ class CreateQuotation extends Component {
                                         </Fragment>
                                     }
                                     style={styles.cardContainer}
+                                    bodyStyle={styles.cardBody}
                                 >
                                 <div
                                     style={styles.inputsContainer}

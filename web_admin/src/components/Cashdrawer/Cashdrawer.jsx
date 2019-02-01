@@ -4,7 +4,8 @@ import Schema from './CashdrawerSchema';
 
 import { 
     Divider,
-	Popconfirm
+	Popconfirm,
+	Button
 } from 'antd';
 
 class Cashdrawer extends CrudLayout {
@@ -61,26 +62,71 @@ class Cashdrawer extends CrudLayout {
             	dataIndex: 'balance',
 				key: 'balance',
 				sorter: true
-			},
-			{
+			}
+		];
+
+		if (this.props.session.user.rol === 'admin' ||
+			this.props.session.user.rol === 'manager') {
+			this.table_columns.push({
+            	title: 'Acciones',
+				key: 'action',
+				width: '15%',
+            	render: (text, record) => (
+					<span>
+
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="edit"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						/>
+						<Divider type="vertical" />
+						<Popconfirm
+							onClick={(event)=> {
+								event.stopPropagation();
+							}}
+							title="¿Esta seguro de eliminar?" 
+							okText="Eliminar"
+							cancelText="Cancelar"
+							onCancel={(event) => {
+								event.stopPropagation();
+							}}
+							onConfirm={(event) => {
+								event.stopPropagation();
+								this.onDelete(record);
+							}}
+						>
+                			<Button 
+								type="danger" 
+								shape="circle"
+								icon="delete"
+							/>
+              			</Popconfirm>
+					</span>
+            	),
+			});
+		} else {
+			this.table_columns.push({
             	title: 'Acciones',
             	key: 'action',
             	render: (text, record) => (
 					<span>
-						<a href="javascript:;" onClick={()=> this.onEdit(record)}>Editar</a>
-						<Divider type="vertical" />
-						<Popconfirm 
-							title="¿Esta seguro de eliminar?" 
-							okText="Eliminar"
-							cancelText="Cancelar"
-							onConfirm={() => this.onDelete(record)}
-						>
-                			<a>Eliminar</a>
-              			</Popconfirm>
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="edit"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						/>
 					</span>
             	),
-		  	}
-		];
+			});
+		}
 	}
 }
 

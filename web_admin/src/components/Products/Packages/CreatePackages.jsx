@@ -39,13 +39,11 @@ class CreatePackages extends Component {
             	title: 'Cantidad',
             	dataIndex: 'quantity',
 				key: 'quantity',
-				fixed: 'left',
 			},
 			{
             	title: 'Llave',
             	dataIndex: 'key_id',
 				key: 'key_id',
-				fixed: 'left',
 			},
 			{
             	title: 'FMSI',

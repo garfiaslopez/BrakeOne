@@ -409,48 +409,9 @@ class CreateService extends Component {
     }
 
     printCarHistory() {
-
         this.setState({
             opened_printer_history: true
         });
-
-        /*
-        if (this.state.car_id) {
-            this.setState({
-                loading_car_history: true,
-            });
-            const url = process.env.REACT_APP_API_URL + '/sells';
-            const POSTDATA = {
-                limit: 100,
-                page: 1,
-                filters: {
-                    client_id: this.state.client_id,
-                    car_id: this.state.car_id,
-                    is_service: true,
-                    is_finished: true,
-                }
-            }
-            FetchXHR(url, 'POST', POSTDATA).then((response) => {
-                if (response.json.success) {
-                    const sells_by_car = response.json.data.docs;
-                    this.setState({
-                        opened_printer_history: true,
-                        loading_car_history: false
-                    });
-                } else {
-                    this.setState({
-                        loading_car_history: false,
-                        error: response.message
-                    });
-                }
-            }).catch((onError) => {
-                this.setState({
-                    loading_car_history: false,
-                    error: onError.message
-                });
-            });
-        }
-        */
     }
 
 
@@ -545,13 +506,13 @@ class CreateService extends Component {
                         value={item._id}
                         key={`${item._id} - ${index}`} 
                     >
-                        {item.brand + ' _ ' + item.model}
+                        {item.model + ' - ' + item.plates}
                     </Select.Option>
                 );
             });
         }
 
-        let CardContent = <div> Favor de buscar y seleccionar un cliente. </div>;
+        let CardContent = <div style={styles.cardInitialText}> Favor de buscar y seleccionar un cliente. </div>;
         if (this.state.client_id._id) {
             CardContent = (
                 <Fragment>
@@ -693,7 +654,6 @@ class CreateService extends Component {
                             title: 'Fecha',
                             dataIndex: 'date',
                             key: 'date',
-                            fixed: 'left',
                             render: RenderRows.renderRowDateSells,
                             width: '15%'
                         },
@@ -809,6 +769,7 @@ class CreateService extends Component {
                                         </Fragment>
                                     }
                                     style={styles.cardContainer}
+                                    bodyStyle={styles.cardBody}
                                 >
                                     {CardContent}
                                 </Card>

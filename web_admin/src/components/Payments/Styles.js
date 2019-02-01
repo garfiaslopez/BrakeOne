@@ -35,10 +35,23 @@ export default {
         marginLeft: 10,
         marginRight: 10,
     },
+    cardBody: {
+        padding: 0,
+    },
+    cardInitialText: {
+        margin: 24,
+    },
     grid_element: {
-        height: 100,
+        height: 50,
         width: '25%',
+        padding: 0,
+        paddingRight: 10,
+        paddingLeft: 10,
         textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end'
     },
     inputSearch: {
         height: 40,
@@ -49,5 +62,10 @@ export default {
     },
     label_value: {
 
+    },
+    folioText: {
+        margin: -10,
+        color: 'rgb(236, 52, 36)',
+        fontWeight: 'bold'
     }
 }

@@ -10,7 +10,7 @@ import {
     Card,
     InputNumber
 } from 'antd';
-import styles from '../Sells/Styles';
+import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
@@ -292,9 +292,10 @@ class CreatePayment extends Component {
                                 <Card
                                     title="Venta o Servicio"
                                     extra={
-                                        <p> Folio # {this.state.sell_id.folio}</p>
+                                        <p style={styles.folioText}> Folio # {this.state.sell_id.folio}</p>
                                     }
                                     style={styles.cardContainer}
+                                    bodyStyle={styles.cardBody}
                                 >
                                     {CardContent}
                                 </Card>

@@ -5,7 +5,8 @@ import RenderRows from '../../helpers/render_rows';
 
 import { 
     Divider,
-	Popconfirm
+	Popconfirm,
+	Button
 } from 'antd';
 
 class Payments extends CrudLayout {
@@ -35,7 +36,6 @@ class Payments extends CrudLayout {
             	title: 'Fecha',
             	dataIndex: 'date',
 				key: 'date',
-				fixed: 'left',
 				render: RenderRows.renderRowDate,
 				width: '15%'
 			},
@@ -80,15 +80,16 @@ class Payments extends CrudLayout {
 				width: '15%',
             	render: (text, record) => (
 					<span>
-						<a 
-							href="javascript:;" 
+
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="edit"
 							onClick={(event)=> {
 								event.stopPropagation();
 								this.onEdit(record);
 							}}
-						>
-							Editar
-						</a>
+						/>
 						<Divider type="vertical" />
 						<Popconfirm
 							onClick={(event)=> {
@@ -105,7 +106,11 @@ class Payments extends CrudLayout {
 								this.onDelete(record);
 							}}
 						>
-                			<a>Eliminar</a>
+                			<Button 
+								type="danger" 
+								shape="circle"
+								icon="delete"
+							/>
               			</Popconfirm>
 					</span>
             	),
@@ -116,15 +121,15 @@ class Payments extends CrudLayout {
             	key: 'action',
             	render: (text, record) => (
 					<span>
-						<a 
-							href="javascript:;" 
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="edit"
 							onClick={(event)=> {
 								event.stopPropagation();
 								this.onEdit(record);
 							}}
-						>
-							Editar
-						</a>
+						/>
 					</span>
             	),
 			});

@@ -31,7 +31,6 @@ class ProductService extends CrudLayout {
             	title: 'Fecha',
             	dataIndex: 'date',
 				key: 'date',
-				fixed: 'left',
 				render: RenderRows.renderRowDate,
 				width: '10%'
 			},

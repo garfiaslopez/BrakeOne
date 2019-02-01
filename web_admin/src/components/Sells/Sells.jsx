@@ -6,7 +6,8 @@ import CreatePayment from '../Payments/CreatePayment';
 
 import {
     Divider,
-	Popconfirm
+	Popconfirm,
+	Button
 } from 'antd';
 
 class Sells extends CrudLayout {
@@ -39,7 +40,6 @@ class Sells extends CrudLayout {
             	title: 'Fecha',
             	dataIndex: 'date',
 				key: 'date',
-				fixed: 'left',
 				render: RenderRows.renderRowDateSells,
 				width: '15%'
 			},
@@ -76,8 +76,10 @@ class Sells extends CrudLayout {
 					if (!record.is_payed) {
 						PayButton = (
 							<Fragment>
-								<a 
-									href="javascript:;" 
+								<Button 
+									type="primary" 
+									shape="circle" 
+									icon="credit-card"
 									onClick={(event)=> {
 										event.stopPropagation();
 										this.setState({
@@ -85,9 +87,7 @@ class Sells extends CrudLayout {
 											open_custom_modal: 'open_create_payment'
 										});
 									}}
-								>
-									Pagar
-								</a>
+								/>
 								<Divider type="vertical" />
 							</Fragment>
 						);
@@ -95,15 +95,15 @@ class Sells extends CrudLayout {
 					return (
 						<span>
 							{PayButton}
-							<a
-								href="javascript:;" 
+							<Button 
+								type="primary" 
+								shape="circle" 
+								icon="edit"
 								onClick={(event)=> {
 									event.stopPropagation();
 									this.onEdit(record);
 								}}
-							>
-								Editar
-							</a>
+							/>
 							<Divider type="vertical" />
 							<Popconfirm
 								onClick={(event)=> {
@@ -120,7 +120,11 @@ class Sells extends CrudLayout {
 									this.onDelete(record);
 								}}
 							>
-								<a>Eliminar</a>
+								<Button 
+									type="danger" 
+									shape="circle" 
+									icon="delete"
+								/>
 							</Popconfirm>
 						</span>
 					);
