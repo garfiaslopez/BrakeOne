@@ -95,19 +95,19 @@ var SellSchema = new Schema({
         type: Boolean,
         default: false
     },
-    is_claim: { 
+    is_claim: {
         type: Boolean,
         default: false
     },
-    is_return: { 
+    is_canceled: {
         type: Boolean,
         default: false
     },
-    is_remission: { 
+    is_remission: {
         type: Boolean,
         default: true
     },
-    is_service: { 
+    is_service: {
         type: Boolean
     },
     is_finished: {

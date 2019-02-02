@@ -4,7 +4,8 @@ import SubsidiarysSchema from './SubsidiarysSchema';
 
 import { 
     Divider,
-	Popconfirm
+	Popconfirm,
+	Button
 } from 'antd';
 
 class Subsidiarys extends CrudLayout {
@@ -50,18 +51,19 @@ class Subsidiarys extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '20%',
+				width: '15%',
             	render: (text, record) => (
 					<span>
-						<a 
-							href="javascript:;" 
+
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="edit"
 							onClick={(event)=> {
 								event.stopPropagation();
 								this.onEdit(record);
 							}}
-						>
-							Editar
-						</a>
+						/>
 						<Divider type="vertical" />
 						<Popconfirm
 							onClick={(event)=> {
@@ -78,8 +80,30 @@ class Subsidiarys extends CrudLayout {
 								this.onDelete(record);
 							}}
 						>
-                			<a>Eliminar</a>
+                			<Button 
+								type="danger" 
+								shape="circle"
+								icon="delete"
+							/>
               			</Popconfirm>
+					</span>
+            	),
+			});
+		} else {
+			this.table_columns.push({
+            	title: 'Acciones',
+            	key: 'action',
+            	render: (text, record) => (
+					<span>
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="edit"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						/>
 					</span>
             	),
 			});

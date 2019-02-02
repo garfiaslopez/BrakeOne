@@ -31,16 +31,21 @@ export default {
         marginLeft: 10,
         marginRight: 10,
     },
+    cardBody: {
+        padding: 0,
+        paddingTop: 15
+    },
     grid_element: {
         width: '20%',
         height: 100,
         textAlign: 'center',
     },
     inputSearch: {
+        margin: -10,
         height: 40,
         width: 200,
-        paddingRight:5,
-        paddingLeft: 5
+        paddingRight:15,
+        paddingLeft: 15
     },
     buttonHistory: {
         height: 40,

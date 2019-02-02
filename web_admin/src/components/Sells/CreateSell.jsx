@@ -193,6 +193,7 @@ class CreateSell extends Component {
                     services: this.state.services,
                     total: this.state.total,
                     is_service: false,
+                    is_canceled: false,
                     is_finished: true,
                     is_payed: this.state.total_payments < this.state.total ? false : true
                 }
@@ -390,12 +391,12 @@ class CreateSell extends Component {
             );
         });
 
-        let CardContent = <div> Favor de buscar y seleccionar un cliente. </div>;
+        let CardContent = <div style={styles.cardInitialText}> Favor de buscar y seleccionar un cliente. </div>;
         if (this.state.client_id._id) {
             CardContent = (
                 <Fragment>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Nombre:</p>
+                        <p style={styles.label_title} >Nombre: </p>
                         <p style={styles.label_value} >{this.state.client_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
@@ -539,6 +540,7 @@ class CreateSell extends Component {
                                         </Select>
                                     }
                                     style={styles.cardContainer}
+                                    bodyStyle={styles.cardBody}
                                 >
                                     {CardContent}
                                 </Card>
