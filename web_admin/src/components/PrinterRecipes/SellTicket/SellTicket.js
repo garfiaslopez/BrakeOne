@@ -27,17 +27,20 @@ const defaultProps = {
     },
     folio: '3443-2453',
     sellItems: [{
-        key: 'P56101N',
-        concept: '1 balata trasera brembo 3072',
-        total: 575
+        datakey: 'P56101N',
+        description: 'balata trasera brembo 3072',
+        quantity: 1,
+        charge: 575
     }, {
-        key: 'P56341N',
-        concept: '1 balata chida brembo 3072',
-        total: 585
+        datakey: 'P56341N',
+        description: 'balata chida brembo 3072',
+        quantity: 2,
+        charge: 585
     }, {
-        key: 'P56231N',
-        concept: '1 balata',
-        total: 223
+        datakey: 'P56231N',
+        description: 'balata',
+        quantity: 1,
+        charge: 223
     }],
     totalNumber: 1383,
     totalString: 'mil trescientos ochenta y tres pesos M.N.'
@@ -125,9 +128,9 @@ const SellTicket = ({
             <ul>
                 {sellItems.map((item, i) => (
                     <li className="recipe__flex-container" key={i}>
-                        <span>{item.key}</span>
-                        <span>{item.total}</span>
-                        <span>{item.concept}</span>
+                        <span>{item.datakey}</span>
+                        <span>{item.charge}</span>
+                        <span>{`${item.quantity} ${item.description}`}</span>
                     </li>
                 ))}
             </ul>

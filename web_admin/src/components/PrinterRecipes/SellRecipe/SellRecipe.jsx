@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Table } from 'antd';
+import { Table } from 'antd';
 import moment from 'moment';
 
 import './Styles.css';
-import { sellSource, sellColumns } from './SellDataSource';
+import { sellItems, sellColumns } from './SellDataSource';
 
 const propTypes = {
     folio: PropTypes.string,
@@ -168,7 +168,7 @@ const SellRecipe = ({
                 size="small"
                 indentSize={0}
                 pagination={false}
-                dataSource={sellSource}
+                dataSource={sellItems}
                 columns={sellColumns}
             />
             {renderTotal()}

@@ -20,6 +20,7 @@ import NotFound from './helpers/NotFound';
 
 import SellRecipe from './components/PrinterRecipes/SellRecipe/SellRecipe';
 import SellTicket from './components/PrinterRecipes/SellTicket/SellTicket';
+import QuotationRecipe from './components/PrinterRecipes/QuotationRecipe/QuotationRecipe';
 
 //import injectTapEventPlugin from 'react-tap-event-plugin';
 //injectTapEventPlugin();
@@ -139,6 +140,7 @@ ReactDOM.render(
 
             <PrivateRoute exact path="/recipes/sell" component={SellRecipe}/>
             <PrivateRoute exact path="/recipes/sell-ticket" component={SellTicket}/>
+            <PrivateRoute exact path="/recipes/quotation" component={QuotationRecipe}/>
             <Route path="/*" component={NotFound} />
         </Switch>
     </Router>

@@ -117,4 +117,5 @@ table {
 .recipe__footer p {
     margin: 0;
     line-height: 1.7;
+    font-size: .9em;
 }
