@@ -214,7 +214,9 @@ class CreateService extends Component {
                     total: this.state.total,
                     is_service: true,
                     car_id: this.state.car_id,
-                    kilometers: this.state.kilometers
+                    kilometers: this.state.kilometers,
+                    is_payed: this.state.total_payments < this.state.total ? false : true,
+                    status: this.state.total_payments < this.state.total ? 'DEUDA' : 'PAGADA',
                 }
                 this.props.onSubmit(Sell);
             } else {
@@ -245,7 +247,6 @@ class CreateService extends Component {
                     is_service: true,
                     car_id: this.state.car_id,
                     kilometers: this.state.kilometers,
-                    is_payed: this.state.total_payments < this.state.total ? false : true
                 }
                 //this.props.onSubmit(Sell);
 
@@ -312,7 +313,7 @@ class CreateService extends Component {
                                     price: p.price,
                                     discount: p.discount,
                                     total: p.total,
-                                    type: 'VENTA',
+                                    type: 'VENTA_SERVICIO',
                                     date: moment().toISOString()
                                 }
                                 console.log(new_transaction);
@@ -388,7 +389,8 @@ class CreateService extends Component {
                         car_id: this.state.car_id,
                         kilometers: this.state.kilometers,
                         date_out: moment().toISOString(),
-                        is_finished: true
+                        is_finished: true,
+                        status: 'entregado'
                     }
                     this.props.onSubmit(Sell);
                 } else {

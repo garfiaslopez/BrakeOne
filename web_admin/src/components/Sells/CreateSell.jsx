@@ -193,9 +193,7 @@ class CreateSell extends Component {
                     services: this.state.services,
                     total: this.state.total,
                     is_service: false,
-                    is_canceled: false,
-                    is_finished: true,
-                    is_payed: this.state.total_payments < this.state.total ? false : true
+                    is_finished: true
                 }
                 //this.props.onSubmit(Sell);
 

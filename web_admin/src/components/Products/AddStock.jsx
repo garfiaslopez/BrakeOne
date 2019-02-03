@@ -15,7 +15,7 @@ import { FetchXHR } from '../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 
-class CreatePayment extends Component {
+class AddStock extends Component {
     constructor(props) {
         super(props);
         let initial_state = {
@@ -398,4 +398,4 @@ class CreatePayment extends Component {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default CreatePayment;
+export default AddStock;

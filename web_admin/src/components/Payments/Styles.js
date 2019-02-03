@@ -64,7 +64,7 @@ export default {
 
     },
     folioText: {
-        margin: -10,
+        margin: 0,
         color: 'rgb(236, 52, 36)',
         fontWeight: 'bold'
     }

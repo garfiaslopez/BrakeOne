@@ -58,7 +58,7 @@ class CrudLayout extends Component {
 			loading_data: true,
 		});
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.plural;
-        let POSTDATA = {
+        var POSTDATA = {
             limit: this.limit,
 			page: this.page,
 			filters: {}
@@ -84,6 +84,18 @@ class CrudLayout extends Component {
 		if (this.populate_ids) {
 			POSTDATA['populate_ids'] = this.populate_ids;
 		}
+
+		// WUATEFOK HERE!
+		console.log(POSTDATA);
+
+		if (this.table_filters) {
+			Object.keys(this.table_filters).forEach((f) => {
+				if (this.table_filters[f].length > 0) {
+					POSTDATA['filters'][f] = Object.assign([],this.table_filters[f]);
+				}
+			});
+		}
+		console.log(POSTDATA);
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 this.setState({
@@ -270,8 +282,8 @@ class CrudLayout extends Component {
 				error: onError.message
 			});
         });
-
 	}
+
 
 	// ACTIONS HANDLERS:
 
@@ -308,6 +320,8 @@ class CrudLayout extends Component {
 			this.sort_field = sorter.columnKey;
 			this.sort_order = sorter.order == 'ascend' ? 1 : -1;
 		}
+		this.table_filters = filters;
+		console.log(this.table_filters);
 		this.getData();
 	}
 
@@ -505,12 +519,28 @@ class CrudLayout extends Component {
 			);
 		}
 
+		let RenderActions = <div></div>;
+		if (this.actions) {
+			RenderActions = this.actions.map((action) => {
+				return (
+					<Button 
+						type="primary" 
+						size="large"
+						onClick={action.func}
+					>
+						<Icon type={action.icon} />
+						{action.label}
+					</Button>
+				);
+			});
+		}
         return (
             <Fragment>
 				{form}
                 <Divider dashed={true} orientation="left">Acciones</Divider>
                 <div style={styles.actions}>
 					{PrinterDownloadButton}
+					{RenderActions}
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">Filtros</Divider>

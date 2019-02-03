@@ -45,9 +45,13 @@ var PaymentSchema = new Schema({
 	total: {
 		type: Number
 	},
+	is_canceled: {
+        type: Boolean,
+        default: false
+    },
 	status: {
 		type: String,
-		default: 'normal'
+		default: 'normal' // normal, cancelado
 	},
 	date: {
 		type: Date,

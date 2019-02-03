@@ -37,7 +37,7 @@ var SellSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'remission' // remission, pending, 
+        default: 'NORMAL' // pagada, cancelada, deuda, activa
     },
     date_in: {
         type: Date,

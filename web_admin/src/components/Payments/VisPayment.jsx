@@ -15,7 +15,7 @@ import { FetchXHR } from '../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 
-class CreatePayment extends Component {
+class VisPayment extends Component {
     constructor(props) {
         super(props);
         let initial_state = {
@@ -32,13 +32,30 @@ class CreatePayment extends Component {
             total: undefined,
             date: undefined
         };
-
-        if (props.fields) { // SELL_ID OBJECT
-            if (props.fields) {
-                initial_state.sell_id = props.fields;
+        if (props.fields) {
+            if (props.fields.date) {
+                initial_state.date = props.fields.date;
+            }
+            if (props.fields.sell_id) {
+                initial_state.sell_id = props.fields.sell_id;
             }
             if (props.fields.client_id) {
                 initial_state.client_id = props.fields.client_id;
+            }
+            if (props.fields.notes) {
+                initial_state.notes = props.fields.notes;
+            }
+            if (props.fields.type) {
+                initial_state.type = props.fields.type;
+            }
+            if (props.fields.bank) {
+                initial_state.bank = props.fields.bank;
+            }
+            if (props.fields.reference) {
+                initial_state.reference = props.fields.reference;
+            }
+            if (props.fields.total) {
+                initial_state.total = props.fields.total;
             }
         }
         this.state = initial_state;
@@ -172,12 +189,12 @@ class CreatePayment extends Component {
                 this.onSubmitForm(Payment);
             } else {
                 this.setState({
-                    error: 'Seleccionar tipo de pago y/o total.'
+                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
                 });
             }
         } else {
             this.setState({
-                error: 'Error al rellenar el formulario de pago con la venta.'
+                error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
             });
         }
     }
@@ -398,4 +415,4 @@ class CreatePayment extends Component {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default CreatePayment;
+export default VisPayment;

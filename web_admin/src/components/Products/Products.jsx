@@ -2,6 +2,9 @@ import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import Schema from './ProductsSchema';
 import RenderRows from '../../helpers/render_rows';
+import AddStock from './AddStock';
+import ChangePrices from './ChangePrices';
+
 
 import { 
     Divider,
@@ -13,6 +16,23 @@ class Products extends CrudLayout {
     constructor(props) {
 		super(props);
 		this.schema = Schema;
+
+		this.custom_modals = {
+			'open_add_stock': AddStock,
+			'open_change_prices': ChangePrices,
+		}
+		this.actions = [
+			{
+				'label': 'Cambiar Precios',
+				'icon': 'dollar',
+				'func': () => {
+					this.setState({
+						open_custom_modal: 'open_change_prices'
+					});
+				}
+			}
+		];
+
 		this.state = { // render vars:
 			filters_layout: ['search'],
 			async_data: ['providers']
@@ -125,6 +145,19 @@ class Products extends CrudLayout {
 							onClick={(event)=> {
 								event.stopPropagation();
 								this.onEdit(record);
+							}}
+						/>
+						<Divider type="vertical" />
+						<Button 
+							type="primary" 
+							shape="circle" 
+							icon="plus-circle"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.setState({
+									selected_data: record,
+									open_custom_modal: 'open_add_stock'
+								});
 							}}
 						/>
 						<Divider type="vertical" />
