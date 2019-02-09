@@ -105,13 +105,12 @@ table {
 }
 
 .recipe__footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     padding: 10pt 0;
     border-top: 1px solid #eee;
     text-transform: uppercase;
     text-align: center;
+    margin-top: auto;
 }
 
 .recipe__footer p {

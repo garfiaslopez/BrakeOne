@@ -21,24 +21,27 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
 import FormGenerator from '../FormGenerator/FormGenerator';
-import PrinterDownload from '../PrinterDownload/PrinterDownload'
+import PrinterDownload from '../PrinterDownload/PrinterDownload';
+import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
   
 class CrudLayout extends Component {
     state = {
 		data: [],
-		selected_data: null,
+		selected_data: undefined,
 		loading_data: false,
 		loading_submit: false,
-        error: null,
-        search_text: null,
-        initial_date: null,
-		final_date: null,
+        error: undefined,
+        search_text: undefined,
+        initial_date: undefined,
+		final_date: undefined,
 		docs_per_page: 10,
 		page: 1,
 		total_docs: 0,
 		opened_submit: false,
 		opened_view: false,
 		opened_print: false,
+		opened_printer_recipes: false,
+		selected_type_recipes: undefined,
 		sortedInfo: {
 			order: 'descend',
 			columnKey: 'denomination',
@@ -138,16 +141,16 @@ class CrudLayout extends Component {
 	onCloseSubmitForm = () => {
 		this.setState({
 			opened_submit: false,
-			error: null,
-			selected_data: null
+			error: undefined,
+			selected_data: undefined
 		});
 	}
 
 	onCloseViewForm = () => {
 		this.setState({
 			opened_view: false,
-			error: null,
-			selected_data: null
+			error: undefined,
+			selected_data: undefined
 		});
 	}
 
@@ -170,8 +173,8 @@ class CrudLayout extends Component {
 			total_docs: newArray.length,
 			loading_submit: false,
 			opened_submit: false,
-			error: null,
-			selected_data: null
+			error: undefined,
+			selected_data: undefined
 		});
 	}
 
@@ -223,8 +226,8 @@ class CrudLayout extends Component {
 					total_docs: newArray.length,
 					loading_submit: false,
 					opened_submit: false,
-					error: null,
-					selected_data: null
+					error: undefined,
+					selected_data: undefined
 				});
             } else {
 				console.log(response);
@@ -284,6 +287,13 @@ class CrudLayout extends Component {
         });
 	}
 
+	onPrint = (record, type) => {
+		this.setState({
+			selected_data: record,
+			opened_printer_recipes: true,
+			selected_type_recipes: type
+		});
+	}
 
 	// ACTIONS HANDLERS:
 
@@ -363,7 +373,7 @@ class CrudLayout extends Component {
 		if (this.state.selectedData) {
 			title = "Editar " + this.model.label;
 		}
-		let form = <div></div>;
+		let form = '';
 
 		if (this.schema) {
 			if (this.state.opened_submit) {
@@ -380,7 +390,7 @@ class CrudLayout extends Component {
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
-							this.setState({ error:null });
+							this.setState({ error:undefined });
 						}}
 						fields={this.state.selected_data}
 					/>
@@ -396,7 +406,7 @@ class CrudLayout extends Component {
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
-							this.setState({ error:null });
+							this.setState({ error:undefined });
 						}}
 						fields={this.state.selected_data}
 						session={this.props.session}
@@ -419,7 +429,7 @@ class CrudLayout extends Component {
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
-							this.setState({ error:null });
+							this.setState({ error:undefined });
 						}}
 						session={this.props.session}
 					/>
@@ -436,7 +446,7 @@ class CrudLayout extends Component {
 						schema={this.schema}
 						error={this.state.error}
 						dismissError={() => {
-							this.setState({ error:null });
+							this.setState({ error:undefined });
 						}}
 						session={this.props.session}
 					/>
@@ -467,7 +477,26 @@ class CrudLayout extends Component {
 				/>
 			);
 		}
-		let PrinterDownloadButton = <div></div>;
+
+		if (this.state.opened_printer_recipes) {
+			form = (
+				<PrinterRecipes
+					record={this.state.selected_data}
+					type={this.state.selected_type_recipes}
+					key={"Print_Form_Recipe"}
+					title={"Imprimir"}
+					onClose={() => {
+						this.setState({
+							opened_printer_recipes: false,
+							selected_data: undefined,
+							selected_type_recipes: undefined
+						});
+					}}
+				/>
+			);
+		}
+
+		let PrinterDownloadButton = '';
 		if (this.props.session.user.rol === 'admin' || this.props.session.user.rol === 'manager') {
 			PrinterDownloadButton = (
 				<Button.Group>
@@ -499,13 +528,13 @@ class CrudLayout extends Component {
 					refreshTable={this.refreshTable}
 					error={this.state.error}
 					dismissError={() => {
-						this.setState({ error: null });
+						this.setState({ error: undefined });
 					}}
 					session={this.props.session}
 				/>
 			);
 		}
-		let Add_Button = <div></div>;
+		let Add_Button = '';
 		if (!this.no_render_add) {
 			Add_Button = (
 				<Button 
@@ -519,7 +548,7 @@ class CrudLayout extends Component {
 			);
 		}
 
-		let RenderActions = <div></div>;
+		let RenderActions = '';
 		if (this.actions) {
 			RenderActions = this.actions.map((action) => {
 				return (

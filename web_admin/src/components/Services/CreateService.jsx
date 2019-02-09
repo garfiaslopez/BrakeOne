@@ -202,38 +202,6 @@ class CreateService extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (!isEmpty(this.state.client_id) && this.state.car_id != '') {
-            if (this.state.products.length > 0 || this.state.services.length > 0) {
-                const Sell =  {
-                    subsidiary_id: this.props.session.subsidiary._id,
-                    user_id: this.props.session.user._id,
-                    client_id: this.state.client_id._id,
-                    notes: this.state.notes,
-                    products: this.state.products,
-                    services: this.state.services,
-                    total: this.state.total,
-                    is_service: true,
-                    car_id: this.state.car_id,
-                    kilometers: this.state.kilometers,
-                    is_payed: this.state.total_payments < this.state.total ? false : true,
-                    status: this.state.total_payments < this.state.total ? 'DEUDA' : 'PAGADA',
-                }
-                this.props.onSubmit(Sell);
-            } else {
-                this.setState({
-                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
-                });
-            }
-        } else {
-            this.setState({
-                error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
-            });
-        }
-    }
-
-    onSubmit = (event) => {
-        event.preventDefault();
-        // do validations:
         if (!isEmpty(this.state.client_id)) {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
                 const Sell =  {
@@ -373,7 +341,7 @@ class CreateService extends Component {
         // submit and update with changed flags and dates
         event.preventDefault();
         // do validations:
-        console.log("DELIVER SERVICE");
+        console.log("DELIVER_SERVICE");
         if (this.props.fields.is_payed) {
             if (!isEmpty(this.state.client_id) && this.state.car_id != '' && this.state.kilometers ) {
                 if (this.state.products.length > 0 || this.state.services.length > 0) {
@@ -390,7 +358,7 @@ class CreateService extends Component {
                         kilometers: this.state.kilometers,
                         date_out: moment().toISOString(),
                         is_finished: true,
-                        status: 'entregado'
+                        status: 'ENTREGADO'
                     }
                     this.props.onSubmit(Sell);
                 } else {
@@ -432,7 +400,7 @@ class CreateService extends Component {
     }
 
     render() {
-        let alert=<div></div>;
+        let alert='';
 		if (this.state.error) {
             alert = (
                 <Alert
@@ -562,7 +530,7 @@ class CreateService extends Component {
             );
         }
 
-        let PaymentsModel = <div></div>;
+        let PaymentsModel = '';
         if (this.state.payments.length > 0) {
             const payments_table_columns = [
                 {
@@ -626,7 +594,7 @@ class CreateService extends Component {
             );
         }
 
-        let PrinterModal = <div></div>;
+        let PrinterModal = '';
         if (this.state.opened_printer_history) {
             PrinterModal = (
                 <PrinterDownload

@@ -369,7 +369,7 @@ class FormGenerator extends Component {
     }
     render() {
         const Fields = this.renderFields();
-        let alert=<div></div>;
+        let alert='';
 		if (this.state.error) {
             alert = (
                 <Alert
@@ -386,7 +386,7 @@ class FormGenerator extends Component {
         }
 
         // SUBFORM SETUP:
-        let subForm = <div></div>;
+        let subForm = '';
         if (this.state.sub_form.open) {
             subForm = (
                 <FormGeneratorChild

@@ -23,6 +23,14 @@ var ReceptionSchema = new Schema({
     folio_fact: {
         type: String
     },
+    is_canceled: {
+        type: Boolean,
+        default: false
+    },
+    status: {
+        type: String,
+        default: 'NORMAL' // NORMAL // PAGADA // CANCELADA
+    },
     date: {
         type: Date,
         default: Date.now
@@ -47,14 +55,14 @@ var ReceptionSchema = new Schema({
         discount: { type: Number },
         total: { type: Number }
     }],
+    payed: {
+        type: Number,
+        default: 0
+    },
     total: {
         type: Number
     },
     is_payed: { 
-        type: Boolean,
-        default: false
-    },
-    is_remission: { 
         type: Boolean,
         default: false
     },

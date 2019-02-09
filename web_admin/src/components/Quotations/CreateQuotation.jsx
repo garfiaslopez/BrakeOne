@@ -28,6 +28,8 @@ class CreateQuotation extends Component {
             car_model: '',
             car_year: '',
             car_vin: '',
+            car_color: '',
+            car_plates: '',
             notes: '',
             client_id: {},
             clients: [],
@@ -59,6 +61,15 @@ class CreateQuotation extends Component {
             }
             if (props.fields.car_vin) {
                 initial_state.car_vin = props.fields.car_vin;
+            }
+            if (props.fields.car_color) {
+                initial_state.car_color = props.fields.car_color;
+            }
+            if (props.fields.car_plates) {
+                initial_state.car_plates = props.fields.car_plates;
+            }
+            if (props.fields.car_kms) {
+                initial_state.car_kms = props.fields.car_kms;
             }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
@@ -121,6 +132,11 @@ class CreateQuotation extends Component {
                     client_job: this.state.client_job,
                     car_brand: this.state.car_brand,
                     car_model: this.state.car_model,
+                    car_vin: this.state.car_vin,
+                    car_color: this.state.car_color,
+                    car_plates: this.state.car_plates,
+                    car_year: this.state.car_year,
+                    car_kms: this.state.car_kms,                 
                     notes: this.state.notes,
                     products: this.state.products,
                     services: this.state.services,
@@ -194,7 +210,8 @@ class CreateQuotation extends Component {
         this.setState({
             client_id: client,
             client_name: client.name,
-            client_phone: client.phone_number
+            client_phone: client.phone_number,
+            price_type: client.price_type
         });
     }
 
@@ -206,12 +223,14 @@ class CreateQuotation extends Component {
             car_brand: car.brand,
             car_model: car.model,
             car_vin: car.vin,
-            car_year: car.year
+            car_year: car.year,
+            car_color: car.color,
+            car_plates: car.plates
         });
     }
 
     render() {
-        let alert=<div></div>;
+        let alert='';
 		if (this.state.error) {
             alert = (
                 <Alert
@@ -324,7 +343,7 @@ class CreateQuotation extends Component {
                                                 size="large"
                                                 showSearch
                                                 value={this.state.client_id.name}
-                                                placeholder={'Buscar Cliente...'}
+                                                placeholder={'BUSCAR CLIENTE...'}
                                                 style={styles.inputSearch}
                                                 defaultActiveFirstOption={false}
                                                 showArrow={false}
@@ -341,7 +360,7 @@ class CreateQuotation extends Component {
                                                 value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
                                                 showSearch
                                                 optionFilterProp="children"
-                                                placeholder="Seleccionar Auto"
+                                                placeholder="SELECCIONAR AUTO"
                                                 size="large"
                                                 onChange={this.onChangeCar}
                                             >
@@ -372,7 +391,7 @@ class CreateQuotation extends Component {
                                                 />
                                             )}
                                             type="text"
-                                            placeholder="Nombre (*)"
+                                            placeholder="NOMBRE (*)"
                                             size="large"
                                         />
                                         <Input
@@ -389,7 +408,7 @@ class CreateQuotation extends Component {
                                                 />
                                             )}
                                             type="text"
-                                            placeholder="Numero (*)"
+                                            placeholder="NUMERO TELEFONO (*)"
                                             size="large"
                                         />
                                         <Select
@@ -397,7 +416,7 @@ class CreateQuotation extends Component {
                                             disabled={this.props.is_disabled}
                                             value={this.state.price_type}
                                             style={styles.inputElement}
-                                            placeholder="Tipo de precio"
+                                            placeholder="TIPO PRECIO"
                                             size="large"
                                             optionFilterProp="children"
                                             onChange={(value) => {
@@ -406,46 +425,45 @@ class CreateQuotation extends Component {
                                         >
                                             {OptionsTypes}
                                         </Select>
+                                        <Input
+                                            disabled={this.props.is_disabled}
+                                            value={this.state.car_brand}
+                                            style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeField(value, 'car_brand');
+                                            }}
+                                            prefix={(
+                                                <Icon
+                                                    type="car"
+                                                    className="field-icon"
+                                                />
+                                            )}
+                                            type="text"
+                                            placeholder="MARCA (*)"
+                                            size="large"
+                                        />
+                                        <Input
+                                            disabled={this.props.is_disabled}
+                                            value={this.state.car_model}
+                                            style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeField(value, 'car_model');
+                                            }}
+                                            prefix={(
+                                                <Icon
+                                                    type="car"
+                                                    className="field-icon"
+                                                />
+                                            )}
+                                            type="text"
+                                            placeholder="MODELO (*)"
+                                            size="large"
+                                        />
                                     </div>
                                 </div>
                                 <div
                                     style={styles.inputsRowContainer}
                                 >
-                                    <Input
-                                        disabled={this.props.is_disabled}
-                                        value={this.state.car_brand}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_brand');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="Marca Vehiculo (*)"
-                                        size="large"
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled}
-                                        value={this.state.car_model}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_model');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="Modelo Vehiculo (*)"
-                                        size="large"
-                                    />
-
                                     <Input
                                         disabled={this.props.is_disabled}
                                         value={this.state.car_year}
@@ -460,7 +478,42 @@ class CreateQuotation extends Component {
                                             />
                                         )}
                                         type="text"
-                                        placeholder="Año (*)"
+                                        placeholder="AÑO (*)"
+                                        size="large"
+                                    />
+
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_color}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_color');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="COLOR"
+                                        size="large"
+                                    />
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_plates}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_plates');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="PLACAS"
                                         size="large"
                                     />
 
@@ -479,6 +532,23 @@ class CreateQuotation extends Component {
                                         )}
                                         type="text"
                                         placeholder="VIN"
+                                        size="large"
+                                    />
+                                    <Input
+                                        disabled={this.props.is_disabled}
+                                        value={this.state.car_kms}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'car_kms');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="car"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="KILOMETROS"
                                         size="large"
                                     />
                                 </div>

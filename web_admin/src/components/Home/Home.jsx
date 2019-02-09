@@ -66,7 +66,7 @@ class Home extends React.Component {
 			</Menu>
 		);
 
-		let sessionInfo = <div></div>;
+		let sessionInfo = '';
 		if (!this.state.collapsed) {
 			sessionInfo = (
 				<Fragment>

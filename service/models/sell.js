@@ -61,6 +61,7 @@ var SellSchema = new Schema({
         old_stock: { type: Number },
         user_name: { type: String },
         description: { type: String },
+        key_id: { type: String },
         price_type: { type: String },
         price: { type: Number },
         quantity: { type: Number },

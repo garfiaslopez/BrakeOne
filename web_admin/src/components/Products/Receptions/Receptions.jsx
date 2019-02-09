@@ -1,55 +1,60 @@
 import React, { Component, Fragment } from 'react';
-import CrudLayout from '../CrudLayout/CrudLayout';
-import CreateService from './CreateService';
-import RenderRows from '../../helpers/render_rows';
-import CreatePayment from '../Payments/CreatePayment';
-import { FetchXHR } from '../../helpers/generals';
-import async from 'async';
+import CrudLayout from '../../CrudLayout/CrudLayout';
+import CreateReception from './CreateReception';
+import RenderRows from '../../../helpers/render_rows';
+import CreatePaymentReception from '../ReceptionPayments/CreatePaymentReception';
 import moment from 'moment';
+import { FetchXHR } from '../../../helpers/generals';
+import async from 'async';
 
-import { 
+import {
     Divider,
 	Popconfirm,
 	Button
 } from 'antd';
 
-class Services extends CrudLayout {
+class Receptions extends CrudLayout {
     constructor(props) {
 		super(props);
-		this.custom_submit = CreateService;
+		this.custom_submit = CreateReception;
 		this.custom_modals = {
-			'open_create_payment': CreatePayment
+			'open_create_payment': CreatePaymentReception
 		}
 		this.state = { // render vars:
 			filters_layout: ['search','date_range']
 		};
         this.model = {
-			name: 'sell',
-			singular: 'sell',
-			plural: 'sells',
-			label: 'Servicios'
+			name: 'reception',
+			singular: 'reception',
+			plural: 'receptions',
+			label: 'Recepciones de Producto'
 		};
 		this.additional_get_data = {
-			subsidiary_id: this.props.session.subsidiary._id,
-			is_service: true
+			subsidiary_id: this.props.session.subsidiary._id
 		}
-		this.populate_ids = ['client_id'];
+		this.populate_ids = ['user_id', 'provider_id'];
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-
         this.table_columns = [
 			{
             	title: 'Fecha',
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDateSells,
-				width: '10%'
+				width: '20%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
+				render: RenderRows.renderRowTextSells,
+				width: '10%'
+			},
+			{
+            	title: 'Factura',
+            	dataIndex: 'folio_fact',
+				key: 'folio_fact',
 				render: RenderRows.renderRowTextSells,
 				width: '10%'
 			},
@@ -66,18 +71,11 @@ class Services extends CrudLayout {
 				],
 			},
 			{
-            	title: 'Cliente',
-            	dataIndex: 'client_id.name',
-				key: 'client_id.name',
+            	title: 'Proovedor',
+            	dataIndex: 'provider_id.name',
+				key: 'provider_id.name',
 				render: RenderRows.renderRowTextSells,
-				width: '15%'
-			},
-			{
-            	title: 'Carro',
-            	dataIndex: 'car_id',
-				key: 'car_id',
-				width: '10%',
-				render: RenderRows.renderCarServices
+				width: '20%'
 			},
 			{
             	title: 'Total',
@@ -87,14 +85,13 @@ class Services extends CrudLayout {
 				width: '15%'
 			}
 		];
-
 		if (this.props.session.user.rol === 'admin' ||
 			this.props.session.user.rol === 'manager') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '20%',
-				render: (text, record) => {
+				width: '15%',
+            	render: (text, record) => {
 					let PayButton = '';
 					if (!record.is_payed) {
 						PayButton = (
@@ -145,7 +142,7 @@ class Services extends CrudLayout {
 								}}
 								onConfirm={(event) => {
 									event.stopPropagation();
-									this.cancel_sell(record)
+									this.cancel_reception(record)
 								}}
 							>
 								<Button 
@@ -182,98 +179,48 @@ class Services extends CrudLayout {
 							</Popconfirm>
 						);
 					};
+
 					return (
 						<span>
-							<Button 
-								type="primary" 
-								shape="circle"
-								icon="printer"
-								onClick={(event)=> {
-									event.stopPropagation();
-									this.onPrint(record, 'SELL');
-								}}
-							/>
-							<Divider type="vertical" />
 							{PayButton}
 							{EditButton}
 							{CancelButton}
 							{DeleteButton}
 						</span>
 					);
-				},
+				}
 			});
 		} else {
 			this.table_columns.push({
             	title: 'Acciones',
-				key: 'action',
-				width: '20%',
-            	render: (text, record) => {
-					let PayButton = '';
-					if (!record.is_payed) {
-						PayButton = (
-							<Fragment>
-								<Button 
-									type="primary" 
-									shape="circle" 
-									icon="credit-card"
-									onClick={(event)=> {
-										event.stopPropagation();
-										this.setState({
-											selected_data: record,
-											open_custom_modal: 'open_create_payment'
-										});
-									}}
-								/>
-								<Divider type="vertical" />
-							</Fragment>
-						);
-					};
-					let EditButton = '';
-					if (!record.is_canceled) {
-						EditButton = (
-							<Fragment>
-								<Button 
-									type="primary" 
-									shape="circle" 
-									icon="edit"
-									onClick={(event)=> {
-										event.stopPropagation();
-										this.onEdit(record);
-									}}
-								/>
-								<Divider type="vertical" />
-							</Fragment>
-						);
-					};
-					return (
-						<span>
-							<Button 
-								type="primary" 
-								shape="circle"
-								icon="printer"
-								onClick={(event)=> {
-									event.stopPropagation();
-									this.onPrint(record, 'SELL');
-								}}
-							/>
-							<Divider type="vertical" />
-							{PayButton}
-							{EditButton}
-						</span>
-					);
-				}
+            	key: 'action',
+            	render: (text, record) => (
+					<span>
+						<a 
+							href="javascript:;" 
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onEdit(record);
+							}}
+						>
+							Editar
+						</a>
+					</span>
+            	),
 			});
 		}
-		this.cancel_sell = this.cancel_sell.bind(this);
+
+		this.cancel_reception = this.cancel_reception.bind(this);
 	}
 
-
-	cancel_sell = (record) => {
+	cancel_reception = (record) => {
+		console.log("CANCEL Reception")
+		console.log(record);
 		const OperationsProducts = [];
 
 		// 	CAMBIAR STATUS SELL A CANCELADO
 		OperationsProducts.push((callback) => {
-			const url_sell = process.env.REACT_APP_API_URL + '/sell/' + record._id;
+			const url_sell = process.env.REACT_APP_API_URL + '/reception/' + record._id;
 			let new_sell = {
 				payed: 0,
 				is_canceled: true,
@@ -309,7 +256,7 @@ class Services extends CrudLayout {
 					if (response_actual_p.json.success) {
 						if (response_actual_p.json.obj) {
 							const new_p = {
-								stock: response_actual_p.json.obj.stock + mapped_products_stock[el]
+								stock: response_actual_p.json.obj.stock - mapped_products_stock[el]
 							}
 							const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
 							FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
@@ -342,7 +289,7 @@ class Services extends CrudLayout {
 					price: p.price,
 					discount: p.discount,
 					total: p.total,
-					type: 'CANCELADO',
+					type: 'RECEPCION_CANCELADO',
 					date: moment().toISOString()
 				}
 				const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
@@ -361,7 +308,7 @@ class Services extends CrudLayout {
 		// GET PAYMENTS.
 		let total_payments = 0;
 		let payments = [];
-		const url_payments = process.env.REACT_APP_API_URL + '/payments';
+		const url_payments = process.env.REACT_APP_API_URL + '/reception-payments';
 		let data_payments = {
 			limit: 1000,
 			page: 1,
@@ -383,9 +330,9 @@ class Services extends CrudLayout {
 				console.log(payments);
 				if (payments.length > 0) {
 					// 	RESTAR EN SELLS AL CLIENT_ID
-					const url_client_id = process.env.REACT_APP_API_URL + '/client/' + record.client_id._id;
+					const url_client_id = process.env.REACT_APP_API_URL + '/provider/' + record.provider_id._id;
 					let new_client = {
-						sells: record.client_id.sells - total_payments,
+						buys: record.provider_id.buys - total_payments,
 					}
 					FetchXHR(url_client_id, 'PUT', new_client).then((response_client) => {
 						if (response_client.json.success) {
@@ -393,7 +340,7 @@ class Services extends CrudLayout {
 							
 							payments.forEach((pay) => {
 								OperationsProducts.push((callback) => {
-									const url_payment = process.env.REACT_APP_API_URL + '/payment/' + pay._id;
+									const url_payment = process.env.REACT_APP_API_URL + '/reception-payment/' + pay._id;
 									let new_payment = {
 										is_canceled: true,
 										status: 'CANCELADO'
@@ -469,6 +416,7 @@ class Services extends CrudLayout {
 			});
 		});		
 	}
+
 }
 
-export default Services;
+export default Receptions;

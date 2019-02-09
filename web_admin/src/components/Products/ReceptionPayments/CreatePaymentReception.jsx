@@ -11,20 +11,20 @@ import {
     InputNumber
 } from 'antd';
 import styles from './Styles';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from '../../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 
-class AddStock extends Component {
+class CreatePaymentReception extends Component {
     constructor(props) {
         super(props);
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
             loading_sells: false,
-            client_id: {},
-            sell_id: {},
-            sells: [],
+            provider_id: {},
+            reception_id: {},
+            receptions: [],
             notes: undefined,
             type: undefined,
             bank: undefined,
@@ -35,10 +35,10 @@ class AddStock extends Component {
 
         if (props.fields) { // SELL_ID OBJECT
             if (props.fields) {
-                initial_state.sell_id = props.fields;
+                initial_state.reception_id = props.fields;
             }
-            if (props.fields.client_id) {
-                initial_state.client_id = props.fields.client_id;
+            if (props.fields.provider_id) {
+                initial_state.provider_id = props.fields.provider_id;
             }
         }
         this.state = initial_state;
@@ -85,8 +85,8 @@ class AddStock extends Component {
 		let method = 'POST';
         let method_put = 'PUT';
 
-        let url = process.env.REACT_APP_API_URL + '/payment';
-        let url_sell = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
+        let url = process.env.REACT_APP_API_URL + '/reception-payment';
+        let url_sell = process.env.REACT_APP_API_URL + '/reception/' + this.props.fields._id;
         const new_price = this.props.fields.payed + values.total;
         const NEW_SELL = {
             payed: new_price,
@@ -94,9 +94,9 @@ class AddStock extends Component {
             status: new_price === this.props.fields.total ? 'PAGADA' : 'DEUDA'
         }
         
-        let url_user = process.env.REACT_APP_API_URL + '/client/' + this.props.fields.client_id._id;
+        let url_user = process.env.REACT_APP_API_URL + '/provider/' + this.props.fields.provider_id._id;
         const NEW_CLIENT =  {
-            sells: this.props.fields.client_id.sells + values.total
+            buys: this.props.fields.provider_id.buys + values.total
         }
 
         FetchXHR(url_sell, method_put, NEW_SELL).then((response_sell) => {
@@ -155,13 +155,13 @@ class AddStock extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (!isEmpty(this.state.sell_id)) {
+        if (!isEmpty(this.state.reception_id)) {
             if (this.state.type !== undefined && this.state.total > 0) {
-                const Payment =  {
+                const ReceptionPayment =  {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
-                    sell_id: this.state.sell_id._id,
-                    client_id: this.state.sell_id.client_id._id,
+                    reception_id: this.state.reception_id._id,
+                    provider_id: this.state.reception_id.provider_id._id,
                     notes: this.state.notes,
                     bank: this.state.bank,
                     reference: this.state.reference,
@@ -169,7 +169,7 @@ class AddStock extends Component {
                     type: this.state.type,
                     total: this.state.total,
                 }
-                this.onSubmitForm(Payment);
+                this.onSubmitForm(ReceptionPayment);
             } else {
                 this.setState({
                     error: 'Seleccionar tipo de pago y/o total.'
@@ -183,7 +183,7 @@ class AddStock extends Component {
     }
 
     render() {
-        let alert=<div></div>;
+        let alert='';
 		if (this.state.error) {
             alert = (
                 <Alert
@@ -239,7 +239,7 @@ class AddStock extends Component {
             ];
         }
 
-        const OptionsSells = this.state.sells.map((item, index) => {
+        const OptionsSells = this.state.receptions.map((item, index) => {
             return (
                 <Select.Option 
                     value={item._id}
@@ -250,8 +250,8 @@ class AddStock extends Component {
             );
         });
 
-        let CardContent = <div> Favor de buscar y seleccionar una venta. </div>;
-        if (this.state.sell_id._id) {
+        let CardContent = <div> Favor de buscar y seleccionar una compra de producto. </div>;
+        if (this.state.reception_id._id) {
             CardContent = (
                 <Fragment>
                     <Card.Grid style={styles.grid_element}>
@@ -259,16 +259,16 @@ class AddStock extends Component {
                         <p style={styles.label_value} >{moment(this.state.date).format("DD/MM/YY") || moment().format("DD/MM/YY")}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Cliente:</p>
-                        <p style={styles.label_value}>{this.state.client_id.name}</p>
+                        <p style={styles.label_title} >Proveedor:</p>
+                        <p style={styles.label_value}>{this.state.provider_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Total:</p>
-                        <p style={styles.label_value} >{this.state.sell_id.total}</p>
+                        <p style={styles.label_value} >{this.state.reception_id.total}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Por pagar:</p>
-                        <p style={styles.label_value} >{this.state.sell_id.total - this.state.sell_id.payed}</p>
+                        <p style={styles.label_value} >{this.state.reception_id.total - this.state.reception_id.payed}</p>
                     </Card.Grid>
                 </Fragment>
             );
@@ -281,7 +281,7 @@ class AddStock extends Component {
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
                     visible={true}
-                    title={this.props.fields.is_service ? "Pago de Servicio" : "Pago de Venta"}
+                    title={"Pago de recepción"}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={ModalButtons}
@@ -299,7 +299,7 @@ class AddStock extends Component {
                             >
                                 
                                 <Card
-                                    title={<p style={styles.folioText}> Folio de venta # {this.state.sell_id.folio}</p>}
+                                    title={<p style={styles.folioText}> Folio de recepción # {this.state.reception_id.folio}</p>}
                                     style={styles.cardContainer}
                                     bodyStyle={styles.cardBody}
                                 >
@@ -313,7 +313,7 @@ class AddStock extends Component {
                                     disabled={this.props.is_disabled}
                                     value={this.state.type}
                                     style={styles.inputElement}
-                                    placeholder="Tipo de precio"
+                                    placeholder="Tipo de transacción"
                                     size="large"
                                     onChange={(value) => {
                                         this.onChangeDropdown(value, 'type');
@@ -368,7 +368,7 @@ class AddStock extends Component {
                                             className="field-icon"
                                         />
                                     )}
-                                    max={this.state.sell_id.total - this.state.sell_id.payed}
+                                    max={this.state.reception_id.total - this.state.reception_id.payed}
                                     type="text"
                                     placeholder="Total ($)"
                                     size="large"
@@ -398,4 +398,4 @@ class AddStock extends Component {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default AddStock;
+export default CreatePaymentReception;

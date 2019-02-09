@@ -28,6 +28,9 @@ var QuotationSchema = new Schema({
     car_model: { type: String },
     car_year: { type: String },
     car_vin: { type: String },
+    car_plates: { type: String },
+    car_color: { type: String },
+    car_kms: { type: String },
     notes: {
         type: String
     },

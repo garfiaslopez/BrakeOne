@@ -21,6 +21,12 @@ var ReceptionPaymentSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Reception'
 	},
+	legacy_id: {
+        type: String
+	},
+	legacy_folio: {
+        type: String
+    },
 	folio: {
         type: Number
 	},
@@ -39,9 +45,13 @@ var ReceptionPaymentSchema = new Schema({
 	total: {
 		type: Number
 	},
+	is_canceled: {
+        type: Boolean,
+        default: false
+    },
 	status: {
 		type: String,
-		default: 'normal'
+		default: 'NORMAL'
 	},
 	date: {
 		type: Date,

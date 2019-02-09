@@ -1,5 +1,9 @@
 .sell-recipe {
     font-size: 10pt;
+    padding: 1.2cm 1.2cm 0;
+    display: flex;
+    flex-direction: column;
+    height: 27cm;
 }
 
 .sell-recipe
@@ -26,6 +30,7 @@
 }
 
 .sell-recipe__header {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,7 +54,9 @@
 
 .sell-recipe__total {
     width: 100%;
-    position: absolute;
-    bottom: 72px;
-    left: 0;
+    margin-top: auto;
+}
+
+.sell-recipe__total + footer {
+    margin-top: 20px;
 }

@@ -4,12 +4,11 @@ import { Table } from 'antd';
 import moment from 'moment';
 
 import './Styles.css';
-import { sellItems, quotationColumns } from './QuotationDataSource';
+import NumeroALetras from '../../../helpers/number_to_letter';
 
 const propTypes = {
     client: PropTypes.object,
     vehicle: PropTypes.object,
-    totalString: PropTypes.string,
     totalNumber: PropTypes.number
 };
 
@@ -19,14 +18,42 @@ const defaultProps = {
     },
     vehicle: {
         brand: 'Mini',
-        subBrand: 'Cooper',
-        model: 2013,
+        model: 'Cooper',
+        year: 2013,
         color: 'Negro',
         plates: 'MNX 345',
         kms: 119720,
     },
     totalString: 'dos mil doscientos sesenta y ocho M.N.',
-    totalNumber: 2268
+    totalNumber: 2268,
+    sellItems: [{
+        description: 'DEL ALFA ROMEO GT 147 156 02-07 2.0L 1.9L Ø284.00MM',
+        quantity: 2,
+        price: 1085.3,
+        total: 2170.3
+    }, {
+        description: 'DEL ALFA ROMEO GT 35432 5432 mm435 1.7L',
+        quantity: 2,
+        price: 115.3,
+        total: 2270.5
+    }],
+    quotationColumns: [{
+        title: 'Cantidad',
+        dataIndex: 'quantity',
+        key: 'quantity',
+    }, {
+        title: 'Concepto',
+        dataIndex: 'description',
+        key: 'description',
+    }, {
+        title: 'Precio',
+        dataIndex: 'price',
+        key: 'price',
+    }, {
+        title: 'Importe',
+        dataIndex: 'total',
+        key: 'total',
+    }]
 };
 
 moment.locale('es');
@@ -34,8 +61,9 @@ moment.locale('es');
 const QuotationRecipe = ({
     client,
     vehicle,
-    totalString,
     totalNumber,
+    sellItems,
+    quotationColumns
 }) => (
     <section className="quotation-recipe">
         <header className="quotation-recipe__header">
@@ -54,11 +82,11 @@ const QuotationRecipe = ({
             </li>
             <li>
                 <h3 className="recipe__item__title">Marca</h3>
-                <span>{vehicle.subBrand}</span>
+                <span>{vehicle.model}</span>
             </li>
             <li>
-                <h3 className="recipe__item__title">Modelo</h3>
-                <span>{vehicle.model}</span>
+                <h3 className="recipe__item__title">Año</h3>
+                <span>{vehicle.year}</span>
             </li>
             <li>
                 <h3 className="recipe__item__title">Color</h3>
@@ -87,7 +115,7 @@ const QuotationRecipe = ({
                     Importe con letra
                 </h3>
                 <span className="recipe__item__data">
-                    {totalString}
+                    {NumeroALetras(totalNumber)}
                 </span>
             </li>
             <li>

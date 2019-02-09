@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './Styles.css';
+import NumeroALetras from '../../../helpers/number_to_letter';
 
 const propTypes = {
     subsidiary: PropTypes.object,
@@ -138,7 +139,7 @@ const SellTicket = ({
                 <span>Total</span>
                 <span>{totalNumber}</span>
             </div>
-            <p>{totalString}</p>
+            <p>{NumeroALetras(totalNumber)}</p>
         </div>
     );
 

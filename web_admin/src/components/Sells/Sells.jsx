@@ -13,7 +13,6 @@ import {
 	Button
 } from 'antd';
 
-
 class Sells extends CrudLayout {
     constructor(props) {
 		super(props);
@@ -45,7 +44,7 @@ class Sells extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDateSells,
-				width: '10%'
+				width: '20%'
 			},
 			{
             	title: 'Folio',
@@ -74,11 +73,18 @@ class Sells extends CrudLayout {
 				width: '20%'
 			},
 			{
+            	title: 'Pagado',
+            	dataIndex: 'payed',
+				key: 'payed',
+				render: RenderRows.renderRowNumberSells,
+				width: '10%'
+			},
+			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumberSells,
-				width: '15%'
+				width: '10%'
 			}
 		];
 		if (this.props.session.user.rol === 'admin' ||
@@ -86,9 +92,9 @@ class Sells extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '15%',
+				width: '20%',
             	render: (text, record) => {
-					let PayButton = <div></div>;
+					let PayButton = '';
 					if (!record.is_payed) {
 						PayButton = (
 							<Fragment>
@@ -108,8 +114,8 @@ class Sells extends CrudLayout {
 							</Fragment>
 						);
 					};
-					let CancelButton = <div></div>;
-					let EditButton = <div></div>;
+					let CancelButton = '';
+					let EditButton = '';
 					if (!record.is_canceled) {
 						EditButton = (
 							<Fragment>
@@ -149,7 +155,7 @@ class Sells extends CrudLayout {
 							</Popconfirm>
 						);
 					};
-					let DeleteButton = <div></div>;
+					let DeleteButton = '';
 					if (record.is_canceled) {
 						DeleteButton = (
 							<Popconfirm
@@ -178,6 +184,16 @@ class Sells extends CrudLayout {
 
 					return (
 						<span>
+							<Button 
+								type="primary" 
+								shape="circle"
+								icon="printer"
+								onClick={(event)=> {
+									event.stopPropagation();
+									this.onPrint(record, 'SELL');
+								}}
+							/>
+							<Divider type="vertical" />
 							{PayButton}
 							{EditButton}
 							{CancelButton}
@@ -189,20 +205,63 @@ class Sells extends CrudLayout {
 		} else {
 			this.table_columns.push({
             	title: 'Acciones',
-            	key: 'action',
-            	render: (text, record) => (
-					<span>
-						<a 
-							href="javascript:;" 
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.onEdit(record);
-							}}
-						>
-							Editar
-						</a>
-					</span>
-            	),
+				key: 'action',
+				width: '20%',
+            	render: (text, record) => {
+					let PayButton = '';
+					if (!record.is_payed) {
+						PayButton = (
+							<Fragment>
+								<Button 
+									type="primary" 
+									shape="circle" 
+									icon="credit-card"
+									onClick={(event)=> {
+										event.stopPropagation();
+										this.setState({
+											selected_data: record,
+											open_custom_modal: 'open_create_payment'
+										});
+									}}
+								/>
+								<Divider type="vertical" />
+							</Fragment>
+						);
+					};
+					let EditButton = '';
+					if (!record.is_canceled) {
+						EditButton = (
+							<Fragment>
+								<Button 
+									type="primary" 
+									shape="circle" 
+									icon="edit"
+									onClick={(event)=> {
+										event.stopPropagation();
+										this.onEdit(record);
+									}}
+								/>
+								<Divider type="vertical" />
+							</Fragment>
+						);
+					};
+					return (
+						<span>
+							<Button 
+								type="primary" 
+								shape="circle"
+								icon="printer"
+								onClick={(event)=> {
+									event.stopPropagation();
+									this.onPrint(record, 'SELL');
+								}}
+							/>
+							<Divider type="vertical" />
+							{PayButton}
+							{EditButton}
+						</span>
+					);
+				}
 			});
 		}
 
@@ -210,12 +269,6 @@ class Sells extends CrudLayout {
 	}
 
 	cancel_sell = (record) => {
-
-		// TO-DO: fix no updating stock on product... 
-		// No updating sell on client_id // maybe this is from back or initialization in 0.
-
-		console.log("CANCEL SELL")
-		console.log(record);
 		const OperationsProducts = [];
 
 		// 	CAMBIAR STATUS SELL A CANCELADO

@@ -12,22 +12,22 @@ import {
     Table
 } from 'antd';
 import styles from './Styles';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from '../../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
-import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
-import RenderRows from '../../helpers/render_rows';
+import OrderCreator from '../../../helpers/OrderCreator/OrderCreator';
+import RenderRows from '../../../helpers/render_rows';
 import async from 'async';
 import moment from 'moment';
 
-class CreateSell extends Component {
+class CreateReception extends Component {
     constructor(props) {
         super(props);
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
-            loading_clients: false,
-            client_id: {},
-            clients: [],
+            loading_providers: false,
+            provider_id: {},
+            providers: [],
             notes: '',
             products: [],
             services: [],
@@ -37,8 +37,8 @@ class CreateSell extends Component {
         };
 
         if (props.fields) {
-            if (props.fields.client_id) {
-                initial_state.client_id = props.fields.client_id;
+            if (props.fields.provider_id) {
+                initial_state.provider_id = props.fields.provider_id;
             }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
@@ -56,13 +56,12 @@ class CreateSell extends Component {
         
         this.state = initial_state;
 
-        this.getClients = this.getClients.bind(this);
-        this.getPayments = this.getPayments.bind(this);
+        this.getProviders = this.getProviders.bind(this);
+        this.getPaymentsReceptions = this.getPaymentsReceptions.bind(this);
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
-        this.onChangeClient = this.onChangeClient.bind (this);
-        this.onChangeCar = this.onChangeCar.bind(this);
+        this.onChangeProvider = this.onChangeProvider.bind (this);
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
@@ -70,7 +69,7 @@ class CreateSell extends Component {
 
     componentDidMount() {
         if(this.props.fields) {
-            this.getPayments();
+            this.getPaymentsReceptions();
         }
     }
 
@@ -82,15 +81,15 @@ class CreateSell extends Component {
         });
     }
 
-    getPayments() {
-        console.log("getting payments");
-		const url = process.env.REACT_APP_API_URL + '/payments';
+    getPaymentsReceptions() {
+        console.log("getting getPaymentsReceptions");
+		const url = process.env.REACT_APP_API_URL + '/reception-payments';
         let POSTDATA = {
             limit: 1000,
 			page: 1,
 			filters: {
                 subsidiary_id: this.props.session.subsidiary._id,
-                sell_id: this.props.fields._id,
+                reception_id: this.props.fields._id,
             }
 		}
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
@@ -121,11 +120,11 @@ class CreateSell extends Component {
         });
     }
 
-    getClients(search_text) {
+    getProviders(search_text) {
         this.setState({
-			loading_clients: true,
+			loading_providers: true,
 		});
-		const url = process.env.REACT_APP_API_URL + '/clients';
+		const url = process.env.REACT_APP_API_URL + '/providers';
         const POSTDATA = {
             limit: 100,
             page: 1,
@@ -135,35 +134,29 @@ class CreateSell extends Component {
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 this.setState({
-					clients: response.json.data.docs.map((el, index)=>({
+					providers: response.json.data.docs.map((el, index)=>({
 						...el,
 						key: index
                     })),
-                    loading_users: false
+                    loading_providers: false
                 });
             } else {
 				this.setState({
-                    loading_clients: false,
+                    loading_providers: false,
                     error: response.message
 				});
             }
         }).catch((onError) => {
 			this.setState({
-                loading_clients: false,
+                loading_providers: false,
                 error: onError.message
 			});
         });
     }
 
-    onChangeClient(client_id) {
+    onChangeProvider(provider_id) {
         this.setState({
-            client_id: this.state.clients.find((el) => (el._id === client_id))
-        });
-    }
-
-    onChangeCar(car_id) {
-        this.setState({
-            car_id
+            provider_id: this.state.providers.find((el) => (el._id === provider_id))
         });
     }
 
@@ -182,39 +175,33 @@ class CreateSell extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (!isEmpty(this.state.client_id)) {
-            if (this.state.products.length > 0 || this.state.services.length > 0) {
-                const Sell =  {
+        if (!isEmpty(this.state.provider_id)) {
+            if (this.state.products.length > 0) {
+                const Reception =  {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
-                    client_id: this.state.client_id._id,
+                    provider_id: this.state.provider_id._id,
                     notes: this.state.notes,
                     products: this.state.products,
-                    services: this.state.services,
-                    total: this.state.total,
-                    is_service: false,
-                    is_finished: true
+                    total: this.state.total
                 }
-                //this.props.onSubmit(Sell);
-
-                // CUSTOM UPLOAD FUNCTION AND SEND THE NEW ARRAY TO CRUDLAYOUT
+                console.log(Reception);
                 let POSTDATA = {
-                    ...Sell,
-                    subsidiary_id: this.props.session.subsidiary._id,
-                    populate_ids: ['client_id']
+                    ...Reception,
+                    populate_ids: ['user_id', 'provider_id']
                 }
                 let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/sell';
+                let url = process.env.REACT_APP_API_URL + '/reception';
                 if (this.props.fields) {
                     method = 'PUT';
-                    url = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
+                    url = process.env.REACT_APP_API_URL + '/reception/' + this.props.fields._id;
                 }
 
                 // group products for calculate minus stock.... and exclude the already saved products.
                 // check for relationships and save it apart in her owns models
                 FetchXHR(url, method, POSTDATA).then((response) => {
                     if (response.json.success) {
-                        const saved_sell = response.json.obj;
+                        const saved_reception = response.json.obj;
 
                         const OperationsProducts = [];
                         let mapped_products_stock = {}; // product_id -> sum_quantity.
@@ -238,7 +225,7 @@ class CreateSell extends Component {
                         Object.keys(mapped_products_stock).forEach((el) => {
                             OperationsProducts.push((callback) => {
                                 const new_p = {
-                                    stock: actual_max_stock[el] - mapped_products_stock[el]
+                                    stock: actual_max_stock[el] + mapped_products_stock[el]
                                 }
                                 const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
                                 FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
@@ -260,7 +247,7 @@ class CreateSell extends Component {
                                     price: p.price,
                                     discount: p.discount,
                                     total: p.total,
-                                    type: 'VENTA',
+                                    type: 'RECEPCION',
                                     date: moment().toISOString()
                                 }
                                 console.log(new_transaction);
@@ -278,8 +265,8 @@ class CreateSell extends Component {
                         async.series(OperationsProducts,(err, responses) => {
                             if (!err) {
                                 console.log("NO ERROR");
-                                console.log(saved_sell);
-                                this.props.onCustomSubmit(saved_sell);
+                                console.log(saved_reception);
+                                this.props.onCustomSubmit(saved_reception);
                             } else {
                                 console.log(err);
                                 console.log("ERROR");
@@ -311,7 +298,7 @@ class CreateSell extends Component {
             }
         } else {
             this.setState({
-                error: 'Seleccionar algun cliente.'
+                error: 'Favor de seleccionar algun proveedor.'
             });
         }
     }
@@ -378,7 +365,7 @@ class CreateSell extends Component {
             ];
         }
 
-        const OptionsClients = this.state.clients.map((item, index) => {
+        const OptionsProviders = this.state.providers.map((item, index) => {
             return (
                 <Select.Option 
                     value={item._id}
@@ -389,41 +376,37 @@ class CreateSell extends Component {
             );
         });
 
-        let CardContent = <div style={styles.cardInitialText}> Favor de buscar y seleccionar un cliente. </div>;
-        if (this.state.client_id._id) {
+        let CardContent = <div style={styles.cardInitialText}> Favor de buscar y seleccionar un proveedor. </div>;
+        if (this.state.provider_id._id) {
             CardContent = (
                 <Fragment>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Nombre: </p>
-                        <p style={styles.label_value} >{this.state.client_id.name}</p>
+                        <p style={styles.label_value} >{this.state.provider_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >RFC:</p>
-                        <p style={styles.label_value}>{this.state.client_id.rfc}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Tipo de precio:</p>
-                        <p style={styles.label_value}>{this.state.client_id.price_type}</p>
+                        <p style={styles.label_value}>{this.state.provider_id.rfc}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Email:</p>
-                        <p style={styles.label_value} >{this.state.client_id.email}</p>
+                        <p style={styles.label_value} >{this.state.provider_id.email}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Número teléfono:</p>
-                        <p style={styles.label_value}>{this.state.client_id.phone_number}</p>
+                        <p style={styles.label_value}>{this.state.provider_id.phone_number}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Número Móvil:</p>
-                        <p style={styles.label_value}>{this.state.client_id.phone_mobil}</p>
+                        <p style={styles.label_value}>{this.state.provider_id.phone_mobil}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Compras:</p>
-                        <p style={styles.label_value}>${this.state.client_id.sells}</p>
+                        <p style={styles.label_value}>${this.state.provider_id.buys}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Días Crédito:</p>
-                        <p style={styles.label_value}>{this.state.client_id.credit_days}</p>
+                        <p style={styles.label_value}>{this.state.provider_id.credit_days}</p>
                     </Card.Grid>
                 </Fragment>
             );
@@ -443,7 +426,13 @@ class CreateSell extends Component {
                     title: 'Folio',
                     dataIndex: 'folio',
                     key: 'folio',
-                    width: '20%'
+                    width: '10%'
+                },
+                {
+                    title: 'Factura',
+                    dataIndex: 'folio_fact',
+                    key: 'ffolio_factolio',
+                    width: '10%'
                 },
                 {
                     title: 'Tipo',
@@ -518,23 +507,23 @@ class CreateSell extends Component {
                             >
                                 
                                 <Card
-                                    title="Información de cliente"
+                                    title="Información de Proveedor"
                                     extra={
                                         <Select
                                             disabled={this.props.is_disabled || this.props.fields ? true : false }
                                             size="large"
                                             showSearch
-                                            value={this.state.client_id.name}
-                                            placeholder={'Buscar Cliente...'}
+                                            value={this.state.provider_id.name}
+                                            placeholder={'Buscar Proveedor...'}
                                             style={styles.inputSearch}
                                             defaultActiveFirstOption={false}
                                             showArrow={false}
                                             filterOption={false}
-                                            onSearch={(value) => { this.getClients(value) }}
-                                            onChange={(value) => { this.onChangeClient(value) }}
-                                            notFoundContent={this.state.loading_clients ? <Spin size="small" /> : null}
+                                            onSearch={(value) => { this.getProviders(value) }}
+                                            onChange={(value) => { this.onChangeProvider(value) }}
+                                            notFoundContent={this.state.loading_providers ? <Spin size="small" /> : null}
                                         >
-                                            {OptionsClients}
+                                            {OptionsProviders}
                                         </Select>
                                     }
                                     style={styles.cardContainer}
@@ -561,6 +550,7 @@ class CreateSell extends Component {
                         </div>
 
                         <OrderCreator
+                            is_reception
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
@@ -582,4 +572,4 @@ class CreateSell extends Component {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default CreateSell;
+export default CreateReception;

@@ -4,13 +4,12 @@ import { Table } from 'antd';
 import moment from 'moment';
 
 import './Styles.css';
-import { sellItems, sellColumns } from './SellDataSource';
+import NumeroALetras from '../../../helpers/number_to_letter';
 
 const propTypes = {
     folio: PropTypes.string,
     client: PropTypes.object,
     vehicle: PropTypes.vehicle,
-    totalString: PropTypes.string,
     totalNumber: PropTypes.number
 };
 
@@ -23,19 +22,55 @@ const defaultProps = {
     vehicle: {
         plates: 'Mostrador',
         brand: 'Chevrolet',
-        model: '1992',
+        model: 'Silverado',
+        year: 1992,
         kms: 1223
     },
-    totalString: 'dos mil doscientos sesenta y ocho M.N.',
-    totalNumber: 2268
+    totalNumber: 2268,
+    sellItems: [{
+        datakey: 'P121 1244',
+        description: 'DEL ALFA ROMEO GT 147 156 02-07 2.0L 1.9L Ø284.00MM',
+        quantity: 2,
+        price: 1085.3,
+        charge: 2170.3
+    }, {
+        datakey: 'P131 1244',
+        description: 'DEL ALFA ROMEO GT 35432 5432 mm435 1.7L',
+        quantity: 2,
+        price: 115.3,
+        charge: 2270.5
+    }],
+    sellColumns: [{
+        title: 'Clave',
+        dataIndex: 'key_id',
+        key: 'key_id',
+    }, {
+        title: 'Descripción',
+        dataIndex: 'description',
+        key: 'description',
+    }, {
+        title: 'Cantidad',
+        dataIndex: 'quantity',
+        key: 'qantity',
+    }, {
+        title: 'Precio',
+        dataIndex: 'price',
+        key: 'price',
+    }, {
+        title: 'Importe',
+        dataIndex: 'total',
+        key: 'total',
+    }]
 };
 
 const SellRecipe = ({
     folio,
     client,
     vehicle,
-    totalString,
-    totalNumber
+    totalNumber,
+    sellItems,
+    sellColumns,
+    is_service
 }) => {
     const renderHeader = () => (
         <header className="sell-recipe__header">
@@ -92,43 +127,57 @@ const SellRecipe = ({
         </ul>
     );
 
-    const renderVehicleData = () => (
-        <ul className="recipe__flex-container">
-            <h2>Vehículo</h2>
-            <li>
-                <h3 className="recipe__item__title">
-                    Placas
-                </h3>
-                <span className="recipe__item__data">
-                    {vehicle.plates}
-                </span>
-            </li>
-            <li>
-                <h3 className="recipe__item__title">
-                    Marca
-                </h3>
-                <span className="recipe__item__data">
-                    {vehicle.brand}
-                </span>
-            </li>
-            <li>
-                <h3 className="recipe__item__title">
-                    Modelo
-                </h3>
-                <span className="recipe__item__data">
-                    {vehicle.model}
-                </span>
-            </li>
-            <li>
-                <h3 className="recipe__item__title">
-                    Kms
-                </h3>
-                <span className="recipe__item__data">
-                    {vehicle.kms}
-                </span>
-            </li>
-        </ul>
-    );
+    const renderVehicleData = () => {
+        if (is_service) {
+            return (
+                <ul className="recipe__flex-container">
+                    <h2>Vehículo</h2>
+                    <li>
+                        <h3 className="recipe__item__title">
+                            Placas
+                        </h3>
+                        <span className="recipe__item__data">
+                            {vehicle.plates}
+                        </span>
+                    </li>
+                    <li>
+                        <h3 className="recipe__item__title">
+                            Marca
+                        </h3>
+                        <span className="recipe__item__data">
+                            {vehicle.brand}
+                        </span>
+                    </li>
+                    <li>
+                        <h3 className="recipe__item__title">
+                            Modelo
+                        </h3>
+                        <span className="recipe__item__data">
+                            {vehicle.model}
+                        </span>
+                    </li>
+                    <li>
+                        <h3 className="recipe__item__title">
+                            Año
+                        </h3>
+                        <span className="recipe__item__data">
+                            {vehicle.year}
+                        </span>
+                    </li>
+                    <li>
+                        <h3 className="recipe__item__title">
+                            Kms
+                        </h3>
+                        <span className="recipe__item__data">
+                            {vehicle.kms}
+                        </span>
+                    </li>
+                </ul>
+            );
+        } else {
+            return ('');
+        }
+    };
 
     const renderTotal = () => (
         <ul className="recipe__flex-container sell-recipe__total">
@@ -137,7 +186,7 @@ const SellRecipe = ({
                     Importe con letra
                 </h3>
                 <span className="recipe__item__data">
-                    {totalString}
+                    {NumeroALetras(totalNumber)}
                 </span>
             </li>
             <li>

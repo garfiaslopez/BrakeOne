@@ -119,7 +119,7 @@ class PrinterDownload extends Component {
     }
 
     render() {
-        let alert = <div></div>;
+        let alert = '';
         return (
             <Fragment>
                 <Modal

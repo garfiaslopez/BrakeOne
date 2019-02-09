@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import CrudLayout from '../CrudLayout/CrudLayout';
 import Schema from './ProductsSchema';
 import RenderRows from '../../helpers/render_rows';
-import AddStock from './AddStock';
 import ChangePrices from './ChangePrices';
-
 
 import { 
     Divider,
@@ -18,7 +16,6 @@ class Products extends CrudLayout {
 		this.schema = Schema;
 
 		this.custom_modals = {
-			'open_add_stock': AddStock,
 			'open_change_prices': ChangePrices,
 		}
 		this.actions = [
@@ -146,20 +143,7 @@ class Products extends CrudLayout {
 								event.stopPropagation();
 								this.onEdit(record);
 							}}
-						/>
-						<Divider type="vertical" />
-						<Button 
-							type="primary" 
-							shape="circle" 
-							icon="plus-circle"
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.setState({
-									selected_data: record,
-									open_custom_modal: 'open_add_stock'
-								});
-							}}
-						/>
+						/>				
 						<Divider type="vertical" />
 						<Popconfirm
 							onClick={(event)=> {

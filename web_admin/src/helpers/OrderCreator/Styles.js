@@ -38,5 +38,38 @@ export default {
         alignSelf: 'right',
         fontSize: 20,
         fontWeight: 'bold'
-    }
+    },
+    quantityLabel: {
+        fontSize: 15,
+        width: 100,
+        display: 'flex',
+        alignSelf: 'center'
+    },
+    discountLabel: {
+        fontSize: 15,
+        width: 120,
+        display: 'flex',
+        alignSelf: 'center'
+    },
+    rowElementQuantity: {
+        width: 80,
+        height: 40,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 10
+    },
+    rowElementUser: {
+        width: 180,
+        height: 40,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 10
+    },
+    rowElementPrice: {
+        width: 200,
+        height: 40,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 10
+    },
 }

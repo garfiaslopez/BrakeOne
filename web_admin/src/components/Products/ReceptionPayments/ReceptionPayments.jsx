@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import CrudLayout from '../CrudLayout/CrudLayout';
-import CreatePayment from './CreatePayment';
+import CrudLayout from '../../CrudLayout/CrudLayout';
 import VisPayment from './VisPayment';
-import RenderRows from '../../helpers/render_rows';
+import RenderRows from '../../../helpers/render_rows';
 
 import { 
     Divider,
@@ -10,7 +9,7 @@ import {
 	Button
 } from 'antd';
 
-class Payments extends CrudLayout {
+class ReceptionPayments extends CrudLayout {
     constructor(props) {
 		super(props);
 		this.custom_submit = VisPayment;
@@ -19,9 +18,9 @@ class Payments extends CrudLayout {
 			filters_layout: ['search','date_range']
 		};
         this.model = {
-			name: 'payment',
-			singular: 'payment',
-			plural: 'payments',
+			name: 'reception-payment',
+			singular: 'reception-payment',
+			plural: 'reception-payments',
 			label: 'Pagos'
 		};
 		this.additional_get_data = {
@@ -31,7 +30,7 @@ class Payments extends CrudLayout {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
 
-		this.populate_ids = ['client_id', 'sell_id'];
+		this.populate_ids = ['provider_id', 'reception_id'];
 		
         this.table_columns = [
 			{
@@ -48,15 +47,15 @@ class Payments extends CrudLayout {
 				width: '10%'
 			},
 			{
-            	title: 'Folio Venta',
-            	dataIndex: 'sell_id.folio',
-				key: 'sell_id.folio',
+            	title: 'Folio Compra',
+            	dataIndex: 'reception_id.folio',
+				key: 'reception_id.folio',
 				width: '10%'
 			},
 			{
-            	title: 'Cliente',
-            	dataIndex: 'client_id.name',
-				key: 'client_id.name',
+            	title: 'Proveedor',
+            	dataIndex: 'provider_id.name',
+				key: 'provider_id.name',
 				width: '20%'
 			},
 			{
@@ -155,4 +154,4 @@ class Payments extends CrudLayout {
 	}
 }
 
-export default Payments;
+export default ReceptionPayments;

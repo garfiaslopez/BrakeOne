@@ -32,7 +32,7 @@ class Quotations extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDate,
-				width: '20%'
+				width: '15%'
 			},
 			{
             	title: 'Sucursal',
@@ -72,9 +72,19 @@ class Quotations extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '10%',
+				width: '15%',
             	render: (text, record) => (
 					<span>
+						<Button 
+							type="primary" 
+							shape="circle"
+							icon="printer"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onPrint(record, 'QUOTATION');
+							}}
+						/>
+						<Divider type="vertical" />
 						<Button 
 							type="primary" 
 							shape="circle"
@@ -124,6 +134,7 @@ class Quotations extends CrudLayout {
 								this.onEdit(record);
 							}}
 						/>
+						<Divider type="vertical" />
 					</span>
             	),
 			});

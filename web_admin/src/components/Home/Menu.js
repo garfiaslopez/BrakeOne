@@ -4,6 +4,8 @@ import Providers from '../Providers/Providers';
 import Products from '../Products/Products';
 import Packages from '../Products/Packages/Packages';
 import ProductServices from '../Products/Services/Services';
+import Receptions from '../Products/Receptions/Receptions';
+import ReceptionPayments from '../Products/ReceptionPayments/ReceptionPayments';
 import Kardex from '../Products/Kardex/Kardex';
 import Paysheet from '../Paysheet/Paysheet';
 import Clients from '../Clients/Clients';
@@ -41,11 +43,11 @@ const adminMenu = [
         'component': Spends,
     },
     {
-        'name': 'Catalogo',
+        'name': 'Productos',
         'icon': 'tool',
         'sub_menus': [
             {
-                'name': 'Productos',
+                'name': 'Lista de Productos',
                 'icon': 'folder',
                 'component': Products
             },
@@ -58,6 +60,16 @@ const adminMenu = [
                 'name': 'Kardex',
                 'icon': 'swap',
                 'component': Kardex
+            },
+            {
+                'name': 'Compras Productos',
+                'icon': 'plus-circle',
+                'component': Receptions
+            },
+            {
+                'name': 'Pagos Productos',
+                'icon': 'dollar',
+                'component': ReceptionPayments
             }
         ]
     },

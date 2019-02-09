@@ -183,7 +183,7 @@ class ChangePrices extends Component {
     }
 
     render() {
-        let alert=<div></div>;
+        let alert='';
 		if (this.state.error) {
             alert = (
                 <Alert

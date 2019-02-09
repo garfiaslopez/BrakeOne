@@ -100,6 +100,18 @@ var Models = [
         singular: 'spend',
         plural: 'spends',
         methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'reception',
+        singular: 'reception',
+        plural: 'receptions',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'reception_payment',
+        singular: 'reception-payment',
+        plural: 'reception-payments',
+        methods: ['create', 'read', 'update', 'delete', 'search']
     }
 ]
 
