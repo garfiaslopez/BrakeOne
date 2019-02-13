@@ -21,16 +21,10 @@ class ChangePrices extends Component {
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
-            loading_sells: false,
-            client_id: {},
-            sell_id: {},
-            sells: [],
-            notes: undefined,
-            type: undefined,
-            bank: undefined,
-            reference: undefined,
-            total: undefined,
-            date: undefined
+            loading_products: false,
+            products: [],
+            product_brand: undefined,
+            
         };
 
         if (props.fields) { // SELL_ID OBJECT

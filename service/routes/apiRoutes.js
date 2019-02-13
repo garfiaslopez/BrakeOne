@@ -4,6 +4,8 @@ var AuthenticateFunctions = require("../controllers/authController");
 var MiddleAuth = require('./../middlewares/auth');
 
 var CRUDController = require("../controllers/CRUDController");
+var CustomFunctions = require("../controllers/customFunctions");
+
 var Models = [
     {
         model_name: 'account',
@@ -118,7 +120,8 @@ var Models = [
 module.exports = function(server) {
     //  Redirect request to controller
     server.post('/authenticate',AuthenticateFunctions.AuthByUser);
-
+    //the routes put before the middleware does not is watched.
+    server.use(MiddleAuth.isAuthenticated);
     // ALL CRUD MODELS MAKE A CRUD ROUTES:
     Models.forEach((model) => {
         server.post('/' + model.singular, CRUDController('create', model.model_name));
@@ -128,6 +131,5 @@ module.exports = function(server) {
         server.post('/' + model.plural, CRUDController('search', model.model_name));
     });
 
-    //the routes put before the middleware does not is watched.
-    server.use(MiddleAuth.isAuthenticated);
+    server.post('/helpers/updatestock', CustomFunctions.update_stock)
 };
