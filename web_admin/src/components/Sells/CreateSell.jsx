@@ -25,6 +25,7 @@ class CreateSell extends Component {
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
+            loading: this.props.loading,
             loading_clients: false,
             client_id: {},
             clients: [],
@@ -78,7 +79,8 @@ class CreateSell extends Component {
         // check the state for recovered data values from dropdowns DB: 
         // compare and set manually with setfield....
         this.setState({
-            error: nextProps.error
+            error: nextProps.error,
+            loading: nextProps.loading,
         });
     }
 

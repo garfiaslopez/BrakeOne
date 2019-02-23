@@ -64,7 +64,7 @@ class CrudLayout extends Component {
         var POSTDATA = {
             limit: this.limit,
 			page: this.page,
-			filters: {}
+			filters: {},
 		}
 		if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
@@ -75,7 +75,17 @@ class CrudLayout extends Component {
 		}
 
 		if (!isEmpty(this.search_text)) {
-			if (this.model.name === 'sell' | this.model.name === 'quotation' | this.model.name === 'payment') {
+			if (this.model.name === 'quotation') {
+				POSTDATA['or_filters'] = {};
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+				POSTDATA['or_filters']['client_name'] = this.search_text;
+				POSTDATA['or_filters']['car_plates'] = this.search_text;
+			} else if (this.model.name === 'sell') {
+				POSTDATA['or_filters'] = {};
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+				POSTDATA['or_filters']['client_id.name'] = this.search_text;
+			} else if (this.model.name === 'payment') {
+				POSTDATA['or_filters'] = {};
 				POSTDATA['filters']['folio'] = Number(this.search_text);
 			} else {
 				POSTDATA['search_text'] = this.search_text;
@@ -89,19 +99,18 @@ class CrudLayout extends Component {
 		}
 
 		// WUATEFOK HERE!
-		console.log(POSTDATA);
-
 		if (this.table_filters) {
 			Object.keys(this.table_filters).forEach((f) => {
 				if (this.table_filters[f].length > 0) {
-					POSTDATA['filters'][f] = Object.assign([],this.table_filters[f]);
+					POSTDATA['filters'][f] = this.table_filters[f];
+				} else {
+					delete POSTDATA['filters'][f];
 				}
 			});
 		}
-		console.log(POSTDATA);
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
-                this.setState({
+				this.setState({
 					table_data: response.json.data.docs.map((el, index)=>({
 						...el,
 						key: index
@@ -155,6 +164,9 @@ class CrudLayout extends Component {
 	}
 
 	onCustomSubmitForm = (new_obj) => {
+		this.setState({
+			loading_submit: true
+		});
 		const newArray = Object.assign([],this.state.table_data);
 		if (this.state.selected_data) {
 			const i = newArray.findIndex((el)=>(el._id === this.state.selected_data._id));
@@ -307,8 +319,14 @@ class CrudLayout extends Component {
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
-		this.initial_date = date[0];
-		this.final_date = date[1];
+		// parse only the day ?
+		if (date.length > 0) {
+			this.initial_date = date[0].startOf('day');
+			this.final_date = date[1].endOf('day');
+		} else {
+			this.initial_date = undefined;
+			this.final_date = undefined;
+		}
 		this.getData();
 	}
 
@@ -330,8 +348,11 @@ class CrudLayout extends Component {
 			this.sort_field = sorter.columnKey;
 			this.sort_order = sorter.order == 'ascend' ? 1 : -1;
 		}
-		this.table_filters = filters;
-		console.log(this.table_filters);
+		if (filters) {
+			this.table_filters = filters;
+		} else {
+			this.table_filters = undefined;
+		}
 		this.getData();
 	}
 
@@ -555,7 +576,9 @@ class CrudLayout extends Component {
 					<Button 
 						type="primary" 
 						size="large"
-						onClick={action.func}
+						onClick={() => {
+							action.func()
+						}}
 					>
 						<Icon type={action.icon} />
 						{action.label}
@@ -592,7 +615,7 @@ class CrudLayout extends Component {
 					locale={{
 						filterTitle: 'Filtro',
 						filterConfirm: 'Ok',
-						filterReset: 'Reset',
+						filterReset: 'Limpiar',
 						emptyText: 'Sin Datos'
 					}}
 					onRow={(record) => {

@@ -26,6 +26,44 @@ export default {
         minHeight: 360
     },
     modalContainer: {
-        width: '80%'
+        width: '100%',
+        overflowY: 'scroll'
+    },
+    modalBodyContainer: {
+        width: '100%',
+    },
+    modalInBodyContainer: {
+        height: '100%'
+    },
+    buttonHistory: {
+        height: 40,
+        width: 250,
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    inputsContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    inputsRowContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    inputsColumnContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    inputElement: {
+        marginLeft: 10,
+        marginRight: 10,
+        height: 40,
+        width: '100%'
+    },
+    inputLabel: {
+        fontSize:15,
+        marginLeft: 10,
+        marginRight: 10,
+        width: 250
     }
 }

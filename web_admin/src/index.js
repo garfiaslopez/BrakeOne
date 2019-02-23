@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import './reset.css';
 import 'antd/dist/antd.css';
+import { Offline, Online } from "react-detect-offline";
+import NoInternet from './helpers/NoInternet';
 
 import { FetchXHR } from './helpers/generals';
 import {
@@ -130,20 +132,27 @@ const initialView = () => {
 }
 
 ReactDOM.render(
-    <Router history={history}>
-        <Switch>
-            <PrivateRoute exact path="/" component= {initialView}/>
-            <Route path="/login" component={Login} />
+    <Fragment>
+        <Online>
+            <Router history={history}>
+                <Switch>
+                    <PrivateRoute exact path="/" component= {initialView}/>
+                    <Route path="/login" component={Login} />
 
-            <PrivateRoute exact path="/subsidiarys" component={SubsidiaryGrid}/>
-            <PrivateRoute exact path="/home" component={Home}/>
+                    <PrivateRoute exact path="/subsidiarys" component={SubsidiaryGrid}/>
+                    <PrivateRoute exact path="/home" component={Home}/>
 
-            <PrivateRoute exact path="/recipes/sell" component={SellRecipe}/>
-            <PrivateRoute exact path="/recipes/sell-ticket" component={SellTicket}/>
-            <PrivateRoute exact path="/recipes/quotation" component={QuotationRecipe}/>
-            <Route path="/*" component={NotFound} />
-        </Switch>
-    </Router>
+                    <PrivateRoute exact path="/recipes/sell" component={SellRecipe}/>
+                    <PrivateRoute exact path="/recipes/sell-ticket" component={SellTicket}/>
+                    <PrivateRoute exact path="/recipes/quotation" component={QuotationRecipe}/>
+                    <Route path="/*" component={NotFound} />
+                </Switch>
+            </Router>
+        </Online>
+        <Offline>
+            <NoInternet />
+        </Offline>
+    </Fragment>
 ,document.getElementById('root'));
 
 

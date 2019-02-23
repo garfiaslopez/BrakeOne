@@ -7,7 +7,7 @@ export default {
     round2,
     renderRowDate: (text, record) => {
         return ({
-            children: <p>{moment(text).format('DD/MM/YYYY')}</p>,
+            children: <p>{moment(text).format('DD/MM/YYYY HH:mm')}</p>,
         });
     },
     renderRowNumber: (text, record) => {
@@ -29,7 +29,7 @@ export default {
     renderRowDateProducts: (text, record) => {
         let color = record.stock < record.stock_ideal ? 'red' : 'blue';
         return ({
-            children: <p style={{color}}>{moment(text).format('DD/MM/YYYY')}</p>,
+            children: <p style={{color}}>{moment(text).format('DD/MM/YYYY HH:mm')}</p>,
         });
     },
     renderRowNumberProducts: (text, record) => {
@@ -72,7 +72,7 @@ export default {
             color = 'blue';
         }
         return ({
-            children: <p style={{color}}>{moment(text).format('DD/MM/YYYY')}</p>,
+            children: <p style={{color}}>{moment(text).format('DD/MM/YYYY HH:mm')}</p>,
         });
     },
     renderRowNumberSells: (text, record) => {

@@ -14,12 +14,15 @@ import { FetchXHR } from '../../helpers/generals';
 import moment from 'moment';
 import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
 
+moment.locale('es');
+
 class CreateQuotation extends Component {
     constructor(props) {
         super(props);
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
+            loading: this.props.loading,
             price_type: undefined,
             client_name: '',
             client_phone: '',
@@ -102,7 +105,8 @@ class CreateQuotation extends Component {
         // check the state for recovered data values from dropdowns DB: 
         // compare and set manually with setfield....
         this.setState({
-            error: nextProps.error
+            error: nextProps.error,
+            loading: nextProps.loading
         });
     }
 
@@ -123,6 +127,8 @@ class CreateQuotation extends Component {
         // do validations:
         if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
+                console.log(moment().format("DD/MM/YYYY : HH:mm:ss"));
+                console.log("DATE TO SAVE:", moment().toISOString());
                 const Quotation =  {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
@@ -140,7 +146,8 @@ class CreateQuotation extends Component {
                     notes: this.state.notes,
                     products: this.state.products,
                     services: this.state.services,
-                    total: this.state.total
+                    total: this.state.total,
+                    date: moment().toISOString()
                 }
                 this.props.onSubmit(Quotation);
             } else {

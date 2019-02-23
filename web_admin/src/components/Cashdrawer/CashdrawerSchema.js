@@ -12,7 +12,7 @@ export default [
 			type: 'Date',
 			placeholder: 'Fecha',
 			prefixIcon: 'calendar',
-			rules: [{ required: true }, { min: 3 }, { max: 32 }]
+			rules: [{ required: true }]
 		},
 		{
 			id: 'status',

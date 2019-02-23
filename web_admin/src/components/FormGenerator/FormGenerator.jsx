@@ -24,7 +24,8 @@ class FormGenerator extends Component {
         this.state = {
             error: this.props.error,
             open: this.props.open,
-            loading: this.props.loading,
+            loading: false,
+            loading_submit: this.props.loading,
             sub_form: {
                 open: false,
                 schema: [],
@@ -130,7 +131,8 @@ class FormGenerator extends Component {
         // check the state for recovered data values from dropdowns DB: 
         // compare and set manually with setfield....
         this.setState({
-            error: nextProps.error
+            error: nextProps.error,
+            loading_submit: nextProps.loading
         });
     }
 
@@ -437,7 +439,7 @@ class FormGenerator extends Component {
             <Button 
                 key="submit" 
                 type="primary" 
-                loading={this.state.loading}
+                loading={this.state.loading_submit}
                 onClick={this.onSubmit}
             >
                 Guardar

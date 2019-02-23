@@ -21,6 +21,7 @@ class CreatePayment extends Component {
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
+            loading: this.props.loading,
             loading_sells: false,
             client_id: {},
             sell_id: {},
@@ -51,7 +52,8 @@ class CreatePayment extends Component {
         // check the state for recovered data values from dropdowns DB: 
         // compare and set manually with setfield....
         this.setState({
-            error: nextProps.error
+            error: nextProps.error,
+            loading: nextProps.loading,
         });
     }
 

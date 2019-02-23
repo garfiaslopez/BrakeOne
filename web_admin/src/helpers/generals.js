@@ -37,3 +37,22 @@ export function FetchXHR(url, method, data) {
         };
     });
 }
+
+export function isOnline() {
+    let isOnline = false;
+    let xhr = new XMLHttpRequest();
+    return new Promise((resolve, reject)=>{
+        xhr.onload = () => {
+            // Set online status
+            isOnline = true;
+            resolve(true);
+        };
+        xhr.onerror = () => {
+            // Set online status
+            isOnline = false;
+            reject(false);
+        };
+        xhr.open('GET', 'www.google.com', true);
+        xhr.send();
+    });
+}
