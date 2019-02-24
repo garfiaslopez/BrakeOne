@@ -27,6 +27,7 @@ import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
 class CrudLayout extends Component {
     state = {
 		data: [],
+		next_folio: undefined,
 		selected_data: undefined,
 		loading_data: false,
 		loading_submit: false,
@@ -34,7 +35,7 @@ class CrudLayout extends Component {
         search_text: undefined,
         initial_date: undefined,
 		final_date: undefined,
-		docs_per_page: 10,
+		docs_per_page: 50,
 		page: 1,
 		total_docs: 0,
 		opened_submit: false,
@@ -50,7 +51,7 @@ class CrudLayout extends Component {
 	}
 
 	componentDidMount() {
-		this.limit = 10;
+		this.limit = 50;
 		this.page = 1;
 		this.getData();
 	}
@@ -73,7 +74,7 @@ class CrudLayout extends Component {
 			POSTDATA['sort_field'] = this.sort_field;
 			POSTDATA['sort_order'] = this.sort_order;			
 		}
-
+		
 		if (!isEmpty(this.search_text)) {
 			if (this.model.name === 'quotation') {
 				POSTDATA['or_filters'] = {};
@@ -83,10 +84,17 @@ class CrudLayout extends Component {
 			} else if (this.model.name === 'sell') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
-				POSTDATA['or_filters']['client_id.name'] = this.search_text;
+				POSTDATA['or_filters']['client_id'] = this.search_text;
+			} else if (this.model.name === 'reception') {
+				POSTDATA['or_filters'] = {};
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+				POSTDATA['or_filters']['provider_id'] = this.search_text;
 			} else if (this.model.name === 'payment') {
 				POSTDATA['or_filters'] = {};
-				POSTDATA['filters']['folio'] = Number(this.search_text);
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+			} else if (this.model.name === 'reception-payment') {
+				POSTDATA['or_filters'] = {};
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 			} else {
 				POSTDATA['search_text'] = this.search_text;
 			}
@@ -100,21 +108,37 @@ class CrudLayout extends Component {
 
 		// WUATEFOK HERE!
 		if (this.table_filters) {
+			console.log(this.table_filters);
 			Object.keys(this.table_filters).forEach((f) => {
 				if (this.table_filters[f].length > 0) {
-					POSTDATA['filters'][f] = this.table_filters[f];
+					if (this.table_filters[f][0] === 'stock.low.exists') {
+						POSTDATA['filters']['$expr'] ={ $lte: [ "$stock" , "$stock_ideal" ] };
+					} else if (this.table_filters[f][0] === 'stock.exists') {
+						POSTDATA['filters']['$expr'] ={ $gt: [ "$stock" , "$stock_ideal" ] };
+					} else if (this.table_filters[f][0] === 'stock.no.exists') {
+						POSTDATA['filters']['stock'] = { $lte: 0 };
+					}else {
+						POSTDATA['filters'][f] = this.table_filters[f];
+					}
 				} else {
 					delete POSTDATA['filters'][f];
+					delete POSTDATA['filters']['stock'];
+					delete POSTDATA['filters']['$expr'];
 				}
 			});
 		}
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
+				let next_folio = undefined;
+				if (response.json.data.docs.length > 0 && response.json.data.docs[0].folio) {
+					next_folio = response.json.data.docs[0].folio + 1;
+				}
 				this.setState({
 					table_data: response.json.data.docs.map((el, index)=>({
 						...el,
 						key: index
 					})),
+					next_folio,
 					total_docs: response.json.data.total,
                     loading_data: false
                 });
@@ -400,6 +424,7 @@ class CrudLayout extends Component {
 			if (this.state.opened_submit) {
 				form = (
 					<FormGenerator
+						session={this.props.session}
 						key={"Create_Form"}
 						is_disabled={false}
 						title={title}
@@ -414,6 +439,7 @@ class CrudLayout extends Component {
 							this.setState({ error:undefined });
 						}}
 						fields={this.state.selected_data}
+						next_folio={this.state.next_folio}
 					/>
 				);
 			} else if (this.state.opened_view) {
@@ -453,6 +479,7 @@ class CrudLayout extends Component {
 							this.setState({ error:undefined });
 						}}
 						session={this.props.session}
+						next_folio={this.state.next_folio}
 					/>
 				);
 			} else if (this.state.opened_view) {
@@ -518,7 +545,7 @@ class CrudLayout extends Component {
 		}
 
 		let PrinterDownloadButton = '';
-		if (this.props.session.user.rol === 'admin' || this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' || this.props.session.user.rol === 'MANAGER') {
 			PrinterDownloadButton = (
 				<Button.Group>
 					<Button 
@@ -610,7 +637,10 @@ class CrudLayout extends Component {
 					pagination={{
 						showSizeChanger: true,
 						defaultCurrent: this.page,
-						total: this.state.total_docs
+						total: this.state.total_docs,
+						defaultPageSize: 50,
+						pageSize: 50,
+						pageSizeOptions: ['50','100','200']
 					}}
 					locale={{
 						filterTitle: 'Filtro',

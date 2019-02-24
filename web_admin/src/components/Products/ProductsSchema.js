@@ -276,7 +276,8 @@ export default [
 			placeholder: 'Stock',
 			prefixIcon: 'inbox',
 			options: { min: 0, step: 1 },
-			rules: Rules['number']
+			rules: Rules['number'],
+			canEdit: ['ADMIN']
 		},
 		{
 			id: 'stock_ideal',

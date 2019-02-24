@@ -46,7 +46,7 @@ class Products extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-		this.x_scroll_on_table = 2000;
+		this.x_scroll_on_table = 1800;
         this.table_columns = [
 			{
             	title: 'Llave',
@@ -82,7 +82,7 @@ class Products extends CrudLayout {
 				key: 'description',
 				sorter: true,
 				render: RenderRows.renderRowTextProducts,
-				width: '25%',
+				width: '20%',
 			}, 
 			{
             	title: 'Costo',
@@ -118,17 +118,18 @@ class Products extends CrudLayout {
 				key: 'stock',
 				render: RenderRows.renderRowTextProducts,
 				sorter: true,
-				width: '5%',
+				width: '10%',
 				filters: [
-					{ text: 'Con Existencia', value: 'stock.exists' },
-					{ text: 'Sin Existencia', value: 'stock.no.exists'},
+					{ text: 'En stock', value: 'stock.exists' },
+					{ text: 'Bajo stock', value: 'stock.low.exists'},
+					{ text: 'Sin stock', value: 'stock.no.exists'},
 				],
 			}
 		];
 
 
-		if (this.props.session.user.rol === 'admin' ||
-			this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' ||
+			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',

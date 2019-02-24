@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import moment from 'moment';
+import RenderRows from '../../../helpers/render_rows';
 
 import './Styles.css';
 import NumeroALetras from '../../../helpers/number_to_letter';
+const round2 = (number) => (Math.round(number * 100) / 100);
 
 const propTypes = {
     folio: PropTypes.string,
@@ -56,10 +58,12 @@ const defaultProps = {
         title: 'Precio',
         dataIndex: 'price',
         key: 'price',
+        render: RenderRows.renderRowNumber,
     }, {
         title: 'Importe',
         dataIndex: 'total',
         key: 'total',
+        render: RenderRows.renderRowNumber,
     }]
 };
 
@@ -194,7 +198,7 @@ const SellRecipe = ({
                     Total
                 </h3>
                 <span className="recipe__item__data">
-                    {totalNumber}
+                    ${String(round2(totalNumber ? totalNumber : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
             </li>
         </ul>

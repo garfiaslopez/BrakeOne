@@ -108,114 +108,169 @@ const adminMenu = [
 
 const managerMenu = [
     {
-        'name': 'Personal',
-        'icon': 'user',
-        'component': Users,
+        'name': 'Cotizaciones',
+        'icon': 'file-search',
+        'component': Quotations,
     },
     {
-        'name': 'Nomina',
+        'name': 'Ventas',
+        'icon': 'shopping-cart',
+        'component': Sells,
+    },
+    {
+        'name': 'Servicios',
+        'icon': 'tool',
+        'component': Services,
+    },
+    {
+        'name': 'Pagos',
         'icon': 'credit-card',
-        'component': Users,
+        'component': Payments,
+    },
+    {
+        'name': 'Gastos',
+        'icon': 'dollar',
+        'component': Spends,
     },
     {
         'name': 'Productos',
         'icon': 'tool',
         'sub_menus': [
             {
-                'name': 'Catalogo',
+                'name': 'Lista de Productos',
                 'icon': 'folder',
-                'component': Users
+                'component': Products
             },
             {
-                'name': 'Paquetes',
-                'icon': 'inbox',
-                'component': Users,
-            },
+                'name': 'Servicios',
+                'icon': 'tool',
+                'component': ProductServices,
+            }, 
             {
                 'name': 'Kardex',
                 'icon': 'swap',
-                'component': Users
+                'component': Kardex
+            },
+            {
+                'name': 'Compras Productos',
+                'icon': 'plus-circle',
+                'component': Receptions
+            },
+            {
+                'name': 'Pagos Productos',
+                'icon': 'dollar',
+                'component': ReceptionPayments
             }
         ]
     },
     {
-        'name': 'Servicios',
-        'icon': 'shopping-cart',
-        'component': Users,
-    },
-    {
         'name': 'Clientes',
         'icon': 'smile-o',
-        'component': Users,
+        'component': Clients,
     },
     {
         'name': 'Proveedores',
         'icon': 'global',
+        'component': Providers,
+    },
+    {
+        'name': 'Personal',
+        'icon': 'user',
         'component': Users,
+    },
+    {
+        'name': 'Nómina',
+        'icon': 'book',
+        'component': Paysheet,
     },
     {
         'name': 'Caja',
         'icon': 'wallet',
-        'component': Users,
+        'component': Cashdrawer,
+    },
+    {
+        'name': 'Sucursales',
+        'icon': 'shop',
+        'component': Subsidiarys,
     }
 ];
 
 const userMenu = [
     {
-        'name': 'Personal',
-        'icon': 'user',
-        'component': Users,
+        'name': 'Cotizaciones',
+        'icon': 'file-search',
+        'component': Quotations,
     },
     {
-        'name': 'Nomina',
+        'name': 'Ventas',
+        'icon': 'shopping-cart',
+        'component': Sells,
+    },
+    {
+        'name': 'Servicios',
+        'icon': 'tool',
+        'component': Services,
+    },
+    {
+        'name': 'Pagos',
         'icon': 'credit-card',
-        'component': Users,
+        'component': Payments,
+    },
+    {
+        'name': 'Gastos',
+        'icon': 'dollar',
+        'component': Spends,
     },
     {
         'name': 'Productos',
         'icon': 'tool',
         'sub_menus': [
             {
-                'name': 'Catalogo',
+                'name': 'Lista de Productos',
                 'icon': 'folder',
-                'component': Users
+                'component': Products
             },
             {
-                'name': 'Paquetes',
-                'icon': 'inbox',
-                'component': Users,
-            },
+                'name': 'Servicios',
+                'icon': 'tool',
+                'component': ProductServices,
+            }, 
             {
                 'name': 'Kardex',
                 'icon': 'swap',
-                'component': Users
+                'component': Kardex
+            },
+            {
+                'name': 'Compras Productos',
+                'icon': 'plus-circle',
+                'component': Receptions
+            },
+            {
+                'name': 'Pagos Productos',
+                'icon': 'dollar',
+                'component': ReceptionPayments
             }
         ]
     },
     {
-        'name': 'Servicios',
-        'icon': 'shopping-cart',
-        'component': Users,
-    },
-    {
         'name': 'Clientes',
         'icon': 'smile-o',
-        'component': Users,
+        'component': Clients,
     },
     {
         'name': 'Proveedores',
         'icon': 'global',
-        'component': Users,
+        'component': Providers,
     },
     {
         'name': 'Caja',
         'icon': 'wallet',
-        'component': Users,
+        'component': Cashdrawer,
     }
 ];
 
 export default {
-    'admin': adminMenu,
-    'manager': managerMenu,
-    'user': userMenu
+    'ADMIN': adminMenu,
+    'MANAGER': managerMenu,
+    'MOSTRADOR': userMenu
 }

@@ -23,10 +23,10 @@ class Spends extends CrudLayout {
 			label: 'Gastos'
 		};
 		this.additional_submit_data = {
-			account_id: this.props.session.user.account_id
+			subsidiary_id: this.props.session.user.subsidiary_id._id
 		}
 		this.additional_get_data = {
-			account_id: this.props.session.user.account_id
+			subsidiary_id: this.props.session.user.subsidiary_id._id
 		}
 		
         this.table_columns = [
@@ -64,8 +64,8 @@ class Spends extends CrudLayout {
 			}
 		];
 		
-		if (this.props.session.user.rol === 'admin' ||
-			this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' ||
+			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',

@@ -39,9 +39,12 @@ var SellSchema = new Schema({
         type: String,
         default: 'NORMAL' // pagada, cancelada, deuda, activa
     },
+    date: {
+		type: Date,
+		default: Date.now
+	},
     date_in: {
-        type: Date,
-        default: Date.now
+        type: Date
     },
     date_out: {
         type: Date

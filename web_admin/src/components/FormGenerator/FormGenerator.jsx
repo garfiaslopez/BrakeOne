@@ -306,6 +306,7 @@ class FormGenerator extends Component {
     }
 
     renderFields() {
+        const rolUser = this.props.session.user.rol;
         const fieldsToReturn = [];
         if (this.props.schema) {
             this.props.schema.forEach((row_components, i) => {
@@ -315,7 +316,22 @@ class FormGenerator extends Component {
                         rows.push(this.FormRender.renderStringField(field_input, this.props.is_disabled));
                     }
                     if (field_input.type === 'Number') {
-                        rows.push(this.FormRender.renderNumberField(field_input, this.props.is_disabled));
+                        let field_disabled = false;
+                        if (this.props.is_disabled) {  // is View Modal
+                            field_disabled = true;
+                        } else {
+                            console.log(this.props.fields);
+                            if (this.props.fields && this.props.fields._id) { // is Edit Modal
+                                if (field_input.canEdit) {  // check if have rules for edit:
+                                    const i = field_input.canEdit.findIndex(e =>  e === rolUser);
+                                    if (i === -1) { // If user not have permission
+                                        field_disabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        rows.push(this.FormRender.renderNumberField(field_input, field_disabled ));
                     }
                     if (field_input.type === 'Number_Money') {
                         rows.push(this.FormRender.renderNumberMoneyField(field_input, this.props.is_disabled));
@@ -455,6 +471,10 @@ class FormGenerator extends Component {
                 </Button>
             ];
         }
+        let title = this.props.title;
+        if (this.props.next_folio) {
+            title += '    | FOLIO: #' + this.props.next_folio;
+        }
         return (
             <Fragment>
                 {subForm}
@@ -463,7 +483,7 @@ class FormGenerator extends Component {
                     bodyStyle={styles.modalContainer}
                     style={styles.modalContainer}
                     visible={this.state.open}
-                    title={this.props.title}
+                    title={title}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={FooterButtons}

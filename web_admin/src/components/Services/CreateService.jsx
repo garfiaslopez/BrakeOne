@@ -655,6 +655,11 @@ class CreateService extends Component {
             );
         }
 
+        let title = this.props.title;
+        if (this.props.next_folio) {
+            title += '    | FOLIO: #' + this.props.next_folio;
+        }
+
         return (
             <Fragment>
                 <Modal
@@ -662,7 +667,7 @@ class CreateService extends Component {
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
                     visible={this.state.open}
-                    title={this.props.title}
+                    title={title}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={ModalButtons}

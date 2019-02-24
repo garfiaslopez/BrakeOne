@@ -8,7 +8,7 @@ export default {
     columnContainer: {
         display: 'flex',
         flexDirection: 'column',
-        width: '100%'
+        width: (window.innerWidth / 2) - 60
     },
     rowElement: {
         width: '100%',
@@ -40,13 +40,13 @@ export default {
         fontWeight: 'bold'
     },
     quantityLabel: {
-        fontSize: 15,
+        fontSize: 13,
         width: 100,
         display: 'flex',
         alignSelf: 'center'
     },
     discountLabel: {
-        fontSize: 15,
+        fontSize: 13,
         width: 120,
         display: 'flex',
         alignSelf: 'center'

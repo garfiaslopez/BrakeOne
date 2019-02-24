@@ -105,7 +105,7 @@ class SubsidiaryGrid extends Component {
         if (this.props.coords && this.state.subsidiaries.length > 0) {
             // filter subsidiaries objects:
             let subsidiaries = Object.assign([], this.state.subsidiaries);
-            if (this.props.session.user.rol !== 'admin') {
+            if (this.props.session.user.rol !== 'ADMIN') {
                 subsidiaries = this.state.subsidiaries.filter((subsidiary) => {
                     let distance = calculateDistance(
                         this.props.coords.longitude,

@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import './Styles.css';
 import NumeroALetras from '../../../helpers/number_to_letter';
+const round2 = (number) => (Math.round(number * 100) / 100);
 
 const propTypes = {
     subsidiary: PropTypes.object,
@@ -130,14 +131,16 @@ const SellTicket = ({
                 {sellItems.map((item, i) => (
                     <li className="recipe__flex-container" key={i}>
                         <span>{item.datakey}</span>
-                        <span>{item.charge}</span>
+                        <span>${String(round2(item.charge ? item.charge : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
                         <span>{`${item.quantity} ${item.description}`}</span>
                     </li>
                 ))}
             </ul>
             <div className="sell-ticket__list__total recipe__flex-container">
                 <span>Total</span>
-                <span>{totalNumber}</span>
+                <span>
+                    ${String(round2(totalNumber ? totalNumber : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </span>
             </div>
             <p>{NumeroALetras(totalNumber)}</p>
         </div>

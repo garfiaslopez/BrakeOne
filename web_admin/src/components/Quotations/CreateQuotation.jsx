@@ -318,6 +318,11 @@ class CreateQuotation extends Component {
             });
         }
 
+        let title = "Nueva Cotización";
+        if (this.props.next_folio) {
+            title += '    | FOLIO: #' + this.props.next_folio;
+        }
+
         return (
             <Fragment>
                 <Modal
@@ -325,7 +330,7 @@ class CreateQuotation extends Component {
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
                     visible={this.state.open}
-                    title={"Cotización"}
+                    title={title}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={ModalButtons}
@@ -580,6 +585,7 @@ class CreateQuotation extends Component {
                         </div>
 
                         <OrderCreator
+                            is_quotation={true}
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}

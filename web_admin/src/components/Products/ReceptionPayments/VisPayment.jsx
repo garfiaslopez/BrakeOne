@@ -22,8 +22,8 @@ class VisPayment extends Component {
             error: this.props.error,
             open: this.props.open,
             loading_sells: false,
-            client_id: {},
-            sell_id: {},
+            provider_id: {},
+            reception_id: {},
             sells: [],
             notes: undefined,
             type: undefined,
@@ -36,11 +36,11 @@ class VisPayment extends Component {
             if (props.fields.date) {
                 initial_state.date = props.fields.date;
             }
-            if (props.fields.sell_id) {
-                initial_state.sell_id = props.fields.sell_id;
+            if (props.fields.reception_id) {
+                initial_state.reception_id = props.fields.reception_id;
             }
-            if (props.fields.client_id) {
-                initial_state.client_id = props.fields.client_id;
+            if (props.fields.provider_id) {
+                initial_state.provider_id = props.fields.provider_id;
             }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
@@ -111,9 +111,9 @@ class VisPayment extends Component {
             status: new_price === this.props.fields.total ? 'PAGADA' : 'DEUDA'
         }
         
-        let url_user = process.env.REACT_APP_API_URL + '/client/' + this.props.fields.client_id._id;
+        let url_user = process.env.REACT_APP_API_URL + '/client/' + this.props.fields.provider_id._id;
         const NEW_CLIENT =  {
-            sells: this.props.fields.client_id.sells + values.total
+            sells: this.props.fields.provider_id.sells + values.total
         }
 
         FetchXHR(url_sell, method_put, NEW_SELL).then((response_sell) => {
@@ -172,13 +172,13 @@ class VisPayment extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (!isEmpty(this.state.sell_id)) {
+        if (!isEmpty(this.state.reception_id)) {
             if (this.state.type !== undefined && this.state.total > 0) {
                 const Payment =  {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
-                    sell_id: this.state.sell_id._id,
-                    client_id: this.state.sell_id.client_id._id,
+                    reception_id: this.state.reception_id._id,
+                    provider_id: this.state.reception_id.provider_id._id,
                     notes: this.state.notes,
                     bank: this.state.bank,
                     reference: this.state.reference,
@@ -262,13 +262,13 @@ class VisPayment extends Component {
                     value={item._id}
                     key={`${item._id} - ${index}`} 
                 >
-                    {moment(item.date).format("DD/MM/YY") + ' - ' + item.folio + ' - ' + item.client_id.name + ' - $' + item.total }
+                    {moment(item.date).format("DD/MM/YY") + ' - ' + item.folio + ' - ' + item.provider_id.name + ' - $' + item.total }
                 </Select.Option>
             );
         });
 
         let CardContent = <div> Favor de buscar y seleccionar una venta. </div>;
-        if (this.state.sell_id._id) {
+        if (this.state.reception_id._id) {
             CardContent = (
                 <Fragment>
                     <Card.Grid style={styles.grid_element}>
@@ -276,16 +276,16 @@ class VisPayment extends Component {
                         <p style={styles.label_value} >{moment(this.state.date).format("DD/MM/YY") || moment().format("DD/MM/YY")}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Cliente:</p>
-                        <p style={styles.label_value}>{this.state.client_id.name}</p>
+                        <p style={styles.label_title} >Proveedor:</p>
+                        <p style={styles.label_value}>{this.state.provider_id.name}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Total:</p>
-                        <p style={styles.label_value} >{this.state.sell_id.total}</p>
+                        <p style={styles.label_value} >{this.state.reception_id.total}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Por pagar:</p>
-                        <p style={styles.label_value} >{this.state.sell_id.total - this.state.sell_id.payed}</p>
+                        <p style={styles.label_value} >{this.state.reception_id.total - this.state.reception_id.payed}</p>
                     </Card.Grid>
                 </Fragment>
             );
@@ -298,7 +298,7 @@ class VisPayment extends Component {
                     bodyStyle={styles.modalContainer}
                     style={styles.modalBodyContainer}
                     visible={true}
-                    title={this.props.fields.is_service ? "Pago de Servicio" : "Pago de Venta"}
+                    title={"Pago de recepción de producto."}
                     onCancel={this.props.onClose}
                     keyboard={true}
                     footer={ModalButtons}
@@ -316,7 +316,7 @@ class VisPayment extends Component {
                             >
                                 
                                 <Card
-                                    title={<p style={styles.folioText}> Folio de venta # {this.state.sell_id.folio}</p>}
+                                    title={<p style={styles.folioText}> Folio de Recepción # {this.state.reception_id.folio}</p>}
                                     style={styles.cardContainer}
                                     bodyStyle={styles.cardBody}
                                 >
@@ -385,7 +385,7 @@ class VisPayment extends Component {
                                             className="field-icon"
                                         />
                                     )}
-                                    max={this.state.sell_id.total - this.state.sell_id.payed}
+                                    max={this.state.reception_id.total - this.state.reception_id.payed}
                                     type="text"
                                     placeholder="Total ($)"
                                     size="large"

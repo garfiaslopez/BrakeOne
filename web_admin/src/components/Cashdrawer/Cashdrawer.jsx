@@ -65,8 +65,8 @@ class Cashdrawer extends CrudLayout {
 			}
 		];
 
-		if (this.props.session.user.rol === 'admin' ||
-			this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' ||
+			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',

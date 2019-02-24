@@ -80,14 +80,14 @@ class Payments extends CrudLayout {
 			}
 		];
 
-		if (this.props.session.user.rol === 'admin' ||
-			this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' ||
+			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
 				width: '15%',
             	render: (text, record) => {
-					
+					/*
 					let EditButton = '';
 					if (!record.is_canceled) {
 						EditButton = (
@@ -105,9 +105,9 @@ class Payments extends CrudLayout {
 							</Fragment>
 						);
 					}
+					*/
 					return (
 						<span>
-							{EditButton}
 							<Popconfirm
 								onClick={(event)=> {
 									event.stopPropagation();
@@ -132,24 +132,6 @@ class Payments extends CrudLayout {
 						</span>
 					);
 				},
-			});
-		} else {
-			this.table_columns.push({
-            	title: 'Acciones',
-            	key: 'action',
-            	render: (text, record) => (
-					<span>
-						<Button 
-							type="primary" 
-							shape="circle"
-							icon="edit"
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.onEdit(record);
-							}}
-						/>
-					</span>
-            	),
 			});
 		}
 	}

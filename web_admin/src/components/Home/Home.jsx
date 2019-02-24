@@ -40,6 +40,7 @@ class Home extends React.Component {
 
 	getSelectedMenu = () => {
 		const MenuCategories = Menus[this.props.session.user.rol];
+		console.log(MenuCategories);
 		if (this.state.selectedMenu) {
 			let indices = this.state.selectedMenu.split('.');
 			if (MenuCategories[indices[0]].sub_menus) {
@@ -58,7 +59,7 @@ class Home extends React.Component {
 		const menu = (
 			<Menu onClick={this.handleMenuClick}>
 				{(()=>{
-					if(this.props.session.user.rol !== 'MANAGER' || this.props.session.user.rol !== 'admin') {
+					if(this.props.session.user.rol !== 'MANAGER' || this.props.session.user.rol !== 'ADMIN') {
 						return(<Menu.Item key="subsidiarys"><Icon type="user" />Cambiar sucursal</Menu.Item>);
 					}
 				})()}

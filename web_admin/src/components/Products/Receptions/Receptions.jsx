@@ -67,7 +67,7 @@ class Receptions extends CrudLayout {
 				filters: [
 					{ text: 'NORMAL', value: 'NORMAL' },
 					{ text: 'PAGADA', value: 'PAGADA'},
-					{ text: 'CANCELADA', value: 'CANCELADA'},
+					{ text: 'CANCELADO', value: 'CANCELADO'},
 				],
 			},
 			{
@@ -78,19 +78,26 @@ class Receptions extends CrudLayout {
 				width: '20%'
 			},
 			{
+            	title: 'Pagado',
+            	dataIndex: 'payed',
+				key: 'payed',
+				render: RenderRows.renderRowNumberSells,
+				width: '10%'
+			},
+			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumberSells,
-				width: '15%'
+				width: '10%'
 			}
 		];
-		if (this.props.session.user.rol === 'admin' ||
-			this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' ||
+			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '15%',
+				width: '10%',
             	render: (text, record) => {
 					let PayButton = '';
 					if (!record.is_payed) {
@@ -135,7 +142,7 @@ class Receptions extends CrudLayout {
 									event.stopPropagation();
 								}}
 								title="¿Esta seguro de cancelar?" 
-								okText="Cancelar"
+								okText="Eliminar"
 								cancelText="Cancelar"
 								onCancel={(event) => {
 									event.stopPropagation();
@@ -224,7 +231,7 @@ class Receptions extends CrudLayout {
 			let new_sell = {
 				payed: 0,
 				is_canceled: true,
-				status: 'CANCELADA'
+				status: 'CANCELADO'
 			}
 			FetchXHR(url_sell, 'PUT', new_sell).then((response_sell) => {
 				if (response_sell.json.success) {
@@ -314,7 +321,7 @@ class Receptions extends CrudLayout {
 			page: 1,
 			filters: {
 				subsidiary_id: this.props.session.subsidiary._id,
-				sell_id: record._id,
+				reception_id: record._id,
 			}
 		}
 		FetchXHR(url_payments, 'POST', data_payments).then((response_payments) => {

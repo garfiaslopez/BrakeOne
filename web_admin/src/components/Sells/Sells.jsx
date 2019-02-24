@@ -62,7 +62,7 @@ class Sells extends CrudLayout {
 				filters: [
 					{ text: 'NORMAL', value: 'NORMAL' },
 					{ text: 'PAGADA', value: 'PAGADA'},
-					{ text: 'CANCELADA', value: 'CANCELADA'},
+					{ text: 'CANCELADO', value: 'CANCELADO'},
 				],
 			},
 			{
@@ -87,8 +87,8 @@ class Sells extends CrudLayout {
 				width: '10%'
 			}
 		];
-		if (this.props.session.user.rol === 'admin' ||
-			this.props.session.user.rol === 'manager') {
+		if (this.props.session.user.rol === 'ADMIN' ||
+			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
@@ -277,7 +277,7 @@ class Sells extends CrudLayout {
 			let new_sell = {
 				payed: 0,
 				is_canceled: true,
-				status: 'CANCELADA'
+				status: 'CANCELADO'
 			}
 			FetchXHR(url_sell, 'PUT', new_sell).then((response_sell) => {
 				if (response_sell.json.success) {

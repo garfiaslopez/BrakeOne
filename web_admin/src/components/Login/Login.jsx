@@ -92,7 +92,7 @@ class Login extends Component {
                 if (response.json.success) {
                     const toSave = { token: response.json.token, user: response.json.user };
                     localStorage.setItem(process.env.REACT_APP_LOCALSTORAGE, JSON.stringify(toSave));
-                    if (response.json.user.rol === 'MANAGER'||response.json.user.rol === 'admin') {
+                    if (response.json.user.rol === 'MANAGER'||response.json.user.rol === 'ADMIN') {
                         this.props.history.push('/home');
                     } else {
                         this.props.history.push('/subsidiarys');

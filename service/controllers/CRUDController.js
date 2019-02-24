@@ -130,6 +130,9 @@ module.exports = (method, model) => {
                 Filter[filter_key] = req.body.filters[filter_key];
             });
         }
+        if (req.body.date) {
+            Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
+        }
 
         if (req.body.or_filters != undefined) {
             const or_array = [];
@@ -138,7 +141,9 @@ module.exports = (method, model) => {
                 new_or[filter_key] = req.body.or_filters[filter_key];
                 or_array.push(new_or);
             });
-            Filter['$or'] = or_array;
+            if (or_array.length > 0) {
+                Filter['$or'] = or_array;
+            }
         }
 
         if (req.body.coordinates != undefined) {

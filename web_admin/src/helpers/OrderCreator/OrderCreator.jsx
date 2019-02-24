@@ -22,11 +22,22 @@ import RenderRows from '../render_rows';
 import isNumber from 'lodash/isNumber';
 
 const FontTable = 11;
+const round2 = (number) => (Math.round(number * 100) / 100);
 
 
 const renderRowSmall = (text, record) => {
     return ({
         children: <p style={{fontSize: FontTable}}>{text}</p>,
+    });
+}
+const renderRowSmallPercent = (text, record) => {
+    return ({
+        children: <p style={{fontSize: FontTable}}>%{text}</p>,
+    });
+}
+const renderRowSmallNumber = (text, record) => {
+    return ({
+        children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
 }
 
@@ -57,7 +68,6 @@ const renderRowNumber = (text, record) => {
     });
 }
 
-const round2 = (number) => (Math.round(number * 100) / 100);
 
 class OrderCreator extends Component {
     constructor(props) {
@@ -91,7 +101,6 @@ class OrderCreator extends Component {
             	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
             	dataIndex: 'subsidiary_id.denomination',
 				key: 'subsidiary_id.denomination',
-                sorter: true,
                 render: renderRow,
                 width: '10%'
             },
@@ -121,14 +130,14 @@ class OrderCreator extends Component {
             	dataIndex: 'brand',
 				key: 'brand',
                 render: renderRow,
-                width: '10%'
+                width: '15%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descripción</div>,
             	dataIndex: 'description',
 				key: 'description',
                 render: renderTruncateRow,
-                width: '20%'
+                width: '15%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Costo</div>,
@@ -169,39 +178,39 @@ class OrderCreator extends Component {
 
         this.table_columns_selected = [
             {
-                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
+                title: <div style={{ fontSize: FontTable }}>#</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '10%'
+                width: '5%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Usuario</div>,
                 render: renderRowSmall,
             	dataIndex: 'user_name',
                 key: 'user_name',
-                width: '20%'
+                width: '15%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descripción</div>,
                 render: renderRowSmall,
             	dataIndex: 'description',
                 key: 'description',
-                width: '30%'
+                width: '20%'
             }, 
             {
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
-                render: renderRowSmall,
+                render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '10%'
+                width: '20%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Total</div>,
-                render: renderRowSmall,
+                render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '10%'
+                width: '20%'
 			}
         ];
 
@@ -229,7 +238,11 @@ class OrderCreator extends Component {
                                         this.deleteRecord(record);
                                     }}
                                 >
-                                    <a>Eliminar</a>
+                                    <Button 
+                                        type="danger" 
+                                        shape="circle"
+                                        icon="delete"
+                                    />
                                 </Popconfirm>
                             </span>
                         );
@@ -452,7 +465,7 @@ class OrderCreator extends Component {
             this.props.onError('Favor de agregar un precio de compra para el producto.');
         } else {
             if ((record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-                if (record.stock > 0 && (record.stock - this.state.selected_quantity) >= 0) {
+                if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > 0 && (record.stock - this.state.selected_quantity)) >= 0) {
                     if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
     
                         let actualProducts = Object.assign([] ,this.state.selected_data);
@@ -535,6 +548,11 @@ class OrderCreator extends Component {
     }
 
     render() {
+        
+        let widthTable = (window.innerWidth/2) - 60;
+        if (this.props.disabled) {
+            widthTable = window.innerWidth;
+        }
         const OptionsUsers = this.state.users.map((item, index) => {
             return (
                 <Select.Option 
@@ -605,8 +623,8 @@ class OrderCreator extends Component {
                     >
                         <Table
                             size="small"
-                            scroll={{ y: 200 }}
-                            style={styles.tableLayout}
+                            scroll={{ x: widthTable * 2, y: 200 }}
+                            style={{ width: widthTable }}
                             columns={this.table_columns_results}
                             dataSource={this.state.results_data}
                             locale={{
@@ -615,10 +633,7 @@ class OrderCreator extends Component {
                                 filterReset: 'Reset',
                                 emptyText: 'Sin Datos'
                             }}
-                            pagination={{
-                                pageSize: 1000,
-                                size:'small',
-                            }}
+                            pagination={false}
                             onRow={(record) => {
                                 return {
                                     onClick: () => {
@@ -639,14 +654,18 @@ class OrderCreator extends Component {
                     {SearcherProducts}
                     <Divider type="vertical" />
                     <div
-                        style={styles.columnContainer}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            width: this.props.disabled ? '100%' : (window.innerWidth / 2) - 60
+                        }}
                     >
                         <Divider> Orden de venta </Divider>
                         <Table
                             bordered
                             size="small"
-                            scroll={{ y: 200 }}
-                            style={styles.tableLayout}
+                            scroll={this.props.disabled ? { y: 200 } : { x: widthTable, y: 200 }}
+                            style={this.props.disabled ? { width: '100%'  } : { width: widthTable  }}
                             columns={this.table_columns_selected}
                             dataSource={this.state.selected_data}
                             locale={{
@@ -655,10 +674,7 @@ class OrderCreator extends Component {
                                 filterReset: 'Reset',
                                 emptyText: 'Sin Datos'
                             }}
-                            pagination={{
-                                pageSize: 1000,
-                                size:'small',
-                            }}
+                            pagination={false}
                         />
                         <div style={styles.labelContainer}>
                             <p style={styles.labelTitle}> Total de compra: </p>
