@@ -19,7 +19,7 @@ var config = require('./config/config');
 
 // Bootstrap MongoDB connection
 var dbMongo = mongoose.connect(config.dbMongo, {
-    useMongoClient: true,
+    useNewUrlParser: true
 });
 
 // Create a Winston logger
