@@ -46,43 +46,42 @@ class Products extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-		this.x_scroll_on_table = 1800;
         this.table_columns = [
 			{
             	title: 'Llave',
             	dataIndex: 'key_id',
 				key: 'key_id',
 				render: RenderRows.renderRowTextProducts,
-				width: '10%',
+				width: '5%',
 			},
 			{
             	title: 'FMSI',
             	dataIndex: 'fmsi',
 				key: 'fmsi',
 				render: RenderRows.renderRowTextProducts,
-				width: '10%',
+				width: '5%',
 			},
 			{
             	title: 'Linea',
             	dataIndex: 'line',
 				key: 'line',
 				render: RenderRows.renderRowTextProducts,
-				width: '10%',
+				width: '5%',
 			},
 			{
             	title: 'Marca',
             	dataIndex: 'brand',
 				key: 'brand',
 				render: RenderRows.renderRowTextProducts,
-				width: '10%',
+				width: '5%',
 			},
 			{
             	title: 'Descripción',
             	dataIndex: 'description',
 				key: 'description',
 				sorter: true,
-				render: RenderRows.renderRowTextProducts,
-				width: '20%',
+				render: RenderRows.renderRowTextTruncateProducts,
+				width: '10%',
 			}, 
 			{
             	title: 'Costo',

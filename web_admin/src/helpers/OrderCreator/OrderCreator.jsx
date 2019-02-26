@@ -42,6 +42,7 @@ const renderRowSmallNumber = (text, record) => {
 }
 
 const renderRow = (text, record) => {
+    console.log(record);
     return ({
         props: {
             style: { background: record.subsidiary_id.color },
@@ -189,28 +190,56 @@ class OrderCreator extends Component {
                 render: renderRowSmall,
             	dataIndex: 'user_name',
                 key: 'user_name',
-                width: '15%'
+                width: '5%'
+            },
+            {
+            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+            	dataIndex: 'fmsi',
+				key: 'fmsi',
+                render: renderRowSmall,
+                width: '5%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Clave</div>,
+            	dataIndex: 'key_id',
+				key: 'key_id',
+                render: renderRowSmall,
+                width: '5%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRowSmall,
+                width: '5%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRowSmall,
+                width: '5%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descripción</div>,
                 render: renderRowSmall,
             	dataIndex: 'description',
                 key: 'description',
-                width: '20%'
+                width: '10%'
             }, 
             {
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '20%'
+                width: '10%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Total</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '20%'
+                width: '10%'
 			}
         ];
 
@@ -575,7 +604,7 @@ class OrderCreator extends Component {
                         style={styles.rowContainer}
                     >
                         <Input.Search
-                            size="large"
+                            
                             style={styles.rowElement}
                             placeholder="Buscar..."
                             onSearch={(value) => { this.getData(value); }}
@@ -601,7 +630,7 @@ class OrderCreator extends Component {
                             showSearch
                             optionFilterProp="children"
                             placeholder="Usuario"
-                            size="large"
+                            
                             onChange={this.onChangeUser}
                         >
                                 {OptionsUsers}

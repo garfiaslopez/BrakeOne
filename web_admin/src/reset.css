@@ -119,4 +119,8 @@ table {
     font-size: .9em;
 }
 
-.ant-table td { white-space: nowrap; }
+.ant-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

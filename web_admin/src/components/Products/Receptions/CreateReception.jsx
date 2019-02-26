@@ -511,7 +511,7 @@ class CreateReception extends Component {
                                     extra={
                                         <Select
                                             disabled={this.props.is_disabled || this.props.fields ? true : false }
-                                            size="large"
+                                            
                                             showSearch
                                             value={this.state.provider_id.name}
                                             placeholder={'Buscar Proveedor...'}
@@ -541,7 +541,7 @@ class CreateReception extends Component {
                                     value={this.state.notes}
                                     autosize={{ minRows: 2, maxRows: 6 }}
                                     placeholder="Notas adicionales..."
-                                    size="large"
+                                    
                                     onChange={(value) => {
                                         this.onChangeField(value, 'notes');
                                     }}

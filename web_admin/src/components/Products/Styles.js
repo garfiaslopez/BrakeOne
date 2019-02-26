@@ -36,7 +36,6 @@ export default {
         height: '100%'
     },
     buttonHistory: {
-        height: 40,
         width: 250,
         marginLeft: 10,
         marginRight: 10,
@@ -57,7 +56,6 @@ export default {
     inputElement: {
         marginLeft: 10,
         marginRight: 10,
-        height: 40,
         width: '100%'
     },
     inputLabel: {

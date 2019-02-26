@@ -40,7 +40,6 @@ export default {
         paddingLeft: 50
     },
     backButton: {
-        height: 40,
         width: 300,
         marginTop: 30
     },

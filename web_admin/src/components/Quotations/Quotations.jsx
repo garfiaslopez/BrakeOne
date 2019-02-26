@@ -38,24 +38,28 @@ class Quotations extends CrudLayout {
             	title: 'Sucursal',
             	dataIndex: 'subsidiary_id.denomination',
 				key: 'subsidiary_id.denomination',
+				render: RenderRows.renderRowText,
 				width: '15%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
+				render: RenderRows.renderRowText,
 				width: '15%'
 			},
 			{
             	title: 'Cliente',
             	dataIndex: 'client_name',
 				key: 'client_name',
+				render: RenderRows.renderRowText,
 				width: '20%'
 			},
 			{
             	title: 'Carro',
             	dataIndex: 'car_model',
 				key: 'car_model',
+				render: RenderRows.renderRowText,
 				width: '10%'
 			},
 			{

@@ -10,10 +10,10 @@ export default {
         justifyContent: 'space-around'
     },
     inputSearch: {
-        width: 400
+        width: 300
     },
     inputRangedate: {
-        width: 320
+        width: 250
     },
     inputDropdown: {
         width: 150
@@ -22,6 +22,6 @@ export default {
         width: 120
     },
     tableLayout: {
-        width: '100%'
+        width: '100%',
     }
 }

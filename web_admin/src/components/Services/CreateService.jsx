@@ -690,7 +690,7 @@ class CreateService extends Component {
                                         <Fragment>
                                             <Select
                                                 disabled={ this.props.is_disabled || this.props.fields ? true : false }
-                                                size="large"
+                                                
                                                 showSearch
                                                 value={this.state.client_id.name}
                                                 placeholder={'Buscar Cliente...'}
@@ -711,7 +711,7 @@ class CreateService extends Component {
                                                 showSearch
                                                 optionFilterProp="children"
                                                 placeholder="Seleccionar Auto"
-                                                size="large"
+                                                
                                                 onChange={this.onChangeCar}
                                             >
                                                 {OptionsCars}
@@ -731,7 +731,7 @@ class CreateService extends Component {
                                                 )}
                                                 type="text"
                                                 placeholder="Kilometros (*)"
-                                                size="large"
+                                                
                                             />
                                             <Button
                                                 icon="reconciliation"
@@ -760,7 +760,7 @@ class CreateService extends Component {
                                     value={this.state.notes}
                                     autosize={{ minRows: 2, maxRows: 6 }}
                                     placeholder="Notas adicionales..."
-                                    size="large"
+                                    
                                     onChange={(value) => {
                                         this.onChangeField(value, 'notes');
                                     }}

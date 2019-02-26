@@ -386,7 +386,6 @@ class CrudLayout extends Component {
 				key="search_filter"
 				placeholder="Buscador..."
 				enterButton="Buscar"
-				size="large"
 				onSearch={this.onClickSearch}
 				style={styles.inputSearch}
 			/>
@@ -395,7 +394,6 @@ class CrudLayout extends Component {
 			<DatePicker.RangePicker 
 				key="date_range_filter"
 				style={styles.inputRangedate}
-				size="large"
 				onChange={this.onChangeRangeDate}
 				locale={locale_es}
 			/>
@@ -554,7 +552,6 @@ class CrudLayout extends Component {
 								opened_print: true,
 							});
 						}} 
-						size="large" 
 						type="primary" 
 						icon="printer"
 					>
@@ -587,7 +584,6 @@ class CrudLayout extends Component {
 			Add_Button = (
 				<Button 
 						type="primary" 
-						size="large"
 						onClick={this.onOpenSubmitForm}
 					>
 					<Icon type="plus-circle-o" />
@@ -602,7 +598,6 @@ class CrudLayout extends Component {
 				return (
 					<Button 
 						type="primary" 
-						size="large"
 						onClick={() => {
 							action.func()
 						}}
@@ -620,20 +615,18 @@ class CrudLayout extends Component {
                 <div style={styles.actions}>
 					{PrinterDownloadButton}
 					{RenderActions}
+					{this.renderFilters()}
 					{Add_Button}
-                </div>
-                <Divider dashed={true} orientation="left">Filtros</Divider>
-                <div style={styles.filters}>
-                    {this.renderFilters()}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + this.state.total_docs + "]   "} Resultados.</Divider>
 				<Table 
 					style={styles.tableLayout}
-					scroll={{ x: this.x_scroll_on_table | window.innerWidth - 272, y: this.y_scroll_on_table | 300 }}
+					scroll={{ y: window.innerHeight - 370 }}
 					onChange={this.onChangeTable}
 					columns={this.table_columns}
 					dataSource={this.state.table_data}
 					loading={this.state.loading_data}
+					size="small"
 					pagination={{
 						showSizeChanger: true,
 						defaultCurrent: this.page,

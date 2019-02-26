@@ -352,7 +352,7 @@ class CreateQuotation extends Component {
                                         <Fragment>
                                             <Select
                                                 disabled={this.props.is_disabled}
-                                                size="large"
+                                                
                                                 showSearch
                                                 value={this.state.client_id.name}
                                                 placeholder={'BUSCAR CLIENTE...'}
@@ -373,7 +373,7 @@ class CreateQuotation extends Component {
                                                 showSearch
                                                 optionFilterProp="children"
                                                 placeholder="SELECCIONAR AUTO"
-                                                size="large"
+                                                
                                                 onChange={this.onChangeCar}
                                             >
                                                 {OptionsCars}
@@ -404,7 +404,7 @@ class CreateQuotation extends Component {
                                             )}
                                             type="text"
                                             placeholder="NOMBRE (*)"
-                                            size="large"
+                                            
                                         />
                                         <Input
                                             disabled={this.props.is_disabled}
@@ -421,7 +421,7 @@ class CreateQuotation extends Component {
                                             )}
                                             type="text"
                                             placeholder="NUMERO TELEFONO (*)"
-                                            size="large"
+                                            
                                         />
                                         <Select
                                             showSearch
@@ -429,7 +429,7 @@ class CreateQuotation extends Component {
                                             value={this.state.price_type}
                                             style={styles.inputElement}
                                             placeholder="TIPO PRECIO"
-                                            size="large"
+                                            
                                             optionFilterProp="children"
                                             onChange={(value) => {
                                                 this.onChangeDropdown(value, 'price_type');
@@ -452,7 +452,7 @@ class CreateQuotation extends Component {
                                             )}
                                             type="text"
                                             placeholder="MARCA (*)"
-                                            size="large"
+                                            
                                         />
                                         <Input
                                             disabled={this.props.is_disabled}
@@ -469,7 +469,7 @@ class CreateQuotation extends Component {
                                             )}
                                             type="text"
                                             placeholder="MODELO (*)"
-                                            size="large"
+                                            
                                         />
                                     </div>
                                 </div>
@@ -491,7 +491,7 @@ class CreateQuotation extends Component {
                                         )}
                                         type="text"
                                         placeholder="AÑO (*)"
-                                        size="large"
+                                        
                                     />
 
                                     <Input
@@ -509,7 +509,7 @@ class CreateQuotation extends Component {
                                         )}
                                         type="text"
                                         placeholder="COLOR"
-                                        size="large"
+                                        
                                     />
                                     <Input
                                         disabled={this.props.is_disabled}
@@ -526,7 +526,7 @@ class CreateQuotation extends Component {
                                         )}
                                         type="text"
                                         placeholder="PLACAS"
-                                        size="large"
+                                        
                                     />
 
                                     <Input
@@ -544,7 +544,7 @@ class CreateQuotation extends Component {
                                         )}
                                         type="text"
                                         placeholder="VIN"
-                                        size="large"
+                                        
                                     />
                                     <Input
                                         disabled={this.props.is_disabled}
@@ -561,7 +561,7 @@ class CreateQuotation extends Component {
                                         )}
                                         type="text"
                                         placeholder="KILOMETROS"
-                                        size="large"
+                                        
                                     />
                                 </div>
                                 <div
@@ -573,7 +573,7 @@ class CreateQuotation extends Component {
                                         value={this.state.notes}
                                         autosize={{ minRows: 2, maxRows: 6 }}
                                         placeholder="Notas adicionales..."
-                                        size="large"
+                                        
                                         onChange={(value) => {
                                             this.onChangeField(value, 'notes');
                                         }}

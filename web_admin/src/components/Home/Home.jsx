@@ -115,6 +115,7 @@ class Home extends React.Component {
 					collapsible
 					collapsed={this.state.collapsed}
 					onCollapse={this.onCollapse}
+					style={{ overflow: 'auto', height: window.innerHeight - 45}}
 				>
 					<img
 						src={process.env.REACT_APP_CDN + '/images/MainLogo.png'}
@@ -127,7 +128,9 @@ class Home extends React.Component {
 						{menuCat}
 					</Menu>
 				</Sider>
-				<Layout>
+				<Layout
+					style={{ height: window.innerHeight - 20}}
+				>
 					<Header 
 						style={styles.header}
 					>
@@ -139,16 +142,13 @@ class Home extends React.Component {
 							<Avatar 
 								style={styles.avatar}
 								icon="user"
-								size="large"
+								
 							/>
 						</Dropdown>
 					</Header>
 					<Content style={styles.content}>
 						<selectedMenu.component {...this.props} />
 					</Content>
-					<Footer style={styles.footer}>
-						BrakeOne  © {moment().format('YYYY')}
-					</Footer>
 				</Layout>
 			</Layout>
 		);

@@ -57,7 +57,7 @@ class NoInternet extends Component {
                             alt="enterpriseImage"
                         />
                         <div style={styles.formContainer}>
-                            <Spin size="large" />
+                            <Spin  />
                             <p style={styles.text}>
                                 Se perdió la conexión a internet, buscando reconexión.
                             </p>

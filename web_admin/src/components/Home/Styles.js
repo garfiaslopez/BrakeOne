@@ -27,15 +27,14 @@ export default {
         right: 15
     },
     content: {
-        overflow: 'auto',
-        height: '100%',
         marginTop: 16,
         marginRight: 16,
         marginLeft: 16,
         paddingLeft: 24,
         paddingRight: 24,
         background: '#fff', 
-        minHeight: 360
+        minHeight: 360,
+        height: '100%',
     },
     footer: {
         textAlign: 'center'
@@ -44,6 +43,5 @@ export default {
         paddingLeft: 10,
         textAlign: 'left',
         color: 'white',
-
     }
 }

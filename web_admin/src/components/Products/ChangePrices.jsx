@@ -215,7 +215,7 @@ class ChangePrices extends Component {
                                 )}
                                 type="text"
                                 placeholder="Marca"
-                                size="large"
+                                
                             />
                             <Button
                                 icon="search"
@@ -243,7 +243,7 @@ class ChangePrices extends Component {
                                 )}
                                 type="text"
                                 placeholder="Porcentaje (%)"
-                                size="large"
+                                
                             />
                         </div>
                     </div>

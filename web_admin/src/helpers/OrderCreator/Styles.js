@@ -12,7 +12,6 @@ export default {
     },
     rowElement: {
         width: '100%',
-        height: 40,
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 10
@@ -53,21 +52,18 @@ export default {
     },
     rowElementQuantity: {
         width: 80,
-        height: 40,
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 10
     },
     rowElementUser: {
         width: 180,
-        height: 40,
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 10
     },
     rowElementPrice: {
         width: 200,
-        height: 40,
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 10

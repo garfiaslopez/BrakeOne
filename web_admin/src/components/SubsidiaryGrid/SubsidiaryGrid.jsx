@@ -210,7 +210,7 @@ class SubsidiaryGrid extends Component {
                     </Header>
                     <Content>
                         <div style={styles.centerContainer}>
-                            <Spin size="large" />
+                            <Spin  />
                             <p style={styles.label}>Favor de aceptar la localización del navegador, sino aparece favor de pulsar F5 o abrir en otro navegador web.</p>
                         </div>
                     </Content>

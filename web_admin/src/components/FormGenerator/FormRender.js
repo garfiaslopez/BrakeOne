@@ -83,7 +83,7 @@ class FormRender {
                 }
                 type={field_input.type || 'text'}
                 placeholder={field_input.placeholder || ''}
-                size="large"
+                
             />
         );
         return (
@@ -114,7 +114,7 @@ class FormRender {
                 }
                 type={field_input.type || 'text'}
                 placeholder={field_input.placeholder || ''}
-                size="large"
+                
             />
         );
         const barcode_options = {
@@ -194,7 +194,7 @@ class FormRender {
                 }}
                 type={field_input.type || 'text'}
                 placeholder={field_input.placeholder || ''}
-                size="large"
+                
             />
         );
 
@@ -229,7 +229,7 @@ class FormRender {
                 showSearch
                 optionFilterProp="children"
                 placeholder={field_input.placeholder || ''}
-                size="large"
+                
             >
                 {Options}
             </Select>
@@ -262,7 +262,7 @@ class FormRender {
                 }
                 autosize={{ minRows: 2, maxRows: 6 }}
                 placeholder={field_input.placeholder || ''}
-                size="large"
+                
             />
         );
         return (
@@ -381,7 +381,7 @@ class FormRender {
                 showSearch
                 optionFilterProp="children"
                 placeholder={field_input.placeholder || ''}
-                size="large"
+                
             >
                 {Options}
             </Select>
@@ -419,7 +419,7 @@ class FormRender {
                     showSearch
                     optionFilterProp="children"
                     placeholder={field_input.placeholder || ''}
-                    size="large"
+                    
                 >
                     {Options}
                 </Select>
@@ -449,7 +449,7 @@ class FormRender {
                 placeholder={field_input.placeholder}
                 size="medium"
                 locale={locale_es}
-                size="large"
+                
                 style={styles.datePickerContainer}
             />
         );

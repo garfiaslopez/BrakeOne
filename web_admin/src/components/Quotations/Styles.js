@@ -23,7 +23,6 @@ export default {
     inputElement: {
         marginLeft: 10,
         marginRight: 10,
-        height: 40,
         width: '100%'
     },
     cardContainer: {
@@ -42,13 +41,11 @@ export default {
     },
     inputSearch: {
         margin: -10,
-        height: 40,
         width: 200,
         paddingRight:15,
         paddingLeft: 15
     },
     buttonHistory: {
-        height: 40,
         width: 100,
         paddingRight:5,
         paddingLeft: 5

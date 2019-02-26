@@ -317,7 +317,7 @@ class CreatePackages extends Component {
                                 }
                                 type="text"
                                 placeholder="Nombre"
-                                size="large"
+                                
                             />
                             <Input
                                 value={this.state.description}
@@ -330,7 +330,7 @@ class CreatePackages extends Component {
                                 }
                                 type="text"
                                 placeholder="Descripción"
-                                size="large"
+                                
                             />
                             <div>
                                 <p>Precio: </p>
@@ -380,7 +380,7 @@ class CreatePackages extends Component {
                             <Button 
                                 onClick={this.addProduct}
                                 className="search-btn" 
-                                size="large" 
+                                 
                                 type="primary"
                             >
                                 Agregar al paquete

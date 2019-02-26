@@ -529,7 +529,7 @@ class CreateSell extends Component {
                                     extra={
                                         <Select
                                             disabled={this.props.is_disabled || this.props.fields ? true : false }
-                                            size="large"
+                                            
                                             showSearch
                                             value={this.state.client_id.name}
                                             placeholder={'Buscar Cliente...'}
@@ -559,7 +559,7 @@ class CreateSell extends Component {
                                     value={this.state.notes}
                                     autosize={{ minRows: 2, maxRows: 6 }}
                                     placeholder="Notas adicionales..."
-                                    size="large"
+                                    
                                     onChange={(value) => {
                                         this.onChangeField(value, 'notes');
                                     }}

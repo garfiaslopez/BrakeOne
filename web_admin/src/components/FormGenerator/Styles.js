@@ -43,8 +43,7 @@ export default {
         marginRight: 10
     },
     inputElement: {
-        width: '100%',
-        height: 40
+        width: '100%'
     },
     alertContainer: {
         margin: '-24px -24px 24px -24px'
@@ -56,8 +55,7 @@ export default {
         borderColor: '#80808033',
         borderWidth: 1,
         borderStyle: 'solid',
-        borderRadius: 5,
-        height: 40
+        borderRadius: 5
     },
     labelInputNumber: {
         margin: 10,
@@ -71,7 +69,6 @@ export default {
         justifyContent: 'space-around'
     },
     barcodeButton: {
-        height: 40,
         width: 100,
         marginLeft: 10,
         marginRight: 10

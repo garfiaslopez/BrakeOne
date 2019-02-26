@@ -27,7 +27,6 @@ export default {
     inputElement: {
         marginLeft: 10,
         marginRight: 10,
-        height: 40,
         width: '100%'
     },
     cardContainer: {
@@ -54,7 +53,6 @@ export default {
         alignItems: 'flex-end'
     },
     inputSearch: {
-        height: 40,
         width: 400
     },
     label_title: {

@@ -316,7 +316,7 @@ class CreatePayment extends Component {
                                     value={this.state.type}
                                     style={styles.inputElement}
                                     placeholder="Tipo de precio"
-                                    size="large"
+                                    
                                     onChange={(value) => {
                                         this.onChangeDropdown(value, 'type');
                                     }}
@@ -338,7 +338,7 @@ class CreatePayment extends Component {
                                     )}
                                     type="text"
                                     placeholder="Banco"
-                                    size="large"
+                                    
                                 />
                                 <Input
                                     disabled={this.props.is_disabled | this.state.type === 'EFECTIVO'}
@@ -355,7 +355,7 @@ class CreatePayment extends Component {
                                     )}
                                     type="text"
                                     placeholder="Referencia"
-                                    size="large"
+                                    
                                 />
                                 <InputNumber
                                     disabled={this.props.is_disabled}
@@ -373,7 +373,7 @@ class CreatePayment extends Component {
                                     max={this.state.sell_id.total - this.state.sell_id.payed}
                                     type="text"
                                     placeholder="Total ($)"
-                                    size="large"
+                                    
                                 />
                             </div>
                             <div
@@ -385,7 +385,7 @@ class CreatePayment extends Component {
                                     value={this.state.notes}
                                     autosize={{ minRows: 2, maxRows: 6 }}
                                     placeholder="Notas adicionales..."
-                                    size="large"
+                                    
                                     onChange={(value) => {
                                         this.onChangeField(value, 'notes');
                                     }}
