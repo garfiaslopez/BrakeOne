@@ -4,11 +4,13 @@ export default {
     modalContainer: {
         width: '100%',
         height: 'calc(100vh - 120px)',
-        overflowY: 'scroll'
+        overflowY: 'scroll',
+        padding: 0,
     },
     modalBodyContainer: {
         width: '100%',
         top: 0,
+        padding: 0
     },
     inputsContainer: {
         display: 'flex',
@@ -18,7 +20,7 @@ export default {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        paddingBottom: 24,
+        paddingBottom: 5,
     },
     inputElement: {
         marginLeft: 10,
@@ -27,8 +29,6 @@ export default {
     },
     cardContainer: {
         width: '100%',
-        marginLeft: 10,
-        marginRight: 10,
     },
     cardBody: {
         padding: 0,
@@ -41,7 +41,7 @@ export default {
     },
     inputSearch: {
         margin: -10,
-        width: 200,
+        width: 300,
         paddingRight:15,
         paddingLeft: 15
     },

@@ -23,5 +23,6 @@ export default {
     },
     tableLayout: {
         width: '100%',
+        overflowY: 'scroll'
     }
 }

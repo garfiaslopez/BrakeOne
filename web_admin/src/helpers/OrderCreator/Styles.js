@@ -8,7 +8,13 @@ export default {
     columnContainer: {
         display: 'flex',
         flexDirection: 'column',
-        width: (window.innerWidth / 2) - 60
+        width: '100%'
+    },
+    rowSearchElement: {
+        width: 300,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 10
     },
     rowElement: {
         width: '100%',
@@ -16,11 +22,17 @@ export default {
         marginRight: 5,
         marginBottom: 10
     },
+    groupLabel: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
     tableLayout: {
-        width: '100%'
+        width: '95%'
     },
     labelContainer: {
-        paddingTop: 20,
+        paddingTop: 10,
+        paddingRight: '5%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end'

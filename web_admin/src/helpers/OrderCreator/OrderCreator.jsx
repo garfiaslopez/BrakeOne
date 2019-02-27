@@ -21,7 +21,7 @@ import moment from 'moment';
 import RenderRows from '../render_rows';
 import isNumber from 'lodash/isNumber';
 
-const FontTable = 11;
+const FontTable = 12;
 const round2 = (number) => (Math.round(number * 100) / 100);
 
 
@@ -29,6 +29,14 @@ const renderRowSmall = (text, record) => {
     return ({
         children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
+}
+const renderRowSmallTruncate = (text, record) => {
+    if (text) {
+        return ({
+            children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
+        });
+    }
+    return '';
 }
 const renderRowSmallPercent = (text, record) => {
     return ({
@@ -56,7 +64,7 @@ const renderTruncateRow = (text, record) => {
         props: {
             style: { background: record.subsidiary_id.color },
         },
-        children: <p style={{fontSize: FontTable}}>{text.substring(0,30) + '...'}</p>,
+        children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
     });
 }
 
@@ -103,35 +111,35 @@ class OrderCreator extends Component {
             	dataIndex: 'subsidiary_id.denomination',
 				key: 'subsidiary_id.denomination',
                 render: renderRow,
-                width: '10%'
+                width: '8%'
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
-                render: renderRow,
-                width: '10%'
+                render: renderTruncateRow,
+                width: '8%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRow,
-                width: '10%'
+                width: '8%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Linea</div>,
             	dataIndex: 'line',
 				key: 'line',
                 render: renderRow,
-                width: '10%'
+                width: '8%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Marca</div>,
             	dataIndex: 'brand',
 				key: 'brand',
                 render: renderRow,
-                width: '15%'
+                width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descripción</div>,
@@ -145,28 +153,28 @@ class OrderCreator extends Component {
             	dataIndex: 'price',
             	key: 'price',
                 render: renderRowNumber,
-                width: '5%'
+                width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Publico</div>,
             	dataIndex: 'price_public',
             	key: 'price_public',
                 render: renderRowNumber,
-                width: '5%'
+                width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Taller</div>,
             	dataIndex: 'price_workshop',
             	key: 'price_workshop',
                 render: renderRowNumber,
-                width: '5%'
+                width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
             	dataIndex: 'price_wholesale',
             	key: 'price_wholesale',
                 render: renderRowNumber,
-                width: '5%'
+                width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Stock</div>,
@@ -179,7 +187,7 @@ class OrderCreator extends Component {
 
         this.table_columns_selected = [
             {
-                title: <div style={{ fontSize: FontTable }}>#</div>,
+                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
@@ -190,42 +198,42 @@ class OrderCreator extends Component {
                 render: renderRowSmall,
             	dataIndex: 'user_name',
                 key: 'user_name',
-                width: '5%'
+                width: '8%'
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
-                render: renderRowSmall,
-                width: '5%'
+                render: renderRowSmallTruncate,
+                width: '8%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
-                width: '5%'
+                width: '8%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Linea</div>,
             	dataIndex: 'line',
 				key: 'line',
                 render: renderRowSmall,
-                width: '5%'
+                width: '8%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Marca</div>,
             	dataIndex: 'brand',
 				key: 'brand',
                 render: renderRowSmall,
-                width: '5%'
+                width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-                render: renderRowSmall,
+                render: renderRowSmallTruncate,
             	dataIndex: 'description',
                 key: 'description',
-                width: '10%'
+                width: '15%'
             }, 
             {
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
@@ -599,61 +607,65 @@ class OrderCreator extends Component {
                 <div
                     style={styles.columnContainer}
                 >
-                    <Divider> Buscar producto, paquete o servicio</Divider>
                     <div
                         style={styles.rowContainer}
                     >
                         <Input.Search
-                            
-                            style={styles.rowElement}
+                            style={styles.rowSearchElement}
                             placeholder="Buscar..."
                             onSearch={(value) => { this.getData(value); }}
                             enterButton
                         />
-                    </div>
-                    
-                    <div
-                        style={styles.rowContainer}
-                    >
-                        <p style={styles.quantityLabel}>Cantidad # </p>
-                        <InputNumber
-                            style={styles.rowElementQuantity}
-                            placeholder="Cantidad (#)"
-                            value={this.state.selected_quantity}
-                            onChange={this.onChangeQuantity}
-                            size="100%"
-                            step={1}
-                        />
-                        <Select
-                            style={styles.rowElementUser}
-                            value={this.state.selected_user._id}
-                            showSearch
-                            optionFilterProp="children"
-                            placeholder="Usuario"
-                            
-                            onChange={this.onChangeUser}
-                        >
-                                {OptionsUsers}
-                        </Select>
-                        <p style={styles.discountLabel}>{this.props.is_reception ? 'Precio ($)' : 'Descuento (%)'}</p>
-                        <InputNumber
-                            style={styles.rowElementPrice}
-                            placeholder={this.props.is_reception ? "Precio Compra ($)" : "Descuento (%)"}
-                            value={this.state.selected_discount}
-                            onChange={this.onChangeDiscount}
-                            size="100%"
-                            step={1}
-                            min={1}
-                        />
+                        <div style={styles.groupLabel}>
+                            <p style={styles.quantityLabel}>Cantidad (#)</p>
+                            <InputNumber
+                                style={styles.rowElementQuantity}
+                                placeholder="Cantidad (#)"
+                                value={this.state.selected_quantity}
+                                onChange={this.onChangeQuantity}
+                                size="100%"
+                                step={1}
+                                min={1}
+                            />
+                        </div>
+                        <div style={styles.groupLabel}>
+                            <p style={styles.quantityLabel}>Usuario </p>
+                            <Select
+                                style={styles.rowElementUser}
+                                value={this.state.selected_user._id}
+                                showSearch
+                                optionFilterProp="children"
+                                placeholder="Usuario"
+                                
+                                onChange={this.onChangeUser}
+                            >
+                                    {OptionsUsers}
+                            </Select>
+                        </div>
+                        <div style={styles.groupLabel}>
+                            <p style={styles.discountLabel}>{this.props.is_reception ? 'Precio ($)' : 'Descuento (%)'}</p>
+                            <InputNumber
+                                style={styles.rowElementPrice}
+                                placeholder={this.props.is_reception ? "Precio Compra ($)" : "Descuento (%)"}
+                                value={this.state.selected_discount}
+                                onChange={this.onChangeDiscount}
+                                size="100%"
+                                step={1}
+                                min={0}
+                            />
+                        </div>
+                        
                     </div>
 
                     <div
                         style={styles.rowContainer}
                     >
                         <Table
+                            bordered
+                            loading={this.state.loading_data}
                             size="small"
-                            scroll={{ x: widthTable * 2, y: 200 }}
-                            style={{ width: widthTable }}
+                            scroll={{ y: 200 }}
+                            style={styles.tableLayout}
                             columns={this.table_columns_results}
                             dataSource={this.state.results_data}
                             locale={{
@@ -678,23 +690,19 @@ class OrderCreator extends Component {
         return (
             <Fragment>
                 <div
-                    style={styles.rowContainer}
+                    style={styles.columnContainer}
                 >
+                    <Divider> Buscar y seleccionar productos: </Divider>
                     {SearcherProducts}
-                    <Divider type="vertical" />
+                    <Divider> Orden de venta </Divider>
                     <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: this.props.disabled ? '100%' : (window.innerWidth / 2) - 60
-                        }}
+                        style={styles.rowContainer}
                     >
-                        <Divider> Orden de venta </Divider>
                         <Table
                             bordered
                             size="small"
-                            scroll={this.props.disabled ? { y: 200 } : { x: widthTable, y: 200 }}
-                            style={this.props.disabled ? { width: '100%'  } : { width: widthTable  }}
+                            scroll={{ y: 200 }}
+                            style={styles.tableLayout}
                             columns={this.table_columns_selected}
                             dataSource={this.state.selected_data}
                             locale={{
@@ -705,11 +713,12 @@ class OrderCreator extends Component {
                             }}
                             pagination={false}
                         />
-                        <div style={styles.labelContainer}>
+                    </div>
+                    <div style={styles.labelContainer}>
                             <p style={styles.labelTitle}> Total de compra: </p>
                             <p style={styles.labelValue}> {`$ ${this.state.total}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
                         </div>
-                    </div>
+                    
                 </div>
             </Fragment>
         );

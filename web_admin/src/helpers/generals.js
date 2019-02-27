@@ -56,3 +56,8 @@ export function isOnline() {
         xhr.send();
     });
 }
+
+export function formatNumber(number) {
+    const round2 = (number) => (Math.round(number * 100) / 100);
+    return String(round2(number ? number : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}

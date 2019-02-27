@@ -35,7 +35,7 @@ export default {
     renderRowTextTruncateProducts: (text, record) => {
         let color = record.stock < record.stock_ideal ? 'red' : 'blue';
         return ({
-            children: <p style={{color, fontSize}}>{text.substring(0,16)}</p>,
+            children: <p style={{color, fontSize}}>{text.substring(0,20) + '...'}</p>,
         });
     },
     renderRowDateProducts: (text, record) => {

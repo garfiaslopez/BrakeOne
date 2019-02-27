@@ -23,6 +23,7 @@ import locale_es from 'antd/lib/date-picker/locale/es_ES';
 import FormGenerator from '../FormGenerator/FormGenerator';
 import PrinterDownload from '../PrinterDownload/PrinterDownload';
 import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
+import { formatNumber } from '../../helpers/generals';
   
 class CrudLayout extends Component {
     state = {
@@ -618,10 +619,11 @@ class CrudLayout extends Component {
 					{this.renderFilters()}
 					{Add_Button}
                 </div>
-                <Divider dashed={true} orientation="left">{"[" + this.state.total_docs + "]   "} Resultados.</Divider>
+                <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
 				<Table 
+					bordered
 					style={styles.tableLayout}
-					scroll={{ y: window.innerHeight - 370 }}
+					scroll={{y:window.innerHeight - 350}}
 					onChange={this.onChangeTable}
 					columns={this.table_columns}
 					dataSource={this.state.table_data}
