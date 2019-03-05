@@ -7,7 +7,8 @@ import {
     Input,
     Select,
     Spin,
-    Card
+    Card,
+    AutoComplete
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
@@ -38,6 +39,7 @@ class CreateQuotation extends Component {
             clients: [],
             car_id: '',
             selected_car: undefined,
+            openCarDropdown: false,
         };
 
         if (props.fields) {
@@ -93,7 +95,6 @@ class CreateQuotation extends Component {
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
-        this.onChangeClient = this.onChangeClient.bind(this);
         this.onChangeCar = this.onChangeCar.bind(this);
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
@@ -108,6 +109,13 @@ class CreateQuotation extends Component {
             error: nextProps.error,
             loading: nextProps.loading
         });
+    }
+
+    onChangeFieldName(value, key) {
+        console.log(value)
+        let obj = {};
+        obj[key] = value;
+        this.setState(obj);
     }
 
     onChangeField(event, key) {
@@ -127,29 +135,100 @@ class CreateQuotation extends Component {
         // do validations:
         if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
-                console.log(moment().format("DD/MM/YYYY : HH:mm:ss"));
-                console.log("DATE TO SAVE:", moment().toISOString());
-                const Quotation =  {
-                    subsidiary_id: this.props.session.subsidiary._id,
-                    user_id: this.props.session.user._id,
-                    price_type: this.state.price_type,
-                    client_name: this.state.client_name,
-                    client_phone: this.state.client_phone,
-                    client_job: this.state.client_job,
-                    car_brand: this.state.car_brand,
-                    car_model: this.state.car_model,
-                    car_vin: this.state.car_vin,
-                    car_color: this.state.car_color,
-                    car_plates: this.state.car_plates,
-                    car_year: this.state.car_year,
-                    car_kms: this.state.car_kms,                 
-                    notes: this.state.notes,
-                    products: this.state.products,
-                    services: this.state.services,
-                    total: this.state.total,
-                    date: moment().toISOString()
+                if(!this.state.client_id._id) {
+                    // we need to save that client: 
+                    const NewClient = {
+                        account_id: this.props.session.subsidiary.account_id,
+                        name: this.state.client_name,
+                        rfc: '',
+                        curp: '',
+                        credit_days: 0,
+                        sells: 0,
+                        price_type: this.state.price_type,
+                        address: '',
+                        address_city: '',
+                        address_country: '',
+                        address_state: '',
+                        address_cp: '',
+                        phone_number: '',
+                        phone_mobil: this.state.client_phone,
+                        phone_office: '',
+                        email: '',
+                        contacts: [],
+                        cars: [{
+                            legacy_id: '',
+                            plates: this.state.car_plates,
+                            economic_number: '',
+                            brand: this.state.car_brand,
+                            model: this.state.car_model,
+                            year: this.state.car_year,
+                            color: this.state.car_color,
+                            vin: this.state.car_vin,
+                        }],
+                    }
+                    FetchXHR(process.env.REACT_APP_API_URL + '/client', 'POST', NewClient).then((response) => {
+                        if (response.json.success) {
+                            const client_id = response.json.obj._id;
+                            const Quotation =  {
+                                subsidiary_id: this.props.session.subsidiary._id,
+                                user_id: this.props.session.user._id,
+                                price_type: this.state.price_type,
+                                client_id: client_id,
+                                client_name: this.state.client_name,
+                                client_phone: this.state.client_phone,
+                                client_job: this.state.client_job,
+                                car_brand: this.state.car_brand,
+                                car_model: this.state.car_model,
+                                car_vin: this.state.car_vin,
+                                car_color: this.state.car_color,
+                                car_plates: this.state.car_plates,
+                                car_year: this.state.car_year,
+                                car_kms: this.state.car_kms,                 
+                                notes: this.state.notes,
+                                products: this.state.products,
+                                services: this.state.services,
+                                total: this.state.total,
+                                date: moment().toISOString()
+                            }
+                            this.props.onSubmit(Quotation);
+                        } else {
+                            console.log(response);
+                            this.setState({
+                                error: response.json.message,
+                                loading_submit: false
+                            });
+                        }
+                    }).catch((onError) => {
+                        console.log(onError);
+                        this.setState({
+                            error: onError.message,
+                            loading_submit: false
+                        });
+                    });
+                } else {
+                    const Quotation =  {
+                        subsidiary_id: this.props.session.subsidiary._id,
+                        user_id: this.props.session.user._id,
+                        price_type: this.state.price_type,
+                        client_id: this.state.client_id,
+                        client_name: this.state.client_name,
+                        client_phone: this.state.client_phone,
+                        client_job: this.state.client_job,
+                        car_brand: this.state.car_brand,
+                        car_model: this.state.car_model,
+                        car_vin: this.state.car_vin,
+                        car_color: this.state.car_color,
+                        car_plates: this.state.car_plates,
+                        car_year: this.state.car_year,
+                        car_kms: this.state.car_kms,                 
+                        notes: this.state.notes,
+                        products: this.state.products,
+                        services: this.state.services,
+                        total: this.state.total,
+                        date: moment().toISOString()
+                    }
+                    this.props.onSubmit(Quotation);
                 }
-                this.props.onSubmit(Quotation);
             } else {
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
@@ -180,7 +259,8 @@ class CreateQuotation extends Component {
 
     getClients(search_text) {
         this.setState({
-			loading_clients: true,
+            loading_clients: true,
+            search_text
 		});
 		const url = process.env.REACT_APP_API_URL + '/clients';
         const POSTDATA = {
@@ -188,10 +268,12 @@ class CreateQuotation extends Component {
             page: 1,
             search_text
         }
-        
+        console.log(POSTDATA);
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            console.log(response);
             if (response.json.success) {
                 this.setState({
+                    name_clients: response.json.data.docs.map((el)=>(el.name)),
 					clients: response.json.data.docs.map((el, index)=>({
 						...el,
 						key: index
@@ -212,12 +294,21 @@ class CreateQuotation extends Component {
         });
     }
 
-    onChangeClient(client_id) {
-        const client = this.state.clients.find((el) => (el._id === client_id));
+    onSelectClient(client_name) {
+        const client = this.state.clients.find((el) => (el.name === client_name));
+        let phone = client.phone_mobil;
+        if (phone === "") {
+            phone = client.phone_number;
+            if (phone === "") {
+                phone = client.phone_office;
+            }
+        }
         this.setState({
+            openCarDropdown: true,
+            search_text: client.name,
             client_id: client,
             client_name: client.name,
-            client_phone: client.phone_number,
+            client_phone: phone,
             price_type: client.price_type
         });
     }
@@ -225,6 +316,7 @@ class CreateQuotation extends Component {
     onChangeCar(car_id) {
         const car = this.state.client_id.cars.find((el)=>(el._id === car_id));
         this.setState({
+            openCarDropdown: false,
             selected_car: car,
             car_id,
             car_brand: car.brand,
@@ -349,32 +441,21 @@ class CreateQuotation extends Component {
                                 <Card
                                     title="Información de cliente"
                                     extra={
-                                        <Fragment>
+                                        <Fragment>                                           
                                             <Select
-                                                disabled={this.props.is_disabled}
-                                                
-                                                showSearch
-                                                value={this.state.client_id.name}
-                                                placeholder={'BUSCAR CLIENTE...'}
-                                                style={styles.inputSearch}
-                                                defaultActiveFirstOption={false}
-                                                showArrow={false}
-                                                filterOption={false}
-                                                onSearch={(value) => { this.getClients(value) }}
-                                                onChange={(value) => { this.onChangeClient(value) }}
-                                                notFoundContent={this.state.loading_clients ? <Spin size="small" /> : null}
-                                            >
-                                                {OptionsClients}
-                                            </Select>
-                                            <Select
-                                                disabled={this.props.is_disabled}
+                                                open={this.state.openCarDropdown}
+                                                disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                                 style={styles.inputSearch}
                                                 value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
                                                 showSearch
                                                 optionFilterProp="children"
                                                 placeholder="SELECCIONAR AUTO"
-                                                
                                                 onChange={this.onChangeCar}
+                                                onMouseEnter={()=>{
+                                                    this.setState({
+                                                        openCarDropdown: true,
+                                                    })
+                                                }}
                                             >
                                                 {OptionsCars}
                                             </Select>
@@ -389,25 +470,28 @@ class CreateQuotation extends Component {
                                     <div
                                         style={styles.inputsRowContainer}
                                     >
-                                        <Input
-                                            disabled={this.props.is_disabled}
-                                            value={this.state.client_name}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeField(value, 'client_name');
-                                            }}
+                                        <AutoComplete 
                                             prefix={(
                                                 <Icon
                                                     type="user"
                                                     className="field-icon"
                                                 />
                                             )}
-                                            type="text"
-                                            placeholder="NOMBRE (*)"
-                                            
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            autoFocus
+                                            backfill
+                                            placeholder={'BUSCAR CLIENTE...'}
+                                            onSearch={(value) => { this.getClients(value) }}
+                                            onSelect={(value) => { this.onSelectClient(value) }}
+                                            value={this.state.client_name}
+                                            onChange={(value) => {
+                                                this.onChangeFieldName(value, 'client_name');
+                                            }}
+                                            dataSource={this.state.name_clients}
+                                            style={styles.inputElement}
                                         />
                                         <Input
-                                            disabled={this.props.is_disabled}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.client_phone}
                                             style={styles.inputElement}
                                             onChange={(value) => {
@@ -425,7 +509,7 @@ class CreateQuotation extends Component {
                                         />
                                         <Select
                                             showSearch
-                                            disabled={this.props.is_disabled}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.price_type}
                                             style={styles.inputElement}
                                             placeholder="TIPO PRECIO"
@@ -438,7 +522,7 @@ class CreateQuotation extends Component {
                                             {OptionsTypes}
                                         </Select>
                                         <Input
-                                            disabled={this.props.is_disabled}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.car_brand}
                                             style={styles.inputElement}
                                             onChange={(value) => {
@@ -455,7 +539,7 @@ class CreateQuotation extends Component {
                                             
                                         />
                                         <Input
-                                            disabled={this.props.is_disabled}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.car_model}
                                             style={styles.inputElement}
                                             onChange={(value) => {
@@ -477,7 +561,7 @@ class CreateQuotation extends Component {
                                     style={styles.inputsRowContainer}
                                 >
                                     <Input
-                                        disabled={this.props.is_disabled}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_year}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -495,7 +579,7 @@ class CreateQuotation extends Component {
                                     />
 
                                     <Input
-                                        disabled={this.props.is_disabled}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_color}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -512,7 +596,7 @@ class CreateQuotation extends Component {
                                         
                                     />
                                     <Input
-                                        disabled={this.props.is_disabled}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_plates}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -530,7 +614,7 @@ class CreateQuotation extends Component {
                                     />
 
                                     <Input
-                                        disabled={this.props.is_disabled}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_vin}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -547,7 +631,7 @@ class CreateQuotation extends Component {
                                         
                                     />
                                     <Input
-                                        disabled={this.props.is_disabled}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_kms}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -568,7 +652,7 @@ class CreateQuotation extends Component {
                                     style={styles.inputsRowContainer}
                                 >
                                     <Input.TextArea
-                                        disabled={this.props.is_disabled}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         style={styles.inputElement}
                                         value={this.state.notes}
                                         autosize={{ minRows: 2, maxRows: 6 }}

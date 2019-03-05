@@ -24,7 +24,6 @@ import isNumber from 'lodash/isNumber';
 const FontTable = 12;
 const round2 = (number) => (Math.round(number * 100) / 100);
 
-
 const renderRowSmall = (text, record) => {
     return ({
         children: <p style={{fontSize: FontTable}}>{text}</p>,
@@ -257,7 +256,7 @@ class OrderCreator extends Component {
                 key: 'action',
                 width: '20%',
             	render: (text, record) => {
-                    if(!record._id) {
+                    if((this.props.is_quotation) || !record._id) {
                         return (
                             <span>
                                 <Popconfirm
@@ -501,7 +500,7 @@ class OrderCreator extends Component {
         if (this.props.is_reception && isNumber(this.state.selected_discount) === false) {
             this.props.onError('Favor de agregar un precio de compra para el producto.');
         } else {
-            if ((record.subsidiary_id._id === this.props.session.subsidiary._id)) {
+            if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
                 if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > 0 && (record.stock - this.state.selected_quantity)) >= 0) {
                     if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
     
@@ -719,7 +718,7 @@ class OrderCreator extends Component {
                     </div>
                     <div style={styles.labelContainer}>
                             <p style={styles.labelTitle}> Total de compra: </p>
-                            <p style={styles.labelValue}> {`$ ${this.state.total}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                            <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
                         </div>
                     
                 </div>

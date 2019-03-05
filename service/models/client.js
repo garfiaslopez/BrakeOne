@@ -110,7 +110,8 @@ ClientSchema.plugin(mongoosePaginate);
 ClientSchema.index({
 	name: 'text', 
     email: 'text',
-    rfc: 'text'
+    rfc: 'text',
+    'cars.plates': 'text'
 });
 
 module.exports = mongoose.model("Client", ClientSchema);

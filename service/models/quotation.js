@@ -13,6 +13,10 @@ var QuotationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    client_id: {
+        type: Schema.ObjectId,
+        ref: 'Client'
+    },
     price_type: { type: String },
     client_name: { type: String },
     client_phone: { type: String },
@@ -44,6 +48,10 @@ var QuotationSchema = new Schema({
             ref: 'User'
         },
         user_name: { type: String },
+        fmsi: { type: String },
+        brand: { type: String },
+        line: { type: String },
+        key_id: { type: String },
         description: { type: String },
         price_type: { type: String },
         price: { type: Number },

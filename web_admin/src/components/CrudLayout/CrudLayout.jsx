@@ -96,6 +96,12 @@ class CrudLayout extends Component {
 			} else if (this.model.name === 'reception-payment') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+			} else if (this.model.name === 'client') {
+				POSTDATA['search_text'] = this.search_text;
+				// POSTDATA['or_filters'] = {};
+				// POSTDATA['or_filters']['cars.plates'] = this.search_text;
+				// POSTDATA['or_filters']['rfc'] = this.search_text;
+				// POSTDATA['or_filters']['name'] = this.search_text;
 			} else {
 				POSTDATA['search_text'] = this.search_text;
 			}
