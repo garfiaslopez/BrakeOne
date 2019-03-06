@@ -56,7 +56,8 @@ export default {
         alignItems: 'flex-end'
     },
     inputSearch: {
-        width: 400
+        width: 300,
+        paddingRight: 20
     },
     label_title: {
         fontWeight: 'bold'

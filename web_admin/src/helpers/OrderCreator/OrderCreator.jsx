@@ -20,6 +20,7 @@ import { FetchXHR } from '../../helpers/generals';
 import moment from 'moment';
 import RenderRows from '../render_rows';
 import isNumber from 'lodash/isNumber';
+import { EditableFormRow, EditableCell } from './TableHelpers';
 
 const FontTable = 12;
 const round2 = (number) => (Math.round(number * 100) / 100);
@@ -90,6 +91,7 @@ class OrderCreator extends Component {
                 props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
         }
+
         this.state = {
             loading_data: false,
             results_data: [],
@@ -233,13 +235,21 @@ class OrderCreator extends Component {
             	dataIndex: 'description',
                 key: 'description',
                 width: '15%'
-            }, 
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Precio</div>,
+                render: renderRowSmallNumber,
+            	dataIndex: 'price',
+                key: 'price',
+                width: '10%'
+			},
             {
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '10%'
+                width: '10%',
+                editable: true,
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Total</div>,
@@ -256,7 +266,7 @@ class OrderCreator extends Component {
                 key: 'action',
                 width: '20%',
             	render: (text, record) => {
-                    if((this.props.is_quotation) || !record._id) {
+                    if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
                         return (
                             <span>
                                 <Popconfirm
@@ -295,12 +305,9 @@ class OrderCreator extends Component {
         this.getUsers = this.getUsers.bind(this);
         this.getData = this.getData.bind(this);
 
-        this.setInitialValues = this.setInitialValues.bind(this);
         this.sendToOnChange = this.sendToOnChange.bind(this);
         this.deleteRecord = this.deleteRecord.bind(this);
         this.addRecord = this.addRecord.bind(this);
-
-        this.setInitialValues();
     }
 
     componentDidMount() {
@@ -311,6 +318,20 @@ class OrderCreator extends Component {
         if (nextProps.price_type) {
             this.setState({
                 price_type: nextProps.price_type
+            });
+        }
+
+        if (nextProps.update_data) {
+            const init_selected_data = [];
+            if (nextProps.update_data.products) {
+                nextProps.update_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
+            }
+            if (nextProps.update_data.services) {
+                nextProps.update_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
+            }
+            this.setState({
+                selected_data: init_selected_data,
+                total: nextProps.update_data.total
             });
         }
     }
@@ -459,16 +480,6 @@ class OrderCreator extends Component {
         });
     }
 
-    setInitialValues() {
-        // set the initial values getting for saved objs.
-        if (this.props.products) {
-
-        }
-        if (this.props.services) {
-
-        }
-    }
-
     sendToOnChange( actual_products, actual_total) {
         // split the arrays and do calculation for total:
         const p = [];
@@ -569,6 +580,23 @@ class OrderCreator extends Component {
                 this.props.onError('No se pueden vender productos de otra sucursal.');
             }
         }
+    }
+
+    updateRecord = (row) => {
+        const newData = [...this.state.selected_data];
+        const index = newData.findIndex(item => row.key === item.key);
+        const item = newData[index];
+        console.log(item, row);
+        const newTotalRow = item.price - ((item.price * item.quantity) * row.discount) / 100;
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+          total: newTotalRow
+        });
+        this.setState({
+            total: (this.state.total - item.total + newTotalRow),
+            selected_data: newData 
+        });
     }
 
     deleteRecord(record) {
@@ -689,6 +717,30 @@ class OrderCreator extends Component {
                 </div>
             );
         }
+
+        const components = {
+            body: {
+                row: EditableFormRow,
+                cell: EditableCell,
+            }
+        };
+
+        const columns = this.table_columns_selected.map((col) => {
+            if (!col.editable || !this.props.can_edit_disccount) {
+              return col;
+            }
+            return {
+                ...col,
+                onCell: record => ({
+                    record,
+                    editable: col.editable,
+                    dataIndex: col.dataIndex,
+                    title: col.title,
+                    handleSave: this.updateRecord,
+                }),
+            };
+        });
+
         return (
             <Fragment>
                 <div
@@ -701,11 +753,13 @@ class OrderCreator extends Component {
                         style={styles.rowContainer}
                     >
                         <Table
+                            components={components}
+                            rowClassName={() => 'editable-row'}
                             bordered
+                            columns={columns}
                             size="small"
                             scroll={{ y: 200 }}
                             style={styles.tableLayout}
-                            columns={this.table_columns_selected}
                             dataSource={this.state.selected_data}
                             locale={{
                                 filterTitle: 'Filtro',
@@ -717,10 +771,9 @@ class OrderCreator extends Component {
                         />
                     </div>
                     <div style={styles.labelContainer}>
-                            <p style={styles.labelTitle}> Total de compra: </p>
-                            <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
-                        </div>
-                    
+                        <p style={styles.labelTitle}> Total de compra: </p>
+                        <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                    </div>
                 </div>
             </Fragment>
         );

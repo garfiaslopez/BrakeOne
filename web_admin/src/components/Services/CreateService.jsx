@@ -38,6 +38,7 @@ class CreateService extends Component {
             car_id: '',
             client_id: {},
             clients: [],
+            quotation_folio: '',
             notes: '',
             products: [],
             services: [],
@@ -75,6 +76,7 @@ class CreateService extends Component {
 
         this.getClients = this.getClients.bind(this);
         this.getPayments = this.getPayments.bind(this);
+        this.getQuotations = this.getQuotations.bind(this);
 
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
@@ -171,6 +173,51 @@ class CreateService extends Component {
         }).catch((onError) => {
 			this.setState({
                 loading_clients: false,
+                error: onError.message
+			});
+        });
+    }
+
+    getQuotations(search_text) {
+        this.setState({
+            quotation_folio: search_text,
+			loading_quotations: true,
+		});
+		const url = process.env.REACT_APP_API_URL + '/quotations';
+        const POSTDATA = {
+            limit: 100,
+            page: 1,
+            populate_ids: ['client_id'],
+            filter: {
+                'folio': search_text
+            }
+        }
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
+                if (response.json.data.docs.length >= 1) {
+                    const quotation = response.json.data.docs[0];
+                    const selected_car = quotation.client_id.cars.find(e => e.plates === quotation.car_plates); 
+                    this.setState({
+                        selected_car,
+                        car_id: selected_car._id,
+                        kilometers: quotation.car_kms,
+                        client_id: quotation.client_id,
+                        loading_quotations: false,
+                        notes: quotation.notes,
+                        products: quotation.products,
+                        services: quotation.services,
+                        total: quotation.total
+                    });
+                }
+            } else {
+				this.setState({
+                    loading_quotations: false,
+                    error: response.message
+				});
+            }
+        }).catch((onError) => {
+			this.setState({
+                loading_quotations: false,
                 error: onError.message
 			});
         });
@@ -688,6 +735,14 @@ class CreateService extends Component {
                                     title="Información de cliente"
                                     extra={
                                         <Fragment>
+                                            <Input.Search
+                                                disabled={this.props.is_disabled || this.props.fields ? true : false }
+                                                key="search_filter"
+                                                placeholder="Folio"
+                                                enterButton="Buscar"
+                                                onSearch={this.getQuotations}
+                                                style={styles.inputSearch}
+                                            />
                                             <Select
                                                 disabled={ this.props.is_disabled || this.props.fields ? true : false }
                                                 
@@ -769,18 +824,24 @@ class CreateService extends Component {
                         </div>
 
                         <OrderCreator
+                            can_edit_disccount={this.props.fields ? false : true }
+                            is_recovered={this.state.quotation_folio !== '' ? true : false}
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
                             price_type={this.state.price_type}
                             session={this.props.session}
                             init_data={{
-                                products: this.props.fields ? this.props.fields.products : null,
-                                services: this.props.fields ? this.props.fields.services : null,
-                                total: this.props.fields ? this.props.fields.total : null
+                                products: this.props.fields ? this.props.fields.products : this.state.products,
+                                services: this.props.fields ? this.props.fields.services : this.state.services,
+                                total: this.props.fields ? this.props.fields.total : this.state.total
+                            }}
+                            update_data={{
+                                products: this.state.products,
+                                services: this.state.services,
+                                total: this.state.total
                             }}
                         />
-
                         {PaymentsModel}
                     </div>
                 </Modal>

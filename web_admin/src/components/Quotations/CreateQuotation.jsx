@@ -669,6 +669,7 @@ class CreateQuotation extends Component {
                         </div>
 
                         <OrderCreator
+                            can_edit_disccount={this.props.is_disabled ? false : true }
                             is_quotation={true}
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
