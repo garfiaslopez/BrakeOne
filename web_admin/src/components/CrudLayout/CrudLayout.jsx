@@ -55,6 +55,14 @@ class CrudLayout extends Component {
 		this.limit = 50;
 		this.page = 1;
 		this.getData();
+
+		this.refresh_interval = setInterval(() => {
+			this.getData();
+		}, 60000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.refresh_interval);
 	}
 
 	// GET DATA
