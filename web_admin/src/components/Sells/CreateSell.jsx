@@ -169,8 +169,8 @@ class CreateSell extends Component {
             limit: 100,
             page: 1,
             populate_ids: ['client_id'],
-            filter: {
-                'folio': search_text
+            filters: {
+                'folio': Number(search_text)
             }
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {

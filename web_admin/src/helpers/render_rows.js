@@ -26,6 +26,15 @@ export default {
             children: <p style={{fontSize}}>{text}</p>,
         });
     },
+    renderRowTextFMSI: (text, record) => {
+        let fmsis = '';
+        record.products.forEach((p) => {
+            fmsis += p.fmsi + ', ';
+        });
+        return ({
+            children: <p style={{fontSize}}>{fmsis.substring(0,20)}</p>,
+        });
+    },
     renderRowTextProducts: (text, record) => {
         let color = record.stock < record.stock_ideal ? 'red' : 'blue';
         return ({

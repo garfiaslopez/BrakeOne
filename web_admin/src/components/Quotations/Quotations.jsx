@@ -32,21 +32,21 @@ class Quotations extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDate,
-				width: '15%'
+				width: '10%'
 			},
 			{
             	title: 'Sucursal',
             	dataIndex: 'subsidiary_id.denomination',
 				key: 'subsidiary_id.denomination',
 				render: RenderRows.renderRowText,
-				width: '15%'
+				width: '10%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
 				render: RenderRows.renderRowText,
-				width: '15%'
+				width: '5%'
 			},
 			{
             	title: 'Cliente',
@@ -59,6 +59,20 @@ class Quotations extends CrudLayout {
             	title: 'Carro',
             	dataIndex: 'car_model',
 				key: 'car_model',
+				render: RenderRows.renderRowText,
+				width: '10%'
+			},
+			{
+				title: 'FMSI',
+				dataIndex: 'fmsi',
+				key: 'products.fmsi',
+				render: RenderRows.renderRowTextFMSI,
+				width: '15%'
+			},
+			{
+            	title: 'Año',
+            	dataIndex: 'car_year',
+				key: 'car_year',
 				render: RenderRows.renderRowText,
 				width: '10%'
 			},
@@ -76,7 +90,7 @@ class Quotations extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '15%',
+				width: '10%',
             	render: (text, record) => (
 					<span>
 						<Button 

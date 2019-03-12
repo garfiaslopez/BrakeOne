@@ -542,7 +542,7 @@ class OrderCreator extends Component {
                         if (Discount) {
                             Discount = (P * Number(Discount)) / 100;
                         }
-                        const new_total = round2(this.state.total + (P - Discount));
+                        const new_total = (this.state.total + Math.ceil(P - Discount));
         
                         actualProducts.push({
                             key: this.state.selected_data.length + 1,
@@ -559,7 +559,7 @@ class OrderCreator extends Component {
                             price: Price,
                             quantity: this.state.selected_quantity,
                             discount: Discount,
-                            total: round2(P - Discount),
+                            total: Math.ceil(P - Discount),
                             old_stock: record.stock,
                         });
     
@@ -586,8 +586,7 @@ class OrderCreator extends Component {
         const newData = [...this.state.selected_data];
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
-        console.log(item, row);
-        const newTotalRow = item.price - ((item.price * item.quantity) * row.discount) / 100;
+        const newTotalRow = Math.ceil(item.price - ((item.price * item.quantity) * row.discount) / 100);
         newData.splice(index, 1, {
           ...item,
           ...row,
@@ -671,20 +670,7 @@ class OrderCreator extends Component {
                             >
                                     {OptionsUsers}
                             </Select>
-                        </div>
-                        <div style={styles.groupLabel}>
-                            <p style={styles.discountLabel}>{this.props.is_reception ? 'Precio ($)' : 'Descuento (%)'}</p>
-                            <InputNumber
-                                style={styles.rowElementPrice}
-                                placeholder={this.props.is_reception ? "Precio Compra ($)" : "Descuento (%)"}
-                                value={this.state.selected_discount}
-                                onChange={this.onChangeDiscount}
-                                size="100%"
-                                step={1}
-                                min={0}
-                            />
-                        </div>
-                        
+                        </div>                        
                     </div>
 
                     <div
