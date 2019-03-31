@@ -47,6 +47,10 @@ var QuotationSchema = new Schema({
             type: Schema.ObjectId,
             ref: 'User'
         },
+        subsidiary_id: {
+            type: Schema.ObjectId,
+            ref: 'Subsidiary'
+        },
         user_name: { type: String },
         fmsi: { type: String },
         brand: { type: String },

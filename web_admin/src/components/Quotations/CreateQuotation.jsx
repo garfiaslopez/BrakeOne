@@ -99,7 +99,6 @@ class CreateQuotation extends Component {
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -521,6 +520,13 @@ class CreateQuotation extends Component {
                                         >
                                             {OptionsTypes}
                                         </Select>
+                                        <AutoComplete
+                                            dataSource={this.cars_database ? this.cars_database.name : []}
+                                            style={styles.inputElement}
+                                            onSelect={(selected)=>{console.log(selected);}}
+                                            placeholder="Input Here"
+                                            filterOption={true}
+                                        />
                                         <Input
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.car_brand}

@@ -550,6 +550,7 @@ class OrderCreator extends Component {
                             id: record._id,
                             user_id: this.state.selected_user._id,
                             user_name: this.state.selected_user.name,
+                            subsidiary_id: record.subsidiary_id._id,
                             fmsi: record.fmsi,
                             brand: record.brand,
                             line: record.line,
