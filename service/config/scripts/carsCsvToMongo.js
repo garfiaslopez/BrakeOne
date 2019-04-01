@@ -47,7 +47,7 @@ async function doMigration() {
         ['model_id','model_make_id','model_name','model_trim','model_year']
     );
 
-    cars.forEach((car) => {
+    cars.forEach( async (car) => {
         const newCar = new carModel();
         newCar.year = Number(car.model_year);
         newCar.make = car.model_make_id;
