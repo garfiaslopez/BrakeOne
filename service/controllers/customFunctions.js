@@ -47,7 +47,7 @@ module.exports =  {
     },
     car_models:  (req, res, next) => {
         const objectModel = require("../models/car");
-        objectModel.find({ make: req.body.make }).distinct('make', (err, models) => {
+        objectModel.find({ make: req.body.make }).distinct('model', (err, models) => {
             if(err){
                 return next(new errs.InternalServerError(err));
             } else {
