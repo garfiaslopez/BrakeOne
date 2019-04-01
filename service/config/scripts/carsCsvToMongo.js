@@ -40,23 +40,28 @@ async function getFromCSV(dir, keys) {
     });
 }
 
-var cars = await getFromCSV(
-    'cars_database.csv',
-    ['model_id','model_make_id','model_name','model_trim','model_year']
-);
+async function doMigration() {
 
-cars.forEach((car) => {
-    const newCar = new carModel();
-    newCar.year = Number(car.model_year);
-    newCar.make = car.model_make_id;
-    newCar.model = car.model_name;
-    newCar.trim = car.model_trim;
-    await newCar.save().then((savedObj) => {
-        console.log("saved car...");
-    }).catch((err) => {
-        console.log(err);
-        throw err;
+    var cars = await getFromCSV(
+        'cars_database.csv',
+        ['model_id','model_make_id','model_name','model_trim','model_year']
+    );
+
+    cars.forEach((car) => {
+        const newCar = new carModel();
+        newCar.year = Number(car.model_year);
+        newCar.make = car.model_make_id;
+        newCar.model = car.model_name;
+        newCar.trim = car.model_trim;
+        await newCar.save().then((savedObj) => {
+            console.log("saved car...");
+        }).catch((err) => {
+            console.log(err);
+            throw err;
+        });
     });
-});
+}
 
-export default init_load_cars;
+doMigration().catch((err) => {
+    console.log(err);
+});
