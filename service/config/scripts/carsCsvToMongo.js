@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 var moment = require('moment');
 var _ = require('lodash');
-
+var fs = require('fs'); 
+var parse = require('csv-parse');
 
 mongoose.Promise = bluebird;
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
