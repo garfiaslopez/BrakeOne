@@ -34,5 +34,15 @@ module.exports =  {
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
+    },
+    car_makes:  (req, res, next) => {
+        const objectModel = require("../models/car");
+        objectModel.distinct('make', (err, makes) => {
+            if(err){
+                return next(new errs.InternalServerError(err));
+            } else {
+                return res.json({ success: true, objs: makes });
+            }
+        });
     }
 }

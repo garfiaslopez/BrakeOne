@@ -114,6 +114,12 @@ var Models = [
         singular: 'reception-payment',
         plural: 'reception-payments',
         methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
+        model_name: 'car',
+        singular: 'car',
+        plural: 'cars',
+        methods: ['search']
     }
 ]
 
@@ -131,5 +137,6 @@ module.exports = function(server) {
         server.post('/' + model.plural, CRUDController('search', model.model_name));
     });
 
-    server.post('/helpers/updatestock', CustomFunctions.update_stock)
+    server.post('/helpers/updatestock', CustomFunctions.update_stock);
+    server.post('/helpers/car_makes', CustomFunctions.car_makes);
 };

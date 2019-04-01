@@ -40,6 +40,9 @@ class CreateQuotation extends Component {
             car_id: '',
             selected_car: undefined,
             openCarDropdown: false,
+            carsdb_makes: [],
+            carsdb_models: [],
+            carsdb_trims: [],
         };
 
         if (props.fields) {
@@ -99,6 +102,9 @@ class CreateQuotation extends Component {
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+    }
+    componentDidMount() {
+        
     }
 
     componentWillReceiveProps(nextProps) {
@@ -520,13 +526,6 @@ class CreateQuotation extends Component {
                                         >
                                             {OptionsTypes}
                                         </Select>
-                                        <AutoComplete
-                                            dataSource={this.cars_database ? this.cars_database.name : []}
-                                            style={styles.inputElement}
-                                            onSelect={(selected)=>{console.log(selected);}}
-                                            placeholder="Input Here"
-                                            filterOption={true}
-                                        />
                                         <Input
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.car_brand}
@@ -583,7 +582,19 @@ class CreateQuotation extends Component {
                                         placeholder="AÑO (*)"
                                         
                                     />
-
+                                    <AutoComplete 
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        backfill
+                                        placeholder={'AÑO'}
+                                        onSearch={(value) => { this.getYears(value) }}
+                                        onSelect={(value) => { this.onSelectYears(value) }}
+                                        value={this.state.car_year}
+                                        onChange={(value) => {
+                                            this.onChangeFieldName(value, 'car_year');
+                                        }}
+                                        dataSource={this.state.cardb_years}
+                                        style={styles.inputElement}
+                                    />
                                     <Input
                                         disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_color}
