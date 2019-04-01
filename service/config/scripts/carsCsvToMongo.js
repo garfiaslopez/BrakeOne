@@ -44,7 +44,7 @@ async function getFromCSV(dir, keys) {
 async function doMigration() {
 
     var cars = await getFromCSV(
-        'cars_database.csv',
+        '/cars_database.csv',
         ['model_id','model_make_id','model_name','model_trim','model_year']
     );
 
