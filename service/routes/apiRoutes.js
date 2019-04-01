@@ -140,4 +140,5 @@ module.exports = function(server) {
     server.post('/helpers/updatestock', CustomFunctions.update_stock);
     server.post('/helpers/car_makes', CustomFunctions.car_makes);
     server.post('/helpers/car_models', CustomFunctions.car_models);
+    server.post('/helpers/car_trims', CustomFunctions.car_trims);
 };

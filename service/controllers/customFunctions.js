@@ -54,5 +54,15 @@ module.exports =  {
                 return res.json({ success: true, objs: models });
             }
         });
+    },
+    car_trims:  (req, res, next) => {
+        const objectModel = require("../models/car");
+        objectModel.distinct('trim', { make: req.body.make, model: req.body.model },  (err, trims) => {
+            if(err){
+                return next(new errs.InternalServerError(err));
+            } else {
+                return res.json({ success: true, objs: trims });
+            }
+        });
     }
 }

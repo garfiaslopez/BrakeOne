@@ -35,6 +35,7 @@ var QuotationSchema = new Schema({
     car_plates: { type: String },
     car_color: { type: String },
     car_kms: { type: String },
+    car_trim: { type: String },
     notes: {
         type: String
     },
