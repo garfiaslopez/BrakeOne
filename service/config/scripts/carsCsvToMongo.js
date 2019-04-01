@@ -51,9 +51,9 @@ async function doMigration() {
     cars.forEach( async (car) => {
         const newCar = new carModel();
         newCar.year = Number(car.model_year);
-        newCar.make = car.model_make_id;
-        newCar.model = car.model_name;
-        newCar.trim = car.model_trim;
+        newCar.make = car.model_make_id.toUpperCase();
+        newCar.model = car.model_name.toUpperCase();
+        newCar.trim = car.model_trim.toUpperCase();
         await newCar.save().then((savedObj) => {
             console.log("saved car...");
         }).catch((err) => {

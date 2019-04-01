@@ -99,12 +99,19 @@ class CreateQuotation extends Component {
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
         this.onChangeCar = this.onChangeCar.bind(this);
+        this.onSelectBrand = this.onSelectBrand.bind(this);
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
     }
     componentDidMount() {
-        
+        FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_makes', 'POST', {}).then((response) => {
+            if(response.json.objs) {
+                this.setState({
+                    carsdb_makes: response.json.objs
+                })
+            }
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -133,6 +140,19 @@ class CreateQuotation extends Component {
         let obj = {};
         obj[key] = value;
         this.setState(obj);
+    }
+
+    onSelectBrand(value) {
+        FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_models', 'POST', {
+            make: value
+        }).then((response) => {
+            if(response.json.models) {
+                this.setState({
+                    car_brand: value,
+                    carsdb_models: response.json.models
+                })
+            }
+        });
     }
 
     onSubmit = (event) => {
@@ -362,6 +382,29 @@ class CreateQuotation extends Component {
                 </Select.Option>
             );
         });
+
+        const OptionsMakes = this.state.carsdb_makes.map((item, index) => {
+            return (
+                <Select.Option 
+                    value={item}
+                    key={`${item} - ${index}`} 
+                >
+                    {item}
+                </Select.Option>
+            );
+        });
+
+        const OptionsModels = this.state.carsdb_models.map((item, index) => {
+            return (
+                <Select.Option 
+                    value={item}
+                    key={`${item} - ${index}`} 
+                >
+                    {item}
+                </Select.Option>
+            );
+        });
+
         let ModalButtons = [
             <Button 
                 key="cancel"
@@ -523,43 +566,48 @@ class CreateQuotation extends Component {
                                             onChange={(value) => {
                                                 this.onChangeDropdown(value, 'price_type');
                                             }}
+                                            
                                         >
                                             {OptionsTypes}
                                         </Select>
-                                        <Input
+                                        <Select
+                                            showSearch
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.car_brand}
+                                            value={this.state.car_brand !== "" ? this.state.car_brand : undefined}
                                             style={styles.inputElement}
+                                            placeholder="MARCA"
+                                            optionFilterProp="children"
                                             onChange={(value) => {
-                                                this.onChangeField(value, 'car_brand');
+                                                this.onSelectBrand(value);
                                             }}
-                                            prefix={(
+                                            suffixIcon={(
                                                 <Icon
                                                     type="car"
                                                     className="field-icon"
                                                 />
                                             )}
-                                            type="text"
-                                            placeholder="MARCA (*)"
-                                            
-                                        />
-                                        <Input
+                                        >
+                                            {OptionsMakes}
+                                        </Select>
+                                        <Select
+                                            showSearch
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.car_model}
+                                            value={this.state.car_model !== "" ? this.state.car_model : undefined}
                                             style={styles.inputElement}
+                                            placeholder="MODELO"
+                                            optionFilterProp="children"
                                             onChange={(value) => {
-                                                this.onChangeField(value, 'car_model');
+                                                this.onChangeDropdown(value, 'car_model');
                                             }}
-                                            prefix={(
+                                            suffixIcon={(
                                                 <Icon
                                                     type="car"
                                                     className="field-icon"
                                                 />
                                             )}
-                                            type="text"
-                                            placeholder="MODELO (*)"
-                                            
-                                        />
+                                        >
+                                            {OptionsModels}
+                                        </Select>
                                     </div>
                                 </div>
                                 <div
