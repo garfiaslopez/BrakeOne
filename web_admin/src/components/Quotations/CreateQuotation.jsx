@@ -104,6 +104,7 @@ class CreateQuotation extends Component {
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
         this.onChangeCar = this.onChangeCar.bind(this);
         this.onSelectBrand = this.onSelectBrand.bind(this);
+        this.onSelectModel = this.onSelectModel.bind(this);
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
@@ -147,26 +148,33 @@ class CreateQuotation extends Component {
     }
 
     onSelectBrand(value) {
+        this.setState({
+            car_brand: value,
+            car_model: '',
+            car_trim: '',
+        });
         FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_models', 'POST', {
             make: value
         }).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    car_brand: value,
                     carsdb_models: response.json.objs
-                })
+                });
             }
         });
     }
 
     onSelectModel(value) {
+        this.setState({
+            car_model: value,
+            car_trim: '',
+        });
         FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_trims', 'POST', {
             make: this.state.car_brand,
             model: value
         }).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    car_model: value,
                     carsdb_trims: response.json.objs
                 })
             }
@@ -583,7 +591,6 @@ class CreateQuotation extends Component {
                                             )}
                                             type="text"
                                             placeholder="NUMERO TELEFONO (*)"
-                                            
                                         />
                                         <Select
                                             showSearch
@@ -595,7 +602,6 @@ class CreateQuotation extends Component {
                                             onChange={(value) => {
                                                 this.onChangeDropdown(value, 'price_type');
                                             }}
-                                            
                                         >
                                             {OptionsTypes}
                                         </Select>
@@ -626,7 +632,7 @@ class CreateQuotation extends Component {
                                             placeholder="MODELO"
                                             optionFilterProp="children"
                                             onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_model');
+                                                this.onSelectModel(value, 'car_model');
                                             }}
                                             prefixIcon={(
                                                 <Icon
