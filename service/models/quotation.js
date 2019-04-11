@@ -17,6 +17,10 @@ var QuotationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Client'
     },
+    converted_to_sell: { 
+        type: Boolean,
+        default: false,
+    },
     price_type: { type: String },
     client_name: { type: String },
     client_phone: { type: String },
@@ -99,9 +103,10 @@ QuotationSchema.plugin(autoIncrement.plugin, {
 });
 
 QuotationSchema.index({
+    car_brand: 'text',
+    car_model: 'text',
     client_name: 'text',
-    folio: 'text',
-
+    car_plates: 'text',
 });
 
 //Return the module

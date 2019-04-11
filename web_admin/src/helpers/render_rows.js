@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Icon } from 'antd';
 
 const round2 = (number) => (Math.round(number * 100) / 100);
 const fontSize = 12;
@@ -135,5 +136,31 @@ export default {
         return ({
             children: <p style={{color, fontSize}}>{car.brand + ' - ' + car.model}</p>,
         });
+    },
+
+    // REMAINING TO PAY FOR TABLE
+    renderRowRemainingPay: (text, record) => {
+        let color = 'black';
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        const newTotal = record.total - record.payed;
+        return ({
+            children: <p style={{color, fontSize}}>${String(round2(newTotal ? newTotal : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
+        });
+    },
+
+    renderRowSellBool: (text, record) => {
+        let renderIcon = <Icon  style={{ fontSize: '28px', textAlign: 'center' }} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />;
+        if (!record.converted_to_sell) {
+            renderIcon = <Icon style={{ fontSize: '28px', textAlign: 'center' }} type="close-circle" theme="twoTone" twoToneColor="#eb2f96" />;
+        }
+        return ({
+            children: <p>{renderIcon}</p>,
+        });
     }
+
 }

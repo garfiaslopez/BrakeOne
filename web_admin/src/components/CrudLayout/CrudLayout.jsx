@@ -88,8 +88,7 @@ class CrudLayout extends Component {
 			if (this.model.name === 'quotation') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
-				POSTDATA['or_filters']['client_name'] = this.search_text;
-				POSTDATA['or_filters']['car_plates'] = this.search_text;
+				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
 			} else if (this.model.name === 'sell') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
@@ -126,13 +125,14 @@ class CrudLayout extends Component {
 			console.log(this.table_filters);
 			Object.keys(this.table_filters).forEach((f) => {
 				if (this.table_filters[f].length > 0) {
+					console.log(f, this.table_filters[f]);
 					if (this.table_filters[f][0] === 'stock.low.exists') {
 						POSTDATA['filters']['$expr'] ={ $lte: [ "$stock" , "$stock_ideal" ] };
 					} else if (this.table_filters[f][0] === 'stock.exists') {
 						POSTDATA['filters']['$expr'] ={ $gt: [ "$stock" , "$stock_ideal" ] };
 					} else if (this.table_filters[f][0] === 'stock.no.exists') {
 						POSTDATA['filters']['stock'] = { $lte: 0 };
-					}else {
+					} else {
 						POSTDATA['filters'][f] = this.table_filters[f];
 					}
 				} else {

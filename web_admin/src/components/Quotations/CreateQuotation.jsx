@@ -50,6 +50,9 @@ class CreateQuotation extends Component {
             if (props.fields.price_type) {
                 initial_state.price_type = props.fields.price_type;
             }
+            if (props.fields.client_id) {
+                initial_state.client_id = props.fields.client_id;
+            }
             if (props.fields.client_name) {
                 initial_state.client_name = props.fields.client_name;
             }
@@ -186,6 +189,7 @@ class CreateQuotation extends Component {
         // do validations:
         if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
+                console.log("CLIENT", this.state.client_id);
                 if(!this.state.client_id._id) {
                     // we need to save that client: 
                     const NewClient = {

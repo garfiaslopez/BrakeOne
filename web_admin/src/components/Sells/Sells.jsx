@@ -51,7 +51,7 @@ class Sells extends CrudLayout {
             	dataIndex: 'folio',
 				key: 'folio',
 				render: RenderRows.renderRowTextSells,
-				width: '10%'
+				width: '5%'
 			},
 			{
             	title: 'Estatus',
@@ -70,13 +70,19 @@ class Sells extends CrudLayout {
             	dataIndex: 'client_id.name',
 				key: 'client_id.name',
 				render: RenderRows.renderRowTextSells,
-				width: '20%'
+				width: '15%'
 			},
 			{
             	title: 'Pagado',
             	dataIndex: 'payed',
 				key: 'payed',
 				render: RenderRows.renderRowNumberSells,
+				width: '10%'
+			},
+			{
+            	title: 'Falta Pagar',
+				key: 'remaining_pay',
+				render: RenderRows.renderRowRemainingPay,
 				width: '10%'
 			},
 			{

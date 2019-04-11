@@ -139,7 +139,7 @@ module.exports = (method, model) => {
             Object.keys(req.body.or_filters).forEach((filter_key)  => {
                 let new_or = {};
                 new_or[filter_key] = req.body.or_filters[filter_key];
-                or_array.push(new_or);
+                or_array.push(new_or); 
             });
             if (or_array.length > 0) {
                 Filter['$or'] = or_array;
@@ -170,6 +170,8 @@ module.exports = (method, model) => {
         console.log(Filter);
         
         objectModel.paginate(Filter, Paginator, (err, result) => {
+            console.log(err);
+            console.log(result);
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {

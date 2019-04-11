@@ -25,7 +25,7 @@ class Quotations extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-		this.populate_ids = ['subsidiary_id'];
+		this.populate_ids = ['subsidiary_id', 'client_id'];
         this.table_columns = [
 			{
             	title: 'Fecha',
@@ -56,32 +56,39 @@ class Quotations extends CrudLayout {
 				width: '20%'
 			},
 			{
-            	title: 'Carro',
-            	dataIndex: 'car_model',
-				key: 'car_model',
-				render: RenderRows.renderRowText,
-				width: '10%'
-			},
-			{
 				title: 'FMSI',
 				dataIndex: 'fmsi',
 				key: 'products.fmsi',
 				render: RenderRows.renderRowTextFMSI,
-				width: '15%'
+				width: '10%'
+			},
+			{
+            	title: 'Marca',
+            	dataIndex: 'car_brand',
+				key: 'car_brand',
+				render: RenderRows.renderRowText,
+				width: '10%'
+			},
+			{
+            	title: 'Modelo',
+            	dataIndex: 'car_model',
+				key: 'car_model',
+				render: RenderRows.renderRowText,
+				width: '5%'
 			},
 			{
             	title: 'Año',
             	dataIndex: 'car_year',
 				key: 'car_year',
 				render: RenderRows.renderRowText,
-				width: '10%'
+				width: '5%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumber,
-				width: '10%'
+				width: '7%'
 			}
 		];
 
@@ -157,6 +164,18 @@ class Quotations extends CrudLayout {
             	),
 			});
 		}
+
+		this.table_columns.push({
+			title: '¿Es Venta?',
+			dataIndex: 'converted_to_sell',
+			key: 'converted_to_sell',
+			render: RenderRows.renderRowSellBool,
+			width: '8%',
+			filters: [
+				{ text: 'Ventas', value: true },
+				{ text: 'No Ventas', value: false},
+			],
+		});
 	}
 }
 

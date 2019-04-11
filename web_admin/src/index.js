@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import './reset.css';
 import 'antd/dist/antd.css';
-import { Offline, Online } from "react-detect-offline";
-import NoInternet from './helpers/NoInternet';
 
 import { FetchXHR } from './helpers/generals';
 import {
@@ -133,25 +131,20 @@ const initialView = () => {
 
 ReactDOM.render(
     <Fragment>
-        <Online>
-            <Router history={history}>
-                <Switch>
-                    <PrivateRoute exact path="/" component= {initialView}/>
-                    <Route path="/login" component={Login} />
+        <Router history={history}>
+            <Switch>
+                <PrivateRoute exact path="/" component= {initialView}/>
+                <Route path="/login" component={Login} />
 
-                    <PrivateRoute exact path="/subsidiarys" component={SubsidiaryGrid}/>
-                    <PrivateRoute exact path="/home" component={Home}/>
+                <PrivateRoute exact path="/subsidiarys" component={SubsidiaryGrid}/>
+                <PrivateRoute exact path="/home" component={Home}/>
 
-                    <PrivateRoute exact path="/recipes/sell" component={SellRecipe}/>
-                    <PrivateRoute exact path="/recipes/sell-ticket" component={SellTicket}/>
-                    <PrivateRoute exact path="/recipes/quotation" component={QuotationRecipe}/>
-                    <Route path="/*" component={NotFound} />
-                </Switch>
-            </Router>
-        </Online>
-        <Offline>
-            <NoInternet />
-        </Offline>
+                <PrivateRoute exact path="/recipes/sell" component={SellRecipe}/>
+                <PrivateRoute exact path="/recipes/sell-ticket" component={SellTicket}/>
+                <PrivateRoute exact path="/recipes/quotation" component={QuotationRecipe}/>
+                <Route path="/*" component={NotFound} />
+            </Switch>
+        </Router>
     </Fragment>
 ,document.getElementById('root'));
 
