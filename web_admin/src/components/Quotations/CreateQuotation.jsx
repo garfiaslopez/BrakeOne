@@ -118,8 +118,8 @@ class CreateQuotation extends Component {
         FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_makes', 'POST', {}).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    carsdb_makes: response.json.objs,
-                    filtered_car_makes: response.json.objs,
+                    carsdb_makes: response.json.objs.filter((e)=>(e!="")),
+                    filtered_car_makes: response.json.objs.filter((e)=>(e!="")),
                 })
             }
         });
@@ -164,8 +164,8 @@ class CreateQuotation extends Component {
         }).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    carsdb_models: response.json.objs,
-                    filtered_car_models: response.json.objs,
+                    carsdb_models: response.json.objs.filter((e)=>(e!="")),
+                    filtered_car_models: response.json.objs.filter((e)=>(e!="")),
                 });
             }
         });
@@ -180,10 +180,11 @@ class CreateQuotation extends Component {
             make: this.state.car_brand,
             model: value
         }).then((response) => {
+            console.log(response.json.objs)
             if(response.json.objs) {
                 this.setState({
-                    carsdb_trims: response.json.objs,
-                    filtered_car_trims: response.json.objs,
+                    carsdb_trims: response.json.objs.filter((e)=>(e!="")),
+                    filtered_car_trims: response.json.objs.filter((e)=>(e!="")),
                 })
             }
         });
