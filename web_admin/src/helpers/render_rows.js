@@ -154,9 +154,9 @@ export default {
     },
 
     renderRowSellBool: (text, record) => {
-        let renderIcon = <Icon  style={{ fontSize: '28px', textAlign: 'center' }} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />;
-        if (!record.converted_to_sell) {
-            renderIcon = <Icon style={{ fontSize: '28px', textAlign: 'center' }} type="close-circle" theme="twoTone" twoToneColor="#eb2f96" />;
+        let renderIcon = <Icon style={{ fontSize: '28px', textAlign: 'center' }} type="close-circle" theme="twoTone" twoToneColor="#eb2f96" />;
+        if (record.sell_id) {
+            renderIcon = <Icon  style={{ fontSize: '28px', textAlign: 'center' }} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />;
         }
         return ({
             children: <p>{renderIcon}</p>,

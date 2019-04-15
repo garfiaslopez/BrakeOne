@@ -6,12 +6,11 @@ import {
     Alert,
     Input,
     Select,
-    Spin,
     Card,
     AutoComplete
 } from 'antd';
 import styles from './Styles';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR, filterList } from '../../helpers/generals';
 import moment from 'moment';
 import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
 
@@ -45,7 +44,6 @@ class CreateQuotation extends Component {
             carsdb_models: [],
             carsdb_trims: [],
         };
-
         if (props.fields) {
             if (props.fields.price_type) {
                 initial_state.price_type = props.fields.price_type;
@@ -111,12 +109,17 @@ class CreateQuotation extends Component {
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+
+        this.filterCarMakes = this.filterCarMakes.bind(this);
+        this.filterCarModels = this.filterCarModels.bind(this);
+        this.filterCarTrims = this.filterCarTrims.bind(this);
     }
     componentDidMount() {
         FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_makes', 'POST', {}).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    carsdb_makes: response.json.objs
+                    carsdb_makes: response.json.objs,
+                    filtered_car_makes: response.json.objs,
                 })
             }
         });
@@ -161,7 +164,8 @@ class CreateQuotation extends Component {
         }).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    carsdb_models: response.json.objs
+                    carsdb_models: response.json.objs,
+                    filtered_car_models: response.json.objs,
                 });
             }
         });
@@ -178,7 +182,8 @@ class CreateQuotation extends Component {
         }).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    carsdb_trims: response.json.objs
+                    carsdb_trims: response.json.objs,
+                    filtered_car_trims: response.json.objs,
                 })
             }
         });
@@ -384,6 +389,34 @@ class CreateQuotation extends Component {
         });
     }
 
+    filterAutocomplete(value, array) {
+        const results = [];
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].substr(0, value.length).toUpperCase() == value.toUpperCase()) {
+                results.push(array[i]);
+            }
+        }
+        return results;
+    }
+
+    filterCarMakes(value) {
+        this.setState({
+            filtered_car_makes: this.filterAutocomplete(value, this.state.carsdb_makes)
+        });
+    }
+
+    filterCarModels(value) {
+        this.setState({
+            filtered_car_models: this.filterAutocomplete(value, this.state.carsdb_models)
+        });
+    }
+
+    filterCarTrims(value) {
+        this.setState({
+            filtered_car_trims: this.filterAutocomplete(value, this.state.carsdb_trims)
+        });
+    }
+
     render() {
         let alert='';
 		if (this.state.error) {
@@ -404,39 +437,6 @@ class CreateQuotation extends Component {
             )
         }
         const OptionsTypes = ['PUBLICO', 'MAYOREO', 'TALLER'].map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item}
-                    key={`${item} - ${index}`} 
-                >
-                    {item}
-                </Select.Option>
-            );
-        });
-
-        const OptionsMakes = this.state.carsdb_makes.map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item}
-                    key={`${item} - ${index}`} 
-                >
-                    {item}
-                </Select.Option>
-            );
-        });
-
-        const OptionsModels = this.state.carsdb_models.map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item}
-                    key={`${item} - ${index}`} 
-                >
-                    {item}
-                </Select.Option>
-            );
-        });
-
-        const OptionsTrims = this.state.carsdb_trims.map((item, index) => {
             return (
                 <Select.Option 
                     value={item}
@@ -475,17 +475,6 @@ class CreateQuotation extends Component {
             ];
         }
 
-        const OptionsClients = this.state.clients.map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item._id}
-                    key={`${item._id} - ${index}`} 
-                >
-                    {item.name}
-                </Select.Option>
-            );
-        });
-
         const OptionsCars = [];
         if (this.state.client_id.cars) {
             this.state.client_id.cars.forEach((item, index) => {
@@ -501,7 +490,9 @@ class CreateQuotation extends Component {
         }
 
         let title = "Nueva Cotización";
-        if (this.props.next_folio) {
+        if(this.props.fields && this.props.fields.folio) {
+            title = 'Cotización  | FOLIO: #' + this.props.fields.folio;
+        } else if (this.props.next_folio) {
             title += '    | FOLIO: #' + this.props.next_folio;
         }
 
@@ -560,13 +551,7 @@ class CreateQuotation extends Component {
                                     <div
                                         style={styles.inputsRowContainer}
                                     >
-                                        <AutoComplete 
-                                            prefix={(
-                                                <Icon
-                                                    type="user"
-                                                    className="field-icon"
-                                                />
-                                            )}
+                                        <AutoComplete
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             autoFocus
                                             backfill
@@ -598,6 +583,9 @@ class CreateQuotation extends Component {
                                         />
                                         <Select
                                             showSearch
+                                            onFocus={() => {
+                                                console.log(this);
+                                            }}
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.price_type}
                                             style={styles.inputElement}
@@ -609,64 +597,47 @@ class CreateQuotation extends Component {
                                         >
                                             {OptionsTypes}
                                         </Select>
-                                        <Select
-                                            showSearch
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.car_brand !== "" ? this.state.car_brand : undefined}
-                                            style={styles.inputElement}
-                                            placeholder="MARCA"
-                                            optionFilterProp="children"
-                                            onChange={(value) => {
-                                                this.onSelectBrand(value);
-                                            }}
-                                            prefixIcon={(
-                                                <Icon
-                                                    type="car"
-                                                    className="field-icon"
-                                                />
-                                            )}
-                                        >
-                                            {OptionsMakes}
-                                        </Select>
-                                        <Select
-                                            showSearch
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.car_model !== "" ? this.state.car_model : undefined}
-                                            style={styles.inputElement}
-                                            placeholder="MODELO"
-                                            optionFilterProp="children"
-                                            onChange={(value) => {
-                                                this.onSelectModel(value, 'car_model');
-                                            }}
-                                            prefixIcon={(
-                                                <Icon
-                                                    type="car"
-                                                    className="field-icon"
-                                                />
-                                            )}
-                                        >
-                                            {OptionsModels}
-                                        </Select>
 
-                                        <Select
-                                            showSearch
+                                        <AutoComplete
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.car_trim !== "" ? this.state.car_trim : undefined}
+                                            backfill
+                                            placeholder="MARCA"
+                                            onSearch={(value) => { this.filterCarMakes(value) }}
+                                            onSelect={(value) => { this.onSelectBrand(value) }}
+                                            value={this.state.car_brand !== "" ? this.state.car_brand : undefined}
+                                            dataSource={this.state.filtered_car_makes}
                                             style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeDropdown(value, 'car_brand');
+                                            }}
+                                        />
+
+                                        <AutoComplete
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            backfill
+                                            placeholder="MODELO"
+                                            onSearch={(value) => { this.filterCarModels(value) }}
+                                            onSelect={(value) => { this.onSelectModel(value) }}
+                                            value={this.state.car_model !== "" ? this.state.car_model : undefined}
+                                            dataSource={this.state.filtered_car_models}
+                                            style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeDropdown(value, 'car_model');
+                                            }}
+                                        />
+
+                                        <AutoComplete
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            backfill
                                             placeholder="DETALLE"
-                                            optionFilterProp="children"
+                                            onSearch={(value) => { this.filterCarTrims(value) }}
+                                            value={this.state.car_trim !== "" ? this.state.car_trim : undefined}
+                                            dataSource={this.state.filtered_car_trims}
+                                            style={styles.inputElement}
                                             onChange={(value) => {
                                                 this.onChangeDropdown(value, 'car_trim');
                                             }}
-                                            prefixIcon={(
-                                                <Icon
-                                                    type="car"
-                                                    className="field-icon"
-                                                />
-                                            )}
-                                        >
-                                            {OptionsTrims}
-                                        </Select>
+                                        />
                                     </div>
                                 </div>
                                 <div

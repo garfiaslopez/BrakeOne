@@ -27,6 +27,7 @@ class CreateSell extends Component {
             open: this.props.open,
             loading: this.props.loading,
             loading_clients: false,
+            quotation_id: null,
             client_id: {},
             clients: [],
             quotation_folio: '',
@@ -69,6 +70,8 @@ class CreateSell extends Component {
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+
+        this.scrollContainer = React.createRef();
     }
 
     componentDidMount() {
@@ -179,6 +182,7 @@ class CreateSell extends Component {
                     const quotation = response.json.data.docs[0];
                     console.log(quotation);
                     this.setState({
+                        quotation_id: quotation._id,
                         client_id: quotation.client_id,
                         loading_quotations: false,
                         notes: quotation.notes,
@@ -202,6 +206,7 @@ class CreateSell extends Component {
     }
 
     onChangeClient(client_id) {
+        this.scrollWindow();
         this.setState({
             client_id: this.state.clients.find((el) => (el._id === client_id))
         });
@@ -230,7 +235,7 @@ class CreateSell extends Component {
         // do validations:
         if (!isEmpty(this.state.client_id)) {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
-                const Sell =  {
+                let Sell =  {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
                     client_id: this.state.client_id._id,
@@ -241,8 +246,9 @@ class CreateSell extends Component {
                     is_service: false,
                     is_finished: true
                 }
-                //this.props.onSubmit(Sell);
-
+                if (this.state.quotation_id) {
+                    Sell['quotation_id'] = this.state.quotation_id;
+                }
                 // CUSTOM UPLOAD FUNCTION AND SEND THE NEW ARRAY TO CRUDLAYOUT
                 let POSTDATA = {
                     ...Sell,
@@ -255,13 +261,14 @@ class CreateSell extends Component {
                     method = 'PUT';
                     url = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
                 }
-
+                
                 // group products for calculate minus stock.... and exclude the already saved products.
                 // check for relationships and save it apart in her owns models
                 FetchXHR(url, method, POSTDATA).then((response) => {
                     if (response.json.success) {
                         const saved_sell = response.json.obj;
-
+                        const quotation_url = process.env.REACT_APP_API_URL + '/quotation/' + this.state.quotation_id;
+                        FetchXHR(quotation_url, 'PUT', {'sell_id': saved_sell._id});
                         const OperationsProducts = [];
                         let mapped_products_stock = {}; // product_id -> sum_quantity.
                         let actual_max_stock = {};
@@ -374,6 +381,14 @@ class CreateSell extends Component {
             services: values.services,
             total: values.total
         });
+    }
+
+    scrollWindow() {
+        console.log("SCROLL WINDOW");
+        console.log(this.scrollContainer);
+        console.log(this.scrollContainer.current);
+        console.log(this.scrollContainer.current.offsetTop);
+        window.scrollTo(0, this.scrollContainer.current.offsetTop)
     }
 
     render() {

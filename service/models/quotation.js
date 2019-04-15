@@ -17,9 +17,9 @@ var QuotationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Client'
     },
-    converted_to_sell: { 
-        type: Boolean,
-        default: false,
+    sell_id: {
+        type: Schema.ObjectId,
+        ref: 'Sell'
     },
     price_type: { type: String },
     client_name: { type: String },
