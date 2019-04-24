@@ -67,10 +67,10 @@ async function migrate_products(productos) {
             newProducto.stock = 0;
             newProducto.stock_ideal = 3;
             newProducto.localization = "";
-            newProducto.price = Number(producto.COSTO) !== NaN ? Number(producto.COSTO) : 0;
-            newProducto.price_public = Number(producto.PUBLICO) !== NaN ? Number(producto.PUBLICO) : 0;
-            newProducto.price_workshop = Number(producto.TALLER) !== NaN ? Number(producto.TALLER) : 0;
-            newProducto.price_wholesale = Number(producto.MAYOREO) !== NaN ? Number(producto.MAYOREO) : 0;
+            newProducto.price = isNaN(Number(producto.COSTO)) ? 0 : Number(producto.COSTO);
+            newProducto.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
+            newProducto.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
+            newProducto.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
 
             const savedObj = await newProducto.save().catch((err) => {
                 console.log(err);
