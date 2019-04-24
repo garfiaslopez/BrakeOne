@@ -12,6 +12,9 @@ var ProductSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Provider'
     },
+    numero_oe: {
+        type: String,
+    },
     description: {
         type: String
     },
