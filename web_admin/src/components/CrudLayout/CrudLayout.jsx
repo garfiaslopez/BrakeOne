@@ -230,7 +230,7 @@ class CrudLayout extends Component {
 	}
 
 	// CREATE NORMAL SUBMIT:
-	onSubmitForm = (values, nested_values) => {
+	onSubmitForm = async (values, nested_values) => {
 		this.setState({
 			loading_submit: true
 		});
@@ -254,9 +254,16 @@ class CrudLayout extends Component {
 		if (this.populate_ids) {
 			POSTDATA['populate_ids'] = this.populate_ids;
 		}
+		
+		if (this.model.name === 'product') {
+			await FetchXHR(process.env.REACT_APP_API_URL + '/helpers/replicate_product', 'POST', { 
+				data: POSTDATA,
+				id: this.state.selected_data ? this.state.selected_data._id : null,
+				method
+			});
+		}
 
 		// check for relationships and save it apart in her owns models.
-
 		FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
 				const newArray = Object.assign([],this.state.table_data);
@@ -310,8 +317,14 @@ class CrudLayout extends Component {
 		});
 	}
 
-	onDelete = (record) => {
+	onDelete = async (record) => {
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + record._id;
+		if (this.model.name === 'product') {
+			await FetchXHR(process.env.REACT_APP_API_URL + '/helpers/delete_product', 'POST', { 
+				key_id: record.key_id,
+				_id: record._id,
+			});
+		}
 		FetchXHR(url, 'DELETE').then((response) => {
             if (response.json.success) {
 				const newArray = Object.assign([],this.state.table_data);

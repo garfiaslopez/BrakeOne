@@ -141,4 +141,6 @@ module.exports = function(server) {
     server.post('/helpers/car_makes', CustomFunctions.car_makes);
     server.post('/helpers/car_models', CustomFunctions.car_models);
     server.post('/helpers/car_trims', CustomFunctions.car_trims);
+    server.post('/helpers/replicate_product', CustomFunctions.replicate_product);
+    server.post('/helpers/delete_product', CustomFunctions.delete_product);
 };

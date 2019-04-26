@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
     Input,
     Form,
@@ -118,19 +118,53 @@ class FormRender {
             />
         );
         const barcode_options = {
-            width: 2,
-            height: 20,
+            width: 2.8,
+            height: 70,
             format: "CODE128",
-            displayValue: false,
+            displayValue: true,
             background: "#ffffff",
             lineColor: "#000000",
         };
         const BarcodeRender = (
-            <Barcode
+            <div
                 ref={el => (this.barcodeToPrint = el)}
-                {...barcode_options}
-                value={this.getFieldValue(field_input.id)} 
-            />
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                }}
+            >
+                <div
+                    style={{
+                        display:'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <img
+                        src={process.env.REACT_APP_CDN + '/images/MainLogo.png'}
+                        style={{
+                            marginTop: 25,
+                            marginLeft: 10,
+                            display: 'block',
+                            width: 100,
+                            height: 40
+                        }}
+                        alt="enterpriseImage"
+                    />
+                    <p
+                        style={{
+                            fontSize: 11,
+                            marginLeft: 10,
+                            display: 'block',
+                        }}
+                    >www.brakeone.mx</p>
+                </div>
+
+                <Barcode
+                    {...barcode_options}
+                    value={this.getFieldValue(field_input.id)} 
+                />
+            </div>
+
         );
         return (
             <div
@@ -399,15 +433,14 @@ class FormRender {
         );
     }
 
-    renderDropdownDataDB(field_input, data, is_disabled) {
+    renderDropdownDataDB(field_input, data, data_id, is_disabled) {
         const getFieldDecorator = this.getFieldDecorator;
         if (data) {
             const Options = data.map((obj, index) => {
                 return (
                     <Select.Option
-                        placeholder={obj.placeholder}
                         value={obj._id}
-                        key={`${obj._id} - ${index}`} 
+                        key={obj._id} 
                     >
                         {obj[field_input.label]}
                     </Select.Option>
