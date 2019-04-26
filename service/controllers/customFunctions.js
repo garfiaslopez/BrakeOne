@@ -77,18 +77,22 @@ module.exports =  {
                 const key_id = product.key_id;
                 delete newSet.subsidiary_id;
                 delete newSet.stock;
-                objectModel.update(
-                    { 'key_id': key_id },
-                    newSet,
-                    { multi: true },
-                    (err, response) => {
-                        if(err){
-                            return next(new errs.InternalServerError(err));
-                        } else {
-                            return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                if (key_id !== null && key_id !== "") {
+                    objectModel.update(
+                        { 'key_id': key_id },
+                        newSet,
+                        { multi: true },
+                        (err, response) => {
+                            if(err){
+                                return next(new errs.InternalServerError(err));
+                            } else {
+                                return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                            }
                         }
-                    }
-                );
+                    );
+                } else {
+                    return res.json({ success: true, message: "Succesfully updated." });
+                }
             } else {
                 // Create a new obj per subsidiary. (except actual )
                 const actual_subsidiary = req.body.data.subsidiary_id;
