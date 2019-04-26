@@ -83,6 +83,7 @@ async function migrate_products(productos) {
 
 async function doMigration() {
     const files = [
+        'Fremax',
         'SensoresDesgasteB1',
         'GrcUltra',
         'Trw'
