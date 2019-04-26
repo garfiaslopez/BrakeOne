@@ -17,8 +17,9 @@ const PROVIDERS_ID = {
     'COMERCIALIZADORA DE AUTOPARTES FRECENTAURO S.A. DE C.V.': '5c463b443bde7e11005b9225',
     'CORPORATIVO AUTO REFACCIONES DE CALIDAD, S.A. DE C.V.': '5c463b453bde7e11005b9fff',
     'BREMBO MEXICO, S.A. DE C.V.': '5c463b453bde7e11005ba1a3',
-    'FREMAX JOFUND DE M�XICO, S.A. DE C.V.': '5b79c3755526c91360058100',
-    'EUROFRENOS, S.A. DE C.V.': '5b79c3755526c91360058100',
+    'FREMAX JOFUND DE M�XICO, S.A. DE C.V.': '5c463b453bde7e11005ba630',
+    'EUROFRENOS, S.A. DE C.V.': '5c463ba7867626111c32957b',
+    'MAYOREO EN AUTOPARTES Y REFACCIONES ALEMANAS, S.A. DE C.V.': '5c463b453bde7e11005ba529'
 }
 
 // from productos db
@@ -82,7 +83,9 @@ async function migrate_products(productos) {
 
 async function doMigration() {
     const files = [
-        'SensoresDesgasteB1'
+        'SensoresDesgasteB1',
+        'GrcUltra',
+        'Trw'
     ];
     let total = 0;
     await files.forEach(async (f) => {
