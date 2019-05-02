@@ -302,7 +302,8 @@ export default [
 			placeholder: 'Precio Neto',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number']
+			rules: Rules['number'],
+			canEdit: ['ADMIN']
 		},
 		{
 			id: 'price_public',
@@ -310,7 +311,8 @@ export default [
 			placeholder: 'Precio Público',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number']
+			rules: Rules['number'],
+			canEdit: ['ADMIN']
 		},
 		{
 			id: 'price_workshop',
@@ -318,7 +320,8 @@ export default [
 			placeholder: 'Precio Taller',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number']
+			rules: Rules['number'],
+			canEdit: ['ADMIN']
 		},
 		{
 			id: 'price_wholesale',
@@ -326,7 +329,8 @@ export default [
 			placeholder: 'Precio Mayoreo',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number']
+			rules: Rules['number'],
+			canEdit: ['ADMIN']
 		}
 	],
 	[

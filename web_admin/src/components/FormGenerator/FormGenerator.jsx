@@ -71,7 +71,6 @@ class FormGenerator extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount - FormGEnerator");
         if (this.props.fields) { // IS EDITING:
 
             /// parse values from DB to field:
@@ -320,7 +319,6 @@ class FormGenerator extends Component {
                         if (this.props.is_disabled) {  // is View Modal
                             field_disabled = true;
                         } else {
-                            console.log(this.props.fields);
                             if (this.props.fields && this.props.fields._id) { // is Edit Modal
                                 if (field_input.canEdit) {  // check if have rules for edit:
                                     const i = field_input.canEdit.findIndex(e =>  e === rolUser);
@@ -334,7 +332,22 @@ class FormGenerator extends Component {
                         rows.push(this.FormRender.renderNumberField(field_input, field_disabled ));
                     }
                     if (field_input.type === 'Number_Money') {
-                        rows.push(this.FormRender.renderNumberMoneyField(field_input, this.props.is_disabled));
+
+                        let field_disabled = false;
+                        if (this.props.is_disabled) {  // is View Modal
+                            field_disabled = true;
+                        } else {
+                            if (this.props.fields && this.props.fields._id) { // is Edit Modal
+                                if (field_input.canEdit) {  // check if have rules for edit:
+                                    const i = field_input.canEdit.findIndex(e =>  e === rolUser);
+                                    if (i === -1) { // If user not have permission
+                                        field_disabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        rows.push(this.FormRender.renderNumberMoneyField(field_input, field_disabled));
                     }
                     if (field_input.type === 'Color_Picker') {
                         rows.push(this.FormRender.renderColorPicker(field_input, this.props.is_disabled));

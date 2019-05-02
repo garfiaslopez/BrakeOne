@@ -111,42 +111,36 @@ class CreatePayment extends Component {
                                 this.props.refreshTable();
                                 this.props.onClose();
                             } else {
-                                console.log(response_client);
                                 this.setState({
                                     error: response_client.json.message,
                                     loading_submit: false
                                 });
                             }
                         }).catch((onError) => {
-                            console.log(onError);
                             this.setState({
                                 error: onError.message,
                                 loading_submit: false
                             });
                         });
                     } else {
-                        console.log(response_payment);
                         this.setState({
                             error: response_payment.json.message,
                             loading_submit: false
                         });
                     }
                 }).catch((onError) => {
-                    console.log(onError);
                     this.setState({
                         error: onError.message,
                         loading_submit: false
                     });
                 });
             } else {
-				console.log(response_sell);
 				this.setState({
 					error: response_sell.json.message,
 					loading_submit: false
 				});
             }
         }).catch((onError) => {
-			console.log(onError);
 			this.setState({
 				error: onError.message,
 				loading_submit: false

@@ -23,6 +23,10 @@ var UserSchema = new Schema({
 		type: String,
 		required: true
 	},
+	bypass_localization: {
+		type: Boolean,
+		default: false
+	},
 	rol: {
 		type: String,
 		default: "MOSTRADOR", // user | manager | admin

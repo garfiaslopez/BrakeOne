@@ -217,7 +217,6 @@ class FormRender {
                 onPressEnter={(e) => {
                     const info = window.postal_codes[e.target.value];
                     if (info) {
-                        console.log(info);
                         this.postal_codes = info;
                         this.setFieldsValue({
                             'address_city': info[0].address_city,
@@ -378,7 +377,6 @@ class FormRender {
                         disabled={is_disabled}
                         value={color_picker}
                         onClose={(color) => {
-                            console.log(color);
                             this.setFieldsValue({'color': color});
                         }}
                     />

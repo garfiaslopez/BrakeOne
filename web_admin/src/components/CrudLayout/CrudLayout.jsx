@@ -122,10 +122,8 @@ class CrudLayout extends Component {
 
 		// WUATEFOK HERE!
 		if (this.table_filters) {
-			console.log(this.table_filters);
 			Object.keys(this.table_filters).forEach((f) => {
 				if (this.table_filters[f].length > 0) {
-					console.log(f, this.table_filters[f]);
 					if (this.table_filters[f][0] === 'stock.low.exists') {
 						POSTDATA['filters']['$expr'] ={ $lte: [ "$stock" , "$stock_ideal" ] };
 					} else if (this.table_filters[f][0] === 'stock.exists') {
@@ -158,14 +156,12 @@ class CrudLayout extends Component {
                     loading_data: false
                 });
             } else {
-				console.log(response.message);
 				this.setState({
 					loading_data: false,
 					error: response.message
 				});
             }
         }).catch((onError) => {
-			console.log(onError);
 			this.setState({
 				loading_data: false,
 				error: onError.message
@@ -176,7 +172,6 @@ class CrudLayout extends Component {
 	// MODAL FORM:
 
 	refreshTable = () => {
-		console.log("reload table data");
 		this.getData();
 	}
 
@@ -288,14 +283,12 @@ class CrudLayout extends Component {
 					selected_data: undefined
 				});
             } else {
-				console.log(response);
 				this.setState({
 					error: response.json.message,
 					loading_submit: false
 				});
             }
         }).catch((onError) => {
-			console.log(onError);
 			this.setState({
 				error: onError.message,
 				loading_submit: false
@@ -338,13 +331,11 @@ class CrudLayout extends Component {
 				}
                 
             } else {
-				console.log(response);
 				this.setState({
 					error: response.json.message
 				});
             }
         }).catch((onError) => {
-			console.log(onError);
 			this.setState({
 				error: onError.message
 			});
@@ -385,7 +376,6 @@ class CrudLayout extends Component {
 	// TABLE:
 	//PAGINATOR:
 	onChangePagination = (current, page_size) => {
-		console.log(current, page_size);
 		this.limit = page_size;
 		this.page = current;
 		this.getData();

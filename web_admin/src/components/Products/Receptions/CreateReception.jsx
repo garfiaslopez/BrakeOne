@@ -82,7 +82,6 @@ class CreateReception extends Component {
     }
 
     getPaymentsReceptions() {
-        console.log("getting getPaymentsReceptions");
 		const url = process.env.REACT_APP_API_URL + '/reception-payments';
         let POSTDATA = {
             limit: 1000,

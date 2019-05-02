@@ -40,7 +40,6 @@ class Home extends React.Component {
 
 	getSelectedMenu = () => {
 		const MenuCategories = Menus[this.props.session.user.rol];
-		console.log(MenuCategories);
 		if (this.state.selectedMenu) {
 			let indices = this.state.selectedMenu.split('.');
 			if (MenuCategories[indices[0]].sub_menus) {

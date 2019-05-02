@@ -658,6 +658,24 @@ class OrderCreator extends Component {
                                 min={1}
                             />
                         </div>
+                        {(()=>{
+                            if (this.props.is_reception) {
+                                return (
+                                    <div style={styles.groupLabel}>
+                                        <p style={styles.discountLabel}>{'Precio ($)'}</p>
+                                        <InputNumber
+                                            style={styles.rowElementPrice}
+                                            placeholder={"Precio Compra ($)"}
+                                            value={this.state.selected_discount}
+                                            onChange={this.onChangeDiscount}
+                                            size="100%"
+                                            step={1}
+                                            min={0}
+                                        />
+                                    </div>
+                                );
+                            }
+                        })()}
                         <div style={styles.groupLabel}>
                             <p style={styles.quantityLabel}>Usuario </p>
                             <Select
