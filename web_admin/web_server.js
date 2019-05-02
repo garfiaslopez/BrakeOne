@@ -6,12 +6,9 @@ const express = require('express');
 const app = express();
 
 app.use('/', express.static(__dirname + '/build', {
+    maxAge: '1d',
     setHeaders: (res, path) =>  {
         res.set("Cache-Control", "no-store, no-cache");
-        res.set("Access-Control-Allow-Origin", "*");
-        res.set("Access-Control-Allow-Headers", "Content-Type,X-Requested-With");
-        res.set("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-        res.type("application/json");
     }
 }));
 
