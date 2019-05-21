@@ -217,7 +217,7 @@ export default [
 		{
 			id: 'key_id',
 			type: 'String',
-			placeholder: 'Llave',
+			placeholder: 'Clave',
 			prefixIcon: 'key',
 			rules: Rules['string']
 		},
@@ -265,8 +265,9 @@ export default [
 	[
 		{
 			id: 'units',
-			type: 'String',
+			type: 'Dropdown',
 			placeholder: 'Unidades',
+			options: ["JUEGO", "SET", "PZA"],
 			prefixIcon: 'plus-square',
 			rules: Rules['string']
 		},
@@ -290,7 +291,7 @@ export default [
 		{
 			id: 'localization',
 			type: 'String',
-			placeholder: 'Localización',
+			placeholder: 'Pasillo',
 			prefixIcon: 'folder-open',
 			rules: Rules['text']
 		}
@@ -299,7 +300,7 @@ export default [
 		{
 			id: 'price',
 			type: 'Number_Money',
-			placeholder: 'Precio Neto',
+			placeholder: 'Costo Neto',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
 			rules: Rules['number'],
@@ -337,7 +338,8 @@ export default [
 		{
 			id: 'div1',
 			type: 'Divider',
-			placeholder: 'Código de barras'
+			placeholder: 'Código de barras',
+			canEdit: ['ADMIN']
 		}
 	],
 	[

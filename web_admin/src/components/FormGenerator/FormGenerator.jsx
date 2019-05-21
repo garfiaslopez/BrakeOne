@@ -103,7 +103,7 @@ class FormGenerator extends Component {
                 });
             });
 
-            setTimeout(()=>{this.props.form.setFieldsValue(new_fields)}, 1500);
+            setTimeout(()=>{this.props.form.setFieldsValue(new_fields)}, 2000);
 
             this.setState({sub_form_data: data});
             

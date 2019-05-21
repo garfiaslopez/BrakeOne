@@ -28,6 +28,7 @@ class Products extends CrudLayout {
 		this.custom_modals = {
 			'open_change_prices': ChangePrices,
 		}
+		
 		this.actions = [
 			{
 				'label': 'Cambiar Precios',

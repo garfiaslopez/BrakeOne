@@ -310,8 +310,6 @@ class CreateQuotation extends Component {
     }
 
     onChangeOrderCreator(values) {
-        console.log("received:");
-        console.log(values);
         this.setState({
             products: values.products,
             services: values.services,

@@ -75,7 +75,8 @@ ProductSchema.index({
     fmsi: 'text',
     line: 'text',
     brand: 'text',
-    localization: 'text'
+    localization: 'text',
+    numero_oe: 'text',
 });
 
 //Return the module

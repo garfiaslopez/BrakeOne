@@ -597,6 +597,7 @@ class OrderCreator extends Component {
             total: (this.state.total - item.total + newTotalRow),
             selected_data: newData 
         });
+        this.sendToOnChange(newData, newTotalRow);
     }
 
     deleteRecord(record) {
