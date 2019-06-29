@@ -185,7 +185,7 @@ export default [
 			id: 'rol',
 			type: 'Dropdown',
 			placeholder: 'Nivel de usuario',
-			options: ['MANAGER','MOSTRADOR'],
+			options: ['MANAGER','MOSTRADOR', 'ADMIN'],
 			rules: Rules['string']
 		}
 	]
