@@ -58,6 +58,13 @@ export default {
     inputSearch: {
         width: 400
     },
+    inputSearchCard: {
+        display: 'flex',
+        alignSelf: 'center',
+        width: '80%',
+        height: 35,
+        marginLeft: 10,
+    },
     label_title: {
         fontWeight: 'bold'
     },

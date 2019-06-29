@@ -70,6 +70,7 @@ class CreateSell extends Component {
 
         this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
         this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+        this.onChangeClientInfo = this.onChangeClientInfo.bind(this);
 
         this.scrollContainer = React.createRef();
     }
@@ -90,7 +91,6 @@ class CreateSell extends Component {
     }
 
     getPayments() {
-        console.log("getting payments");
 		const url = process.env.REACT_APP_API_URL + '/payments';
         let POSTDATA = {
             limit: 1000,
@@ -115,13 +115,13 @@ class CreateSell extends Component {
 					payments
                 });
             } else {
-				console.log(response.message);
+                this.scrollToAlert();
 				this.setState({
 					error: response.message
 				});
             }
         }).catch((onError) => {
-			console.log(onError);
+            this.scrollToAlert();
 			this.setState({
 				error: onError.message
 			});
@@ -149,12 +149,14 @@ class CreateSell extends Component {
                     loading_users: false
                 });
             } else {
+                this.scrollToAlert();
 				this.setState({
                     loading_clients: false,
                     error: response.message
 				});
             }
         }).catch((onError) => {
+            this.scrollToAlert();
 			this.setState({
                 loading_clients: false,
                 error: onError.message
@@ -171,7 +173,7 @@ class CreateSell extends Component {
         const POSTDATA = {
             limit: 100,
             page: 1,
-            populate_ids: ['client_id'],
+            populate_ids: ['client_id','subsidiary_id', 'products.subsidiary_id'],
             filters: {
                 'folio': Number(search_text)
             }
@@ -180,24 +182,25 @@ class CreateSell extends Component {
             if (response.json.success) {
                 if (response.json.data.docs.length >= 1) {
                     const quotation = response.json.data.docs[0];
-                    console.log(quotation);
                     this.setState({
                         quotation_id: quotation._id,
                         client_id: quotation.client_id,
                         loading_quotations: false,
                         notes: quotation.notes,
-                        products: quotation.products,
+                        products: quotation.products.filter((p) => (p.subsidiary_id._id === this.props.session.subsidiary._id)),
                         services: quotation.services,
                         total: quotation.total
                     });
                 }
             } else {
+                this.scrollToAlert();
 				this.setState({
                     loading_quotations: false,
                     error: response.message
 				});
             }
         }).catch((onError) => {
+            this.scrollToAlert();
 			this.setState({
                 loading_quotations: false,
                 error: onError.message
@@ -205,8 +208,17 @@ class CreateSell extends Component {
         });
     }
 
+    onChangeClientInfo(key, value) {
+        console.log(key, value);
+        console.log(this.state.client_id);
+        const newUser = JSON.parse(JSON.stringify(this.state.client_id));
+        newUser[key] = value;
+        this.setState({
+            client_id: newUser
+        });
+    }
+
     onChangeClient(client_id) {
-        this.scrollWindow();
         this.setState({
             client_id: this.state.clients.find((el) => (el._id === client_id))
         });
@@ -262,6 +274,9 @@ class CreateSell extends Component {
                     url = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
                 }
                 
+                const client_url = process.env.REACT_APP_API_URL + '/client/' + this.state.client_id._id;
+                FetchXHR(client_url, 'PUT', this.state.client_id);
+
                 // group products for calculate minus stock.... and exclude the already saved products.
                 // check for relationships and save it apart in her owns models
                 FetchXHR(url, method, POSTDATA).then((response) => {
@@ -316,8 +331,6 @@ class CreateSell extends Component {
                                     type: 'VENTA',
                                     date: moment().toISOString()
                                 }
-                                console.log(new_transaction);
-                                //te creas! :'v
                                 const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
                                 FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
                                     if (response_pt.json.success) {
@@ -330,13 +343,9 @@ class CreateSell extends Component {
 
                         async.series(OperationsProducts,(err, responses) => {
                             if (!err) {
-                                console.log("NO ERROR");
-                                console.log(saved_sell);
                                 this.props.onCustomSubmit(saved_sell);
                             } else {
-                                console.log(err);
-                                console.log("ERROR");
-                                console.log(responses);
+                                this.scrollToAlert();
                                 this.setState({
                                     error: 'Error al procesar la petición',
                                     loading_submit: false
@@ -344,32 +353,39 @@ class CreateSell extends Component {
                             }
                         });
                     } else {
-                        console.log(response);
+                        this.scrollToAlert();
                         this.setState({
                             error: response.json.message,
                             loading_submit: false
                         });
                     }
                 }).catch((onError) => {
-                    console.log(onError);
+                    this.scrollToAlert();
                     this.setState({
                         error: onError.message,
                         loading_submit: false
                     });
                 });
             } else {
+                this.scrollToAlert();
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
                 });
             }
         } else {
+            this.scrollToAlert();
             this.setState({
                 error: 'Seleccionar algun cliente.'
             });
         }
     }
 
+    scrollToAlert = () => {
+        this.alertDiv.scrollIntoView({ behavior: "smooth" });
+    }
+
     onErrorOrderCreator(err) {
+        this.scrollToAlert();
         this.setState({
             error: err
         });
@@ -381,14 +397,6 @@ class CreateSell extends Component {
             services: values.services,
             total: values.total
         });
-    }
-
-    scrollWindow() {
-        console.log("SCROLL WINDOW");
-        console.log(this.scrollContainer);
-        console.log(this.scrollContainer.current);
-        console.log(this.scrollContainer.current.offsetTop);
-        window.scrollTo(0, this.scrollContainer.current.offsetTop)
     }
 
     render() {
@@ -404,7 +412,6 @@ class CreateSell extends Component {
                     showIcon={true}
                     closable={true}
                     onClose={() => {
-                        console.log("dismissingErr");
                         this.props.dismissError();
                     }}
                 />
@@ -455,12 +462,30 @@ class CreateSell extends Component {
             CardContent = (
                 <Fragment>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Nombre: </p>
-                        <p style={styles.label_value} >{this.state.client_id.name}</p>
+                        <p style={styles.label_title} >Dirección: </p>
+                        <Input
+                            disabled={this.props.is_disabled || this.props.fields ? true : false }
+                            key="user_address"
+                            placeholder="Dirección"
+                            style={styles.inputSearchCard}
+                            value={this.state.client_id.address}
+                            onChange={(e) => {
+                                this.onChangeClientInfo('address', e.target.value);
+                            }}
+                        />
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >RFC:</p>
-                        <p style={styles.label_value}>{this.state.client_id.rfc}</p>
+                        <Input
+                            disabled={this.props.is_disabled || this.props.fields ? true : false }
+                            key="user_rfc"
+                            placeholder="RFC"
+                            style={styles.inputSearchCard}
+                            value={this.state.client_id.rfc}
+                            onChange={(e) => {
+                                this.onChangeClientInfo('rfc', e.target.value);
+                            }}
+                        />
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Tipo de precio:</p>
@@ -468,14 +493,32 @@ class CreateSell extends Component {
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Email:</p>
-                        <p style={styles.label_value} >{this.state.client_id.email}</p>
+                        <Input
+                            disabled={this.props.is_disabled || this.props.fields ? true : false }
+                            key="user_email"
+                            placeholder="Email"
+                            style={styles.inputSearchCard}
+                            value={this.state.client_id.email}
+                            onChange={(e) => {
+                                this.onChangeClientInfo('email', e.target.value);
+                            }}
+                        />
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Número teléfono:</p>
-                        <p style={styles.label_value}>{this.state.client_id.phone_number}</p>
+                        <p style={styles.label_title} >Teléfono:</p>
+                        <Input
+                            disabled={this.props.is_disabled || this.props.fields ? true : false }
+                            key="user_phone_number"
+                            placeholder="Teléfono"
+                            style={styles.inputSearchCard}
+                            value={this.state.client_id.phone_number}
+                            onChange={(e) => {
+                                this.onChangeClientInfo('phone_number', e.target.value);
+                            }}
+                        />
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Número Móvil:</p>
+                        <p style={styles.label_title} >Móvil:</p>
                         <p style={styles.label_value}>{this.state.client_id.phone_mobil}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
@@ -483,8 +526,17 @@ class CreateSell extends Component {
                         <p style={styles.label_value}>${this.state.client_id.sells}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Días Crédito:</p>
-                        <p style={styles.label_value}>{this.state.client_id.credit_days}</p>
+                        <p style={styles.label_title} >Crédito:</p>
+                        <Input
+                            disabled={this.props.is_disabled || this.props.fields ? true : false }
+                            key="user_credit"
+                            placeholder="Crédito"
+                            style={styles.inputSearchCard}
+                            value={this.state.client_id.credit_days}
+                            onChange={(e) => {
+                                this.onChangeClientInfo('credit_days', e.target.value);
+                            }}
+                        />
                     </Card.Grid>
                 </Fragment>
             );
@@ -575,6 +627,7 @@ class CreateSell extends Component {
                         key="sub_modal_container"
                         style={styles.modalInBodyContainer}
                     >
+                        <div ref={(el)=> this.alertDiv = el }></div>
                         {alert}
                         <div
                             style={styles.inputsContainer}
@@ -635,6 +688,8 @@ class CreateSell extends Component {
                             </div>
                         </div>
                         <OrderCreator
+                            isSell
+                            can_edit_quantity={this.props.fields ? false : true }
                             can_edit_disccount={this.props.fields ? false : true }
                             is_recovered={this.state.quotation_folio !== '' ? true : false}
                             disabled={this.props.is_disabled}

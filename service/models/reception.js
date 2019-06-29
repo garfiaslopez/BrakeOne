@@ -20,9 +20,13 @@ var ReceptionSchema = new Schema({
     folio: {
         type: Number
     },
-    folio_fact: {
-        type: String
-    },
+	invoice_folio: {
+		type: String
+	},
+	is_invoice: {
+		type: Boolean,
+		default: false
+	},
     is_canceled: {
         type: Boolean,
         default: false

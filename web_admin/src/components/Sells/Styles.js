@@ -59,6 +59,13 @@ export default {
         width: 300,
         paddingRight: 20
     },
+    inputSearchCard: {
+        display: 'flex',
+        alignSelf: 'center',
+        width: '80%',
+        height: 35,
+        marginLeft: 10,
+    },
     label_title: {
         fontWeight: 'bold'
     },

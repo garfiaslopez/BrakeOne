@@ -26,7 +26,7 @@ var ReceptionPaymentSchema = new Schema({
 	},
 	legacy_folio: {
         type: String
-    },
+	},
 	folio: {
         type: Number
 	},

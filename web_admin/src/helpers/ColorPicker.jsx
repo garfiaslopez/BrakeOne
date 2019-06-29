@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import { ChromePicker } from 'react-color'
 
 class ColorPicker extends React.Component {
-
     constructor(props) {
         super(props);
         console.log("constructor");

@@ -53,8 +53,8 @@ class Receptions extends CrudLayout {
 			},
 			{
             	title: 'Factura',
-            	dataIndex: 'folio_fact',
-				key: 'folio_fact',
+            	dataIndex: 'invoice_folio',
+				key: 'invoice_folio',
 				render: RenderRows.renderRowTextSells,
 				width: '10%'
 			},

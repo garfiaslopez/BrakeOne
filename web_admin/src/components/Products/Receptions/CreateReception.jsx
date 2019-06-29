@@ -52,6 +52,9 @@ class CreateReception extends Component {
             if (props.fields.total) {
                 initial_state.total = props.fields.total;
             }
+            if (props.fields.invoice_folio) {
+                initial_state.invoice_folio = props.fields.invoice_folio;
+            }
         }
         
         this.state = initial_state;
@@ -182,6 +185,7 @@ class CreateReception extends Component {
                     provider_id: this.state.provider_id._id,
                     notes: this.state.notes,
                     products: this.state.products,
+                    invoice_folio: this.state.invoice_folio,
                     total: this.state.total
                 }
                 console.log(Reception);
@@ -407,6 +411,19 @@ class CreateReception extends Component {
                         <p style={styles.label_title} >Días Crédito:</p>
                         <p style={styles.label_value}>{this.state.provider_id.credit_days}</p>
                     </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >Factura:</p>
+                        <Input
+                            disabled={this.props.is_disabled}
+                            key="invoice_folio"
+                            placeholder="Factura"
+                            style={styles.inputSearchCard}
+                            value={this.state.invoice_folio}
+                            onChange={(e) => {
+                                this.onChangeField(e, 'invoice_folio');
+                            }}
+                        />
+                    </Card.Grid>
                 </Fragment>
             );
         }
@@ -550,6 +567,8 @@ class CreateReception extends Component {
 
                         <OrderCreator
                             is_reception
+                            can_edit_price
+                            can_edit_quantity
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}

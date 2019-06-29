@@ -33,7 +33,7 @@ class Sells extends CrudLayout {
 			subsidiary_id: this.props.session.subsidiary._id,
 			is_service: false
 		}
-		this.populate_ids = ['client_id'];
+		this.populate_ids = ['subsidiary_id', 'client_id', 'products.subsidiary_id'];
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}

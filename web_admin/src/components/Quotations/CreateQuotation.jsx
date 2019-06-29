@@ -134,8 +134,11 @@ class CreateQuotation extends Component {
         });
     }
 
+    scrollToAlert = () => {
+        this.alertDiv.scrollIntoView({ behavior: "smooth" });
+    }
+
     onChangeFieldName(value, key) {
-        console.log(value)
         let obj = {};
         obj[key] = value;
         this.setState(obj);
@@ -180,7 +183,6 @@ class CreateQuotation extends Component {
             make: this.state.car_brand,
             model: value
         }).then((response) => {
-            console.log(response.json.objs)
             if(response.json.objs) {
                 this.setState({
                     carsdb_trims: response.json.objs.filter((e)=>(e!="")),
@@ -195,7 +197,6 @@ class CreateQuotation extends Component {
         // do validations:
         if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
-                console.log("CLIENT", this.state.client_id);
                 if(!this.state.client_id._id) {
                     // we need to save that client: 
                     const NewClient = {
@@ -254,14 +255,14 @@ class CreateQuotation extends Component {
                             }
                             this.props.onSubmit(Quotation);
                         } else {
-                            console.log(response);
+                            this.scrollToAlert();
                             this.setState({
                                 error: response.json.message,
                                 loading_submit: false
                             });
                         }
                     }).catch((onError) => {
-                        console.log(onError);
+                        this.scrollToAlert();
                         this.setState({
                             error: onError.message,
                             loading_submit: false
@@ -292,11 +293,13 @@ class CreateQuotation extends Component {
                     this.props.onSubmit(Quotation);
                 }
             } else {
+                this.scrollToAlert();
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
                 });
             }
         } else {
+            this.scrollToAlert();
             this.setState({
                 error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
             });
@@ -304,6 +307,7 @@ class CreateQuotation extends Component {
     }
 
     onErrorOrderCreator(err) {
+        this.scrollToAlert();
         this.setState({
             error: err
         });
@@ -328,9 +332,7 @@ class CreateQuotation extends Component {
             page: 1,
             search_text
         }
-        console.log(POSTDATA);
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
-            console.log(response);
             if (response.json.success) {
                 this.setState({
                     name_clients: response.json.data.docs.map((el)=>(el.name)),
@@ -429,7 +431,6 @@ class CreateQuotation extends Component {
                     showIcon={true}
                     closable={true}
                     onClose={() => {
-                        console.log("dismissingErr");
                         this.props.dismissError();
                     }}
                 />
@@ -511,6 +512,7 @@ class CreateQuotation extends Component {
                         key="sub_modal_container"
                         style={styles.modalContainer}
                     >
+                        <div ref={(el)=> this.alertDiv = el }></div>
                         {alert}
                         <div
                             style={styles.inputsContainer}
@@ -582,9 +584,6 @@ class CreateQuotation extends Component {
                                         />
                                         <Select
                                             showSearch
-                                            onFocus={() => {
-                                                console.log(this);
-                                            }}
                                             disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.price_type}
                                             style={styles.inputElement}
@@ -750,8 +749,9 @@ class CreateQuotation extends Component {
                         </div>
 
                         <OrderCreator
+                            can_edit_quantity={this.props.is_disabled ? false : true }
                             can_edit_disccount={this.props.is_disabled ? false : true }
-                            is_quotation={true}
+                            is_quotation
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
