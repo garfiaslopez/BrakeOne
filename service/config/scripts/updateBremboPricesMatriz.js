@@ -100,7 +100,7 @@ async function doMigration() {
     ];
     let total = 0;
     await files.forEach(async (f) => {
-        const path = '/brakeone_tables/brembo_new_tablas/' + f + '.csv';
+        const path = '/brakeone_tables/brembo_new_tables/' + f + '.csv';
         let header  = ['CLAVE','FMSI','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
         if (f === 'BremboCeramica_oe' || f === 'BremboDiscos_oe' || f === 'BremboLowMetal_oe' ) {
             header = ['CLAVE','FMSI','NUMEROOE','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
