@@ -52,62 +52,55 @@ async function getFromCSV(dir, keys) {
 async function migrate_products(productos) {
     productos.forEach(async (producto) => {
         if (producto.MARCA !== "") {
-            const newProducto = new productModel();
+            const p = await productModel.find({fmsi: producto.FMSI});
+            if (p._id) {
+                p.price = isNaN(Number(producto.COSTO)) ? 0 : Number(producto.COSTO);
+                p.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
+                p.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
+                p.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
+                await p.save().catch((err) => {
+                    console.log(err);
+                });
+                console.log("Updated product");
+            } else {
+                const newProducto = new productModel();
 
-            if (producto.NUMEROOE) {
-                newProducto.numero_oe = producto.NUMEROOE;
+                if (producto.NUMEROOE) {
+                    newProducto.numero_oe = producto.NUMEROOE;
+                }
+                newProducto.subsidiary_id = SUBSIDIARY_ID;
+                newProducto.provider_id = PROVIDERS_ID[producto.PROVEEDOR.trim()];
+                newProducto.description = producto.DESCRIPCION.trim();
+                newProducto.key_id = producto.CLAVE;
+                newProducto.fmsi = producto.FMSI;
+                newProducto.line = producto.LINEA;
+                newProducto.brand = producto.MARCA;
+                newProducto.stock = 0;
+                newProducto.stock_ideal = 3;
+                newProducto.localization = "";
+                newProducto.price = isNaN(Number(producto.COSTO)) ? 0 : Number(producto.COSTO);
+                newProducto.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
+                newProducto.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
+                newProducto.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
+
+                await newProducto.save().catch((err) => {
+                    console.log(err);
+                });
+                console.log("saved product");
             }
-            newProducto.subsidiary_id = SUBSIDIARY_ID;
-            newProducto.provider_id = PROVIDERS_ID[producto.PROVEEDOR.trim()];
-            newProducto.description = producto.DESCRIPCION.trim();
-            newProducto.key_id = producto.CLAVE;
-            newProducto.fmsi = producto.FMSI;
-            newProducto.line = producto.LINEA;
-            newProducto.brand = producto.MARCA;
-            newProducto.stock = 0;
-            newProducto.stock_ideal = 3;
-            newProducto.localization = "";
-            newProducto.price = isNaN(Number(producto.COSTO)) ? 0 : Number(producto.COSTO);
-            newProducto.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
-            newProducto.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
-            newProducto.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
-
-            const savedObj = await newProducto.save().catch((err) => {
-                console.log(err);
-            });
-            //console.log("saved product");
         }
     });
 }
 
 async function doMigration() {
     const files = [
-        'Aimco',
-        'AimcoDiscos',
-        'Akebono',
-        'Ate',
-        'AtePremium',
-        'BilsteinB4',
-        'BilsteinB6',
         'BremboCeramica_oe',
         'BremboDiscos_oe',
-        'BremboLiquidoFrenos',
         'BremboLowMetal_oe',
-        'Centric',
-        'DiscosTextar',
-        'Febi',
-        'Fremax',
-        'Grc',
-        'SensoresDesgasteB1',
-        'SensoresTextar',
-        'SuperCeramic',
-        'SuperMetallic',
-        'SupreFleet',
-        'Textar',
     ];
     let total = 0;
     await files.forEach(async (f) => {
-        const path = '/brakeone_tables/tablas/' + f + '.csv';
+        const path = '/brakeone_tables/brembo_new_tablas/' + f + '.csv';
         let header  = ['CLAVE','FMSI','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
         if (f === 'BremboCeramica_oe' || f === 'BremboDiscos_oe' || f === 'BremboLowMetal_oe' ) {
             header = ['CLAVE','FMSI','NUMEROOE','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
@@ -121,3 +114,4 @@ async function doMigration() {
 }
 
 doMigration().catch((err) => {console.log(err)});
+
