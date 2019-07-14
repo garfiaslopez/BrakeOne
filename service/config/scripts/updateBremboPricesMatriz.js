@@ -53,7 +53,7 @@ async function migrate_products(productos) {
     productos.forEach(async (producto) => {
         if (producto.MARCA !== "") {
             const p = await productModel.findOne({ key_id: producto.CLAVE, subsidiary_id: SUBSIDIARY_ID });
-            if (p._id) {
+            if (p) {
                 p.price = isNaN(Number(producto.COSTO)) ? 0 : Number(producto.COSTO);
                 p.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
                 p.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
