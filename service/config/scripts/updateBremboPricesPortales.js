@@ -94,27 +94,28 @@ async function migrate_products(productos) {
             }
         }
     });
-    console.log("Saved:" + savedProducts + " - Updated:" + updatedProducts);
 }
 
 async function doMigration() {
-    const files = [
-        'BremboCeramica_oe',
-        'BremboDiscos_oe',
-        'BremboLowMetal_oe',
-    ];
-    let total = 0;
-    await files.forEach(async (f) => {
-        const path = '/brakeone_tables/brembo_new_tables/' + f + '.csv';
-        let header  = ['CLAVE','FMSI','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
-        if (f === 'BremboCeramica_oe' || f === 'BremboDiscos_oe' || f === 'BremboLowMetal_oe' ) {
-            header = ['CLAVE','FMSI','NUMEROOE','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
-        }
-        const p = await getFromCSV(path,header);
-        console.log("TOTAL PRODUCTS:" + p.length);
-        total += p.length;
-        await migrate_products(p);
-        console.log("DONE MIGRATION, SUM: " + total);
+    return new Promise((resolve, reject) => {
+        const files = [
+            'BremboCeramica_oe',
+            'BremboDiscos_oe',
+            'BremboLowMetal_oe',
+        ];
+        let total = 0;
+        await files.forEach(async (f) => {
+            const path = '/brakeone_tables/brembo_new_tables/' + f + '.csv';
+            let header  = ['CLAVE','FMSI','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
+            if (f === 'BremboCeramica_oe' || f === 'BremboDiscos_oe' || f === 'BremboLowMetal_oe' ) {
+                header = ['CLAVE','FMSI','NUMEROOE','LINEA','MARCA','DESCRIPCION','COSTO','PUBLICO','TALLER','MAYOREO','PROVEEDOR'];
+            }
+            const p = await getFromCSV(path,header);
+            console.log("TOTAL PRODUCTS:" + p.length);
+            total += p.length;
+            await migrate_products(p);
+            resolve();
+        });
     });
 }
 
