@@ -21,6 +21,9 @@ const PROVIDERS_ID = {
     'EUROFRENOS, S.A. DE C.V.': '5b79c3755526c91360058100',
 }
 
+let savedProducts = 0;
+let updatedProducts = 0;
+
 // from productos db
 var productModel = require('../../models/product');
 
@@ -50,8 +53,6 @@ async function getFromCSV(dir, keys) {
 }
 
 async function migrate_products(productos) {
-    let savedProducts = 0;
-    let updatedProducts = 0;
     productos.forEach(async (producto) => {
         if (producto.MARCA !== "") {
             const p = await productModel.findOne({ key_id: producto.CLAVE, subsidiary_id: SUBSIDIARY_ID });
@@ -94,7 +95,6 @@ async function migrate_products(productos) {
             }
         }
     });
-    console.log("Saved:" + savedProducts + " - Updated:" + updatedProducts);
 }
 
 async function doMigration() {
@@ -118,5 +118,7 @@ async function doMigration() {
     });
 }
 
-doMigration().catch((err) => {console.log(err)});
+doMigration().then(() => {
+    console.log("Saved:" + savedProducts + " - Updated:" + updatedProducts);
+}).catch((err) => {console.log(err)});
 
