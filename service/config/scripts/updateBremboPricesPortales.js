@@ -97,7 +97,7 @@ async function migrate_products(productos) {
 }
 
 async function doMigration() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
         const files = [
             'BremboCeramica_oe',
             'BremboDiscos_oe',
