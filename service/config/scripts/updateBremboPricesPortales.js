@@ -52,7 +52,7 @@ async function getFromCSV(dir, keys) {
 }
 
 async function migrate_products(productos) {
-    productos.forEach(async (producto) => {
+    await productos.forEach(async (producto) => {
         if (producto.MARCA !== "") {
             const p = await productModel.findOne({ key_id: producto.CLAVE, subsidiary_id: SUBSIDIARY_ID });
             if (p) {
@@ -60,9 +60,9 @@ async function migrate_products(productos) {
                 p.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
                 p.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
                 p.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
-                // await p.save().catch((err) => {
-                //     console.log(err);
-                // });
+                await p.save().catch((err) => {
+                    console.log(err);
+                });
                 updatedProducts++;
                 console.log("Updated product");
             } else {
@@ -86,9 +86,9 @@ async function migrate_products(productos) {
                 newProducto.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
                 newProducto.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
 
-                // await newProducto.save().catch((err) => {
-                //     console.log(err);
-                // });
+                await newProducto.save().catch((err) => {
+                    console.log(err);
+                });
                 savedProducts++;
                 console.log("saved product");
             }

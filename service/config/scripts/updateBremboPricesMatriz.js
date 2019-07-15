@@ -61,9 +61,9 @@ async function migrate_products(productos) {
                 p.price_public = isNaN(Number(producto.PUBLICO)) ? 0 : Number(producto.PUBLICO);
                 p.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
                 p.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
-                // await p.save().catch((err) => {
-                //     console.log(err);
-                // });
+                await p.save().catch((err) => {
+                    console.log(err);
+                });
                 updatedProducts++;
                 console.log("Updated product");
             } else {
@@ -87,9 +87,9 @@ async function migrate_products(productos) {
                 newProducto.price_workshop = isNaN(Number(producto.TALLER)) ? 0 : Number(producto.TALLER);
                 newProducto.price_wholesale = isNaN(Number(producto.MAYOREO)) ? 0 : Number(producto.MAYOREO);
 
-                // await newProducto.save().catch((err) => {
-                //     console.log(err);
-                // });
+                await newProducto.save().catch((err) => {
+                    console.log(err);
+                });
                 savedProducts++;
                 console.log("saved product");
             }
