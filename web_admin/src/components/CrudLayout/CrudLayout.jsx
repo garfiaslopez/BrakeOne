@@ -226,6 +226,8 @@ class CrudLayout extends Component {
 
 	// CREATE NORMAL SUBMIT:
 	onSubmitForm = async (values, nested_values) => {
+		console.log("onSubmitForm", values, nested_values);
+		
 		this.setState({
 			loading_submit: true
 		});

@@ -95,6 +95,7 @@ class OrderCreator extends Component {
             loading_data: false,
             results_data: [],
             users: [],
+            initial_length_data: init_selected_data.length - 1,
             selected_data: init_selected_data,
             price_type: props.price_type,
             selected_quantity: 1,
@@ -276,7 +277,7 @@ class OrderCreator extends Component {
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
                 width: '20%',
-            	render: (text, record) => {
+                render: (text, record) => {
                     if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
                         return (
                             <span>
@@ -309,7 +310,6 @@ class OrderCreator extends Component {
 		  	});
         }
 
-        this.onChangeDiscount = this.onChangeDiscount.bind(this);
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
         this.onChangeUser = this.onChangeUser.bind(this);
 
@@ -331,7 +331,6 @@ class OrderCreator extends Component {
                 price_type: nextProps.price_type
             });
         }
-
         if (nextProps.update_data) {
             const init_selected_data = [];
             if (nextProps.update_data.products) {
@@ -340,6 +339,9 @@ class OrderCreator extends Component {
             if (nextProps.update_data.services) {
                 nextProps.update_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
+
+            console.log("INITIAL STATE DATA");
+            console.log(init_selected_data);
             this.setState({
                 selected_data: init_selected_data,
                 total: nextProps.update_data.total
@@ -359,11 +361,6 @@ class OrderCreator extends Component {
     onChangeUser(user_id) {
         this.setState({
             selected_user: this.state.users.find((el) => (el._id === user_id))
-        });
-    }
-    onChangeDiscount(value) {
-        this.setState({
-            selected_discount: value
         });
     }
 
@@ -608,11 +605,16 @@ class OrderCreator extends Component {
           ...row,
           total: newTotalRow
         });
+        const newTotal = (this.state.total - item.total + newTotalRow);
+
+        console.log("ACTUALPRODUCTS", newData);
+        console.log("new_total", newTotal);
+
         this.setState({
-            total: (this.state.total - item.total + newTotalRow),
+            total: newTotal,
             selected_data: newData 
         });
-        this.sendToOnChange(newData, newTotalRow);
+        this.sendToOnChange(newData, newTotal);
     }
 
     deleteRecord(record) {
@@ -626,11 +628,14 @@ class OrderCreator extends Component {
         if (index != -1) {
             actualProducts.splice(index, 1);
         }
-        console.log("ACTUALPRODUCTS", actualProducts);
         const new_total = this.state.total - (record.total);
+
+        console.log("ACTUALPRODUCTS", actualProducts);
+        console.log("new_total", new_total);
+
         this.setState({
+            total: new_total,
             selected_data: actualProducts,
-            total: new_total
         });
         this.sendToOnChange(actualProducts, new_total);
     }
@@ -748,13 +753,24 @@ class OrderCreator extends Component {
             }
             return {
                 ...col,
-                onCell: record => ({
-                    record,
-                    editable: col.editable,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    handleSave: this.updateRecord,
-                }),
+                onCell: record => {
+                    if (Number(record.key) > this.state.initial_length_data) {
+                        return ({
+                            record,
+                            editable: col.editable,
+                            dataIndex: col.dataIndex,
+                            title: col.title,
+                            handleSave: this.updateRecord,
+                        });
+                    }
+                    return ({
+                        record,
+                        editable: false,
+                        dataIndex: col.dataIndex,
+                        title: col.title,
+                        handleSave: this.updateRecord,
+                    });
+                },
             };
         });
 

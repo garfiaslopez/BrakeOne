@@ -182,14 +182,19 @@ class CreateSell extends Component {
             if (response.json.success) {
                 if (response.json.data.docs.length >= 1) {
                     const quotation = response.json.data.docs[0];
+                    const p = quotation.products.filter((p) => (p.subsidiary_id._id === this.props.session.subsidiary._id));
+                    let newTotal = 0;
+                    p.forEach((el) => { 
+                        newTotal += el.total;
+                    });
                     this.setState({
                         quotation_id: quotation._id,
                         client_id: quotation.client_id,
                         loading_quotations: false,
                         notes: quotation.notes,
-                        products: quotation.products.filter((p) => (p.subsidiary_id._id === this.props.session.subsidiary._id)),
+                        products: p,
                         services: quotation.services,
-                        total: quotation.total
+                        total: newTotal
                     });
                 }
             } else {
@@ -689,8 +694,8 @@ class CreateSell extends Component {
                         </div>
                         <OrderCreator
                             isSell
-                            can_edit_quantity={this.props.fields ? false : true }
-                            can_edit_disccount={this.props.fields ? false : true }
+                            can_edit_quantity={true}
+                            can_edit_disccount={true}
                             is_recovered={this.state.quotation_folio !== '' ? true : false}
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
