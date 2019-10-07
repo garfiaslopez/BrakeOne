@@ -114,7 +114,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price',
 				key: 'price',
 				render: RenderRows.renderRowNumberProducts,
-				width: '8%',
+				width: '6%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -124,7 +124,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_public',
 				key: 'price_public',
 				render: RenderRows.renderRowNumberProducts,
-				width: '8%',
+				width: '6%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -134,7 +134,17 @@ class Products extends CrudLayout {
             	dataIndex: 'price_workshop',
 				key: 'price_workshop',
 				render: RenderRows.renderRowNumberProducts,
-				width: '8%',
+				width: '6%',
+				onCell: () => {
+					return CellStyle(100)
+				},
+			},
+			{
+            	title: 'Crédito Taller',
+            	dataIndex: 'price_credit_workshop',
+				key: 'price_credit_workshop',
+				render: RenderRows.renderRowNumberProducts,
+				width: '6%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -144,7 +154,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
 				render: RenderRows.renderRowNumberProducts,
-				width: '8%',
+				width: '6%',
 				onCell: () => {
 					return CellStyle(100)
 				},
