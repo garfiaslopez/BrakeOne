@@ -55,6 +55,9 @@ var ProductSchema = new Schema({
     price_workshop: {
         type: Number
     },
+    price_credit_workshop: {
+        type: Number
+    },
     price_wholesale: {
         type: Number
     },
