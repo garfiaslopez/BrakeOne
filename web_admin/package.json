@@ -9,7 +9,7 @@
     "express": "^4.16.4",
     "html2canvas": "1.0.0-alpha.12",
     "jspdf": "1.4.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "2.22.2",
     "papaparse": "^4.6.2",
     "react": "16.6.3",
