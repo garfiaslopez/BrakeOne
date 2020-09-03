@@ -327,7 +327,7 @@ export default [
 		{
 			id: 'price_credit_workshop',
 			type: 'Number_Money',
-			placeholder: 'Precio Taller',
+			placeholder: 'Taller Crédito',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
 			rules: Rules['number'],

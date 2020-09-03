@@ -41,7 +41,7 @@ class CreatePackages extends Component {
 				key: 'quantity',
 			},
 			{
-            	title: 'Llave',
+            	title: 'Clave',
             	dataIndex: 'key_id',
 				key: 'key_id',
 			},

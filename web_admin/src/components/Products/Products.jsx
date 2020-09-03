@@ -59,7 +59,7 @@ class Products extends CrudLayout {
 		}
         this.table_columns = [
 			{
-            	title: 'Llave',
+            	title: 'Clave',
             	dataIndex: 'key_id',
 				key: 'key_id',
 				render: RenderRows.renderRowTextProducts,
