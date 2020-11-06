@@ -120,7 +120,7 @@ class Products extends CrudLayout {
 				},
 			},
 			{
-            	title: 'Publico/Mostrador',
+            	title: 'Publico',
             	dataIndex: 'price_public',
 				key: 'price_public',
 				render: RenderRows.renderRowNumberProducts,
