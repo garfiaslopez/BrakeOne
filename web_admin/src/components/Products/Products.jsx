@@ -130,7 +130,7 @@ class Products extends CrudLayout {
 				},
 			},
 			{
-            	title: 'Taller/Tienda en linea',
+            	title: 'Taller',
             	dataIndex: 'price_workshop',
 				key: 'price_workshop',
 				render: RenderRows.renderRowNumberProducts,
