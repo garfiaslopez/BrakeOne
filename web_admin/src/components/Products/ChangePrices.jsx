@@ -114,7 +114,7 @@ class ChangePrices extends Component {
 		});
 		const url = process.env.REACT_APP_API_URL + '/products';
         const POSTDATA = {
-            limit: 1000,
+            limit: 50000,
             page: 1,
             filters: {
                 brand: this.state.brand
