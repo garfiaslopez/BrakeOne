@@ -436,7 +436,7 @@ class CreateQuotation extends Component {
                 />
             )
         }
-        const OptionsTypes = ['PUBLICO', 'MAYOREO', 'TALLER'].map((item, index) => {
+        const OptionsTypes = ['PUBLICO', 'TALLER', 'CREDITO TALLER', 'MAYOREO'].map((item, index) => {
             return (
                 <Select.Option 
                     value={item}
