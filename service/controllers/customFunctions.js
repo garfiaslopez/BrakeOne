@@ -13,11 +13,11 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            //const multiplier = (Number(req.body) / 100) + Number;
+            const multiplier = (Number(req.body) / 100) + Number;
 
-            const convporc = req.body /100;//0.05
+            /*const convporc = req.body /100;//0.05
             const convpor2 = convporc * Number;//19
-            const multiplier = Number + convpor2;//399
+            const multiplier = Number + convpor2;//399*/
 
             console.log('body' + req.body.quantity_percent);
             NewProperties.price_credit_workshop = multiplier;
