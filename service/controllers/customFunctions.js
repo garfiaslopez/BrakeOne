@@ -6,17 +6,20 @@ module.exports =  {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {};
+
+        //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            const multiplier = (Number(req.body.quantity_percent));
-            
+            const multiplier = (Number(req.body.quantity_percent)/100)+Number;
+            console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
             NewProperties.price = multiplier;
-            NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_public = multiplier;
             NewProperties.price_workshop = multiplier;
+            NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_wholesale = multiplier;
+
             objectModel.update(
                 Filter,
                 { $mul: NewProperties },
