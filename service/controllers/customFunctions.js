@@ -13,7 +13,7 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            const multiplier = (Number(req.body.quantity_percent)) + 0;
+            const multiplier = (Number(req.body.quantity_percent) + 1);
             NewProperties.price = multiplier;
             NewProperties.price_public = multiplier;
             NewProperties.price_workshop = multiplier;
