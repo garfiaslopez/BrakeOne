@@ -15,7 +15,7 @@ module.exports =  {
 
             const multiplier = (Number(req.body.quantity_percent));
             console.log('body' + req.body.quantity_percent);
-            NewProperties.price = multiplier;
+            NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_public = multiplier;
             NewProperties.price_workshop = multiplier;
             NewProperties.price_wholesale = multiplier;
