@@ -1,26 +1,22 @@
-var errs = require('restify-errors');
-
+errs = require('restify-errors');
 module.exports =  {
     update_stock:  (req, res, next) => {
-
         const objectModel = require("../models/product");
-
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {};
-
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            //const multiplier = (Number(req.body) / 100) + 1;
-            const multiplier = (Number(req.body.quantity_percent) / 100) + Number;
-            //console.log('body' + req.body.quantity_percent);
+            const multiplier = (Number(req.body.quantity_percent));
+            
+            console.log('body' + req.body.quantity_percent);
+            NewProperties.price = multiplier;
             NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_public = multiplier;
             NewProperties.price_workshop = multiplier;
             NewProperties.price_wholesale = multiplier;
-
             objectModel.update(
                 Filter,
                 { $mul: NewProperties },
@@ -126,13 +122,11 @@ module.exports =  {
     },
     delete_product:  async (req, res, next) => {
         const objectModel = require("../models/product");
-
         if (req.body.key_id && req.body._id) {
-
             objectModel.remove({ key_id: req.body.key_id, _id: { '$ne': req.body._id }}, (err, response) => {
                 if(err){
                     return next(new errs.InternalServerError(err));
-                } else if (response) {
+                } else if (response) {
                     return res.json({ success: true, message: "Succesfully deleted." });
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
