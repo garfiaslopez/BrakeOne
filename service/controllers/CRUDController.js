@@ -115,14 +115,14 @@ module.exports = (method, model) => {
         }
 
         // FOR FILTER
-       /*var Filter = {}
+        var Filter = {}
         if (req.body.account_id != undefined) {
             Filter['account_id'] = req.body.account_id
         }
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
-        if (req.body.search_text != undefined) {
+        /*if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
         }
         if (req.body.filters != undefined) {
@@ -132,7 +132,7 @@ module.exports = (method, model) => {
         }
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
-        }*/
+        }
 
         if (req.body.or_filters != undefined) {
             const or_array = [];
@@ -144,7 +144,7 @@ module.exports = (method, model) => {
             if (or_array.length > 0) {
                 Filter['$or'] = or_array;
             }
-        }
+        }*/
 
         if (req.body.coordinates != undefined) {
             Filter['location'] = {
