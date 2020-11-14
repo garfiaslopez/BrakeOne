@@ -115,7 +115,7 @@ module.exports = (method, model) => {
         }
 
         // FOR FILTER
-        var Filter = {}
+       /*var Filter = {}
         if (req.body.account_id != undefined) {
             Filter['account_id'] = req.body.account_id
         }
@@ -132,7 +132,7 @@ module.exports = (method, model) => {
         }
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
-        }
+        }*/
 
         if (req.body.or_filters != undefined) {
             const or_array = [];
