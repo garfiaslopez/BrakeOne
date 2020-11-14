@@ -114,7 +114,7 @@ module.exports = (method, model) => {
             Paginator.populate = req.body.populate_ids;
         }
 
-        // FOR FILTER
+        // FOR FILTER BUSQUEDA
         var Filter = {}
         if (req.body.account_id != undefined) {
             Filter['account_id'] = req.body.account_id
