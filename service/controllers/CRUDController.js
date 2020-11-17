@@ -118,22 +118,30 @@ module.exports = (method, model) => {
         var Filter = {}
         if (req.body.account_id != undefined) {
             Filter['account_id'] = req.body.account_id
-        }
+        }    
+        console.log(req.body.account_id);
+        //---------------------------------------------------//
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
+        console.log(req.body.subsidiary_id);
+        //---------------------------------------------------//
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
         }
+        console.log(req.body.search_text);
+        //---------------------------------------------------//
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
             });
         }
+        console.log(req.body.filters);
+        //---------------------------------------------------//
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
         }
-
+        console.log(req.body.date);
         if (req.body.or_filters != undefined) {
             const or_array = [];
             Object.keys(req.body.or_filters).forEach((filter_key)  => {
