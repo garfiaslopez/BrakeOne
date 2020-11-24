@@ -116,19 +116,25 @@ module.exports = (method, model) => {
 
         // FOR FILTER BUSQUEDA
         var Filter = {}
+        console.log("Llegaste al primer filtro");
         if (req.body.account_id != undefined) {
             Filter['account_id'] = req.body.account_id
         }    
-        console.log(req.body.account_id);
+        
         //---------------------------------------------------//
+        console.log("Llegaste al segundo filtro");
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
+        /* ------------------------------------------------------- */
+        console.log("Llegaste al tercer filtro");
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
         }
-        console.log(req.body.search_text);
+        
+        
         //---------------------------------------------------//
+        console.log("Llegaste al cuarto filtro");
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
