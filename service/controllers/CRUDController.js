@@ -140,7 +140,7 @@ module.exports = (method, model) => {
                 Filter[filter_key] = req.body.filters[filter_key];
             });
         }
-        console.log(req.body.filters);
+        
         //---------------------------------------------------//
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
