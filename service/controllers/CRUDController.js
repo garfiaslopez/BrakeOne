@@ -118,6 +118,7 @@ module.exports = (method, model) => {
         var Filter = {}
         
         if (req.body.account_id != undefined) {
+            alert("Pruebas de busqueda");
             Filter['account_id'] = req.body.account_id
         }    
         
