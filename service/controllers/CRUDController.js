@@ -116,7 +116,7 @@ module.exports = (method, model) => {
 
         // FOR FILTER BUSQUEDA
         var Filter = {}
-        console.log("Llegaste al primer filtro");
+        alert("Primer filtro Account_id");
         if (req.body.account_id != undefined) {
             Filter['account_id'] = req.body.account_id
         }    
