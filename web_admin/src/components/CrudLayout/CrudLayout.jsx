@@ -85,9 +85,9 @@ class CrudLayout extends Component {
 		}
 		
 		if (!isEmpty(this.search_text)) {
-			//Cotizaciones
-			alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
+			//Cotizaciones			
 			if (this.model.name === 'quotation') {
+				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['total'] = Number(this.search_text);
