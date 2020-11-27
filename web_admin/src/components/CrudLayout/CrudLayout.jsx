@@ -304,6 +304,7 @@ class CrudLayout extends Component {
 	}
 
 	onView = (record) => {
+		console.log("onView" + record);
 		this.setState({
 			selected_data: record,
 			opened_view: true,
@@ -311,6 +312,7 @@ class CrudLayout extends Component {
 	} 
 
 	onEdit = (record) => {
+		console.log("onEdit" + record);
 		this.setState({
 			selected_data: record,
 			opened_submit: true,
@@ -318,6 +320,7 @@ class CrudLayout extends Component {
 	}
 
 	onDelete = async (record) => {
+		console.log("onDelete" + record);
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + record._id;
 		if (this.model.name === 'product') {
 			await FetchXHR(process.env.REACT_APP_API_URL + '/helpers/delete_product', 'POST', { 
@@ -350,6 +353,7 @@ class CrudLayout extends Component {
 	}
 
 	onPrint = (record, type) => {
+		console.log("onPrint" + record + type);
 		this.setState({
 			selected_data: record,
 			opened_printer_recipes: true,
@@ -363,12 +367,14 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {
+		console.log("onClickSearch" + search_text);
 		this.search_text = search_text;
 		this.getData();
 	}
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
+		console.log("onChangeRangeDate" + date + date_string);
 		// parse only the day ?
 		if (date.length > 0) {
 			this.initial_date = date[0].startOf('day');
@@ -383,12 +389,14 @@ class CrudLayout extends Component {
 	// TABLE:
 	//PAGINATOR:
 	onChangePagination = (current, page_size) => {
+		console.log("onChangePagination" + current + page_size);
 		this.limit = page_size;
 		this.page = current;
 		this.getData();
 	}
 
 	onChangeTable = (pagination, filters, sorter) => {
+		console.log("onChangeTable" + pagination + filters + sorter);
 		if (pagination.current) {
 			this.limit = pagination.pageSize;
 			this.page = pagination.current;
@@ -406,6 +414,7 @@ class CrudLayout extends Component {
 	}
 
 	renderFilters = () => {
+		console.log("renderFilters");
 		const SearchFilter = (
 			<Input.Search
 				key="search_filter"

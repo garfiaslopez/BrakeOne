@@ -118,7 +118,7 @@ module.exports = (method, model) => {
         var Filter = {}
         
         if (req.body.account_id != undefined) {            
-            Filter['account_id'] = req.body.account_id
+            Filter['account_id'] = req.body.account_id;
         }    
         
         //---------------------------------------------------//
