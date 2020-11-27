@@ -90,7 +90,6 @@ class CrudLayout extends Component {
 				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
-				POSTDATA['or_filters']['total'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
 			} 
 			
