@@ -132,7 +132,7 @@ module.exports = (method, model) => {
 
             Filter['$text'] = 
                 { 
-                    '$search': req.body.search_text.log
+                    '$search': req.body.search_text
                 };
         }
         
@@ -165,7 +165,7 @@ module.exports = (method, model) => {
         if (req.body.coordinates != undefined) {
             Filter['location'] = {
                 '$near': {
-                    '$maxDistance': 1000,
+                    '$maxDistance': 2,
                     '$geometry': {
                         'type': 'Point',
                         'coordinates': [coordinates[0], coordinates[1]]
