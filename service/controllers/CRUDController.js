@@ -129,7 +129,11 @@ module.exports = (method, model) => {
         /* ------------------------------------------------------- */
         console.log("Llegaste al tercer filtro");
         if (req.body.search_text != undefined) {
-            Filter['$text'] = { '$search': req.body.search_text };
+
+            Filter['$text'] = 
+                { 
+                    '$search': req.body.search_text.log
+                };
         }
         
         
