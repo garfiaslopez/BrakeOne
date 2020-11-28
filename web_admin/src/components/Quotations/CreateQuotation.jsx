@@ -208,7 +208,7 @@ class CreateQuotation extends Component {
                         sells: 0,
                         price_type: this.state.price_type,
                         address: '',
-                        address_city: '',
+                        address_city: 'CDMX',
                         address_country: '',
                         address_state: '',
                         address_cp: '',
