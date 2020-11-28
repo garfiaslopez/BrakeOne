@@ -22,7 +22,7 @@ const FormItem = Form.Item;
 // Reference rules
 // https://github.com/yiminghe/async-validator/blob/master/src/messages.js
 const rules = {
-	required: 'Campo requerido',
+	//required: 'Campo requerido',
 	min: 'Ingrese los caracteres minimos para el campo',
 	max: 'Se ha excedido del mínimo',
 	pattern: 'Ingresa un email valido',
