@@ -25,7 +25,7 @@ var UserSchema = new Schema({
 	},
 	bypass_localization: {
 		type: Boolean,
-		default: true
+		default: false
 	},
 	rol: {
 		type: String,
