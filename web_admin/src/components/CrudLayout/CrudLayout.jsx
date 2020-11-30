@@ -3,6 +3,7 @@ import styles from './CrudLayoutStyles';
 import moment from 'moment';
 import { FetchXHR } from '../../helpers/generals';
 
+
 import { 
     Input,
     Button,
@@ -24,6 +25,7 @@ import FormGenerator from '../FormGenerator/FormGenerator';
 import PrinterDownload from '../PrinterDownload/PrinterDownload';
 import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
 import { formatNumber } from '../../helpers/generals';
+
   
 class CrudLayout extends Component {
     state = {
@@ -687,39 +689,5 @@ class CrudLayout extends Component {
         );
     }
 }
-
-/* ---------------------------------------------------------- */
-/* 
-const prueba = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
-
-prueba.connect(function(err, client) {
-    const db = client.db("BrakeOneBackup");
-    const db2 = client.db("BrakeOneMatriz");
-    var personal = db.collection('Personal');
-    var personal2 = db2.collection('Personal');
-
-    var prueba = db.collection('Personal');
-    alert("Prueba de impresion de colleciones: " + prueba);
-
-
-
-    const merged_array = [];
-    personal.find().toArray((err, personas_result) => {
-        personal2.find().toArray((err, personas_result2) => {
-
-            personas_result.forEach((el) => {
-                merged_array.push(el);
-            });
-            personas_result2.forEach((el) => {
-                merged_array.push(el);
-            });
-            const no_duplicates = _.uniqBy(merged_array, 'Nombre');
-
-            migrate_personas(no_duplicates);
-        });
-    });
-});
-
- */
 
 export default CrudLayout;
