@@ -131,12 +131,13 @@ module.exports = (method, model) => {
         }    
         
         //---------------------------------------------------//
+
         console.log("Llegaste al segundo filtro");
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         /* ------------------------------------------------------- */
-        console.log("Llegaste al tercer filtro");
+
         if (req.body.search_text != undefined) {
 
             Filter['$text'] = 
@@ -146,8 +147,8 @@ module.exports = (method, model) => {
         }
         
         
-        //---------------------------------------------------//
-        console.log("Llegaste al cuarto filtro");
+        //---------------------------------------------------//     
+          
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];

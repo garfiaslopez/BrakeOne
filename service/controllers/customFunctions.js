@@ -74,7 +74,8 @@ module.exports =  {
             if (req.body.method === 'PUT') {
                 console.log(req.body.data);
                 const product = await objectModel.findById(req.body.id);
-                console.log(product)
+                console.log(product);
+                alert("Product_replicate" + product);
                 const key_id = product.key_id;
                 delete newSet.subsidiary_id;
                 delete newSet.stock;
