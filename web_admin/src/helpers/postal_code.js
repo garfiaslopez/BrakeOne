@@ -2,13 +2,13 @@ import Papa from 'papaparse';
 
 const init_postal_codes = () => {
     if (!window.postal_codes) {
-        Papa.parse(process.env.REACT_APP_CDN + '../../../web_admin/public/files/cp_mexico.csv', {
+        Papa.parse(process.env.REACT_APP_CDN + '/files/cp_mexico.csv', {
             download: true,
             complete: (mexico_csv) => {
-                Papa.parse(process.env.REACT_APP_CDN + '../../../web_admin/public/files/cp_ciudad_de_mexico.csv', {
+                Papa.parse(process.env.REACT_APP_CDN + '/web_admin/public/files/cp_ciudad_de_mexico.csv', {
                     download: true,
                     complete: (ciudad_de_mexico_csv) => {
-                        Papa.parse(process.env.REACT_APP_CDN + '../../../web_admin/public/files/cp_queretaro.csv', {
+                        Papa.parse(process.env.REACT_APP_CDN + '/web_admin/public/files/cp_queretaro.csv', {
                             download: true,
                             complete: (queretaro_csv) => {
                                 const postal_codes = {};
