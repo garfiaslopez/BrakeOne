@@ -43,7 +43,8 @@ module.exports = {
 				res.json({success:false,error:err});
 			}
 			res.json({success: true , user:Usuario});
-			alert("Prueba impresion de usuario: " + Usuario )
+			alert("Prueba impresion de usuario: " + Usuario );
+			console.log("Prueba impresion de usuario" + Usuario);
 		});
 	}
 }
