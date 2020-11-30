@@ -41,6 +41,7 @@ module.exports = (method, model) => {
 
     let Read = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, newObj) => {
+            alert("Prueba de impresion usuarios: " + newObj);
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
@@ -49,8 +50,9 @@ module.exports = (method, model) => {
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
-            }
+            }            
         });
+    
     }
 
     let Update = (req, res, next) => {
