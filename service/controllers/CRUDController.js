@@ -161,7 +161,7 @@ module.exports = (method, model) => {
                 Filter['$or'] = or_array;
             }
         }
-        console.log("Coordenadas: " + req.body.coordinates);
+        
         if (req.body.coordinates != undefined) {
             Filter['location'] = {
                 '$near': {
@@ -172,6 +172,7 @@ module.exports = (method, model) => {
                     }
                 }
             }
+            console.log("Coordenadas: " + req.body.coordinates);
         }
 
         // FOR SORT: 
