@@ -1,7 +1,7 @@
 var errs = require('restify-errors');
 
 
-const client = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
+/* const client = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
 
 
 client.connect(function(err, db) {
@@ -15,7 +15,7 @@ client.connect(function(err, db) {
 
     });
    
-});
+}); */
 
 module.exports = (method, model) => {
 
