@@ -31,7 +31,7 @@ module.exports = {
 							expiresIn: 2880
 						}
 					);
-					res.json({success:false,message:"Logueado Corectamente.",token:token,user:Usuario});
+					res.json({success:true,message:"Logueado Corectamente.",token:token,user:Usuario});
 				}
 			}
 		);
@@ -44,8 +44,8 @@ module.exports = {
 				res.json({success:false,error:err});
 			}
 			res.json({success: true , user:Usuario});
-			alert("Prueba impresion de usuario: " + Usuario );
-			console.log("Prueba impresion de usuario" + Usuario);
+			res.json({success:true,message:"Prueba de impresion."});
+			
 		});
 	}
 }
