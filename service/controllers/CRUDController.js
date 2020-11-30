@@ -41,7 +41,7 @@ module.exports = (method, model) => {
 
     let Read = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, newObj) => {
-            alert("Prueba de impresion usuarios: " + newObj);
+            /* alert("Prueba de impresion usuarios: " + newObj); */
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
