@@ -165,7 +165,7 @@ module.exports = (method, model) => {
         if (req.body.coordinates != undefined) {
             Filter['location'] = {
                 '$near': {
-                    '$maxDistance': 0,
+                    '$maxDistance': 1000,
                     '$geometry': {
                         'type': 'Point',
                         'coordinates': [coordinates[0], coordinates[1]]

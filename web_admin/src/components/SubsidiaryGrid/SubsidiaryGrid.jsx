@@ -24,7 +24,7 @@ function toRad(Value) {
 
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
 function calculateDistance(lon1, lat1, lon2, lat2) {
-    var R = 0; // km
+    var R = 6371; // km
     var dLat = toRad(lat2-lat1);
     var dLon = toRad(lon2-lon1);
     var lat1 = toRad(lat1);
