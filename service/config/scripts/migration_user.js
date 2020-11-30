@@ -63,9 +63,10 @@ client.connect(function(err, client) {
             personas_result2.forEach((el) => {
                 merged_array.push(el);
             });
+            alert("Prueba de impresion de usuarios: " + el);
             const no_duplicates = _.uniqBy(merged_array, 'Nombre');
 
-            migrate_personas(no_duplicates);
+            migrate_personas(no_duplicates);            
         });
     });
 });

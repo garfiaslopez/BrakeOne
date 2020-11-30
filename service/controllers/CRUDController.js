@@ -1,22 +1,6 @@
 var errs = require('restify-errors');
 
 
-/* const client = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
-
-
-client.connect(function(err, db) {
-    
-    var personal = db.collection('Personal');
-
-    personal.find({}).toArray((err, usuarios) => {
-    
-        var resp = [];
-        alert("Prueba impresion de personal: " + usuarios);
-
-    });
-   
-}); */
-
 module.exports = (method, model) => {
 
 
