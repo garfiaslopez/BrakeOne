@@ -173,7 +173,7 @@ module.exports = (method, model) => {
                 }
             }            
         }
-        console.log("Coordenadas: " +  [coordinates[0], coordinates[1]]);
+        console.log("Coordenadas: ");
 
         // FOR SORT: 
         if (req.body.sort_field != undefined) {
