@@ -50,7 +50,8 @@ module.exports = (method, model) => {
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
-            }            
+            } 
+                       
         });
     
     }
@@ -79,10 +80,12 @@ module.exports = (method, model) => {
                                 }
                             });
                         } else {
+                            alert("Impresion de nuevo objeto: " + newObj);
                             return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
                         }
                     }
                 });
+               
             } else {
                 return next(new errs.BadRequestError("El elemento no existe."));
             }
@@ -179,7 +182,7 @@ module.exports = (method, model) => {
                 }
             }            
         }
-        console.log("Coordenadas: " + Filter['location']);
+        
 
         // FOR SORT: 
         if (req.body.sort_field != undefined) {
