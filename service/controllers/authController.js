@@ -43,8 +43,7 @@ module.exports = {
 			if(err){
 				res.json({success:false,error:err});
 			}
-			res.json({success: true , user:Usuario});
-			res.json({success:true,message:"Prueba de impresion."});
+			res.json({success: true , user:Usuario});			
 			
 		});
 	}

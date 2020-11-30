@@ -654,6 +654,7 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
+				<Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.coordinates) + "]   "} Coordenadas</Divider>
 				<Table 
 					bordered
 					style={styles.tableLayout}
