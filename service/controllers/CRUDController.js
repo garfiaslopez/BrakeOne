@@ -171,9 +171,9 @@ module.exports = (method, model) => {
                         'coordinates': [coordinates[0], coordinates[1]]
                     }
                 }
-            }
-            console.log("Coordenadas: " + req.body.coordinates);
+            }            
         }
+        console.log("Coordenadas: " + req.body.coordinates);
 
         // FOR SORT: 
         if (req.body.sort_field != undefined) {
