@@ -52,13 +52,13 @@ export default [
 		},
 	],
 	[
-		{
+	/*	{
 			id: 'address_city',
 			type: 'Dropdown_Postal_Code',
 			placeholder: 'Colonia',
 			prefixIcon: 'environment',
 			rules: Rules['string']
-		},
+		},*/
 		{
 			id: 'address_country',
 			type: 'String',
