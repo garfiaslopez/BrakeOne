@@ -53,6 +53,9 @@ client.connect(function(err, client) {
     var personal = db.collection('Personal');
     var personal2 = db2.collection('Personal');
 
+    var prueba = db.collection('Persolal');
+    alert("Prueba de impresion de colleciones: " + prueba);
+
     const merged_array = [];
     personal.find().toArray((err, personas_result) => {
         personal2.find().toArray((err, personas_result2) => {
