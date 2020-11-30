@@ -689,7 +689,7 @@ class CrudLayout extends Component {
 }
 
 /* ---------------------------------------------------------- */
-
+/* 
 const prueba = new MongoClient("mongodb://BrakeOneSuperUser:CLttFUZthSanAKvm@127.0.0.1:18509", { useNewUrlParser: true });
 
 prueba.connect(function(err, client) {
@@ -720,6 +720,6 @@ prueba.connect(function(err, client) {
     });
 });
 
-
+ */
 
 export default CrudLayout;
