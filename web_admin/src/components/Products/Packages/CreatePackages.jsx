@@ -372,8 +372,7 @@ class CreatePackages extends Component {
                                 }}
                                 onSearch={this.onChangeSearchProduct}
                                 placeholder="Nombre producto a buscar ..."
-                            >
-                             <Divider dashed={true} orientation="left">{"[" + selected + "]   "} Result_Products</Divider>
+                            >                             
                                 <Input
                                     onPressEnter={this.getProducts}
                                 />
@@ -386,7 +385,7 @@ class CreatePackages extends Component {
                             >
                                 Agregar al paquete
                                 <Icon type="plus-circle" />
-                            </Button>
+                            </Button>                            
                         </div>
                         <div>
                             <div>
