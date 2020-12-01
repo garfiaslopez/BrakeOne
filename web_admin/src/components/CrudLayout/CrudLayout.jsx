@@ -653,8 +653,10 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
-				<Divider dashed={true} orientation="left">{"[" + this.search_text + "]   "} Pruebas de busqueda</Divider>
-				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Model Name</Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.search_text + "]   "} Pruebas de busqueda</Divider><Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Model Name</Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.state.filters_layout + "]   "} Filtros </Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.table_filters + "]   "} Filtros de tabla</Divider>
+				
 				<Table 
 					bordered
 					style={styles.tableLayout}
