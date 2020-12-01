@@ -32,6 +32,12 @@ module.exports =  {
                     }
                 }
             );
+            objectModel.find().toArray((err, result) => {
+
+                alert("Impresion Modelo productos: " + result);
+                console.log("Impresion MOdelo Productos" + result);
+
+            });
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
