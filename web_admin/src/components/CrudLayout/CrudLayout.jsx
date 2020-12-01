@@ -652,6 +652,7 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
+				<Divider dashed={true} orientation="left">{"[" + formatNumber(this.model.name) + "]   "} Nombre del modelo</Divider>				
 				<Table 
 					bordered
 					style={styles.tableLayout}
