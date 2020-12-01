@@ -3,7 +3,6 @@ import styles from './CrudLayoutStyles';
 import moment from 'moment';
 import { FetchXHR } from '../../helpers/generals';
 
-
 import { 
     Input,
     Button,
@@ -25,7 +24,6 @@ import FormGenerator from '../FormGenerator/FormGenerator';
 import PrinterDownload from '../PrinterDownload/PrinterDownload';
 import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
 import { formatNumber } from '../../helpers/generals';
-
   
 class CrudLayout extends Component {
     state = {
@@ -88,7 +86,8 @@ class CrudLayout extends Component {
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-			if (this.model.name === 'quotation') {				
+			if (this.model.name === 'quotation') {
+				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
@@ -653,10 +652,6 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
-				{/* <Divider dashed={true} orientation="left">{"[" + this.search_text + "]   "} Pruebas de busqueda</Divider><Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Model Name</Divider> */}
-				<Divider dashed={true} orientation="left">{"[" + this.state.filters_layout + "]   "} Filtros </Divider>
-				{/* <Divider dashed={true} orientation="left">{"[" + this.table_filters + "]   "} Filtros de tabla</Divider> */}
-				
 				<Table 
 					bordered
 					style={styles.tableLayout}
