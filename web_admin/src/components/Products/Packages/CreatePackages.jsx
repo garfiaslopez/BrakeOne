@@ -368,11 +368,11 @@ class CreatePackages extends Component {
                                     this.setState({
                                         selected_product: selected,
                                         search_product: selected.brand + ' - ' + selected.description
-                                    });                                   
+                                    });
                                 }}
                                 onSearch={this.onChangeSearchProduct}
                                 placeholder="Nombre producto a buscar ..."
-                            >                             
+                            >
                                 <Input
                                     onPressEnter={this.getProducts}
                                 />
@@ -385,7 +385,7 @@ class CreatePackages extends Component {
                             >
                                 Agregar al paquete
                                 <Icon type="plus-circle" />
-                            </Button>                            
+                            </Button>
                         </div>
                         <div>
                             <div>

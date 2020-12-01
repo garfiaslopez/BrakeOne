@@ -17,7 +17,6 @@ module.exports = {
 				}
 				if(!Usuario){
 					res.json({success:false,message:"Usuario o Contraseña incorrectos."});
-
 				}else{
 					var token = jwt.sign(
 						{
@@ -43,8 +42,7 @@ module.exports = {
 			if(err){
 				res.json({success:false,error:err});
 			}
-			res.json({success: true , user:Usuario});			
-			
+			res.json({success: true , user:Usuario});
 		});
 	}
 }

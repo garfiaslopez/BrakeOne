@@ -74,8 +74,7 @@ module.exports =  {
             if (req.body.method === 'PUT') {
                 console.log(req.body.data);
                 const product = await objectModel.findById(req.body.id);
-                console.log(product);
-                alert("Product_replicate" + product);
+                console.log(product)
                 const key_id = product.key_id;
                 delete newSet.subsidiary_id;
                 delete newSet.stock;
@@ -127,13 +126,7 @@ module.exports =  {
     delete_product:  async (req, res, next) => {
         const objectModel = require("../models/product");
         if (req.body.key_id && req.body._id) {
-            objectModel.remove({ 
-                key_id: req.body.key_id, 
-                _id: { 
-                    '$ne': 
-                    req.body._id 
-                }}, 
-                (err, response) => {
+            objectModel.remove({ key_id: req.body.key_id, _id: { '$ne': req.body._id }}, (err, response) => {
                 if(err){
                     return next(new errs.InternalServerError(err));
                 } else if (response) {
