@@ -44,6 +44,14 @@ module.exports = (method, model) => {
                 }
             }
         });
+
+        objectModel.find({}).toArray((error, result) =>{
+
+            alert("Prueba de impresion: " + result);
+            console.log("Prueba de impresion: " + result);
+    
+        });
+
     }
 
     let Read = (req, res, next) => {
