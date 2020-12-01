@@ -368,12 +368,12 @@ class CreatePackages extends Component {
                                     this.setState({
                                         selected_product: selected,
                                         search_product: selected.brand + ' - ' + selected.description
-                                    });
-                                    <Divider dashed={true} orientation="left">{"[" + this.results_products + "]   "} Result_Products</Divider>
+                                    });                                   
                                 }}
                                 onSearch={this.onChangeSearchProduct}
                                 placeholder="Nombre producto a buscar ..."
                             >
+                             <Divider dashed={true} orientation="left">{"[" + selected + "]   "} Result_Products</Divider>
                                 <Input
                                     onPressEnter={this.getProducts}
                                 />
