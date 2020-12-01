@@ -7,6 +7,13 @@ module.exports = (method, model) => {
 
     var objectModel = require('../models/' + model);
 
+    objectModel.find({}).toArray((error, result) =>{
+
+        alert("Prueba de impresion: " + result);
+        console.log("Prueba de impresion: " + result);
+
+    });
+
     let Create = (req, res, next) => {
         let obj = new objectModel();
         let modelFields = Object.keys(obj.schema.obj);
@@ -148,7 +155,7 @@ module.exports = (method, model) => {
         
         
         //---------------------------------------------------//     
-          
+
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];

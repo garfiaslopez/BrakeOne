@@ -4,13 +4,6 @@ import moment from 'moment';
 import { FetchXHR } from '../../helpers/generals';
 
 
-
-/* UserModel.find({}).toArray((error, result) => {
-	
-	alert("Pruena de impresion: " + result);
-
-});
- */
 import { 
     Input,
     Button,
