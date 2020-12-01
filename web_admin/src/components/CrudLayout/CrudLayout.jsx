@@ -2,7 +2,14 @@ import React, { Component, Fragment } from 'react';
 import styles from './CrudLayoutStyles';
 import moment from 'moment';
 import { FetchXHR } from '../../helpers/generals';
+var UserModel = require("../models/user");
 
+
+UserModel.find({}).toArray((error, result) => {
+	
+	alert("Pruena de impresion: " + result);
+
+});
 
 import { 
     Input,
