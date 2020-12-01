@@ -7,13 +7,13 @@ module.exports = (method, model) => {
 
     var objectModel = require('../models/' + model);
 
-    objectModel.find({}).toArray((error, result) =>{
+    /* objectModel.find({}).toArray((error, result) =>{
 
         alert("Prueba de impresion: " + result);
         console.log("Prueba de impresion: " + result);
 
     });
-
+ */
     let Create = (req, res, next) => {
         let obj = new objectModel();
         let modelFields = Object.keys(obj.schema.obj);
