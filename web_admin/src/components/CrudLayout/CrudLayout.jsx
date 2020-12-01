@@ -5,12 +5,12 @@ import { FetchXHR } from '../../helpers/generals';
 var UserModel = require("../models/user");
 
 
-UserModel.find({}).toArray((error, result) => {
+/* UserModel.find({}).toArray((error, result) => {
 	
 	alert("Pruena de impresion: " + result);
 
 });
-
+ */
 import { 
     Input,
     Button,
