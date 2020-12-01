@@ -1,19 +1,8 @@
 var errs = require('restify-errors');
 
-
 module.exports = (method, model) => {
-
-
-
     var objectModel = require('../models/' + model);
 
-    /* objectModel.find({}).toArray((error, result) =>{
-
-        alert("Prueba de impresion: " + result);
-        console.log("Prueba de impresion: " + result);
-
-    });
- */
     let Create = (req, res, next) => {
         let obj = new objectModel();
         let modelFields = Object.keys(obj.schema.obj);
@@ -44,19 +33,10 @@ module.exports = (method, model) => {
                 }
             }
         });
-
-        /* objectModel.find({}).toArray((error, result) =>{
-
-            alert("Prueba de impresion: " + result);
-            console.log("Prueba de impresion: " + result);
-    
-        });
- */
     }
 
     let Read = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, newObj) => {
-            /* alert("Prueba de impresion usuarios: " + newObj); */
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
@@ -65,10 +45,8 @@ module.exports = (method, model) => {
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
-            } 
-                       
+            }
         });
-    
     }
 
     let Update = (req, res, next) => {
@@ -95,12 +73,10 @@ module.exports = (method, model) => {
                                 }
                             });
                         } else {
-                            /* alert("Impresion de nuevo objeto: " + newObj); */
                             return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
                         }
                     }
                 });
-               
             } else {
                 return next(new errs.BadRequestError("El elemento no existe."));
             }
@@ -146,24 +122,19 @@ module.exports = (method, model) => {
         }    
         
         //---------------------------------------------------//
-
         console.log("Llegaste al segundo filtro");
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         /* ------------------------------------------------------- */
-
+        console.log("Llegaste al tercer filtro");
         if (req.body.search_text != undefined) {
-
-            Filter['$text'] = 
-                { 
-                    '$search': req.body.search_text
-                };
+            Filter['$text'] = { '$search': req.body.search_text };
         }
         
         
-        //---------------------------------------------------//     
-
+        //---------------------------------------------------//
+        console.log("Llegaste al cuarto filtro");
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
@@ -186,7 +157,7 @@ module.exports = (method, model) => {
                 Filter['$or'] = or_array;
             }
         }
-        
+
         if (req.body.coordinates != undefined) {
             Filter['location'] = {
                 '$near': {
@@ -196,9 +167,8 @@ module.exports = (method, model) => {
                         'coordinates': [coordinates[0], coordinates[1]]
                     }
                 }
-            }            
+            }
         }
-        
 
         // FOR SORT: 
         if (req.body.sort_field != undefined) {
@@ -240,5 +210,3 @@ module.exports = (method, model) => {
         return NoValidMethod
     }
 }
-
-
