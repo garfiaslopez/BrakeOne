@@ -88,8 +88,7 @@ class CrudLayout extends Component {
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-			if (this.model.name === 'quotation') {
-				//alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
+			if (this.model.name === 'quotation') {				
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
@@ -655,6 +654,7 @@ class CrudLayout extends Component {
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
 				<Divider dashed={true} orientation="left">{"[" + this.search_text + "]   "} Pruebas de busqueda</Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Model Name</Divider>
 				<Table 
 					bordered
 					style={styles.tableLayout}

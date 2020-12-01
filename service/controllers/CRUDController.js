@@ -95,7 +95,7 @@ module.exports = (method, model) => {
                                 }
                             });
                         } else {
-                            alert("Impresion de nuevo objeto: " + newObj);
+                            /* alert("Impresion de nuevo objeto: " + newObj); */
                             return res.json({ success: true, message: "Succesfully updated.", obj: newObj });
                         }
                     }
