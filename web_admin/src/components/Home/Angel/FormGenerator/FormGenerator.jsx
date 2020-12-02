@@ -14,7 +14,7 @@ import {
 import styles from './Styles';
 import FormGeneratorChild from './FormGeneratorChild';
 import FormRender from './FormRender';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from '../generals';
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 
