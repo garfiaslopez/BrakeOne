@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from '../generals';
 import ReactToPrint from 'react-to-print';
 import ReactPDF from '@react-pdf/renderer';
 
