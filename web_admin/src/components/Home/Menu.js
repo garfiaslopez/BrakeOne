@@ -70,6 +70,11 @@ const adminMenu = [
                 'name': 'Pagos Productos',
                 'icon': 'dollar',
                 'component': ReceptionPayments
+            },
+            {
+                'name': 'Pruebas consultas',
+                'icon': 'plus-circle',
+                'component': AngelPruebas
             }
         ]
     },
