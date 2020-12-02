@@ -2,6 +2,7 @@ import Subsidiarys from '../Subsidiarys/Subsidiarys';
 import Users from '../Users/Users';
 import Providers from '../Providers/Providers';
 import Products from '../Products/Products';
+import Productos from './Angel/Products';
 import Packages from '../Products/Packages/Packages';
 import ProductServices from '../Products/Services/Services';
 import Receptions from '../Products/Receptions/Receptions';
@@ -74,7 +75,7 @@ const adminMenu = [
             {
                 'name': 'Pruebas consultas',
                 'icon': 'plus-circle',
-                'component': Products
+                'component': Productos
             }
         ]
     },
