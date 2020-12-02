@@ -11,7 +11,7 @@ import {
     InputNumber
 } from 'antd';
 import styles from './Styles';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from './generals';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 
