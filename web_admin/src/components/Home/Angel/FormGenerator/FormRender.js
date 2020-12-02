@@ -9,11 +9,11 @@ import {
     Divider,
     Button
 } from 'antd';
-import ColorPicker from '../../helpers/ColorPicker';
+import ColorPicker from '../ColorPicker';
 import toPairs from 'lodash/toPairs';
 import styles from './Styles';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
-import init_postal_codes from '../../helpers/postal_code';
+import init_postal_codes from '../postal_code';
 import Barcode from 'react-barcode';
 import ReactToPrint from 'react-to-print';
 

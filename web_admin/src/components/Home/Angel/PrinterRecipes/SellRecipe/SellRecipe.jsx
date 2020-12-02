@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import moment from 'moment';
-import RenderRows from '../../../helpers/render_rows';
+import RenderRows from '../../render_rows';
 
 import './Styles.css';
-import NumeroALetras from '../../../helpers/number_to_letter';
+import NumeroALetras from '../../number_to_letter';
 const round2 = (number) => (Math.round(number * 100) / 100);
 
 const propTypes = {

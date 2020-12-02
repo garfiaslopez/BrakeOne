@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './Styles.css';
-import NumeroALetras from '../../../helpers/number_to_letter';
+import NumeroALetras from '../../number_to_letter';
 const round2 = (number) => (Math.round(number * 100) / 100);
 
 const propTypes = {
