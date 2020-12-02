@@ -86,15 +86,8 @@ class CrudLayout extends Component {
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-
-			if(this.model.name === 'product'){
-				POSTDATA['or_filters'] = {};
-				POSTDATA['or_filters']['key_id'] = Number(this.search_text);
-				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
-			}else 
-
 			if (this.model.name === 'quotation') {
-				/* alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!"); */
+				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
@@ -659,7 +652,6 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
-				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Nombre del modelo</Divider>				
 				<Table 
 					bordered
 					style={styles.tableLayout}

@@ -74,7 +74,7 @@ const adminMenu = [
             {
                 'name': 'Pruebas consultas',
                 'icon': 'plus-circle',
-                'component': ReceptionPayments
+                'component': Products
             }
         ]
     },
