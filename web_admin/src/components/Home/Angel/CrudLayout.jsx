@@ -20,10 +20,10 @@ import {
 
 import isEmpty from 'lodash/isEmpty';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
-import FormGenerator from '../FormGenerator/FormGenerator';
-import PrinterDownload from '../PrinterDownload/PrinterDownload';
-import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
-import { formatNumber } from '../../helpers/generals';
+import FormGenerator from './FormGenerator/FormGenerator';
+import PrinterDownload from './PrinterDownload';
+import PrinterRecipes from './PrinterRecipes/PrinterRecipes';
+import { formatNumber } from './generals';
   
 class CrudLayout extends Component {
     state = {
