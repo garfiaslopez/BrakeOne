@@ -104,7 +104,7 @@ class Products extends CrudLayout {
 				key: 'description',
 				sorter: true,
 				render: RenderRows.renderRowTextTruncateProducts,
-				width: '10%',
+				width: '12%',
 				onCell: () => {
 					return CellStyle(150)
 				},
@@ -124,7 +124,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_public',
 				key: 'price_public',
 				render: RenderRows.renderRowNumberProducts,
-				width: '8%',
+				width: '9%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -226,7 +226,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '16%',
+				width: '12%',
 				onCell: () => {
 					return CellStyle(100)
 				},
