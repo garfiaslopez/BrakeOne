@@ -5,12 +5,12 @@ export default {
     },
     table_container: {
         backgroundColor: '#ffffff',
-        width: '300mm',
+        width: '210mm',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
     table_layout: {
-        width: '210mm',
+        width: '300mm',
         fontSize: 8
     }
 }
