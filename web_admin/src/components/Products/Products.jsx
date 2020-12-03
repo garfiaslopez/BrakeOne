@@ -57,13 +57,13 @@ class Products extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-        this.table_columns = [
+		this.table_columns = [
 			{
             	title: 'Clave',
             	dataIndex: 'key_id',
 				key: 'key_id',
 				render: RenderRows.renderRowTextProducts,
-				width: '8%',
+				width: '7%',
 				onCell: () => {
 					return CellStyle(100)
 				}
@@ -73,7 +73,7 @@ class Products extends CrudLayout {
             	dataIndex: 'fmsi',
 				key: 'fmsi',
 				render: RenderRows.renderRowTextProducts,
-				width: '8%',
+				width: '6%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -83,7 +83,7 @@ class Products extends CrudLayout {
             	dataIndex: 'line',
 				key: 'line',
 				render: RenderRows.renderRowTextProducts,
-				width: '8%',
+				width: '7%',
 				onCell: () => {
 					return CellStyle(120)
 				},
@@ -104,7 +104,7 @@ class Products extends CrudLayout {
 				key: 'description',
 				sorter: true,
 				render: RenderRows.renderRowTextTruncateProducts,
-				width: '15%',
+				width: '10%',
 				onCell: () => {
 					return CellStyle(150)
 				},
@@ -120,21 +120,21 @@ class Products extends CrudLayout {
 				},
 			},
 			{
-            	title: 'Publico/Mostrador',
+            	title: 'Publico/' + ' \n' +'Mostrador',
             	dataIndex: 'price_public',
 				key: 'price_public',
 				render: RenderRows.renderRowNumberProducts,
-				width: '6%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				},
 			},
 			{
-            	title: 'Taller/Tienda en linea',
+            	title: 'Taller/' + ' \n' + 'Tienda en Linea',
             	dataIndex: 'price_workshop',
 				key: 'price_workshop',
 				render: RenderRows.renderRowNumberProducts,
-				width: '6%',
+				width: '10%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -144,7 +144,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_credit_workshop',
 				key: 'price_credit_workshop',
 				render: RenderRows.renderRowNumberProducts,
-				width: '6%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -154,7 +154,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
 				render: RenderRows.renderRowNumberProducts,
-				width: '6%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -182,7 +182,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '20%',
+				width: '25%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -226,7 +226,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '20%',
+				width: '19%',
 				onCell: () => {
 					return CellStyle(100)
 				},

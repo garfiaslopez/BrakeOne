@@ -10,7 +10,7 @@ export default {
         marginRight: 'auto'
     },
     table_layout: {
-        width: '300mm',
+        width: '210mm',
         fontSize: 8
     }
 }
