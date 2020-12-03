@@ -53,7 +53,8 @@ const renderRow = (text, record) => {
     console.log(record);
     return ({
         props: {
-            style: { background: record.subsidiary_id.color },
+            /* style: { background: record.subsidiary_id.color }, */
+            style: { background: red },
         },
         children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
@@ -62,7 +63,10 @@ const renderRow = (text, record) => {
 const renderTruncateRow = (text, record) => {
     return ({
         props: {
-            style: { background: record.subsidiary_id.color },
+            style: { 
+                /* background: record.subsidiary_id.color */
+                background: blue
+            },
         },
         children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
     });
@@ -71,7 +75,10 @@ const renderTruncateRow = (text, record) => {
 const renderRowNumber = (text, record) => {
     return ({
         props: {
-            style: { background: record.subsidiary_id.color },
+            style: { 
+                /* background: record.subsidiary_id.color */
+                background: black 
+            },
         },
         children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
