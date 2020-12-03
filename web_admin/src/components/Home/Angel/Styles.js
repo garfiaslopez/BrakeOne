@@ -5,7 +5,7 @@ export default {
     },
     table_container: {
         backgroundColor: '#ffffff',
-        width: '210mm',
+        width: '300mm',
         marginLeft: 'auto',
         marginRight: 'auto'
     },

@@ -43,7 +43,7 @@ export default {
         marginRight: 10
     },
     inputElement: {
-        width: '100%'
+        width: '102%'
     },
     alertContainer: {
         margin: '-24px -24px 24px -24px'
