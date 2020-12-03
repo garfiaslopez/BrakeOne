@@ -134,11 +134,8 @@ class CreateQuotation extends Component {
         });
     }
 
-    scrollToAlert = () => {
-        this.alertDiv.scrollIntoView({ behavior: "smooth" });
-    }
-
     onChangeFieldName(value, key) {
+        console.log(value)
         let obj = {};
         obj[key] = value;
         this.setState(obj);
@@ -183,6 +180,7 @@ class CreateQuotation extends Component {
             make: this.state.car_brand,
             model: value
         }).then((response) => {
+            console.log(response.json.objs)
             if(response.json.objs) {
                 this.setState({
                     carsdb_trims: response.json.objs.filter((e)=>(e!="")),
@@ -197,6 +195,7 @@ class CreateQuotation extends Component {
         // do validations:
         if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
+                console.log("CLIENT", this.state.client_id);
                 if(!this.state.client_id._id) {
                     // we need to save that client: 
                     const NewClient = {
@@ -208,7 +207,7 @@ class CreateQuotation extends Component {
                         sells: 0,
                         price_type: this.state.price_type,
                         address: '',
-                        address_city: 'CDMX',
+                        address_city: '',
                         address_country: '',
                         address_state: '',
                         address_cp: '',
@@ -218,13 +217,13 @@ class CreateQuotation extends Component {
                         email: '',
                         contacts: [],
                         cars: [{
-                            legacy_id: '',
-                            plates: this.state.car_plates,
+                            legacy_id: '',
+                            plates: this.state.car_plates,
                             economic_number: '',
-                            brand: this.state.car_brand,
-                            model: this.state.car_model,
-                            year: this.state.car_year,
-                            color: this.state.car_color,
+                            brand: this.state.car_brand,
+                            model: this.state.car_model,
+                            year: this.state.car_year,
+                            color: this.state.car_color,
                             vin: this.state.car_vin,
                         }],
                     }
@@ -255,14 +254,14 @@ class CreateQuotation extends Component {
                             }
                             this.props.onSubmit(Quotation);
                         } else {
-                            this.scrollToAlert();
+                            console.log(response);
                             this.setState({
                                 error: response.json.message,
                                 loading_submit: false
                             });
                         }
                     }).catch((onError) => {
-                        this.scrollToAlert();
+                        console.log(onError);
                         this.setState({
                             error: onError.message,
                             loading_submit: false
@@ -293,13 +292,11 @@ class CreateQuotation extends Component {
                     this.props.onSubmit(Quotation);
                 }
             } else {
-                this.scrollToAlert();
                 this.setState({
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
                 });
             }
         } else {
-            this.scrollToAlert();
             this.setState({
                 error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
             });
@@ -307,13 +304,14 @@ class CreateQuotation extends Component {
     }
 
     onErrorOrderCreator(err) {
-        this.scrollToAlert();
         this.setState({
             error: err
         });
     }
 
     onChangeOrderCreator(values) {
+        console.log("received:");
+        console.log(values);
         this.setState({
             products: values.products,
             services: values.services,
@@ -332,7 +330,9 @@ class CreateQuotation extends Component {
             page: 1,
             search_text
         }
+        console.log(POSTDATA);
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            console.log(response);
             if (response.json.success) {
                 this.setState({
                     name_clients: response.json.data.docs.map((el)=>(el.name)),
@@ -431,12 +431,13 @@ class CreateQuotation extends Component {
                     showIcon={true}
                     closable={true}
                     onClose={() => {
+                        console.log("dismissingErr");
                         this.props.dismissError();
                     }}
                 />
             )
         }
-        const OptionsTypes = ['PUBLICO', 'TALLER', 'CREDITO TALLER', 'MAYOREO'].map((item, index) => {
+        const OptionsTypes = ['PUBLICO', 'MAYOREO', 'TALLER'].map((item, index) => {
             return (
                 <Select.Option 
                     value={item}
@@ -512,7 +513,6 @@ class CreateQuotation extends Component {
                         key="sub_modal_container"
                         style={styles.modalContainer}
                     >
-                        <div ref={(el)=> this.alertDiv = el }></div>
                         {alert}
                         <div
                             style={styles.inputsContainer}
@@ -526,7 +526,7 @@ class CreateQuotation extends Component {
                                         <Fragment>                                           
                                             <Select
                                                 open={this.state.openCarDropdown}
-                                                disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                                disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                                 style={styles.inputSearch}
                                                 value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
                                                 showSearch
@@ -553,7 +553,7 @@ class CreateQuotation extends Component {
                                         style={styles.inputsRowContainer}
                                     >
                                         <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             autoFocus
                                             backfill
                                             placeholder={'BUSCAR CLIENTE...'}
@@ -567,7 +567,7 @@ class CreateQuotation extends Component {
                                             style={styles.inputElement}
                                         />
                                         <Input
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.client_phone}
                                             style={styles.inputElement}
                                             onChange={(value) => {
@@ -584,7 +584,10 @@ class CreateQuotation extends Component {
                                         />
                                         <Select
                                             showSearch
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            onFocus={() => {
+                                                console.log(this);
+                                            }}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             value={this.state.price_type}
                                             style={styles.inputElement}
                                             placeholder="TIPO PRECIO"
@@ -597,7 +600,7 @@ class CreateQuotation extends Component {
                                         </Select>
 
                                         <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             backfill
                                             placeholder="MARCA"
                                             onSearch={(value) => { this.filterCarMakes(value) }}
@@ -611,7 +614,7 @@ class CreateQuotation extends Component {
                                         />
 
                                         <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             backfill
                                             placeholder="MODELO"
                                             onSearch={(value) => { this.filterCarModels(value) }}
@@ -625,7 +628,7 @@ class CreateQuotation extends Component {
                                         />
 
                                         <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                             backfill
                                             placeholder="DETALLE"
                                             onSearch={(value) => { this.filterCarTrims(value) }}
@@ -642,7 +645,7 @@ class CreateQuotation extends Component {
                                     style={styles.inputsRowContainer}
                                 >
                                     <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_year}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -659,7 +662,7 @@ class CreateQuotation extends Component {
                                         
                                     />
                                     <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_color}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -676,7 +679,7 @@ class CreateQuotation extends Component {
                                         
                                     />
                                     <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_plates}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -694,7 +697,7 @@ class CreateQuotation extends Component {
                                     />
 
                                     <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_vin}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -711,7 +714,7 @@ class CreateQuotation extends Component {
                                         
                                     />
                                     <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         value={this.state.car_kms}
                                         style={styles.inputElement}
                                         onChange={(value) => {
@@ -732,7 +735,7 @@ class CreateQuotation extends Component {
                                     style={styles.inputsRowContainer}
                                 >
                                     <Input.TextArea
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                                         style={styles.inputElement}
                                         value={this.state.notes}
                                         autosize={{ minRows: 2, maxRows: 6 }}
@@ -749,9 +752,8 @@ class CreateQuotation extends Component {
                         </div>
 
                         <OrderCreator
-                            can_edit_quantity={this.props.is_disabled ? false : true }
                             can_edit_disccount={this.props.is_disabled ? false : true }
-                            is_quotation
+                            is_quotation={true}
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
