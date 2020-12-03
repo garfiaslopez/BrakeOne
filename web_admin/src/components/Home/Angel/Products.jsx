@@ -83,7 +83,7 @@ class Products extends CrudLayout {
             	dataIndex: 'line',
 				key: 'line',
 				render: RenderRows.renderRowTextProducts,
-				width: '8%',
+				width: '7%',
 				onCell: () => {
 					return CellStyle(120)
 				},
@@ -154,7 +154,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
 				render: RenderRows.renderRowNumberProducts,
-				width: '10%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				},
@@ -226,7 +226,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '20%',
+				width: '19%',
 				onCell: () => {
 					return CellStyle(100)
 				},
