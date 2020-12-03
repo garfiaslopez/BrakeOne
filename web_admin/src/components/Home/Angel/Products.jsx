@@ -154,7 +154,7 @@ class Products extends CrudLayout {
             	dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
 				render: RenderRows.renderRowNumberProducts,
-				width: '6%',
+				width: '10%',
 				onCell: () => {
 					return CellStyle(100)
 				},
