@@ -59,6 +59,7 @@ const renderRow = (text, record) => {
 }
 
 const renderTruncateRow = (text, record) => {
+    
     return ({
         props: {
             style: { background: record.subsidiary_id.color },
