@@ -87,7 +87,7 @@ module.exports = (method, model) => {
         objectModel.findOneAndRemove({ _id: req.params.object_id }, (err, newObj) => {
 			if(err){
 				return next(new errs.InternalServerError(err));
-			} else if (newObj) {
+			} else if (newObj) {
                 return res.json({ success: true, message: "Succesfully deleted.", obj: newObj });
             } else {
                 return next(new errs.BadRequestError("El elemento no existe."));
@@ -114,38 +114,26 @@ module.exports = (method, model) => {
             Paginator.populate = req.body.populate_ids;
         }
 
-        // FOR FILTER BUSQUEDA
+        // FOR FILTER
         var Filter = {}
-        
-        if (req.body.account_id != undefined) {            
-            Filter['account_id'] = req.body.account_id;
-        }    
-        
-        //---------------------------------------------------//
-        console.log("Llegaste al segundo filtro");
+        if (req.body.account_id != undefined) {
+            Filter['account_id'] = req.body.account_id
+        }
         if (req.body.subsidiary_id != undefined) {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
-        /* ------------------------------------------------------- */
-        console.log("Llegaste al tercer filtro");
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
         }
-        
-        
-        //---------------------------------------------------//
-        console.log("Llegaste al cuarto filtro");
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
             });
         }
-        
-        //---------------------------------------------------//
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
         }
-        console.log(req.body.date);
+
         if (req.body.or_filters != undefined) {
             const or_array = [];
             Object.keys(req.body.or_filters).forEach((filter_key)  => {
@@ -202,7 +190,7 @@ module.exports = (method, model) => {
         return Read;
     } else if (method == 'update') {
         return Update;
-    } else if (method == 'delete') {
+    } else if (method == 'delete') {
         return Delete
     } else if (method == 'search') {
         return Search

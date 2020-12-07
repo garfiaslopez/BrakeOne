@@ -1,4 +1,4 @@
- 'use strict';
+'use strict';
 
 var AuthenticateFunctions = require("../controllers/authController");
 var MiddleAuth = require('./../middlewares/auth');

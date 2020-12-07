@@ -34,7 +34,7 @@ const initDashboardData = {
 	ingresses: [],
 	spends: [],
 	paybills: [],
-	returns: []
+	returns: []
 };
 const initHistoryTotals = {
 	tickets: {
@@ -297,7 +297,7 @@ module.exports = {
 						TicketModel.find({ corte_id: lastCorteID }).exec((err, resultT) => {
 							if (!err) {
 								callback(null, resultT);
-							} else {
+							} else {
 								callback(null, []);
 							}
 						});
@@ -307,7 +307,7 @@ module.exports = {
 						IngressModel.find({ corte_id: lastCorteID}).exec((err, resultT) => {
 							if (!err) {
 								callback(null, resultT);
-							} else {
+							} else {
 								callback(null, []);
 							}
 						});
@@ -317,7 +317,7 @@ module.exports = {
 						SpendModel.find({ corte_id: lastCorteID}).exec((err, resultT) => {
 							if (!err) {
 								callback(null, resultT);
-							} else {
+							} else {
 								callback(null, []);
 							}
 						});
@@ -327,7 +327,7 @@ module.exports = {
 						PaybillModel.find({ corte_id: lastCorteID}).exec((err, resultT) => {
 							if (!err) {
 								callback(null, resultT);
-							} else {
+							} else {
 								callback(null, []);
 							}
 						});
@@ -337,7 +337,7 @@ module.exports = {
 						AdjustModel.find({ corte_id: lastCorteID, type: 'return' }).exec((err, resultT) => {
 							if (!err) {
 								callback(null, resultT);
-							} else {
+							} else {
 								callback(null, []);
 							}
 						});
@@ -349,7 +349,7 @@ module.exports = {
 								ingresses: responses[1],
 								spends: responses[2],
 								paybills: responses[3],
-								returns: responses[4]
+								returns: responses[4]
 							};
 							const result = parseDashboardTotals(data);
 							return res.json({
@@ -411,7 +411,7 @@ module.exports = {
 		}
 		// FOR SORT
 		if (req.body.sort_field != undefined) {
-			Paginator.sort = {};
+			Paginator.sort = {};
 			Paginator.sort[req.body.sort_field] = -1;
 
 			if (req.body.sort_order != undefined) {
@@ -432,8 +432,6 @@ module.exports = {
 
 
 /*
-
-
 CorteModel.aggregate([
 	{
 		$match: Filter
@@ -471,7 +469,6 @@ CorteModel.aggregate([
 		var Tasks = [];
 		var Query;
 			var carwash_id = new ObjectId(req.params.carwash_id);
-
 		if(req.body.initialDate && req.body.finalDate){
 			var initialDate = moment(req.body.initialDate).toDate();
 			var finalDate = moment(req.body.finalDate).toDate();
@@ -509,7 +506,6 @@ CorteModel.aggregate([
 				}
 			};
 		}
-
 		//retrive all the tickets.
 		Tasks.push(function(callback){
 			TicketModel.aggregate([
@@ -526,7 +522,6 @@ CorteModel.aggregate([
 				}
 			});
 		});
-
 		//retrive all the spends.
 		Tasks.push(function(callback){
 			SpendModel.aggregate([
@@ -543,7 +538,6 @@ CorteModel.aggregate([
 				}
 			});
 		});
-
 		//retrive all the Ingresses.
 		Tasks.push(function(callback){
 			IngressModel.aggregate([
@@ -576,7 +570,6 @@ CorteModel.aggregate([
 				}
 			});
 		});
-
 		async.series(Tasks, function(err, result) {
 				if (err){
 					console.log(err);
@@ -596,10 +589,8 @@ CorteModel.aggregate([
 				}
 		});
 	},
-
 	// USE THE PAGINATOR QUERY FOR WEB DETAIL: (FOUR PAGINATORS...)
 	AllHistoryByLavado: function(req,res){
-
 		var Tasks = [];
 		var Query;
 		var carwash_id = new ObjectId(req.params.carwash_id);
@@ -616,7 +607,6 @@ CorteModel.aggregate([
 		if(req.body.initialDate && req.body.finalDate){
 			var initialDate = moment(req.body.initialDate).toDate();
 			var finalDate = moment(req.body.finalDate).toDate();
-
 			if(req.body.corte_id){
 				Query = {
 					carwash_id: carwash_id,
@@ -651,7 +641,6 @@ CorteModel.aggregate([
 				}
 			};
 		}
-
 		//retrive all the tickets.
 		Tasks.push(function(callback){
 			TicketModel.paginate(Query,Paginator, function(err, result) {
@@ -662,19 +651,16 @@ CorteModel.aggregate([
 				}
 			});
 		});
-
 		//retrive all the spends.
 		Tasks.push(function(callback){
 			SpendModel.paginate(Query,Paginator, function(err, result) {
 				if(err){
 					res.json({success:false,error:err});
-
 				}else{
 					callback(null,{'name':'spends','data': result});
 				}
 			});
 		});
-
 		//retrive all the Ingresses.
 		Tasks.push(function(callback){
 			IngressModel.paginate(Query,Paginator, function(err, result) {
@@ -695,7 +681,6 @@ CorteModel.aggregate([
 				}
 			});
 		});
-
 		async.series(Tasks, function(err, result) {
             if (err){
                 console.log(err);
@@ -712,12 +697,9 @@ CorteModel.aggregate([
 			}
         });
 	},
-
 	UpdateByLavado: function(req,res){
-
 		var TokenObj = req.decoded;
 		var Tasks = [];
-
 		req.body.tickets.forEach(function(reqTicket){
 			Tasks.push(function(callback){
 				var Ticket = new TicketModel();
@@ -750,7 +732,6 @@ CorteModel.aggregate([
 				});
 			});
 		});
-
 		req.body.spends.forEach(function(reqSpend){
 			Tasks.push(function(callback){
 				var Spend = new SpendModel();
@@ -772,7 +753,6 @@ CorteModel.aggregate([
 				});
 			});
 		});
-
 		req.body.ingresses.forEach(function(reqIngress){
 			Tasks.push(function(callback){
 				var Ingress = new IngressModel();
@@ -791,7 +771,6 @@ CorteModel.aggregate([
 				});
 			});
 		});
-
 		req.body.paybills.forEach(function(reqPaybill){
 			Tasks.push(function(callback){
 				var Paybill = new PaybillModel();
@@ -811,7 +790,6 @@ CorteModel.aggregate([
 				});
 			});
 		});
-
 		req.body.cortes.forEach(function(reqCorte){
 			Tasks.push(function(callback){
 				var Corte = new CorteModel();
@@ -828,7 +806,6 @@ CorteModel.aggregate([
 				});
 			});
 		});
-
 		req.body.pendings.forEach(function(reqPending){
 			Tasks.push(function(callback){
 				var Pending = new PendingModel();
@@ -838,7 +815,6 @@ CorteModel.aggregate([
 				Pending.denomination = reqPending.denomination;
 				Pending.corte_id = reqPending.corte_id;
 				Pending.isDone = reqPending.isDone;
-
 				Pending.save(function(err){
 					if(err){
 						callback(null,{'name':'pendings','_id':Pending._id,'succesfull':false});
@@ -848,7 +824,6 @@ CorteModel.aggregate([
 				});
 			});
 		});
-
 		async.series(Tasks, function(err, Results) {
             if (err){
                 console.log(err);
@@ -859,7 +834,6 @@ CorteModel.aggregate([
 			var arrayOfBillsid = [];
 			var arrayOfCortesid = [];
 			var arrayOfPendingsid = [];
-
 			Results.forEach(function(result){
 				if(result.name == "tickets"){
 					arrayOfTicketsid.push(result._id);
@@ -892,7 +866,6 @@ CorteModel.aggregate([
 			}
     	});
 	},
-
 	DeleteById: function(req,res){
 		var Tasks = [];
 		req.body.spends.forEach(function(spend_id){
@@ -911,7 +884,6 @@ CorteModel.aggregate([
 				);
 			});
 		});
-
 		req.body.ingresses.forEach(function(ingress_id){
 			Tasks.push(function(callback){
 				IngressModel.remove(
@@ -928,7 +900,6 @@ CorteModel.aggregate([
 				);
 			});
 		});
-
 		req.body.paybills.forEach(function(paybill_id){
 			Tasks.push(function(callback){
 				PaybillModel.remove(
@@ -945,7 +916,6 @@ CorteModel.aggregate([
 				);
 			});
 		});
-
 		req.body.pendings.forEach(function(pending_id){
 			Tasks.push(function(callback){
 				PendingModel.remove(
@@ -962,7 +932,6 @@ CorteModel.aggregate([
 				);
 			});
 		});
-
 		async.series(Tasks, function(err, result) {
 				if (err){
 					console.log(err);
@@ -975,6 +944,4 @@ CorteModel.aggregate([
 		});
 	}
 }
-
-
 */
