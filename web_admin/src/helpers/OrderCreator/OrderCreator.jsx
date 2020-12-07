@@ -52,14 +52,13 @@ const renderRowSmallNumber = (text, record) => {
 const renderRow = (text, record) => {
     return ({
         props: {
-            style: { background: record.subsidiary_id.color },
+            style: { background: record.subsidiary_id ? record.subsidiary_id.color : 'white' },
         },
         children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
 }
 
 const renderTruncateRow = (text, record) => {
-    
     return ({
         props: {
             style: { background: record.subsidiary_id.color },
@@ -96,6 +95,7 @@ class OrderCreator extends Component {
             loading_data: false,
             results_data: [],
             users: [],
+            initial_length_data: init_selected_data.length - 1,
             selected_data: init_selected_data,
             price_type: props.price_type,
             selected_quantity: 1,
@@ -192,14 +192,15 @@ class OrderCreator extends Component {
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '5%'
+                width: '5%',
+                editable: props.can_edit_quantity,
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Usuario</div>,
                 render: renderRowSmall,
             	dataIndex: 'user_name',
                 key: 'user_name',
-                width: '8%'
+                width: '5%'
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
@@ -241,7 +242,8 @@ class OrderCreator extends Component {
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '10%'
+                width: '10%',
+                editable: props.can_edit_price,
 			},
             {
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
@@ -249,7 +251,7 @@ class OrderCreator extends Component {
             	dataIndex: 'discount',
                 key: 'discount',
                 width: '10%',
-                editable: true,
+                editable: props.can_edit_disccount,
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Total</div>,
@@ -260,12 +262,22 @@ class OrderCreator extends Component {
 			}
         ];
 
+        if (this.props.is_quotation) {
+            this.table_columns_selected.unshift({
+            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+            	dataIndex: 'subsidiary_id.denomination',
+				key: 'subsidiary_id.denomination',
+                render: renderRow,
+                width: '5%'
+            });
+        }
+
         if (!props.disabled) {
             this.table_columns_selected.push({
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
                 width: '20%',
-            	render: (text, record) => {
+                render: (text, record) => {
                     if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
                         return (
                             <span>
@@ -298,7 +310,6 @@ class OrderCreator extends Component {
 		  	});
         }
 
-        this.onChangeDiscount = this.onChangeDiscount.bind(this);
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
         this.onChangeUser = this.onChangeUser.bind(this);
 
@@ -320,7 +331,6 @@ class OrderCreator extends Component {
                 price_type: nextProps.price_type
             });
         }
-
         if (nextProps.update_data) {
             const init_selected_data = [];
             if (nextProps.update_data.products) {
@@ -329,6 +339,9 @@ class OrderCreator extends Component {
             if (nextProps.update_data.services) {
                 nextProps.update_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
+
+            console.log("INITIAL STATE DATA");
+            console.log(init_selected_data);
             this.setState({
                 selected_data: init_selected_data,
                 total: nextProps.update_data.total
@@ -336,6 +349,10 @@ class OrderCreator extends Component {
         }
     }
 
+    scrollToBottom = () => {
+        this.endView.scrollIntoView({ behavior: "smooth" });
+    }
+    
     onChangeQuantity(value) {
         this.setState({
             selected_quantity: value
@@ -344,11 +361,6 @@ class OrderCreator extends Component {
     onChangeUser(user_id) {
         this.setState({
             selected_user: this.state.users.find((el) => (el._id === user_id))
-        });
-    }
-    onChangeDiscount(value) {
-        this.setState({
-            selected_discount: value
         });
     }
 
@@ -486,6 +498,9 @@ class OrderCreator extends Component {
         const s = [];
         actual_products.forEach((el) => {
             const newEl = Object.assign({}, el);
+            if (newEl.subsidiary_id) {
+                newEl.subsidiary_id = newEl.subsidiary_id._id;
+            }
             if (newEl.type === 'product') {
                 delete newEl.key;
                 delete newEl.type;
@@ -496,7 +511,6 @@ class OrderCreator extends Component {
                 s.push(newEl);
             }
         });
-
         this.props.onChange({
             products: p,
             services: s,
@@ -507,109 +521,121 @@ class OrderCreator extends Component {
     // update actual list product stock, minus selected quantity.
     // 
     addRecord(record) {
-        console.log(this.props.is_reception, isNumber(this.state.selected_discount),isNumber(this.state.selected_discount) === false);
-        if (this.props.is_reception && isNumber(this.state.selected_discount) === false) {
-            this.props.onError('Favor de agregar un precio de compra para el producto.');
-        } else {
-            if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-                if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > 0 && (record.stock - this.state.selected_quantity)) >= 0) {
-                    if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
-    
-                        let actualProducts = Object.assign([] ,this.state.selected_data);
-    
-                        // let id = this.state.products.findIndex((el)=>(el.id === record.id));
-                        // actualProducts[id].stock -= record.quantity;
-    
-                        // Price selector:
-                        let Price = Number(record.price_public);
-                        let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
-    
-                        if (this.state.price_type === 'PUBLICO') {
-                            Price = Number(record.price_public);
-                        } else if (this.state.price_type === 'MAYOREO') {
-                            Price = Number(record.price_wholesale);
-                        } else if (this.state.price_type === 'TALLER' ) {
-                            Price = Number(record.price_workshop);
-                        }
+        if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > 0 && (record.stock - this.state.selected_quantity)) >= 0) {
+                if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
-                        if (this.props.is_reception) {
-                            Price = this.state.selected_discount;
-                            Discount = 0;
-                        }
-    
-                        // total price:
-                        const P = Number(this.state.selected_quantity) * Price;
-                        if (Discount) {
-                            Discount = (P * Number(Discount)) / 100;
-                        }
-                        const new_total = (this.state.total + Math.ceil(P - Discount));
-        
-                        actualProducts.push({
-                            key: this.state.selected_data.length + 1,
-                            type: record.fmsi ? 'product' : 'service',
-                            id: record._id,
-                            user_id: this.state.selected_user._id,
-                            user_name: this.state.selected_user.name,
-                            subsidiary_id: record.subsidiary_id._id,
-                            fmsi: record.fmsi,
-                            brand: record.brand,
-                            line: record.line,
-                            description: record.description,
-                            key_id: record.key_id,
-                            price_type: this.state.price_type | 'PUBLICO',
-                            price: Price,
-                            quantity: this.state.selected_quantity,
-                            discount: Discount,
-                            total: Math.ceil(P - Discount),
-                            old_stock: record.stock,
-                        });
-    
-                        this.setState({
-                            selected_data: actualProducts,
-                            selected_quantity: 1,
-                            selected_discount: undefined,
-                            total: new_total
-                        });
-                        this.sendToOnChange(actualProducts, new_total);
-                    } else {
-                        this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
+                    let actualProducts = Object.assign([] ,this.state.selected_data);
+
+                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
+                    // actualProducts[id].stock -= record.quantity;
+
+                    // Price selector:
+                    let Price = Number(record.price_public);
+                    let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
+
+                    if (this.state.price_type === 'PUBLICO') {
+                        Price = Number(record.price_public);
+                    } else if (this.state.price_type === 'MAYOREO') {
+                        Price = Number(record.price_wholesale);
+                    } else if (this.state.price_type === 'TALLER' ) {
+                        Price = Number(record.price_workshop);
                     }
+
+                    if (this.props.is_reception) {
+                        Discount = 0;
+                    }
+
+                    // total price:
+                    const P = Number(this.state.selected_quantity) * Price;
+                    if (Discount) {
+                        Discount = (P * Number(Discount)) / 100;
+                    }
+                    const new_total = (this.state.total + Math.ceil(P - Discount));
+    
+                    actualProducts.push({
+                        key: this.state.selected_data.length + 1,
+                        type: record.fmsi ? 'product' : 'service',
+                        id: record._id,
+                        user_id: this.state.selected_user._id,
+                        user_name: this.state.selected_user.name,
+                        subsidiary_id: record.subsidiary_id,
+                        fmsi: record.fmsi,
+                        brand: record.brand,
+                        line: record.line,
+                        description: record.description,
+                        key_id: record.key_id,
+                        price_type: this.state.price_type | 'PUBLICO',
+                        price: Price,
+                        quantity: this.state.selected_quantity,
+                        discount: Discount,
+                        total: Math.ceil(P - Discount),
+                        old_stock: record.stock,
+                    });
+
+                    this.setState({
+                        selected_data: actualProducts,
+                        selected_quantity: 1,
+                        selected_discount: undefined,
+                        total: new_total
+                    });
+                    this.sendToOnChange(actualProducts, new_total);
+                    this.scrollToBottom();
                 } else {
-                    this.props.onError('No se pueden vender productos sin stock.');
+                    this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
                 }
             } else {
-                this.props.onError('No se pueden vender productos de otra sucursal.');
+                this.props.onError('No se pueden seleccionar productos sin stock.');
             }
+        } else {
+            this.props.onError('No se pueden seleccionar productos de otra sucursal.');
         }
     }
 
     updateRecord = (row) => {
+        console.log("updateRecord", row);
         const newData = [...this.state.selected_data];
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
-        const newTotalRow = Math.ceil(item.price - ((item.price * item.quantity) * row.discount) / 100);
+        const rowTotal = (Number(row.price) * Number(row.quantity));
+        const newTotalRow = Math.ceil(rowTotal - (rowTotal * Number(row.discount)) / 100);
+        console.log("newTotalRow",newTotalRow)
         newData.splice(index, 1, {
           ...item,
           ...row,
           total: newTotalRow
         });
+        const newTotal = (this.state.total - item.total + newTotalRow);
+
+        console.log("ACTUALPRODUCTS", newData);
+        console.log("new_total", newTotal);
+
         this.setState({
-            total: (this.state.total - item.total + newTotalRow),
+            total: newTotal,
             selected_data: newData 
         });
+        this.sendToOnChange(newData, newTotal);
     }
 
     deleteRecord(record) {
         // delete from table:
+        console.log("GOING TO DETELE RECORD");
+        console.log(record);
         let actualProducts = Object.assign([], this.state.selected_data);
-        const index = actualProducts.findIndex((el)=>(el._id === record._id && record.quantity === el.quantity));
+        console.log("ACTUALPRODUCTS", actualProducts);
+        const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
+        console.log("INDEX,", index);
         if (index != -1) {
             actualProducts.splice(index, 1);
         }
         const new_total = this.state.total - (record.total);
+
+        console.log("ACTUALPRODUCTS", actualProducts);
+        console.log("new_total", new_total);
+
         this.setState({
+            total: new_total,
             selected_data: actualProducts,
-            total: new_total
         });
         this.sendToOnChange(actualProducts, new_total);
     }
@@ -634,92 +660,83 @@ class OrderCreator extends Component {
         let SearcherProducts = <div></div>;
         if (!this.props.disabled) {
             SearcherProducts = (
-                <div
-                    style={styles.columnContainer}
-                >
+                <Fragment>
+                    <Divider> Buscar y seleccionar productos: </Divider>
                     <div
-                        style={styles.rowContainer}
+                        style={styles.columnContainer}
                     >
-                        <Input.Search
-                            style={styles.rowSearchElement}
-                            placeholder="Buscar..."
-                            onSearch={(value) => { this.getData(value); }}
-                            enterButton
-                        />
-                        <div style={styles.groupLabel}>
-                            <p style={styles.quantityLabel}>Cantidad (#)</p>
-                            <InputNumber
-                                style={styles.rowElementQuantity}
-                                placeholder="Cantidad (#)"
-                                value={this.state.selected_quantity}
-                                onChange={this.onChangeQuantity}
-                                size="100%"
-                                step={1}
-                                min={1}
+                        <div
+                            style={styles.rowContainer}
+                        >
+                            <Input.Search
+                                onFocus={() => {
+                                    this.scrollToBottom();
+                                }}
+                                style={styles.rowSearchElement}
+                                placeholder="Buscar..."
+                                onSearch={(value) => {
+                                    this.getData(value);
+                                    this.scrollToBottom();
+                                }}
+                                enterButton
+                            />
+                            <div style={styles.groupLabel}>
+                                <p style={styles.quantityLabel}>Cantidad (#)</p>
+                                <InputNumber
+                                    style={styles.rowElementQuantity}
+                                    placeholder="Cantidad (#)"
+                                    value={this.state.selected_quantity}
+                                    onChange={this.onChangeQuantity}
+                                    size="100%"
+                                    step={1}
+                                    min={1}
+                                />
+                            </div>
+                            <div style={styles.groupLabel}>
+                                <p style={styles.quantityLabel}>Usuario </p>
+                                <Select
+                                    style={styles.rowElementUser}
+                                    value={this.state.selected_user._id}
+                                    showSearch
+                                    optionFilterProp="children"
+                                    placeholder="Usuario"
+                                    
+                                    onChange={this.onChangeUser}
+                                >
+                                        {OptionsUsers}
+                                </Select>
+                            </div>                        
+                        </div>
+
+                        <div
+                            style={styles.rowContainer}
+                        >
+                            <Table
+                                bordered
+                                loading={this.state.loading_data}
+                                size="small"
+                                scroll={{ y: 200 }}
+                                style={styles.tableLayout}
+                                columns={this.table_columns_results}
+                                dataSource={this.state.results_data}
+                                locale={{
+                                    filterTitle: 'Filtro',
+                                    filterConfirm: 'Ok',
+                                    filterReset: 'Reset',
+                                    emptyText: 'Sin Datos'
+                                }}
+                                pagination={false}
+                                onRow={(record) => {
+                                    return {
+                                        onClick: () => {
+                                            this.addRecord(record);
+                                        },
+                                    };
+                                }}
                             />
                         </div>
-                        {(()=>{
-                            if (this.props.is_reception) {
-                                return (
-                                    <div style={styles.groupLabel}>
-                                        <p style={styles.discountLabel}>{'Precio ($)'}</p>
-                                        <InputNumber
-                                            style={styles.rowElementPrice}
-                                            placeholder={"Precio Compra ($)"}
-                                            value={this.state.selected_discount}
-                                            onChange={this.onChangeDiscount}
-                                            size="100%"
-                                            step={1}
-                                            min={0}
-                                        />
-                                    </div>
-                                );
-                            }
-                        })()}
-                        <div style={styles.groupLabel}>
-                            <p style={styles.quantityLabel}>Usuario </p>
-                            <Select
-                                style={styles.rowElementUser}
-                                value={this.state.selected_user._id}
-                                showSearch
-                                optionFilterProp="children"
-                                placeholder="Usuario"
-                                
-                                onChange={this.onChangeUser}
-                            >
-                                    {OptionsUsers}
-                            </Select>
-                        </div>                        
                     </div>
-
-                    <div
-                        style={styles.rowContainer}
-                    >
-                        <Table
-                            bordered
-                            loading={this.state.loading_data}
-                            size="small"
-                            scroll={{ y: 200 }}
-                            style={styles.tableLayout}
-                            columns={this.table_columns_results}
-                            dataSource={this.state.results_data}
-                            locale={{
-                                filterTitle: 'Filtro',
-                                filterConfirm: 'Ok',
-                                filterReset: 'Reset',
-                                emptyText: 'Sin Datos'
-                            }}
-                            pagination={false}
-                            onRow={(record) => {
-                                return {
-                                    onClick: () => {
-                                        this.addRecord(record);
-                                    },
-                                };
-                            }}
-                        />
-                    </div>
-                </div>
+                </Fragment>
             );
         }
 
@@ -731,18 +748,29 @@ class OrderCreator extends Component {
         };
 
         const columns = this.table_columns_selected.map((col) => {
-            if (!col.editable || !this.props.can_edit_disccount) {
+            if (!col.editable) {
               return col;
             }
             return {
                 ...col,
-                onCell: record => ({
-                    record,
-                    editable: col.editable,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    handleSave: this.updateRecord,
-                }),
+                onCell: record => {
+                    if (Number(record.key) > this.state.initial_length_data) {
+                        return ({
+                            record,
+                            editable: col.editable,
+                            dataIndex: col.dataIndex,
+                            title: col.title,
+                            handleSave: this.updateRecord,
+                        });
+                    }
+                    return ({
+                        record,
+                        editable: false,
+                        dataIndex: col.dataIndex,
+                        title: col.title,
+                        handleSave: this.updateRecord,
+                    });
+                },
             };
         });
 
@@ -751,7 +779,6 @@ class OrderCreator extends Component {
                 <div
                     style={styles.columnContainer}
                 >
-                    <Divider> Buscar y seleccionar productos: </Divider>
                     {SearcherProducts}
                     <Divider> Orden de venta </Divider>
                     <div
@@ -778,6 +805,11 @@ class OrderCreator extends Component {
                     <div style={styles.labelContainer}>
                         <p style={styles.labelTitle}> Total de compra: </p>
                         <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                    </div>
+                    <div 
+                        ref={(el) => { this.endView = el; }} 
+                    >
+
                     </div>
                 </div>
             </Fragment>
