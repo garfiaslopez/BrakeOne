@@ -92,7 +92,7 @@ class CrudLayout extends Component {
 			} else if (this.model.name === 'sell') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
-				POSTDATA['or_filters']['client_id'] = this.search_text;
+				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
 			} else if (this.model.name === 'reception') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
@@ -639,6 +639,7 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Resultados.</Divider>
 				<Table 
 					bordered
 					style={styles.tableLayout}

@@ -318,7 +318,7 @@ class CreatePayment extends Component {
                                     {OptionsTypes}
                                 </Select>
                                 <Input
-                                    disabled={this.props.is_disabled | this.state.type === 'EFECTIVO'}
+                                    disabled={this.props.is_disabled | this.state.type === 'EFECTIVO'}
                                     value={this.state.bank}
                                     style={styles.inputElement}
                                     onChange={(value) => {
@@ -335,7 +335,7 @@ class CreatePayment extends Component {
                                     
                                 />
                                 <Input
-                                    disabled={this.props.is_disabled | this.state.type === 'EFECTIVO'}
+                                    disabled={this.props.is_disabled | this.state.type === 'EFECTIVO'}
                                     value={this.state.reference}
                                     style={styles.inputElement}
                                     onChange={(value) => {
