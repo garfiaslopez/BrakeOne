@@ -102,7 +102,7 @@ var SellSchema = new Schema({
         type: Number,
         default: 0
     },
-    is_payed: { 
+    is_payed: { 
         type: Boolean,
         default: false
     },

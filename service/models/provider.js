@@ -50,10 +50,10 @@ var ProviderSchema = new Schema({
         type: String
     },
     contacts: [{
-        name: { type: String },
-        job_role: { type: String },
-        phone_number: { type: String },
-        email: { type: String }
+        name: { type: String },
+        job_role: { type: String },
+        phone_number: { type: String },
+        email: { type: String }
     }],
     legacy_id: {
 		type: String

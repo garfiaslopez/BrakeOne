@@ -57,42 +57,42 @@ var ClientSchema = new Schema({
         type: String
     },
     contacts: [{
-        name: { 
+        name: { 
             type: String 
         },
-        job_role: { 
+        job_role: { 
             type: String 
         },
-        phone_mobil: { 
+        phone_mobil: { 
             type: String 
         },
-        email: { 
+        email: { 
             type: String 
         }
     }],
     cars: [{
-        legacy_id: { 
+        legacy_id: { 
             type: String 
         },
-        plates: { 
+        plates: { 
             type: String 
         },
-        economic_number: { 
+        economic_number: { 
             type: String 
         },
-        brand: { 
+        brand: { 
             type: String 
         },
-        model: { 
+        model: { 
             type: String 
         },
-        year: { 
+        year: { 
             type: String 
         },
-        color: { 
+        color: { 
             type: String 
         },
-        vin: { 
+        vin: { 
             type: String 
         },
     }],

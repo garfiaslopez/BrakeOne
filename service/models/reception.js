@@ -70,7 +70,7 @@ var ReceptionSchema = new Schema({
     total: {
         type: Number
     },
-    is_payed: { 
+    is_payed: { 
         type: Boolean,
         default: false
     },
