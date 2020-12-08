@@ -1,89 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'antd';
 import moment from 'moment';
-import RenderRows from '../../../helpers/render_rows';
 
 import './Styles.css';
 import NumeroALetras from '../../../helpers/number_to_letter';
 const round2 = (number) => (Math.round(number * 100) / 100);
 
 const propTypes = {
-    folio: PropTypes.string,
+    subsidiary: PropTypes.object,
     client: PropTypes.object,
-    vehicle: PropTypes.vehicle,
-    totalNumber: PropTypes.number
+    folio: PropTypes.string,
+    sellItems: PropTypes.array,
+    totalNumber: PropTypes.number,
+    totalString: PropTypes.string
 };
 
 const defaultProps = {
-    folio: '9934-5243',
+    subsidiary: {
+        street: 'Saratoga 313',
+        colony: 'Portales Benito Juarez',
+        city: 'CDMX',
+        postalCode: '03300',
+        phone: '7653-6116'
+    },
     client: {
-        name: 'José de Jesús Garfias Lopez Caste',
+        name: 'José de Jesús Garfias Lopez',
         phone_number: '5564230789'
     },
-    vehicle: {
-        plates: 'Mostrador',
-        brand: 'Chevrolet',
-        model: 'Silverado',
-        year: 1992,
-        kms: 1223
-    },
-    totalNumber: 2268,
+    folio: '3443-2453',
     sellItems: [{
-        datakey: 'P121 1244',
-        description: 'DEL ALFA ROMEO GT 147 156 02-07 2.0L 1.9L Ø284.00MM',
-        quantity: 2,
-        price: 1085.3,
-        charge: 2170.3
+        datakey: 'P56101N',
+        description: 'balata trasera brembo 3072',
+        quantity: 1,
+        charge: 575
     }, {
-        datakey: 'P131 1244',
-        description: 'DEL ALFA ROMEO GT 35432 5432 mm435 1.7L',
+        datakey: 'P56341N',
+        description: 'balata chida brembo 3072',
         quantity: 2,
-        price: 115.3,
-        charge: 2270.5
+        charge: 585
+    }, {
+        datakey: 'P56231N',
+        description: 'balata',
+        quantity: 1,
+        charge: 223
     }],
-    sellColumns: [{
-        title: 'Clave',
-        dataIndex: 'key_id',
-        key: 'key_id',
-    }, {
-        title: 'Descripción',
-        dataIndex: 'description',
-        key: 'description',
-    }, {
-        title: 'Cantidad',
-        dataIndex: 'quantity',
-        key: 'qantity',
-    }, {
-        title: 'Precio',
-        dataIndex: 'price',
-        key: 'price',
-        render: RenderRows.renderRowNumber,
-    }, {
-        title: 'Importe',
-        dataIndex: 'total',
-        key: 'total',
-        render: RenderRows.renderRowNumber,
-    }]
-};
+    totalNumber: 1383,
+    totalString: 'mil trescientos ochenta y tres pesos M.N.'
+}
 
-const SellRecipe = ({
+const SellTicket = ({
     folio,
     client,
-    vehicle,
-    totalNumber,
+    subsidiary,
     sellItems,
-    sellColumns,
-    is_service
+    totalNumber,
+    totalString
 }) => {
     const renderHeader = () => (
-        <header className="sell-recipe__header">
+        <header className="sell-ticket__header">
             <img
-                className="sell-recipe__logo"
-                src="/images/MainLogo.png"
+                className="sell-ticket__logo"
+                src="/images/BrakeOneChristmas.png"
             />
-            <h1 className="sell-recipe__title">
-                Remisión
+            <p className="sell-ticket__subsidiary">
+                <span>{`Punto de venta: ${subsidiary.street}`}</span>
+                <span>{`Col. ${subsidiary.colony}`}</span>
+                <span>{`${subsidiary.city} CP ${subsidiary.postalCode}`}</span>
+                <span>{`Tel: ${subsidiary.phone}`}</span>
+            </p>
+            <h1 className="sell-ticket__title">
+                Ticket de venta sin valor fiscal
             </h1>
         </header>
     );
@@ -103,134 +89,82 @@ const SellRecipe = ({
                     Fecha
                 </h3>
                 <span className="recipe__item__data">
-                    {moment().format('DD-MM-YYYY')}
+                    {moment().format('MM-DD-YYYY')}
                 </span>
             </li>
         </ul>
     );
 
-    const renderClientData = () => (
-        <ul className="recipe__flex-container">
-            <h2>Cliente</h2>
-            <li>
-                <h3 className="recipe__item__title">
-                    Nombre
-                </h3>
-                <span className="recipe__item__data">
-                    {client.name}
-                </span>
-            </li>
-            <li>
-                <h3 className="recipe__item__title">
-                    Teléfono
-                </h3>
-                <span className="recipe__item__data">
-                    {client.phone_number}
-                </span>
-            </li>
-        </ul>
+    const renderClient = () => (
+        <div className="sell-ticket__client">
+            <h2 className="sell-ticket__list__title">
+                Cliente
+            </h2>
+            <ul className="recipe__column-container">
+                <li>
+                    <h3 className="recipe__item__title">
+                        Nombre
+                    </h3>
+                    <span className="recipe__item__data">
+                        {client.name}
+                    </span>
+                </li>
+                <li>
+                    <h3 className="recipe__item__title">
+                        Teléfono
+                    </h3>
+                    <span className="recipe__item__data">
+                        {client.phone_number}
+                    </span>
+                </li>
+            </ul>
+        </div>
     );
 
-    const renderVehicleData = () => {
-        if (is_service) {
-            return (
-                <ul className="recipe__flex-container">
-                    <h2>Vehículo</h2>
-                    <li>
-                        <h3 className="recipe__item__title">
-                            Placas
-                        </h3>
-                        <span className="recipe__item__data">
-                            {vehicle.plates}
-                        </span>
+    const renderSellItems = () => (
+        <div className="sell-ticket__list">
+            <h2 className="sell-ticket__list__title recipe__flex-container">
+                <span>Clave / Concepto</span>
+                <span>Importe</span>
+            </h2>
+            <ul>
+                {sellItems.map((item, i) => (
+                    <li className="recipe__flex-container" key={i}>
+                    <span>{item.datakey}</span>
+                        <span>${String(round2(item.charge ? item.charge : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>                      
+                        <span>{`${item.quantity} - ${item.description}`}</span>
                     </li>
-                    <li>
-                        <h3 className="recipe__item__title">
-                            Marca
-                        </h3>
-                        <span className="recipe__item__data">
-                            {vehicle.brand}
-                        </span>
-                    </li>
-                    <li>
-                        <h3 className="recipe__item__title">
-                            Modelo
-                        </h3>
-                        <span className="recipe__item__data">
-                            {vehicle.model}
-                        </span>
-                    </li>
-                    <li>
-                        <h3 className="recipe__item__title">
-                            Año
-                        </h3>
-                        <span className="recipe__item__data">
-                            {vehicle.year}
-                        </span>
-                    </li>
-                    <li>
-                        <h3 className="recipe__item__title">
-                            Kms
-                        </h3>
-                        <span className="recipe__item__data">
-                            {vehicle.kms}
-                        </span>
-                    </li>
-                </ul>
-            );
-        } else {
-            return ('');
-        }
-    };
-
-    const renderTotal = () => (
-        <ul className="recipe__flex-container sell-recipe__total">
-            <li>
-                <h3 className="recipe__item__title">
-                    Importe con letra
-                </h3>
-                <span className="recipe__item__data">
-                    {NumeroALetras(totalNumber)}
-                </span>
-            </li>
-            <li>
-                <h3 className="recipe__item__title">
-                    Total
-                </h3>
-                <span className="recipe__item__data">
+                ))}
+            </ul>
+            <div className="sell-ticket__list__total recipe__flex-container">
+                <span>Total</span>
+                <span>
                     ${String(round2(totalNumber ? totalNumber : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
-            </li>
-        </ul>
+            </div>
+            <p>{NumeroALetras(totalNumber)}</p>
+        </div>
     );
 
     const renderFooter = () => (
-        <footer className="recipe__footer">
-            <p>QUETZALCOATL 84 (ESQ. TIZOC) COL. TLAXPANA</p>
-            <p>Tels. 55-6840-2850 y 55-5273-3450</p>
+        <footer className="sell-ticket__footer">
+            <p>SOLO SE PODRA HACER CAMBIO FISICO DEL. PRODUCTO EN CASO DE DEFECTO DE FABRICA. NO MALTRATE EMPAQUE NI MERCANCIA.</p>
+            <p>RECOMENDACIÓN: NO ABUSE DE LOS FRENOS. DURANTE LOS PRIMEROS 200 A 300 KMS.</p>
         </footer>
     );
 
     return (
-        <div className="sell-recipe">
+        <div className="sell-ticket">
             {renderHeader()}
             {renderFolioAndDate()}
-            {renderClientData()}
-            {renderVehicleData()}
-            <Table
-                size="small"
-                indentSize={0}
-                pagination={false}
-                dataSource={sellItems}
-                columns={sellColumns}
-            />
-            {renderTotal()}
+            {renderClient()}
+            {renderSellItems()}
             {renderFooter()}
         </div>
     );
-};
+}
 
-SellRecipe.propTypes = propTypes;
-SellRecipe.defaultProps = defaultProps;
+SellTicket.propTypes = propTypes;
+SellTicket.defaultProps = defaultProps;
 
-export default SellRecipe;
+export default SellTicket;
