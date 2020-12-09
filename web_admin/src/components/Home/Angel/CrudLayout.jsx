@@ -383,8 +383,7 @@ class CrudLayout extends Component {
                 let url = process.env.REACT_APP_API_URL + '/helpers/search_product';
         
                 FetchXHR(url, method, POSTDATA).then((response_search) => {
-                    if (response_search.json.success) {
-						this.props.refreshTable();
+                    if (response_search.json.success) {					
 						this.getData();
                       /*   this.props.onClose(); */
                     } else {
