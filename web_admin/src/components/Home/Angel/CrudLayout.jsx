@@ -368,7 +368,8 @@ class CrudLayout extends Component {
 	// SEARCH TEXT:
 	onClickSearch = (event) => {
        /*  event.preventDefault(); */
-        // do validations:        
+		// do validations:    
+			alert(this.state.key_id);   
             if (this.state.key_id !== undefined) {
                 
                 this.setState({
