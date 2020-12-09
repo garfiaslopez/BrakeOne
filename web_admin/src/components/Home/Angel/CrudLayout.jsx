@@ -366,9 +366,25 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {
-		/* console.log("onClickSearch" + search_text); */
-		this.search_text = search_text;
-		this.getData();
+		
+		let POSTDATA = {
+			key_id: this.state.key_id			
+		}
+
+		let method = 'GET';
+		let url = process.env.REACT_APP_API_URL + 'helpers/search_product';
+
+		FetchXHR(url, method, POSTDATA).then((response_search)=>{
+
+			if(response_search.json.success){
+				this.props.refreshTable();
+			}else{
+				console.log("Error");	
+			}
+
+
+		})
+
 	}
 
 	// RANGES DATE:
