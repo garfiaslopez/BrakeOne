@@ -22,8 +22,12 @@ module.exports =  {
 
             objectModel.update(
                 Filter,
-                { $mul: NewProperties },
-                { multi: true },
+                { 
+                    $mul: NewProperties 
+                },
+                { 
+                    multi: true 
+                },
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
@@ -123,14 +127,17 @@ module.exports =  {
             return res.json({ success: false, message: "Error on propagation." });
         }
     },
+
+    
     delete_product:  async (req, res, next) => {
+        alert("Llegaste al servicio para eliminar productos");
         const objectModel = require("../models/product");
         if (req.body.key_id && req.body._id) {
             objectModel.remove({ key_id: req.body.key_id, _id: { '$ne': req.body._id }}, (err, response) => {
                 if(err){
                     return next(new errs.InternalServerError(err));
                 } else if (response) {
-                    return res.json({ success: true, message: "Succesfully deleted." });
+                    return res.json({ success: true, message: "Succesfully deleted." });                    
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
