@@ -32,12 +32,14 @@ class CrudLayout extends Component {
 		selected_data: undefined,
 		loading_data: false,
 		loading_submit: false,
+		loading_products: false,
         error: undefined,
         search_text: undefined,
         initial_date: undefined,
 		final_date: undefined,
 		docs_per_page: 50,
 		page: 1,
+		brand: undefined,
 		total_docs: 0,
 		products: [],
 		opened_submit: false,
@@ -366,43 +368,42 @@ class CrudLayout extends Component {
 
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
-	onClickSearch = (event) => {
-       /*  event.preventDefault(); */
-		// do validations:    
-			alert(event);   
-           /*  if (event === null) { */
-                
+	onClickSearch = () => {
+		
+		this.setState({
+			loading_products: true,
+		});
+		const url = process.env.REACT_APP_API_URL + 'helpers/search_product';
+        const POSTDATA = {
+            limit: 50000,
+            page: 1,
+            filters: {
+                brand: this.state.brand
+            }
+        }
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
                 this.setState({
-                    loading_submit: true
+					products: response.json.data.docs.map((el, index)=>({
+						...el,
+						key: index
+                    })),
+                    loading_products: false
                 });
-                let POSTDATA = {
-                    key_id: event,                   
-                    subsidiary_id: this.props.session.subsidiary._id
-                }
-                let method = 'GET';
-                let url = process.env.REACT_APP_API_URL + '/helpers/search_product';
-        
-                FetchXHR(url, method, POSTDATA).then((response_search) => {
-                    if (response_search.json.success) {					
-						this.getData();
-                      /*   this.props.onClose(); */
-                    } else {
-                        console.log(response_search);
-                        this.setState({
-                            error: response_search.json.message,
-                            loading_submit: false
-                        });
-                    }
-                }).catch((onError) => {
-                    console.log(onError);
-                    this.setState({
-                        error: onError.message,
-                        loading_submit: false
-                    });
-                });
-           /*  } else {
-               alert("Agregar un ID");
-            } */
+            } else {
+				this.setState({
+                    loading_products: false,
+                    error: response.message
+				});
+            }
+        }).catch((onError) => {
+			this.setState({
+                loading_products: false,
+                error: onError.message
+			});
+        });
+		
+
     }
 
 	// RANGES DATE:
