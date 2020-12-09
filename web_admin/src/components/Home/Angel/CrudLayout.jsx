@@ -368,13 +368,13 @@ class CrudLayout extends Component {
 	onClickSearch = (search_text) => {
 		search_text.preventDefault()
 		let POSTDATA = {
-			key_id: this.state.key_id			
+			key_id: this.product.key_id			
 		}
 
 		let method = 'GET';
 		let url = process.env.REACT_APP_API_URL + 'helpers/search_product';
 
-		FetchXHR(url, method, POSTDATA).then((response_search)=>{
+		FetchXHR(url, POSTDATA, method).then((response_search)=>{
 
 			if(response_search.json.success){
 				this.props.refreshTable();
