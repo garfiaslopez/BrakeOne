@@ -366,7 +366,7 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {
-		search_text.preventDefault()
+		search_text.preventDefault();
 		let POSTDATA = {
 			key_id: this.product.key_id			
 		}
