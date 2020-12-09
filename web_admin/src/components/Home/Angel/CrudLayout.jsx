@@ -368,7 +368,7 @@ class CrudLayout extends Component {
 	onClickSearch = (event) => {
        /*  event.preventDefault(); */
         // do validations:
-        if (this.state.products.length > 0) {
+        if (this.state.products == null ) {
             if (this.state.percent !== undefined) {
                 
                 this.setState({
