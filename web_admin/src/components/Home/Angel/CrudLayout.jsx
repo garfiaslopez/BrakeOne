@@ -367,15 +367,14 @@ class CrudLayout extends Component {
 	// SEARCH TEXT:
 	onClickSearch = (event) => {
        /*  event.preventDefault(); */
-        // do validations:
-        if (this.state.products == null ) {
-            if (this.state.key_id !== undefined) {
+        // do validations:        
+            if (this.product.key_id !== undefined) {
                 
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
-                    key_id: this.state.key_id,                   
+                    key_id: this.product.key_id,                   
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'GET';
@@ -400,15 +399,8 @@ class CrudLayout extends Component {
                     });
                 });
             } else {
-                this.setState({
-                    error: 'Agregar un porcentaje.'
-                });
+               alert("Agregar un ID");
             }
-        } else {
-            this.setState({
-                error: 'Favor de agregar un ID'
-            });
-        }
     }
 
 	// RANGES DATE:
