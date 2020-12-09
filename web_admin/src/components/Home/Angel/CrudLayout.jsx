@@ -370,13 +370,13 @@ class CrudLayout extends Component {
        /*  event.preventDefault(); */
 		// do validations:    
 			alert(event);   
-            if (this.state.key_id !== undefined) {
+            if (event === null) {
                 
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
-                    key_id: this.state.key_id,                   
+                    key_id: event,                   
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'GET';
