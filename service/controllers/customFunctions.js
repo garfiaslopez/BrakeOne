@@ -130,7 +130,7 @@ module.exports =  {
 
     
     delete_product:  async (req, res, next) => {
-        alert("Llegaste al servicio para eliminar productos");
+        
         const objectModel = require("../models/product");
         if (req.body.key_id && req.body._id) {
             objectModel.remove({ key_id: req.body.key_id, _id: { '$ne': req.body._id }}, (err, response) => {
