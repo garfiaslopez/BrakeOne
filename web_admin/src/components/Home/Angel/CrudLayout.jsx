@@ -370,7 +370,7 @@ class CrudLayout extends Component {
        /*  event.preventDefault(); */
 		// do validations:    
 			alert(event);   
-            if (event === null) {
+           /*  if (event === null) { */
                 
                 this.setState({
                     loading_submit: true
@@ -400,9 +400,9 @@ class CrudLayout extends Component {
                         loading_submit: false
                     });
                 });
-            } else {
+           /*  } else {
                alert("Agregar un ID");
-            }
+            } */
     }
 
 	// RANGES DATE:
