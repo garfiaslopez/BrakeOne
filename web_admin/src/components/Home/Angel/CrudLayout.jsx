@@ -369,26 +369,26 @@ class CrudLayout extends Component {
        /*  event.preventDefault(); */
         // do validations:
         if (this.state.products == null ) {
-            if (this.state.percent !== undefined) {
+            if (this.state.key_id !== undefined) {
                 
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
-                    brand: this.state.brand,                   
+                    key_id: this.state.key_id,                   
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'GET';
                 let url = process.env.REACT_APP_API_URL + '/helpers/search_product';
         
-                FetchXHR(url, method, POSTDATA).then((response_update) => {
-                    if (response_update.json.success) {
+                FetchXHR(url, method, POSTDATA).then((response_search) => {
+                    if (response_search.json.success) {
                         this.props.refreshTable();
-                        this.props.onClose();
+                      /*   this.props.onClose(); */
                     } else {
-                        console.log(response_update);
+                        console.log(response_search);
                         this.setState({
-                            error: response_update.json.message,
+                            error: response_search.json.message,
                             loading_submit: false
                         });
                     }
@@ -406,7 +406,7 @@ class CrudLayout extends Component {
             }
         } else {
             this.setState({
-                error: 'Favor de buscar una marca.'
+                error: 'Favor de agregar un ID'
             });
         }
     }
