@@ -366,9 +366,9 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {		
-		let POSTDATA = {
-			key_id: this.product.key_id			
-		}
+		/* let POSTDATA = {
+			key_id: this.key_id			
+		} */
 
 		let method = 'GET';
 		let url = process.env.REACT_APP_API_URL + 'helpers/search_product';
