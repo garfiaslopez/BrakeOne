@@ -365,24 +365,51 @@ class CrudLayout extends Component {
 
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
-	onClickSearch = (search_text) => {		
-		/* let POSTDATA = {
-			key_id: this.key_id			
-		} */
-
-		let method = 'GET';
-		let url = process.env.REACT_APP_API_URL + 'helpers/search_product';
-
-		FetchXHR(url, search_text, method).then((response_search)=>{
-
-			if(response_search.json.success){
-				this.props.refreshTable();
-			}else{
-				console.log("Error");	
-			}
-
-		});
-	}
+	onClickSearch = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {
+            if (this.state.percent !== undefined) {
+                
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,                   
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'GET';
+                let url = process.env.REACT_APP_API_URL + '/helpers/search_product';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        this.props.refreshTable();
+                        this.props.onClose();
+                    } else {
+                        console.log(response_update);
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+            } else {
+                this.setState({
+                    error: 'Agregar un porcentaje.'
+                });
+            }
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
