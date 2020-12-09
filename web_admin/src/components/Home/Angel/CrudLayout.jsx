@@ -384,7 +384,8 @@ class CrudLayout extends Component {
         
                 FetchXHR(url, method, POSTDATA).then((response_search) => {
                     if (response_search.json.success) {
-                        this.props.refreshTable();
+						this.props.refreshTable();
+						this.getData();
                       /*   this.props.onClose(); */
                     } else {
                         console.log(response_search);
