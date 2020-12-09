@@ -366,7 +366,7 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {
-		
+		search_text.preventDefault()
 		let POSTDATA = {
 			key_id: this.state.key_id			
 		}
@@ -382,9 +382,7 @@ class CrudLayout extends Component {
 				console.log("Error");	
 			}
 
-
-		})
-
+		});
 	}
 
 	// RANGES DATE:
