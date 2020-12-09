@@ -39,6 +39,7 @@ class CrudLayout extends Component {
 		docs_per_page: 50,
 		page: 1,
 		total_docs: 0,
+		products: [],
 		opened_submit: false,
 		opened_view: false,
 		opened_print: false,
@@ -368,13 +369,13 @@ class CrudLayout extends Component {
 	onClickSearch = (event) => {
        /*  event.preventDefault(); */
         // do validations:        
-            if (this.product.key_id !== undefined) {
+            if (this.state.key_id !== undefined) {
                 
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
-                    key_id: this.product.key_id,                   
+                    key_id: this.state.key_id,                   
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'GET';
