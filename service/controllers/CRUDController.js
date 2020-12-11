@@ -99,6 +99,9 @@ module.exports = (method, model) => {
     }
 
     let Search = (req, res, next) => {
+        console.log("------º-----º--------º-------º-------º-------\n")
+        console.log("Next busquedas" + next);
+        console.log("\n------º-----º--------º-------º-------º-------\n")
         var Paginator = {
             page: 1,
             limit: 50,
@@ -182,7 +185,7 @@ module.exports = (method, model) => {
             }
         }
 
-        console.log(Filter);
+
         
         objectModel.paginate(Filter, Paginator, (err, result) => {
             console.log("Resultados: " + result);
