@@ -3,7 +3,7 @@ var errs = require('restify-errors');
 module.exports = (method, model) => {
     var objectModel = require('../models/' + model);
     console.log("\n------º-----º--------º-------º-------º-------\n")
-    console.log("Modelo :" + model);
+    console.log("Modelo :" + objectModel);
     console.log("\n------º-----º--------º-------º-------º-------\n")
 
     let Create = (req, res, next) => {
@@ -165,8 +165,8 @@ module.exports = (method, model) => {
                 or_array.push(new_or); 
 
                 console.log("\n------º-----º--------º-------º-------º-------\n" + 
-                                 "New_or" + " - " + new_or + 
-                             "\n------º-----º--------º-------º-------º-------\n");
+                                "New_or" + " - " + new_or + 
+                            "\n------º-----º--------º-------º-------º-------\n");
             });
             if (or_array.length > 0) {
                 Filter['$or'] = or_array;
