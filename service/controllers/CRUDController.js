@@ -126,11 +126,12 @@ module.exports = (method, model) => {
         }
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
-            console.log("Texto: " + req.body.search_text);
+           /*  console.log("Texto: " + req.body.search_text); */
         }
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
+                console.log("Filtros" + Filter[filter_key]);
             });
         }
         if (req.body.date) {
