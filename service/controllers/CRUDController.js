@@ -131,9 +131,12 @@ module.exports = (method, model) => {
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
-                console.log("\n------º-----º--------º-------º-------º-------" + 
+                console.log("\n------º-----º--------º-------º-------º-------\n" + 
                                  "Filtros" + " - " + Filter[filter_key] + 
-                             "\n------º-----º--------º-------º-------º-------");
+                            "\n------º-----º--------º-------º-------º-------\n");
+                console.log("\n------º-----º--------º-------º-------º-------\n" + 
+                             "Filter Key" + " - " + filter_key + 
+                            "\n------º-----º--------º-------º-------º-------\n");
             });
         }
         if (req.body.date) {
@@ -146,6 +149,10 @@ module.exports = (method, model) => {
                 let new_or = {};
                 new_or[filter_key] = req.body.or_filters[filter_key];
                 or_array.push(new_or); 
+
+                console.log("\n------º-----º--------º-------º-------º-------\n" + 
+                                 "New_or" + " - " + new_or + 
+                             "\n------º-----º--------º-------º-------º-------\n");
             });
             if (or_array.length > 0) {
                 Filter['$or'] = or_array;
