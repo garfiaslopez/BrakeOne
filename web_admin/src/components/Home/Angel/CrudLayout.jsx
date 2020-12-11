@@ -370,38 +370,10 @@ class CrudLayout extends Component {
 	// SEARCH TEXT:
 	onClickSearch = () => {
 		
-		this.setState({
-			loading_products: true,
-		});
-		const url = process.env.REACT_APP_API_URL + 'helpers/search_product';
-        const POSTDATA = {
-            limit: 50000,
-            page: 1,
-            filters: {
-                brand: this.state.brand
-            }
-        }
-        FetchXHR(url, 'POST', POSTDATA).then((response) => {
-            if (response.json.success) {
-                this.setState({
-					products: response.json.data.docs.map((el, index)=>({
-						...el,
-						key: index
-                    })),
-                    loading_products: false
-                });
-            } else {
-				this.setState({
-                    loading_products: false,
-                    error: response.message
-				});
-            }
-        }).catch((onError) => {
-			this.setState({
-                loading_products: false,
-                error: onError.message
-			});
-        });
+		onClickSearch = (search_text) => {
+			this.search_text = search_text;
+			this.getData();
+		}
 		
 
     }
