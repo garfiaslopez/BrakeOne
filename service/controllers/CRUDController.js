@@ -131,7 +131,9 @@ module.exports = (method, model) => {
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];
-                console.log("Filtros" + Filter[filter_key]);
+                console.log("\n------º-----º--------º-------º-------º-------" + 
+                                 "Filtros" + " - " + Filter[filter_key] + 
+                             "\n------º-----º--------º-------º-------º-------");
             });
         }
         if (req.body.date) {
