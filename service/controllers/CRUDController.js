@@ -108,7 +108,7 @@ module.exports = (method, model) => {
         if (req.body.page != undefined) {
             Paginator.page = req.body.page;
         }
-        console.log("Body Page = " + req.body.page);
+        
         if (req.body.limit != undefined) {
             Paginator.limit = req.body.limit;
         }
@@ -126,6 +126,7 @@ module.exports = (method, model) => {
         }
         if (req.body.search_text != undefined) {
             Filter['$text'] = { '$search': req.body.search_text };
+            console.log("Texto: " + req.body.search_text);
         }
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
