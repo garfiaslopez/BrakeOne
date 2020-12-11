@@ -47,7 +47,7 @@ module.exports = (method, model) => {
                 }
             }
         });
-        alert(req.params.object_id);
+       
     }
 
     let Update = (req, res, next) => {
