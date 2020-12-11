@@ -41,12 +41,14 @@ module.exports = (method, model) => {
                 return next(new errs.InternalServerError(err));
             } else {
                 if (newObj) {
-                    return res.json({ success: true , obj: newObj });
+                    return res.json({ success: true , obj: newObj });                                        
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
             }
+            
         });
+       
        
     }
 
@@ -183,14 +185,18 @@ module.exports = (method, model) => {
         console.log(Filter);
         
         objectModel.paginate(Filter, Paginator, (err, result) => {
-            console.log(err);
-            console.log(result);
+            console.log("Resultados: " + result[0]);
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
                 return res.json({ success: true, data: result });
             }
         });
+        console.log("--------º---------º-------------º------------º-----------º\n");
+        console.log("Body" + req.body + "\n");
+        console.log("--------º---------º-------------º------------º-----------º\n");
+        console.log(req.query + "\n")
+        console.log("--------º---------º-------------º------------º-----------º\n");
     }
 
     let NoValidMethod = (req, res, next) => {
