@@ -368,15 +368,13 @@ class CrudLayout extends Component {
 
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
-	onClickSearch = () => {
+
 		
 		onClickSearch = (search_text) => {
 			this.search_text = search_text;
 			this.getData();
 		}
 		
-
-    }
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
