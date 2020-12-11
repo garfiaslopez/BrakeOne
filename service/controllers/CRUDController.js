@@ -185,7 +185,7 @@ module.exports = (method, model) => {
         console.log(Filter);
         
         objectModel.paginate(Filter, Paginator, (err, result) => {
-            console.log("Resultados: " + result[0]);
+            console.log("Resultados: " + result);
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
