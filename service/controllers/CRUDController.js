@@ -108,6 +108,7 @@ module.exports = (method, model) => {
         if (req.body.page != undefined) {
             Paginator.page = req.body.page;
         }
+        console.log("Body Page = " + req.body.page);
         if (req.body.limit != undefined) {
             Paginator.limit = req.body.limit;
         }
