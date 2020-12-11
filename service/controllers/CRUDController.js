@@ -7,6 +7,9 @@ module.exports = (method, model) => {
     console.log("\n------º-----º--------º-------º-------º-------\n")
 
     let Create = (req, res, next) => {
+        console.log("--------º----------º--------------º");
+        console.log("Create: " + next);
+        console.log("--------º----------º--------------º");
         let obj = new objectModel();
         let modelFields = Object.keys(obj.schema.obj);
         console.log(modelFields);

@@ -79,12 +79,21 @@ class CrudLayout extends Component {
 			page: this.page,
 			filters: {},
 		}
+		console.log("\n-----º-----------º-------------º------------º\n");
+		console.log("POSDATA: " + POSTDATA[0]);
+		console.log("\n-----º-----------º-------------º------------º\n");
 		if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
+			console.log("\n-----º-----------º-------------º------------º\n");
+			console.log("Additional_get_data: " + this.additional_get_data);
+			console.log("\n-----º-----------º-------------º------------º\n");
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
-			POSTDATA['sort_order'] = this.sort_order;			
+			POSTDATA['sort_order'] = this.sort_order;	
+			console.log("\n-----º-----------º-------------º------------º\n");
+			console.log("Sort_field: " + this.sort_field);
+			console.log("\n-----º-----------º-------------º------------º\n");		
 		}
 		
 		if (!isEmpty(this.search_text)) {
@@ -148,6 +157,9 @@ class CrudLayout extends Component {
 			});
 		}
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
+
+
+
             if (response.json.success) {
 				let next_folio = undefined;
 				if (response.json.data.docs.length > 0 && response.json.data.docs[0].folio) {
