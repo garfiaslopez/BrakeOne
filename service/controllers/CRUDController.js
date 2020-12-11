@@ -2,6 +2,9 @@ var errs = require('restify-errors');
 
 module.exports = (method, model) => {
     var objectModel = require('../models/' + model);
+    console.log("\n------º-----º--------º-------º-------º-------\n")
+    console.log("Modelo :" + model);
+    console.log("\n------º-----º--------º-------º-------º-------\n")
 
     let Create = (req, res, next) => {
         let obj = new objectModel();
@@ -37,6 +40,9 @@ module.exports = (method, model) => {
 
     let Read = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, newObj) => {
+            console.log("------º-----º--------º-------º-------º-------\n")
+            console.log("New Object: " + newObj);
+            console.log("\n------º-----º--------º-------º-------º-------\n")
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
@@ -146,6 +152,9 @@ module.exports = (method, model) => {
         }
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
+            console.log("--------º---------º-------------º------------º-----------º\n");
+            console.log("Date 0: " + req.body.date[0]);
+            console.log("\n--------º---------º-------------º------------º-----------º\n");
         }
 
         if (req.body.or_filters != undefined) {
