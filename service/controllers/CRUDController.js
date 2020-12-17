@@ -1,15 +1,9 @@
 var errs = require('restify-errors');
 
 module.exports = (method, model) => {
-    var objectModel = require('../models/' + model);
-    console.log("\n------º-----º--------º-------º-------º-------\n")
-    console.log("Modelo :" + objectModel);
-    console.log("\n------º-----º--------º-------º-------º-------\n")
+    var objectModel = require('../models/' + model);   
 
-    let Create = (req, res, next) => {
-        console.log("--------º----------º--------------º");
-        console.log("Create: " + next);
-        console.log("--------º----------º--------------º");
+    let Create = (req, res, next) => {       
         let obj = new objectModel();
         let modelFields = Object.keys(obj.schema.obj);
         console.log(modelFields);
@@ -42,10 +36,7 @@ module.exports = (method, model) => {
     }
 
     let Read = (req, res, next) => {
-        objectModel.findById(req.params.object_id, (err, newObj) => {
-            console.log("------º-----º--------º-------º-------º-------\n")
-            console.log("New Object: " + newObj);
-            console.log("\n------º-----º--------º-------º-------º-------\n")
+        objectModel.findById(req.params.object_id, (err, newObj) => {           
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
@@ -108,9 +99,6 @@ module.exports = (method, model) => {
     }
 
     let Search = (req, res, next) => {
-        console.log("------º-----º--------º-------º-------º-------\n")
-        console.log("Next busquedas" + next);
-        console.log("\n------º-----º--------º-------º-------º-------\n")
         var Paginator = {
             page: 1,
             limit: 50,
@@ -144,20 +132,11 @@ module.exports = (method, model) => {
         }
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
-                Filter[filter_key] = req.body.filters[filter_key];
-                console.log("\n------º-----º--------º-------º-------º-------\n" + 
-                                 "Filtros" + " - " + Filter[filter_key] + 
-                            "\n------º-----º--------º-------º-------º-------\n");
-                console.log("\n------º-----º--------º-------º-------º-------\n" + 
-                             "Filter Key" + " - " + filter_key + 
-                            "\n------º-----º--------º-------º-------º-------\n");
+                Filter[filter_key] = req.body.filters[filter_key];                
             });
         }
         if (req.body.date) {
             Filter['date'] = {'$gte': new Date(req.body.date[0]), '$lte': new Date(req.body.date[1])}; 
-            console.log("--------º---------º-------------º------------º-----------º\n");
-            console.log("Date 0: " + req.body.date[0]);
-            console.log("\n--------º---------º-------------º------------º-----------º\n");
         }
 
         if (req.body.or_filters != undefined) {
@@ -166,10 +145,6 @@ module.exports = (method, model) => {
                 let new_or = {};
                 new_or[filter_key] = req.body.or_filters[filter_key];
                 or_array.push(new_or); 
-
-                console.log("\n------º-----º--------º-------º-------º-------\n" + 
-                                "New_or" + " - " + new_or + 
-                            "\n------º-----º--------º-------º-------º-------\n");
             });
             if (or_array.length > 0) {
                 Filter['$or'] = or_array;
@@ -200,18 +175,12 @@ module.exports = (method, model) => {
 
         
         objectModel.paginate(Filter, Paginator, (err, result) => {
-            console.log("Resultados: " + result[0]);
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
                 return res.json({ success: true, data: result });
             }
         });
-        console.log("--------º---------º-------------º------------º-----------º\n");
-        console.log("Body" + req.body + "\n");
-        console.log("--------º---------º-------------º------------º-----------º\n");
-        console.log(req.query + "\n")
-        console.log("--------º---------º-------------º------------º-----------º\n");
     }
 
     let NoValidMethod = (req, res, next) => {
