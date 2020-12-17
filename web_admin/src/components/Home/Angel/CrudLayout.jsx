@@ -88,8 +88,7 @@ class CrudLayout extends Component {
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-			if (this.model.name === 'quotation') {		
-				alert("Cotizaciones");				
+			if (this.model.name === 'quotation') {					
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['client_name'] = this.search_text;
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);								
