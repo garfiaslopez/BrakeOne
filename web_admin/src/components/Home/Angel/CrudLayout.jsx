@@ -79,27 +79,18 @@ class CrudLayout extends Component {
 			page: this.page,
 			filters: {},
 		}
-		console.log("\n-----º-----------º-------------º------------º\n");
-		console.log("POSDATA: " + POSTDATA[0]);
-		console.log("\n-----º-----------º-------------º------------º\n");
+		
 		if (this.additional_get_data) {
-			POSTDATA['filters'] = this.additional_get_data;
-			console.log("\n-----º-----------º-------------º------------º\n");
-			console.log("Additional_get_data: " + this.additional_get_data);
-			console.log("\n-----º-----------º-------------º------------º\n");
+			POSTDATA['filters'] = this.additional_get_data;			
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
-			POSTDATA['sort_order'] = this.sort_order;	
-			console.log("\n-----º-----------º-------------º------------º\n");
-			console.log("Sort_field: " + this.sort_field);
-			console.log("\n-----º-----------º-------------º------------º\n");		
+			POSTDATA['sort_order'] = this.sort_order;				
 		}
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-			if (this.model.name === 'quotation') {
-				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
+			if (this.model.name === 'quotation') {			
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
@@ -125,7 +116,7 @@ class CrudLayout extends Component {
 				// POSTDATA['or_filters']['cars.plates'] = this.search_text;
 				// POSTDATA['or_filters']['rfc'] = this.search_text;
 				// POSTDATA['or_filters']['name'] = this.search_text;
-			} else {
+			} else if(this.model.name === 'product'){	
 				POSTDATA['search_text'] = this.search_text;
 			}
 		}
