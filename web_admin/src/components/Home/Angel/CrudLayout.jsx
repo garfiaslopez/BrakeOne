@@ -118,8 +118,7 @@ class CrudLayout extends Component {
 				POSTDATA['search_text'] = this.search_text;		
 			}
 		}//End model produts
-		
-		}//End search text
+	
 		if (this.initial_date && this.final_date) {
 			POSTDATA['date'] = [this.initial_date.toISOString(), this.final_date.toISOString()];
 		}
