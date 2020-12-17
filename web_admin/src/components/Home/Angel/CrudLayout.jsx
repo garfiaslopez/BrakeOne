@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import styles from './CrudLayoutStyles';
+import styles from './CrudLayoutStyles.js';
 import moment from 'moment';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from './generals';
 
 import { 
     Input,
@@ -20,12 +20,11 @@ import {
 
 import isEmpty from 'lodash/isEmpty';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
-import FormGenerator from '../FormGenerator/FormGenerator';
-import PrinterDownload from '../PrinterDownload/PrinterDownload';
-import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
-import { formatNumber } from '../../helpers/generals';
-
-
+import FormGenerator from './FormGenerator/FormGenerator';
+import PrinterDownload from './PrinterDownload';
+import PrinterRecipes from './PrinterRecipes/PrinterRecipes';
+import { formatNumber } from './generals';
+  
 class CrudLayout extends Component {
     state = {
 		data: [],
@@ -33,13 +32,16 @@ class CrudLayout extends Component {
 		selected_data: undefined,
 		loading_data: false,
 		loading_submit: false,
+		loading_products: false,
         error: undefined,
         search_text: undefined,
         initial_date: undefined,
 		final_date: undefined,
 		docs_per_page: 50,
 		page: 1,
+		brand: undefined,
 		total_docs: 0,
+		products: [],
 		opened_submit: false,
 		opened_view: false,
 		opened_print: false,
@@ -77,48 +79,56 @@ class CrudLayout extends Component {
 			page: this.page,
 			filters: {},
 		}
-
+		console.log("\n-----º-----------º-------------º------------º\n");
+		console.log("POSDATA: " + POSTDATA[0]);
+		console.log("\n-----º-----------º-------------º------------º\n");
 		if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
+			console.log("\n-----º-----------º-------------º------------º\n");
+			console.log("Additional_get_data: " + this.additional_get_data);
+			console.log("\n-----º-----------º-------------º------------º\n");
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
-			POSTDATA['sort_order'] = this.sort_order;			
+			POSTDATA['sort_order'] = this.sort_order;	
+			console.log("\n-----º-----------º-------------º------------º\n");
+			console.log("Sort_field: " + this.sort_field);
+			console.log("\n-----º-----------º-------------º------------º\n");		
 		}
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-			if (this.model.name === 'quotation') {		
-				alert("Cotizaciones");				
+			if (this.model.name === 'quotation') {
+				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
 				POSTDATA['or_filters'] = {};
-				POSTDATA['or_filters']['client_name'] = this.search_text;
-				POSTDATA['or_filters']['folio'] = Number(this.search_text);								
-				/* alert(POSTDATA['or_filters']['folio'] = Number(this.search_text)); */
-			} 			
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
+			} 
+			
 			else if (this.model.name === 'sell') {
-				alert("Llegaste a sell");
 				POSTDATA['or_filters'] = {};
-				POSTDATA['or_filters']['total'] = Number(this.search_text);
-				POSTDATA['or_filters']['total'] = Number(this.search_text);
+				POSTDATA['or_filters']['folio'] = Number(this.search_text);
+				POSTDATA['or_filters']['client_id'] = this.search_text;
 			} else if (this.model.name === 'reception') {
-				alert("Llegaste a recepciones")
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['provider_id'] = this.search_text;
 			} else if (this.model.name === 'payment') {
-				alert('llegaste a payment');
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 			} else if (this.model.name === 'reception-payment') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 			} else if (this.model.name === 'client') {
-				POSTDATA['search_text'] = this.search_text;				
+				POSTDATA['search_text'] = this.search_text;
+				// POSTDATA['or_filters'] = {};
+				// POSTDATA['or_filters']['cars.plates'] = this.search_text;
+				// POSTDATA['or_filters']['rfc'] = this.search_text;
+				// POSTDATA['or_filters']['name'] = this.search_text;
 			} else {
-				POSTDATA['search_text'] = this.search_text;		
+				POSTDATA['search_text'] = this.search_text;
 			}
-		}//End model produts
-	
+		}
 		if (this.initial_date && this.final_date) {
 			POSTDATA['date'] = [this.initial_date.toISOString(), this.final_date.toISOString()];
 		}
@@ -147,6 +157,9 @@ class CrudLayout extends Component {
 			});
 		}
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
+
+
+
             if (response.json.success) {
 				let next_folio = undefined;
 				if (response.json.data.docs.length > 0 && response.json.data.docs[0].folio) {
@@ -368,12 +381,12 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 
-	onClickSearch = (search_text) => {
 		
-		this.search_text = search_text;
-		this.getData();	
-
-	}
+		onClickSearch = (search_text) => {
+			this.search_text = search_text;
+			this.getData();
+		}
+		
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
@@ -419,15 +432,13 @@ class CrudLayout extends Component {
 	renderFilters = () => {
 		/* console.log("renderFilters"); */
 		const SearchFilter = (
-			<Input.Search				
+			<Input.Search
 				key="search_filter"
 				placeholder="Buscador..."
 				enterButton="Buscar"
-				autoComplete
 				onSearch={this.onClickSearch}
 				style={styles.inputSearch}
 			/>
-			
 		);
 		const DateRangeFilter = (
 			<DatePicker.RangePicker 
@@ -663,11 +674,8 @@ class CrudLayout extends Component {
 					style={styles.tableLayout}
 					scroll={{y:window.innerHeight - 350}}
 					onChange={this.onChangeTable}
-					//Tablas
 					columns={this.table_columns}
-					//Consulta de los productos 
 					dataSource={this.state.table_data}
-					//Carga al hacer consulta de los productos
 					loading={this.state.loading_data}
 					size="small"
 					pagination={{
@@ -684,7 +692,6 @@ class CrudLayout extends Component {
 						filterReset: 'Limpiar',
 						emptyText: 'Sin Datos'
 					}}
-					//Cuando das clic en el producto muestra la info
 					onRow={(record) => {
 						return {
 							onClick: () => {
@@ -699,4 +706,3 @@ class CrudLayout extends Component {
 }
 
 export default CrudLayout;
-
