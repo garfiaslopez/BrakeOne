@@ -697,9 +697,6 @@ class CrudLayout extends Component {
         );
     }
 }
-
-export default CrudLayout;
-
 	//Numeros largos
 	const numberLarge = [
 		"BD1279DS",
@@ -7278,3 +7275,6 @@ export default CrudLayout;
 	const bremMin1485 = [
 		"8110",
 	];
+
+export default CrudLayout;
+
