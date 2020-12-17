@@ -697,11 +697,6 @@ class CrudLayout extends Component {
         );
     }
 }
-	
-//85
-const bremMin1485 = [
-	"8110",
-];
 
 export default CrudLayout;
 
