@@ -88,24 +88,22 @@ class CrudLayout extends Component {
 		
 		if (!isEmpty(this.search_text)) {
 			//Cotizaciones			
-			if (this.model.name === 'quotation') {					
+			if (this.model.name === 'quotation') {		
+				alert("Cotizaciones");				
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['client_name'] = this.search_text;
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);								
 				/* alert(POSTDATA['or_filters']['folio'] = Number(this.search_text)); */
 			} 			
 			else if (this.model.name === 'sell') {
-				alert("Llegaste a sell");
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['total'] = Number(this.search_text);
 				POSTDATA['or_filters']['total'] = Number(this.search_text);
 			} else if (this.model.name === 'reception') {
-				alert("Llegaste a recepciones")
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['provider_id'] = this.search_text;
 			} else if (this.model.name === 'payment') {
-				alert('llegaste a payment');
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 			} else if (this.model.name === 'reception-payment') {
