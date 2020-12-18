@@ -776,7 +776,6 @@ class CrudLayout extends Component {
 	}
 
 	onView = (record) => {
-		/* console.log("onView" + record); */
 		this.setState({
 			selected_data: record,
 			opened_view: true,
@@ -784,7 +783,6 @@ class CrudLayout extends Component {
 	} 
 
 	onEdit = (record) => {
-		/* console.log("onEdit" + record); */
 		this.setState({
 			selected_data: record,
 			opened_submit: true,
@@ -848,7 +846,6 @@ class CrudLayout extends Component {
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
-		/* console.log("onChangeRangeDate" + date + date_string); */
 		// parse only the day ?
 		if (date.length > 0) {
 			this.initial_date = date[0].startOf('day');
@@ -863,14 +860,12 @@ class CrudLayout extends Component {
 	// TABLE:
 	//PAGINATOR:
 	onChangePagination = (current, page_size) => {
-		/* console.log("onChangePagination" + current + page_size); */
 		this.limit = page_size;
 		this.page = current;
 		this.getData();
 	}
 
 	onChangeTable = (pagination, filters, sorter) => {
-		/* console.log("onChangeTable" + pagination + filters + sorter); */
 		if (pagination.current) {
 			this.limit = pagination.pageSize;
 			this.page = pagination.current;
@@ -888,7 +883,6 @@ class CrudLayout extends Component {
 	}
 
 	renderFilters = () => {
-		/* console.log("renderFilters"); */
 		const SearchFilter = (
 			<Input.Search
 				key="search_filter"
