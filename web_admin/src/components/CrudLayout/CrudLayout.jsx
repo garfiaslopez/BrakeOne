@@ -76,27 +76,23 @@ class CrudLayout extends Component {
 			page: this.page,
 			filters: {},
 		}
-		
 		if (this.additional_get_data) {
-			POSTDATA['filters'] = this.additional_get_data;			
+			POSTDATA['filters'] = this.additional_get_data;
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
-			POSTDATA['sort_order'] = this.sort_order;				
+			POSTDATA['sort_order'] = this.sort_order;			
 		}
 		
 		if (!isEmpty(this.search_text)) {
-			//Cotizaciones			
-			if (this.model.name === 'quotation') {			
+			if (this.model.name === 'quotation') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
-			} 
-			
-			else if (this.model.name === 'sell') {
+			} else if (this.model.name === 'sell') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
-				POSTDATA['or_filters']['client_id'] = this.search_text;
+				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
 			} else if (this.model.name === 'reception') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
@@ -612,9 +608,6 @@ class CrudLayout extends Component {
 			});
 		}
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
-
-
-
             if (response.json.success) {
 				let next_folio = undefined;
 				if (response.json.data.docs.length > 0 && response.json.data.docs[0].folio) {
@@ -787,7 +780,6 @@ class CrudLayout extends Component {
 	}
 
 	onDelete = async (record) => {
-		/* console.log("onDelete" + record); */
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + record._id;
 		if (this.model.name === 'product') {
 			await FetchXHR(process.env.REACT_APP_API_URL + '/helpers/delete_product', 'POST', { 
@@ -820,7 +812,6 @@ class CrudLayout extends Component {
 	}
 
 	onPrint = (record, type) => {
-		/* console.log("onPrint" + record + type); */
 		this.setState({
 			selected_data: record,
 			opened_printer_recipes: true,
@@ -833,13 +824,10 @@ class CrudLayout extends Component {
 
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
-
-		
-		onClickSearch = (search_text) => {
-			this.search_text = search_text;
-			this.getData();
-		}
-		
+	onClickSearch = (search_text) => {
+		this.search_text = search_text;
+		this.getData();
+	}
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
@@ -1004,7 +992,7 @@ class CrudLayout extends Component {
 				<PrinterDownload
 					key={"Print_Form"}
 					title={"Imprimir o Descargar"}
-					onClose={() => {
+					onClose={() => {
 						this.setState({
 							opened_print: false,
 						});
@@ -1030,7 +1018,7 @@ class CrudLayout extends Component {
 					type={this.state.selected_type_recipes}
 					key={"Print_Form_Recipe"}
 					title={"Imprimir"}
-					onClose={() => {
+					onClose={() => {
 						this.setState({
 							opened_printer_recipes: false,
 							selected_data: undefined,
@@ -1046,7 +1034,7 @@ class CrudLayout extends Component {
 			PrinterDownloadButton = (
 				<Button.Group>
 					<Button 
-						onClick={() => {
+						onClick={() => {
 							this.setState({
 								opened_print: true,
 							});
@@ -1118,6 +1106,7 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Resultados.</Divider>
 				<Table 
 					bordered
 					style={styles.tableLayout}
@@ -1153,6 +1142,9 @@ class CrudLayout extends Component {
         );
     }
 }
+
+export default CrudLayout;
+
 //Numeros largos
 const numberLarge = [
 	"BD1279DS",
@@ -7731,7 +7723,3 @@ const bremMin094X = [
 const bremMin1485 = [
 	"8110",
 ];
-
-
-
-export default CrudLayout;
