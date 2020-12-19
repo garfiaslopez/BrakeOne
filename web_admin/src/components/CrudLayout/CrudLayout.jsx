@@ -1143,7 +1143,6 @@ class CrudLayout extends Component {
     }
 }
 
-export default CrudLayout;
 
 //Numeros largos
 const numberLarge = [
@@ -7723,3 +7722,6 @@ const bremMin094X = [
 const bremMin1485 = [
 	"8110",
 ];
+
+
+export default CrudLayout;
