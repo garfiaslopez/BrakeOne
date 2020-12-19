@@ -108,13 +108,6 @@ class OrderCreator extends Component {
         this.scroll_table = 300;
         this.table_columns_results = [
             {
-            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-            	dataIndex: 'subsidiary_id.denomination',
-				key: 'subsidiary_id.denomination',
-                render: renderRow,
-                width: '8%'
-            },
-            {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
@@ -167,6 +160,13 @@ class OrderCreator extends Component {
                 title: <div style={{ fontSize: FontTable }}>Taller</div>,
             	dataIndex: 'price_workshop',
             	key: 'price_workshop',
+                render: renderRowNumber,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+            	dataIndex: 'price_credit_workshop',
+            	key: 'price_credit_workshop',
                 render: renderRowNumber,
                 width: '8%'
 			},
