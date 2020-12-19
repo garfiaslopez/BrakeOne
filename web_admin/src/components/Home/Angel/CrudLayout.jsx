@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import styles from './CrudLayoutStyles';
+import styles from './CrudLayoutStyles.js';
 import moment from 'moment';
-import { FetchXHR } from '../../helpers/generals';
+import { FetchXHR } from './generals';
 
 import { 
     Input,
@@ -20,10 +20,10 @@ import {
 
 import isEmpty from 'lodash/isEmpty';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
-import FormGenerator from '../FormGenerator/FormGenerator';
-import PrinterDownload from '../PrinterDownload/PrinterDownload';
-import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
-import { formatNumber } from '../../helpers/generals';
+import FormGenerator from './FormGenerator/FormGenerator';
+import PrinterDownload from './PrinterDownload';
+import PrinterRecipes from './PrinterRecipes/PrinterRecipes';
+import { formatNumber } from './generals';
   
 class CrudLayout extends Component {
     state = {
@@ -85,14 +85,18 @@ class CrudLayout extends Component {
 		}
 		
 		if (!isEmpty(this.search_text)) {
+			//Cotizaciones			
 			if (this.model.name === 'quotation') {
+				alert("Pruebas busquedas" + "Buenos dias equipo BrakeOne!");
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
 				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
-			} else if (this.model.name === 'sell') {
+			} 
+			
+			else if (this.model.name === 'sell') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
-				POSTDATA['or_filters']['$text'] = { '$search':  this.search_text };
+				POSTDATA['or_filters']['client_id'] = this.search_text;
 			} else if (this.model.name === 'reception') {
 				POSTDATA['or_filters'] = {};
 				POSTDATA['or_filters']['folio'] = Number(this.search_text);
@@ -299,6 +303,7 @@ class CrudLayout extends Component {
 	}
 
 	onView = (record) => {
+		/* console.log("onView" + record); */
 		this.setState({
 			selected_data: record,
 			opened_view: true,
@@ -306,6 +311,7 @@ class CrudLayout extends Component {
 	} 
 
 	onEdit = (record) => {
+		/* console.log("onEdit" + record); */
 		this.setState({
 			selected_data: record,
 			opened_submit: true,
@@ -313,6 +319,7 @@ class CrudLayout extends Component {
 	}
 
 	onDelete = async (record) => {
+		/* console.log("onDelete" + record); */
 		const url = process.env.REACT_APP_API_URL + '/' + this.model.singular + '/' + record._id;
 		if (this.model.name === 'product') {
 			await FetchXHR(process.env.REACT_APP_API_URL + '/helpers/delete_product', 'POST', { 
@@ -345,6 +352,7 @@ class CrudLayout extends Component {
 	}
 
 	onPrint = (record, type) => {
+		/* console.log("onPrint" + record + type); */
 		this.setState({
 			selected_data: record,
 			opened_printer_recipes: true,
@@ -358,12 +366,14 @@ class CrudLayout extends Component {
 	// COMPONENTS HANDLERS:
 	// SEARCH TEXT:
 	onClickSearch = (search_text) => {
+		/* console.log("onClickSearch" + search_text); */
 		this.search_text = search_text;
 		this.getData();
 	}
 
 	// RANGES DATE:
     onChangeRangeDate = (date, date_string) => {
+		/* console.log("onChangeRangeDate" + date + date_string); */
 		// parse only the day ?
 		if (date.length > 0) {
 			this.initial_date = date[0].startOf('day');
@@ -378,12 +388,14 @@ class CrudLayout extends Component {
 	// TABLE:
 	//PAGINATOR:
 	onChangePagination = (current, page_size) => {
+		/* console.log("onChangePagination" + current + page_size); */
 		this.limit = page_size;
 		this.page = current;
 		this.getData();
 	}
 
 	onChangeTable = (pagination, filters, sorter) => {
+		/* console.log("onChangeTable" + pagination + filters + sorter); */
 		if (pagination.current) {
 			this.limit = pagination.pageSize;
 			this.page = pagination.current;
@@ -401,6 +413,7 @@ class CrudLayout extends Component {
 	}
 
 	renderFilters = () => {
+		/* console.log("renderFilters"); */
 		const SearchFilter = (
 			<Input.Search
 				key="search_filter"
@@ -525,7 +538,7 @@ class CrudLayout extends Component {
 				<PrinterDownload
 					key={"Print_Form"}
 					title={"Imprimir o Descargar"}
-					onClose={() => {
+					onClose={() => {
 						this.setState({
 							opened_print: false,
 						});
@@ -551,7 +564,7 @@ class CrudLayout extends Component {
 					type={this.state.selected_type_recipes}
 					key={"Print_Form_Recipe"}
 					title={"Imprimir"}
-					onClose={() => {
+					onClose={() => {
 						this.setState({
 							opened_printer_recipes: false,
 							selected_data: undefined,
@@ -567,7 +580,7 @@ class CrudLayout extends Component {
 			PrinterDownloadButton = (
 				<Button.Group>
 					<Button 
-						onClick={() => {
+						onClick={() => {
 							this.setState({
 								opened_print: true,
 							});
@@ -639,7 +652,6 @@ class CrudLayout extends Component {
 					{Add_Button}
                 </div>
                 <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
-				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Resultados.</Divider>
 				<Table 
 					bordered
 					style={styles.tableLayout}
