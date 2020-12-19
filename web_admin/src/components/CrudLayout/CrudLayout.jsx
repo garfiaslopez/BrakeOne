@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import styles from './CrudLayoutStyles.js';
+import styles from './CrudLayoutStyles';
 import moment from 'moment';
-import { FetchXHR } from './generals';
+import { FetchXHR } from '../../helpers/generals';
 
 import { 
     Input,
@@ -20,10 +20,10 @@ import {
 
 import isEmpty from 'lodash/isEmpty';
 import locale_es from 'antd/lib/date-picker/locale/es_ES';
-import FormGenerator from './FormGenerator/FormGenerator';
-import PrinterDownload from './PrinterDownload';
-import PrinterRecipes from './PrinterRecipes/PrinterRecipes';
-import { formatNumber } from './generals';
+import FormGenerator from '../FormGenerator/FormGenerator';
+import PrinterDownload from '../PrinterDownload/PrinterDownload';
+import PrinterRecipes from '../PrinterRecipes/PrinterRecipes';
+import { formatNumber } from '../../helpers/generals';
   
 class CrudLayout extends Component {
     state = {
@@ -32,16 +32,13 @@ class CrudLayout extends Component {
 		selected_data: undefined,
 		loading_data: false,
 		loading_submit: false,
-		loading_products: false,
         error: undefined,
         search_text: undefined,
         initial_date: undefined,
 		final_date: undefined,
 		docs_per_page: 50,
 		page: 1,
-		brand: undefined,
 		total_docs: 0,
-		products: [],
 		opened_submit: false,
 		opened_view: false,
 		opened_print: false,
