@@ -126,15 +126,15 @@ class CrudLayout extends Component {
 				var letras = caracter1 + caracter2 + caracter3;
 				var tresletras = caracter1 + caracter2 + caracter3 + caracter4;		
 
-				if(iniciales === 'A-' || iniciales === 'I-' ){
+				if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
 					POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
 				}else	
 
-				if(caracter1 === 'D' || caracter1 === 'd'|| iniciales === 'S' || iniciales === 'F' || iniciales === '75' || iniciales === '98' 
+				if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' || caracter1 === 'f' || iniciales === '75' || iniciales === '98' 
 				|| iniciales === '24' || iniciales === '25' || iniciales === '7L'  || iniciales === 'AC' || iniciales === 'EU' || iniciales === 'OC' 
 				|| iniciales === 'GD' || caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'B19-' || tresletras === 'B22-' 
 				|| tresletras === 'FREM' || tresletras === 'BREM' || tresletras === 'CENT' || tresletras === 'LIQU' || caracter1 === 'L'
-				|| letras === 'RBF' || letras === 'ATE' || letras === 'SENS'){
+				|| letras === 'RBF' || letras === 'ATE' || letras === 'SENS' || letras === 'SERV' || letras === 'PAQU' || letras === 'paqu'){
 					POSTDATA['search_text'] = this.search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
 				|| tresletras === '309.' || tresletras === '106.' || caracter1 === 'T' || caracter1 === 'G' || iniciales === 'OC' 
@@ -143,7 +143,8 @@ class CrudLayout extends Component {
 				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '111.' || tresletras === '950.' 
 				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
-				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'){
+				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
+				|| letras === '001'){
 					POSTDATA['or_filters']['key_id'] = busquedas;
 				}else if(iniciales === 'BD' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		

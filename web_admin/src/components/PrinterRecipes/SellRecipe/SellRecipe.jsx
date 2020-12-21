@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import './Styles.css';
+
 import NumeroALetras from '../../../helpers/number_to_letter';
 const round2 = (number) => (Math.round(number * 100) / 100);
 
@@ -60,16 +60,18 @@ const SellTicket = ({
         <header className="sell-ticket__header">
             <img
                 className="sell-ticket__logo"
-                src="/images/BrakeOneChristmas.png"
+                src="/images/BrakeOneBrembo.png"
             />
             <p className="sell-ticket__subsidiary">
-                <span>{`Punto de venta: ${subsidiary.street}`}</span>
-                <span>{`Col. ${subsidiary.colony}`}</span>
+                <span>{`${subsidiary.street}-C`}</span>
+                <span>{`Col. Portales Norte`}</span>
+                <span>{`Alcaldia Benito Juarez`}</span>
                 <span>{`${subsidiary.city} CP ${subsidiary.postalCode}`}</span>
-                <span>{`Tel: ${subsidiary.phone}`}</span>
+                <span>{`Tel: (55)${subsidiary.phone} / (55)68402850 
+                (55)52733450`}</span>
             </p>
             <h1 className="sell-ticket__title">
-                Ticket de venta sin valor fiscal
+                Ticket sin valor fiscal
             </h1>
         </header>
     );
@@ -77,62 +79,48 @@ const SellTicket = ({
     const renderFolioAndDate = () => (
         <ul className="recipe__flex-container">
             <li>
-                <h3 className="recipe__item__title">
-                    Folio
-                </h3>
+                
                 <span className="recipe__item__data">
-                    {folio}
+                   Folio: {folio}
                 </span>
             </li>
             <li>
-                <h3 className="recipe__item__title">
-                    Fecha
-                </h3>
+              
                 <span className="recipe__item__data">
-                    {moment().format('MM-DD-YYYY')}
+                    Fecha: {moment().format('MM-DD-YYYY')}
                 </span>
             </li>
         </ul>
     );
 
     const renderClient = () => (
-        <div className="sell-ticket__client">
+        <div className="sell-ticket__list">
             <h2 className="sell-ticket__list__title">
-                Cliente
+                Cliente:  {client.name}
             </h2>
-            <ul className="recipe__column-container">
-                <li>
-                    <h3 className="recipe__item__title">
-                        Nombre
-                    </h3>
-                    <span className="recipe__item__data">
-                        {client.name}
-                    </span>
-                </li>
-                <li>
-                    <h3 className="recipe__item__title">
-                        Teléfono
-                    </h3>
-                    <span className="recipe__item__data">
-                        {client.phone_number}
-                    </span>
-                </li>
-            </ul>
+            <h2 className="sell-ticket__list__title">
+                Tel. {client.phone_number}
+            </h2>
+            <h2 className="sell-ticket__list__title">
+                Col. {client.address_country} {`C.p. ${client.address_cp}`} {client.address_city} {client.address_state}
+            </h2>
         </div>
     );
 
     const renderSellItems = () => (
         <div className="sell-ticket__list">
             <h2 className="sell-ticket__list__title recipe__flex-container">
-                <span>Clave / Concepto</span>
+                <span>Cant. / Concepto</span>
                 <span>Importe</span>
             </h2>
             <ul>
                 {sellItems.map((item, i) => (
                     <li className="recipe__flex-container" key={i}>
                     <span>{item.datakey}</span>
-                        <span>${String(round2(item.charge ? item.charge : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>                      
-                        <span>{`${item.quantity} - ${item.description}`}</span>
+                        <span>{`$${item.total} `}</span>
+
+                        <span>{`${item.quantity} ${item.fmsi} ${item.key_id} 
+                        ${item.line} ${item.brand}`}</span>
                     </li>
                 ))}
             </ul>
@@ -150,8 +138,13 @@ const SellTicket = ({
         <footer className="sell-ticket__footer">
             <p>SOLO SE PODRA HACER CAMBIO FISICO DEL. PRODUCTO EN CASO DE DEFECTO DE FABRICA. NO MALTRATE EMPAQUE NI MERCANCIA.</p>
             <p>RECOMENDACIÓN: NO ABUSE DE LOS FRENOS. DURANTE LOS PRIMEROS 200 A 300 KMS.</p>
+            <img
+                className="sell-ticket__QR"
+                src="/images/CodigoQR.png"
+            />
         </footer>
     );
+    
 
     return (
         <div className="sell-ticket">
@@ -162,7 +155,9 @@ const SellTicket = ({
             {renderFooter()}
         </div>
     );
+    
 }
+
 
 SellTicket.propTypes = propTypes;
 SellTicket.defaultProps = defaultProps;
