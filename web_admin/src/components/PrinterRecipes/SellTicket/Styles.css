@@ -5,12 +5,19 @@
     text-align: center;
     border: 1px solid #eee;
 }
-
+/*Tamaño del logo*/
 .sell-ticket__logo {
     display: block;
     margin: 0 auto 20pt;
-    max-width: 100px;
+    max-width: 200px;
 }
+/*Tamaño QR*/
+.sell-ticket__QR {
+    display: block;
+    margin: 0 auto 20pt;
+    max-width: 80px;
+}
+
 
 .sell-ticket__subsidiary {
     text-transform: uppercase;
@@ -37,8 +44,8 @@
 .sell-ticket__list__total + p {
     text-align: left;
     text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 5pt;
+    font-weight: 500;
+    margin-bottom: 2pt;
 }
 
 .sell-ticket__list li span {
@@ -50,13 +57,13 @@
 
 .sell-ticket__list__total {
     padding-top: 10pt;
-    margin-bottom: 20pt;
+    margin-bottom: 5pt;
     border-top: 1px solid #000;
 }
 
 
 .sell-ticket__footer {
-    margin-top: 40px;
+    margin-top: 15px;
 }
 .sell-ticket__footer p {
     text-align: justify;
