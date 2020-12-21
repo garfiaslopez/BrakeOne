@@ -140,16 +140,16 @@ class CrudLayout extends Component {
 				|| tresletras === '309.' || tresletras === '106.' || caracter1 === 'T' || caracter1 === 'G' || iniciales === 'OC' 
 				|| tresletras === '103.' || tresletras === '500.' || letras === 'SMD' || letras === 'GMD' || tresletras === '300.' 
 				|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.' || tresletras === '125.' 
-				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '111.' || tresletras === '950.' 
+				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' || tresletras === '950.' 
 				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
 				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
 				|| letras === '001'){
 					POSTDATA['or_filters']['key_id'] = busquedas;
-				}else if(iniciales === 'BD' ){
+				}else if(iniciales === 'BD' || iniciales === 'bd' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		
 						if(busquedas === numLargos){			
-							POSTDATA['or_filters']['key_id'] = busquedas;				
+							POSTDATA['or_filters']['key_id'] = busquedas.toUpperCase();				
 						}else{
 							
 						}
@@ -574,7 +574,7 @@ class CrudLayout extends Component {
 						})
 						bremLarge.forEach(function(numberCorts) {
 							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas;	
+								POSTDATA['or_filters']['key_id'] = busquedas.toLowerCase();	
 							}
 						})
 					}
