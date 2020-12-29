@@ -199,7 +199,7 @@ class OrderCreator extends Component {
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '5%',
+                width: '4%',
                 editable: props.can_edit_quantity,
             },
             {
@@ -242,7 +242,7 @@ class OrderCreator extends Component {
                 render: renderRowSmallTruncate,
             	dataIndex: 'description',
                 key: 'description',
-                width: '15%'
+                width: '12%'
             },
             {
                 title: <div style={{ fontSize: FontTable }}>Precio</div>,
@@ -257,7 +257,7 @@ class OrderCreator extends Component {
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '10%',
+                width: '6%',
                 editable: props.can_edit_disccount,
 			},
 			{
@@ -273,7 +273,7 @@ class OrderCreator extends Component {
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '10%'
+                width: '7%'
 			}
         ];
 
@@ -291,7 +291,7 @@ class OrderCreator extends Component {
             this.table_columns_selected.push({
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
-                width: '20%',
+                width: '10%',
                 render: (text, record) => {
                     if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
                         return (
@@ -462,21 +462,21 @@ class OrderCreator extends Component {
 				var letras = caracter1 + caracter2 + caracter3;
 				var tresletras = caracter1 + caracter2 + caracter3 + caracter4;		
 
-				if(iniciales === 'A-' || iniciales === 'I-' ){
+				if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
 					POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
 				}else	
 
-				if(caracter1 === 'D' || caracter1 === 'd'|| iniciales === 'S' || iniciales === 'F' || iniciales === '75' || iniciales === '98' 
+				if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' || caracter1 === 'f' || iniciales === '75' || iniciales === '98' 
 				|| iniciales === '24' || iniciales === '25' || iniciales === '7L'  || iniciales === 'AC' || iniciales === 'EU' || iniciales === 'OC' 
 				|| iniciales === 'GD' || caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'B19-' || tresletras === 'B22-' 
 				|| tresletras === 'FREM' || tresletras === 'BREM' || tresletras === 'CENT' || tresletras === 'LIQU' || caracter1 === 'L'
-				|| letras === 'RBF' || letras === 'ATE' || letras === 'SENS'){
+				|| letras === 'RBF' || letras === 'ATE' || letras === 'SENS' || letras === 'SERV' || letras === 'PAQU' || letras === 'paqu'){
 					POSTDATA['search_text'] = search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
 				|| tresletras === '309.' || tresletras === '106.' || caracter1 === 'T' || caracter1 === 'G' || iniciales === 'OC' 
 				|| tresletras === '103.' || tresletras === '500.' || letras === 'SMD' || letras === 'GMD' || tresletras === '300.' 
 				|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.' || tresletras === '125.' 
-				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '111.' || tresletras === '950.' 
+				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' || tresletras === '950.' 
 				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
 				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
