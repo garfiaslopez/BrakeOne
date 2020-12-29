@@ -6,6 +6,8 @@ import moment from 'moment';
 import NumeroALetras from '../../../helpers/number_to_letter';
 const round2 = (number) => (Math.round(number * 100) / 100);
 
+
+
 const propTypes = {
     subsidiary: PropTypes.object,
     client: PropTypes.object,
@@ -14,6 +16,17 @@ const propTypes = {
     totalNumber: PropTypes.number,
     totalString: PropTypes.string
 };
+
+
+
+const items1 ={
+sellItems: [{
+    datakey: 'P56101N',
+    description: 'balata trasera brembo 3072',
+    quantity: 1,
+    charge: 575
+}]
+}
 
 const defaultProps = {
     subsidiary: {
@@ -63,10 +76,23 @@ const SellTicket = ({
                 src="/images/BrakeOneBrembo.png"
             />
             <p className="sell-ticket__subsidiary">
-                <span>{`${subsidiary.street}-C`}</span>
+                <span>{`${subsidiary.street}-C`} {`Col. Portales Norte`}</span>
                 <span>{`Col. Portales Norte`}</span>
                 <span>{`Alcaldia Benito Juarez`}</span>
-                <span>{`${subsidiary.city} CP ${subsidiary.postalCode}`}</span>
+                
+                <ul className="recipe__flex-container1">
+                    <li>
+                        <span className="recipe__item__data">
+                            {subsidiary.city}
+                         </span>
+                    </li>
+                    <li>
+                        <span className="recipe__item__data">
+                            C.p. 033000
+                        </span>
+                    </li>
+                </ul>
+                
                 <span>{`Tel: (55)${subsidiary.phone} / (55)68402850 
                 (55)52733450`}</span>
             </p>
@@ -114,30 +140,51 @@ const SellTicket = ({
                 <span>Importe</span>
             </h2>
             <ul>
-                {sellItems.map((item, i) => (
+                {sellItems.map((item, i) => ( 
                     <li className="recipe__flex-container" key={i}>
-                    <span>{item.datakey}</span>
-                        <span>{`$${item.total} `}</span>
-
+                   {/*  <span>{item.quantity}</span> */}
+                      
+                      <span class="inicialPrec"> ${String(round2(Math.round(item.price) ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} c/u</span>
+                       ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                       
                         <span>{`${item.quantity} ${item.fmsi} ${item.key_id} 
                         ${item.line} ${item.brand}`}</span>
                     </li>
                 ))}
             </ul>
             <div className="sell-ticket__list__total recipe__flex-container">
-                <span>Total</span>
-                <span>
-                    ${String(round2(totalNumber ? totalNumber : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </span>
+              
+           {sellItems.map((item, i) => (
+                <ul className="recipe__flex-container2">
+                        <li>
+                            <span className="recipe__item__data">
+                            {/* {String(round2(item.quantity))} */} Cantidad de piezas
+                            </span>
+                        </li>
+                </ul>     
+            ))} 
+
+            
+            
+            
+                <ul className="recipe__flex-container2">
+                        <li>
+                            <span className="recipe__item__data">
+                            Total: ${String(round2(totalNumber)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </span>
+                        </li>
+
+                </ul>     
+                
             </div>
-            <p>{NumeroALetras(totalNumber)}</p>
+         <p>{NumeroALetras(totalNumber)}</p>    
+         <center><p>Aviso de privacidad / Terminos y condiciones en: </p></center>
+         <center><p>www.brakeone.mx</p></center>
         </div>
     );
 
     const renderFooter = () => (
-        <footer className="sell-ticket__footer">
-            <p>SOLO SE PODRA HACER CAMBIO FISICO DEL. PRODUCTO EN CASO DE DEFECTO DE FABRICA. NO MALTRATE EMPAQUE NI MERCANCIA.</p>
-            <p>RECOMENDACIÓN: NO ABUSE DE LOS FRENOS. DURANTE LOS PRIMEROS 200 A 300 KMS.</p>
+        <footer className="sell-ticket__footer">            
             <img
                 className="sell-ticket__QR"
                 src="/images/CodigoQR.png"

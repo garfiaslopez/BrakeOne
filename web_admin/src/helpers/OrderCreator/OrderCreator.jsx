@@ -43,6 +43,12 @@ const renderRowSmallPercent = (text, record) => {
         children: <p style={{fontSize: FontTable}}>%{text}</p>,
     });
 }
+const renderRowSmallPrec = (text, record) => {
+    return ({
+        children: <p style={{fontSize: FontTable}}>${text}</p>,
+    });
+}
+
 const renderRowSmallNumber = (text, record) => {
     return ({
         children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
@@ -100,8 +106,9 @@ class OrderCreator extends Component {
             price_type: props.price_type,
             selected_quantity: 1,
             selected_discount: undefined,
-            selected_user: {},
-            total: props.init_data.total | 0,
+			selected_user: {},
+			
+			total: props.init_data.total | 0,
             products: props.init_data.products
         }
 
@@ -249,6 +256,14 @@ class OrderCreator extends Component {
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
+                key: 'discount',
+                width: '10%',
+                editable: props.can_edit_disccount,
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Costo Extra</div>,
+                render: renderRowSmallPrec,
+            	dataIndex: 'discount1',
                 key: 'discount',
                 width: '10%',
                 editable: props.can_edit_disccount,
@@ -432,9 +447,6 @@ class OrderCreator extends Component {
 
 
 
-
-
-
         if (search_text) {
 
             POSTDATA['or_filters'] = {};
@@ -467,7 +479,8 @@ class OrderCreator extends Component {
 				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '111.' || tresletras === '950.' 
 				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
-				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'){
+				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
+				|| letras === '001'){
 					POSTDATA['or_filters']['key_id'] = busquedas;
 				}else if(iniciales === 'BD' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		
@@ -1014,7 +1027,8 @@ class OrderCreator extends Component {
 
                     // Price selector:
                     let Price = Number(record.price_public);
-                    let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
+					let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
+					
 
                     if (this.state.price_type === 'PUBLICO') {
                         Price = Number(record.price_public);
@@ -1022,6 +1036,9 @@ class OrderCreator extends Component {
                         Price = Number(record.price_wholesale);
                     } else if (this.state.price_type === 'TALLER' ) {
                         Price = Number(record.price_workshop);
+					}
+					else if (this.state.price_type === 'CREDITO TALLER' ) {
+                        Price = Number(record.price_credit_workshop);
                     }
 
                     if (this.props.is_reception) {
@@ -1031,8 +1048,10 @@ class OrderCreator extends Component {
                     // total price:
                     const P = Number(this.state.selected_quantity) * Price;
                     if (Discount) {
-                        Discount = (P * Number(Discount)) / 100;
-                    }
+						Discount = (P * Number(Discount)) / 100;
+
+					}
+					
                     const new_total = (this.state.total + Math.ceil(P - Discount));
     
                     actualProducts.push({
@@ -1050,7 +1069,8 @@ class OrderCreator extends Component {
                         price_type: this.state.price_type | 'PUBLICO',
                         price: Price,
                         quantity: this.state.selected_quantity,
-                        discount: Discount,
+						discount: Discount,
+						discount1: Discount,
                         total: Math.ceil(P - Discount),
                         old_stock: record.stock,
                     });
@@ -1072,16 +1092,20 @@ class OrderCreator extends Component {
         } else {
             this.props.onError('No se pueden seleccionar productos de otra sucursal.');
         }
-    }
-
+	}
+	
+	//Porcentaje a precios de balatas u otros 
     updateRecord = (row) => {
         console.log("updateRecord", row);
         const newData = [...this.state.selected_data];
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
-        const rowTotal = (Number(row.price) * Number(row.quantity));
-        const newTotalRow = Math.ceil(rowTotal - (rowTotal * Number(row.discount)) / 100);
-        console.log("newTotalRow",newTotalRow)
+		const rowTotal = (Number(row.price) * Number(row.quantity));
+		const precXtra = Number(row.discount1);
+		
+		const precDesc = Math.ceil(rowTotal - ((rowTotal * Number(row.discount)) / 100) + precXtra) ;
+		const newTotalRow =Math.ceil(precDesc);
+		console.log("newTotalRow",newTotalRow)		
         newData.splice(index, 1, {
           ...item,
           ...row,
@@ -1097,7 +1121,34 @@ class OrderCreator extends Component {
             selected_data: newData 
         });
         this.sendToOnChange(newData, newTotal);
-    }
+	}
+
+	updatePrec = (row) => {
+        console.log("updateRecord", row);
+        const newData = [...this.state.selected_data];
+        const index = newData.findIndex(item => row.key === item.key);
+        const item = newData[index];
+		const rowTotal = (Number(row.price) * Number(row.quantity));
+		console.log(row.quantity);
+        const newTotalRow = Math.ceil(rowTotal + Number(row.discount));
+		console.log("newTotalRow",newTotalRow)
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+          total: newTotalRow
+        });
+        const newTotal = (this.state.total - item.total + newTotalRow);
+
+        console.log("ACTUALPRODUCTS", newData);
+        console.log("new_total", newTotal);
+
+        this.setState({
+            total: newTotal,
+            selected_data: newData 
+        });
+        this.sendToOnChange(newData, newTotal);
+	}
+
 
     deleteRecord(record) {
         // delete from table:
@@ -1229,6 +1280,9 @@ class OrderCreator extends Component {
             }
         };
 
+
+		////////////////////////////////////////////
+
         const columns = this.table_columns_selected.map((col) => {
             if (!col.editable) {
               return col;
@@ -1242,7 +1296,38 @@ class OrderCreator extends Component {
                             editable: col.editable,
                             dataIndex: col.dataIndex,
                             title: col.title,
-                            handleSave: this.updateRecord,
+							handleSave: this.updateRecord,
+                        });
+                    }
+                    return ({
+                        record,
+                        editable: false,
+                        dataIndex: col.dataIndex,
+                        title: col.title,
+                        handleSave: this.updateRecord,
+                    });
+                },
+            };
+		});
+		
+
+
+
+
+		const columns1 = this.table_columns_selected.map((col) => {
+            if (!col.editable) {
+              return col;
+            }
+            return {
+                ...col,
+                onCell: record => {
+                    if (Number(record.key) > this.state.initial_length_data) {
+                        return ({
+                            record,
+                            editable: col.editable,
+                            dataIndex: col.dataIndex,
+                            title: col.title,
+							handleSave: this.updateRecord,
                         });
                     }
                     return ({
@@ -1255,6 +1340,11 @@ class OrderCreator extends Component {
                 },
             };
         });
+
+
+
+
+
 
         return (
             <Fragment>
@@ -7190,7 +7280,7 @@ const bremMin0821 = [
 
 ];
 const bremMIn0921 = [
-	"4939",
+		"4939",
         "4987",
         "5254",
         "5579",
