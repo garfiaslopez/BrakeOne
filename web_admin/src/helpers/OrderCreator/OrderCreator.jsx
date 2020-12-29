@@ -277,7 +277,7 @@ class OrderCreator extends Component {
 			}
         ];
 
-        if (this.props.is_quotation) {
+        /* if (this.props.is_quotation) {
             this.table_columns_selected.unshift({
             	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
             	dataIndex: 'subsidiary_id.denomination',
@@ -286,7 +286,7 @@ class OrderCreator extends Component {
                 width: '5%'
             });
         }
-
+ */
         if (!props.disabled) {
             this.table_columns_selected.push({
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
