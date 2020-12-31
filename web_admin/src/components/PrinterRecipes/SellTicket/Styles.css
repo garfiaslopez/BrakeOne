@@ -6,10 +6,10 @@
     border: 1px solid #eee;
 }
 
-.sell-ticket__logo {
+.sell-ticket__logo1 {
     display: block;
-    margin: 0 auto 20pt;
-    max-width: 100px;
+    margin: 0 auto 10pt;
+    max-width: 200px;
 }
 
 .sell-ticket__subsidiary {
@@ -61,4 +61,9 @@
 .sell-ticket__footer p {
     text-align: justify;
     text-transform: uppercase;
+}
+.sell-ticket__QR {
+    display: block;
+    margin: 0 auto 20pt;
+    max-width: 100px;
 }
