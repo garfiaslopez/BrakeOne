@@ -58,7 +58,7 @@ const renderRowSmallNumber = (text, record) => {
 const renderRow = (text, record) => {
     return ({
         props: {
-            style: { background: record.subsidiary_id ? record.subsidiary_id.color : 'white' },
+            style: { background: record.subsidiary_id ? record.subsidiary_id.color : '#8FC7FF' },
         },
         children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
@@ -425,10 +425,6 @@ class OrderCreator extends Component {
         const urlPackages = process.env.REACT_APP_API_URL + '/product-packages';
 
 
-
-
-
-        
         const POSTDATA = {
             limit: 1000,
             page: 1,
@@ -480,7 +476,7 @@ class OrderCreator extends Component {
 				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
 				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
-				|| letras === '001'){
+				|| letras === '001' || letras === '002'){
 					POSTDATA['or_filters']['key_id'] = busquedas;
 				}else if(iniciales === 'BD' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		
@@ -1017,7 +1013,7 @@ class OrderCreator extends Component {
     // 
     addRecord(record) {
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > 0 && (record.stock - this.state.selected_quantity)) >= 0) {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
                     let actualProducts = Object.assign([] ,this.state.selected_data);
