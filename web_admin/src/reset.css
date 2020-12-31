@@ -87,7 +87,7 @@ table {
 .recipe__flex-container2 {
     display: flex;
     justify-content: space-evenly;
-    text-align: left;
+    text-align: right;
     flex-wrap: wrap;
 }
 
@@ -115,6 +115,10 @@ table {
 
 .recipe__item__data {
     text-transform: uppercase;
+}
+.recipe__item__data1 {
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .recipe__footer {
@@ -159,5 +163,5 @@ table {
 }
 .inicialPrec{
     text-align: center;
-    margin-left: 70px;
+    margin-left: 105px;
 }

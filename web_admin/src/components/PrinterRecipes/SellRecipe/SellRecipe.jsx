@@ -8,6 +8,7 @@ const round2 = (number) => (Math.round(number * 100) / 100);
 
 
 
+
 const propTypes = {
     subsidiary: PropTypes.object,
     client: PropTypes.object,
@@ -18,6 +19,11 @@ const propTypes = {
 };
 
 
+/* sellItems.map((item, i) => (
+    alert(item.quantity)
+))
+ */
+
 
 const items1 ={
 sellItems: [{
@@ -27,6 +33,7 @@ sellItems: [{
     charge: 575
 }]
 }
+
 
 const defaultProps = {
     subsidiary: {
@@ -72,7 +79,7 @@ const SellTicket = ({
     const renderHeader = () => (
         <header className="sell-ticket__header">
             <img
-                className="sell-ticket__logo"
+                className="sell-ticket__logo1"
                 src="/images/BrakeOneBrembo.png"
             />
             <p className="sell-ticket__subsidiary">
@@ -96,7 +103,7 @@ const SellTicket = ({
                 <span>{`Tel: (55)${subsidiary.phone} / (55)68402850 
                 (55)52733450`}</span>
             </p>
-            <h1 className="sell-ticket__title">
+            <h1 className="sell-ticket__title1">
                 Ticket sin valor fiscal
             </h1>
         </header>
@@ -154,19 +161,19 @@ const SellTicket = ({
             </ul>
             <div className="sell-ticket__list__total recipe__flex-container">
               
-           {sellItems.map((item, i) => (
-                <ul className="recipe__flex-container2">
-                        <li>
-                            <span className="recipe__item__data">
-                            {/* {String(round2(item.quantity))} */} Cantidad de piezas
-                            </span>
-                        </li>
-                </ul>     
-            ))} 
+           {/*Sum total of products */}   
+           {sellItems.map((item, i) => parseFloat(item.quantity))
 
-            
-            
-            
+            .reduce((previus, current) => {
+               return previus + current;  
+            }, 0)
+            }
+            <span className="recipe__item__data1">
+            Cantidad piezas
+            </span>
+                         
+
+
                 <ul className="recipe__flex-container2">
                         <li>
                             <span className="recipe__item__data">
@@ -178,8 +185,8 @@ const SellTicket = ({
                 
             </div>
          <p>{NumeroALetras(totalNumber)}</p>    
-         <center><p>Aviso de privacidad / Terminos y condiciones en: </p></center>
-         <center><p>www.brakeone.mx</p></center>
+         <center><h1>Aviso de privacidad / Terminos y condiciones en: </h1></center>
+         <center><h1>www.brakeone.mx</h1></center>
         </div>
     );
 
