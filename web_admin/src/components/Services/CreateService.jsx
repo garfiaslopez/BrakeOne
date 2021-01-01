@@ -531,6 +531,16 @@ class CreateService extends Component {
             });
         }
 
+        const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
+            (item, index) => {
+              return (
+                <Select.Option value={item} key={`${item} - ${index}`}>
+                  {item}
+                </Select.Option>
+              );
+            }
+          );
+
         let CardContent = <div style={styles.cardInitialText}> Favor de buscar y seleccionar un cliente. </div>;
         if (this.state.client_id._id) {
             CardContent = (
@@ -544,8 +554,26 @@ class CreateService extends Component {
                         <p style={styles.label_value}>{this.state.client_id.rfc}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Tipo de precio:</p>
-                        <p style={styles.label_value}>{this.state.client_id.price_type}</p>
+                    <p style={styles.label_title} >Tipo de precio:</p>
+                        <Select
+                            showSearch
+                            onFocus={() => {
+                            console.log(this);
+                            }}
+                            disabled={
+                            this.props.is_disabled ||
+                            (this.props.fields && this.props.session.user.rol !== "ADMIN")
+                            }
+                            value={this.state.price_type}
+                            style={styles.inputElement}
+                            placeholder="TIPO PRECIO"
+                            optionFilterProp="children"
+                            onChange={(value) => {
+                            this.onChangeDropdown(value, "price_type");
+                            }}
+                        >
+                            {OptionsTypes}
+                        </Select>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Email:</p>
