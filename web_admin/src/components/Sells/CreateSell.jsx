@@ -524,6 +524,7 @@ class CreateSell extends Component {
             />
           </Card.Grid>
           <Card.Grid style={styles.grid_element}>
+          <p style={styles.label_title}>Tipo de precio:</p>
           <Select
             showSearch
             onFocus={() => {
@@ -534,7 +535,7 @@ class CreateSell extends Component {
               (this.props.fields && this.props.session.user.rol !== "ADMIN")
             }
             value={this.state.price_type}
-            style={styles.inputElement1}
+            style={styles.inputElement}
             placeholder="TIPO PRECIO"
             optionFilterProp="children"
             onChange={(value) => {
