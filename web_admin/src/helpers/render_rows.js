@@ -57,7 +57,7 @@ export default {
     renderRowNumberProducts: (text, record) => {
         let color = record.stock < record.stock_ideal ? 'red' : 'blue';
         return ({
-            children: <p style={{color, fontSize}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
+            children: <p style={{color, fontSize}}>${Intl.NumberFormat("en-IN").format(Math.trunc(String(round2(text ? text : 0))))}</p>,
         });
     },
     renderRowPercentProducts: (text, record) => {
