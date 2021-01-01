@@ -140,7 +140,16 @@ class Home extends React.Component {
 						>
 							<Avatar 
 								style={styles.avatar}
-								icon="user"
+								src={(()=>{
+									if(this.props.session.user.name === 'ANGEL ARMANDO SALDIVAR' ) {
+										return(process.env.REACT_APP_CDN + '/images/Mia.jpg');
+									}else
+										if(this.props.session.user.name === 'ANTONIO SALDIVAR' ) {
+										return(process.env.REACT_APP_CDN + '/images/lambo.jpg');
+									}else{
+										return(process.env.REACT_APP_CDN + '/images/Perfil.jpg');
+									}
+									})()}
 								
 							/>
 						</Dropdown>

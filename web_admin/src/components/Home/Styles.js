@@ -20,11 +20,13 @@ export default {
         padding: 0
     },
     avatar: {
-        fontSize: 13,
-        backgroundColor: '#EC3424',
+        fontSize: 5,
+        backgroundColor: '#F7F7F7',
         float: 'right',
         top: 12,
-        right: 15
+        right: 15,
+        height: 45,
+        width: 45
     },
     content: {
         marginTop: 16,
