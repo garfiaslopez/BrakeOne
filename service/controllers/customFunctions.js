@@ -8,13 +8,17 @@ module.exports =  {
         let NewProperties = {};
 
         //Modify price percentage
-        if (req.body.brand && req.body.stock) { // update by brand 
-            alert(req.body.stock);
+        if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
-            const multiplier = req.body.stock * 1 ;         
-            NewProperties.stock = multiplier;
-            NewProperties.stock_ideal = multiplier;
-          
+
+            const multiplier = (Number(req.body.quantity_percent)/100)+1;
+            console.log("Precios: " + Number);
+            console.log('body' + req.body.quantity_percent);
+            NewProperties.price = multiplier;
+            NewProperties.price_public = multiplier;
+            NewProperties.price_workshop = multiplier;
+            NewProperties.price_credit_workshop = multiplier;
+            NewProperties.price_wholesale = multiplier;
 
             objectModel.update(
                 Filter,
