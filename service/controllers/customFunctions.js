@@ -20,7 +20,7 @@ module.exports =  {
             NewProperties.price_workshop = multiplier;
             NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_wholesale = multiplier;
-            NewProperties.stock = numero;
+            NewProperties.stock = multiplier;
 
             objectModel.update(
                 Filter,
