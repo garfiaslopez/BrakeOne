@@ -9,9 +9,10 @@ module.exports =  {
 
         //Modify price percentage
         if (req.body.brand && req.body.stock) { // update by brand 
+            alert(req.body.stock);
             Filter.brand = req.body.brand;
-            /* const multiplier = (Number(req.body.quantity_percent)/100)+1;     */        
-            NewProperties.stock = req.body.stock;
+            const multiplier = req.body.stock * 1 ;         
+            NewProperties.stock = multiplier;
           
 
             objectModel.update(
