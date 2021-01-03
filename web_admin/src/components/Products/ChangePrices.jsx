@@ -65,14 +65,14 @@ class ChangePrices extends Component {
         event.preventDefault();
         // do validations:
         if (this.state.products.length > 0) {
-            if (this.state.percent !== undefined) {
+            if (this.state.stock !== undefined) {
                 
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
                     brand: this.state.brand,
-                    quantity_percent: this.state.percent,
+                    stock: this.state.stock,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
@@ -98,7 +98,7 @@ class ChangePrices extends Component {
                 });
             } else {
                 this.setState({
-                    error: 'Agregar un porcentaje.'
+                    error: 'Agregar un stock.'
                 });
             }
         } else {
@@ -170,7 +170,7 @@ class ChangePrices extends Component {
                 Cancelar
             </Button>,
             <Button 
-                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                is_disabled={this.state.products.length <= 0 && this.state.stock > 0}
                 key="submit"
                 type="primary" 
                 loading={this.state.loading_submit}
@@ -230,10 +230,10 @@ class ChangePrices extends Component {
                             <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
-                                value={this.state.percent}
+                                value={this.state.stock}
                                 style={styles.inputElement}
                                 onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent');
+                                    this.onChangeFieldNumber(value, 'stock');
                                 }}
                                 prefix={(
                                     <Icon
@@ -242,7 +242,7 @@ class ChangePrices extends Component {
                                     />
                                 )}
                                 type="text"
-                                placeholder="Porcentaje (%)"
+                                placeholder="Stock"
                                 
                             />
                         </div>
