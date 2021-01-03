@@ -13,6 +13,7 @@ module.exports =  {
             Filter.brand = req.body.brand;
             const multiplier = req.body.stock * 1 ;         
             NewProperties.stock = multiplier;
+            NewProperties.stock_ideal = multiplier;
           
 
             objectModel.update(
