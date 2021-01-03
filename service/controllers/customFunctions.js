@@ -11,7 +11,7 @@ module.exports =  {
         if (req.body.brand && req.body.stock) { // update by brand 
             Filter.brand = req.body.brand;
             /* const multiplier = (Number(req.body.quantity_percent)/100)+1;     */        
-            NewProperties.stock = 1;
+            NewProperties.stock = req.body.stock;
           
 
             objectModel.update(
