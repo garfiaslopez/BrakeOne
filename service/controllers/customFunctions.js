@@ -22,7 +22,7 @@ module.exports =  {
 
             objectModel.update(
                 Filter,
-                { stock: req.body.quantity_percent, stock: { '$ne': req.body.quantity_percent }},
+                { fmsi: 'ANGEL'},{stock:0, stock:1},
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
@@ -32,7 +32,7 @@ module.exports =  {
                 }
             );
         } else {
-            return res.json({ success: false, message: "Missing fields." });
+            return res.json({ success: false, message: "Missing fields." });            
         }
     },
     car_makes:  (req, res, next) => {
