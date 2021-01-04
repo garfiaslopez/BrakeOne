@@ -6,23 +6,17 @@ module.exports =  {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {
-            stock: 0
         };
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            const multiplier = (Number(req.body.quantity_percent) +2) - 1;
-            
-            console.log("Precios: " + Number);
-            console.log('body' + req.body.quantity_percent);
-            
-            NewProperties.stock = multiplier;
+            NewProperties.stock = req.body.quantity_percent;
 
             objectModel.update(
                 Filter,
-                { fmsi: 'ANGEL'},{stock:0, stock: req.body.quantity_percent},
+                { fmsi: 'ANGEL'},{stock:0, NewProperties},
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
