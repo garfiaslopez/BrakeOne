@@ -5,24 +5,31 @@ module.exports =  {
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
         };
-        var FMSI = {
-            fmsi: 'ANGEL'
-        };
-        var newFMSI = {
-            $set:
-            {
-               fmsi: req.body.quantity_percent.toString()
-            }
-        }
+        let NewProperties = {};
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            NewProperties.stock = req.body.quantity_percent;
+            const multiplier = (Number(req.body.quantity_percent) +1) - 1;
+            const numero = Number(req.body.quantity_percent) * 1;
+            console.log("Precios: " + Number);
+            console.log('body' + req.body.quantity_percent);
+            NewProperties.price = multiplier;
+            NewProperties.price_public = multiplier;
+            NewProperties.price_workshop = multiplier;
+            NewProperties.price_credit_workshop = multiplier;
+            NewProperties.price_wholesale = multiplier;
+            NewProperties.stock = multiplier;
 
-            objectModel.updateOne(
-                FMSI, newFMSI,
+            objectModel.update(
+                Filter,
+                { 
+                    NewProperties
+                },
+                { 
+                    multi: true 
+                },
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
@@ -32,7 +39,7 @@ module.exports =  {
                 }
             );
         } else {
-            return res.json({ success: false, message: "Missing fields." });            
+            return res.json({ success: false, message: "Missing fields." });
         }
     },
     car_makes:  (req, res, next) => {
