@@ -20,12 +20,16 @@ module.exports =  {
 
             objectModel.update(
                 Filter,
-                { 
-                    $unset: NewProperties 
-                },
-                { 
+                { fmsi: 'ANGEL'},
+                {
+                    $inc: {stock: 2},
+                    $set: {
+                    key_id: 'ARMANDO'
+                }
+            },
+                /* { 
                     multi: true 
-                },
+                }, */
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
