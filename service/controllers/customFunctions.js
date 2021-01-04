@@ -22,7 +22,7 @@ module.exports =  {
 
             objectModel.update(
                 Filter,
-                { fmsi: 'ANGEL'},{stock:0, stock:1},
+                { fmsi: 'ANGEL'},{stock:0, stock: req.body.quantity_percent},
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
