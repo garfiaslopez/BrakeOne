@@ -5,8 +5,15 @@ module.exports =  {
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
         };
-        let NewProperties = {
+        var FMSI = {
+            fmsi: 'ANGEL'
         };
+        var newFMSI = {
+            $set:
+            {
+               fmsi: req.body.quantity_percent.toString()
+            }
+        }
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
@@ -14,9 +21,8 @@ module.exports =  {
 
             NewProperties.stock = req.body.quantity_percent;
 
-            objectModel.update(
-                Filter,
-                { fmsi: 'ANGEL'},{stock:0, NewProperties},
+            objectModel.updateOne(
+                FMSI, newFMSI,
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
