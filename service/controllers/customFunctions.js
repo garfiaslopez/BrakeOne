@@ -12,29 +12,20 @@ module.exports =  {
             Filter.brand = req.body.brand;
 
             const multiplier = (Number(req.body.quantity_percent) +1) - 1;
-            
+            const numero = Number(req.body.quantity_percent) * 1;
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
-            NewProperties.price = multiplier;
-            NewProperties.price_public = multiplier;
-            NewProperties.price_workshop = multiplier;
-            NewProperties.price_credit_workshop = multiplier;
-            NewProperties.price_wholesale = multiplier;
-            NewProperties.stock = 5;
-            NewProperties.fmsi = 'ANGEL';
+            
+           var stock =  NewProperties.stock = multiplier;
 
             objectModel.update(
                 Filter,
                 { 
-                   $set: {fmsi : 'ANGEL'},
-                   $setOnInsert: NewProperties.stock
+                    $unset: stock
                 },
-                {
-                    upsert: true
-                },
-                /* { 
+                { 
                     multi: true 
-                }, */
+                },
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
