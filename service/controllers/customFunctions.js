@@ -10,15 +10,15 @@ module.exports =  {
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
-
+/* 
             const suma = Number(req.body.quantity_percent);
             
-            NewProperties.stock = suma;
+            NewProperties.stock = suma; */
 
             objectModel.update(
                 Filter,
                 { 
-                    $sum: NewProperties + 1 
+                    $sum: NewProperties.stock + req.body.quantity_percent
                 },
                 { 
                     multi: true 
