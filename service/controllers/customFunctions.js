@@ -20,16 +20,21 @@ module.exports =  {
             NewProperties.price_workshop = multiplier;
             NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_wholesale = multiplier;
-            NewProperties.stock = multiplier;
+            NewProperties.stock = 5;
+            NewProperties.fmsi = 'ANGEL';
 
             objectModel.update(
                 Filter,
                 { 
-                   $unset: NewProperties
+                   $set: {fmsi : 'ANGEL'},
+                   $setOnInsert: NewProperties.stock
                 },
-                { 
+                {
+                    upsert: true
+                },
+                /* { 
                     multi: true 
-                },
+                }, */
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
