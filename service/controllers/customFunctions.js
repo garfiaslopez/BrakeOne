@@ -12,7 +12,7 @@ module.exports =  {
             Filter.brand = req.body.brand;
 
             const multiplier = (Number(req.body.quantity_percent) +1) - 1;
-            const numero = Number(req.body.quantity_percent) * 1;
+            
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
             NewProperties.price = multiplier;
@@ -25,7 +25,7 @@ module.exports =  {
             objectModel.update(
                 Filter,
                 { 
-                   $sum: NewProperties
+                   $unset: NewProperties
                 },
                 { 
                     multi: true 
