@@ -125,7 +125,16 @@ class CrudLayout extends Component {
 				var iniciales = caracter1 + caracter2;		
 				var letras = caracter1 + caracter2 + caracter3;
 				var tresletras = caracter1 + caracter2 + caracter3 + caracter4;		
-
+				/* if(caracter1 === '3' || caracter1 === '2' || caracter1 === '1' ||
+					caracter1 === '4' || caracter1 === '5' || caracter1 === '6' || caracter1 === '7' || caracter1 === '8' || caracter1 === '9'
+				|| caracter1 === '10' || caracter1 === '11' || caracter1 === '12' || caracter1 === '13' || caracter1 === '14'
+				|| caracter1 === '15' || caracter1 === '16' || caracter1 === '17' || caracter1 === '18'
+				|| caracter1 === '19' || caracter1 === '20' || caracter1 === '21' || caracter1 === '22' || caracter1 === '22'
+				|| caracter1 === '23' || caracter1 === '24' || caracter1 === '25' || caracter1 === '26' || caracter1 === '27'
+				|| caracter1 === '28' || caracter1 === '29' || caracter1 === '30' ){
+					POSTDATA['or_filters']['stock'] = this.search_text;
+				}else
+ */
 				if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
 					POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
 				}else	
@@ -134,7 +143,8 @@ class CrudLayout extends Component {
 				|| iniciales === '24' || iniciales === '25' || iniciales === '7L'  || iniciales === 'AC' || iniciales === 'EU' || iniciales === 'OC' 
 				|| iniciales === 'GD' || caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'B19-' || tresletras === 'B22-' 
 				|| tresletras === 'FREM' || tresletras === 'BREM' || tresletras === 'CENT' || tresletras === 'LIQU' || caracter1 === 'L'
-				|| letras === 'RBF' || letras === 'ATE' || letras === 'SENS' || letras === 'SERV' || letras === 'PAQU' || letras === 'paqu'){
+				|| letras === 'RBF' || letras === 'ATE' || tresletras === 'SENS' || tresletras === 'SERV' || tresletras === 'PAQU' || tresletras === 'paqu' || tresletras === 'CAMB' || tresletras === 'BVNE'|| tresletras === 'bvne'
+				|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'BBNE' || tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H'){
 					POSTDATA['search_text'] = this.search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
 				|| tresletras === '309.' || tresletras === '106.' || caracter1 === 'T' || caracter1 === 'G' || iniciales === 'OC' 
@@ -144,7 +154,8 @@ class CrudLayout extends Component {
 				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
 				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
-				|| letras === '001'){
+				|| letras === '001' || letras === '002' || letras === '22-' || letras === '19-' || tresletras === 'B20-' || caracter1 === '8' 
+				|| iniciales === '14' || caracter1 === '8'){
 					POSTDATA['or_filters']['key_id'] = busquedas;
 				}else if(iniciales === 'BD' || iniciales === 'bd' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		
@@ -1105,8 +1116,7 @@ class CrudLayout extends Component {
 					{this.renderFilters()}
 					{Add_Button}
                 </div>
-                <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
-				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Resultados.</Divider>
+                <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>				
 				<Table 
 					bordered
 					style={styles.tableLayout}
