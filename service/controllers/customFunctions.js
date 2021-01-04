@@ -11,10 +11,16 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            const multiplier = (Number(req.body.quantity_percent) + 1);
-            const numero = Number(req.body.quantity_percent) * 1;
-           
-            NewProperties.stock = multiplier;
+            const suma = Number(req.body.quantity_percent);
+            
+            const stock = NewProperties.stock + 1;
+
+            NewProperties.price = suma;
+            NewProperties.price_public = suma;
+            NewProperties.price_workshop = suma;
+            NewProperties.price_credit_workshop = suma;
+            NewProperties.price_wholesale = suma;
+            NewProperties.stock = suma;
 
             objectModel.update(
                 Filter,
