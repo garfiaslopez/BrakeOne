@@ -5,7 +5,9 @@ module.exports =  {
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
         };
-        let NewProperties = {};
+        let NewProperties = {
+            stock: 0
+        };
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
