@@ -25,7 +25,7 @@ module.exports =  {
             objectModel.update(
                 Filter,
                 { 
-                    NewProperties
+                   $sum: NewProperties
                 },
                 { 
                     multi: true 
