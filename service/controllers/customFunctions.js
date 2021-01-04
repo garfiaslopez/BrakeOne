@@ -22,12 +22,7 @@ module.exports =  {
 
             objectModel.update(
                 Filter,
-                { 
-                    $sum: NewProperties
-                },
-                { 
-                    multi: false
-                },
+                { stock: req.body.quantity_percent, stock: { '$ne': req.body.quantity_percent }},
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
