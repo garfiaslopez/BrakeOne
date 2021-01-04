@@ -20,7 +20,7 @@ module.exports =  {
 
             objectModel.update(
                 Filter,
-                { fmsi: 'ANGEL'},
+                { _id: '5ff218fcb86ac93e020a7cfd'},
                 {
                     $inc: {stock: 2},
                     $set: {
