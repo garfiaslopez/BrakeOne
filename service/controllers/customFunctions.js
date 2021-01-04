@@ -13,19 +13,12 @@ module.exports =  {
 
             const suma = Number(req.body.quantity_percent);
             
-            const stock = NewProperties.stock + 1;
-
-            NewProperties.price = suma;
-            NewProperties.price_public = suma;
-            NewProperties.price_workshop = suma;
-            NewProperties.price_credit_workshop = suma;
-            NewProperties.price_wholesale = suma;
             NewProperties.stock = suma;
 
             objectModel.update(
                 Filter,
                 { 
-                    $sum: NewProperties 
+                    $sum: NewProperties + 1 
                 },
                 { 
                     multi: true 
