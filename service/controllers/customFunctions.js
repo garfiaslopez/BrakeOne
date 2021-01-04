@@ -23,10 +23,10 @@ module.exports =  {
             objectModel.update(
                 Filter,
                 { 
-                    $mul: NewProperties + 1
+                    $sum: NewProperties
                 },
                 { 
-                    multi: true 
+                    multi: false
                 },
                 (err, response) => {
                     if(err){
