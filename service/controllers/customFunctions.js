@@ -15,21 +15,21 @@ module.exports =  {
             const numero = Number(req.body.quantity_percent) * 1;
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
-            
-            NewProperties.stock = multiplier;
+            NewProperties.price = 123;
+            NewProperties.price_public = 123;
+            NewProperties.price_workshop = 123;
+            NewProperties.price_credit_workshop = 123;
+            NewProperties.price_wholesale = 123;
+            NewProperties.stock = 123;
 
             objectModel.update(
                 Filter,
-                { _id: '5ff218fcb86ac93e020a7cfd'},
-                {
-                    $inc: {stock: 2},
-                    $set: {
-                    key_id: 'ARMANDO'
-                }
-            },
-                /* { 
+                { 
+                    $set: NewProperties 
+                },
+                { 
                     multi: true 
-                }, */
+                },
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
