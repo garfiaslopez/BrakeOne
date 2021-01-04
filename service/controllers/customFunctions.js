@@ -16,12 +16,12 @@ module.exports =  {
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
             
-           var stock =  NewProperties.stock = multiplier;
+            NewProperties.stock = multiplier;
 
             objectModel.update(
                 Filter,
                 { 
-                    $unset: stock
+                    $unset: NewProperties 
                 },
                 { 
                     multi: true 
