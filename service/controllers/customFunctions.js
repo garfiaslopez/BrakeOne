@@ -12,7 +12,7 @@ module.exports =  {
             Filter.brand = req.body.brand;
 
             const multiplier = (Number(req.body.quantity_percent) +1) - 1;
-
+           
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
             NewProperties.price = multiplier;
@@ -21,7 +21,6 @@ module.exports =  {
             NewProperties.price_credit_workshop = multiplier;
             NewProperties.price_wholesale = multiplier;
             NewProperties.stock = multiplier;
-            
 
             objectModel.update(
                 Filter,
