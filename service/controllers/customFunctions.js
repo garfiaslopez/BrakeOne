@@ -17,16 +17,9 @@ module.exports =  {
             
             objectModel.update(
                 {_id : '5ff21923b86ac93e020a7cfe'},
-                { 
-                    $set: NewProperties 
-                },
-                {_id: 'ff218fcb86ac93e020a7cfd'},
-                {
-                    $set: objectModel
-                },  
-                { 
-                    multi: true 
-                },
+                {$set: objectModel.stock = 1},
+                {multi: true},
+
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
