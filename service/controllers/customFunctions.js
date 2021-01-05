@@ -13,10 +13,8 @@ module.exports =  {
 
             NewProperties.stock = 5;
            
-            
-            
             objectModel.update(
-                {_id : '5ff21923b86ac93e020a7cfe'},
+                {key_id : 'ANGEL2'},
                 {$set: NewProperties},
                 {multi: true},
 
