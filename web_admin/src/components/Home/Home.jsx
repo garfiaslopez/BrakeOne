@@ -145,7 +145,22 @@ class Home extends React.Component {
 										return(process.env.REACT_APP_CDN + '/images/Mia.jpg');
 									}else
 										if(this.props.session.user.name === 'ANTONIO SALDIVAR' ) {
-										return(process.env.REACT_APP_CDN + '/images/lambo.jpg');
+										return(process.env.REACT_APP_CDN + '/images/2021.jpeg');
+									}else
+										if(this.props.session.user.name === 'JONATHAN DE LOERA' ) {
+										return(process.env.REACT_APP_CDN + '/images/2021.jpeg');
+									}else
+										if(this.props.session.user.name === 'LEONARDO SALDIVAR' ) {
+										return(process.env.REACT_APP_CDN + '/images/2021.jpeg');
+									}else
+										if(this.props.session.user.name === 'CARLOS CARRASCO' ) {
+										return(process.env.REACT_APP_CDN + '/images/2021.jpeg');
+									}else
+										if(this.props.session.user.name === 'ROBERTO DE LOERA' ) {
+										return(process.env.REACT_APP_CDN + '/images/2021.jpeg');
+									}else
+										if(this.props.session.user.name === 'GERMAN MUÑOZ' ) {
+										return(process.env.REACT_APP_CDN + '/images/2021.jpeg');
 									}else{
 										return(process.env.REACT_APP_CDN + '/images/Perfil.jpg');
 									}
