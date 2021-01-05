@@ -12,12 +12,12 @@ module.exports =  {
             Filter.brand = req.body.brand;
 
             NewProperties.stock = 1;
-            objectModel.stock = 1;
+           
             
             
             objectModel.update(
                 {_id : '5ff21923b86ac93e020a7cfe'},
-                {$set: objectModel.stock = 1},
+                {$set: NewProperties},
                 {multi: true},
 
                 (err, response) => {
