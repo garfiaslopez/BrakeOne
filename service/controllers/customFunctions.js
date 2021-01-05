@@ -16,10 +16,10 @@ module.exports =  {
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
            
-            NewProperties.stock = 1;
+            NewProperties.stock = 123;
             
             objectModel.update(
-                {_id: '5ff21923b86ac93e020a7cfe'}, 
+                Filter,
                 { 
                     $set: NewProperties 
                 },
