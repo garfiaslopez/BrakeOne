@@ -6,9 +6,7 @@ module.exports =  {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {};
-        let Products = {
-            key_id : 'ANGEL'
-        }
+        let Products = {};
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
