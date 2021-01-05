@@ -125,42 +125,47 @@ class CrudLayout extends Component {
 				var iniciales = caracter1 + caracter2;		
 				var letras = caracter1 + caracter2 + caracter3;
 				var tresletras = caracter1 + caracter2 + caracter3 + caracter4;		
-				/* if(caracter1 === '3' || caracter1 === '2' || caracter1 === '1' ||
-					caracter1 === '4' || caracter1 === '5' || caracter1 === '6' || caracter1 === '7' || caracter1 === '8' || caracter1 === '9'
-				|| caracter1 === '10' || caracter1 === '11' || caracter1 === '12' || caracter1 === '13' || caracter1 === '14'
-				|| caracter1 === '15' || caracter1 === '16' || caracter1 === '17' || caracter1 === '18'
-				|| caracter1 === '19' || caracter1 === '20' || caracter1 === '21' || caracter1 === '22' || caracter1 === '22'
-				|| caracter1 === '23' || caracter1 === '24' || caracter1 === '25' || caracter1 === '26' || caracter1 === '27'
-				|| caracter1 === '28' || caracter1 === '29' || caracter1 === '30' ){
-					POSTDATA['or_filters']['stock'] = this.search_text;
-				}else
- */
+
 				if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
 					POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
 				}else	
 
-				if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' || caracter1 === 'f' || iniciales === '75' || iniciales === '98' 
-				|| iniciales === '24' || iniciales === '25' || iniciales === '7L'  || iniciales === 'AC' || iniciales === 'EU' || iniciales === 'OC' 
-				|| iniciales === 'GD' || caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'B19-' || tresletras === 'B22-' 
-				|| tresletras === 'FREM' || tresletras === 'BREM' || tresletras === 'CENT' || tresletras === 'LIQU' || caracter1 === 'L'
-				|| letras === 'RBF' || letras === 'ATE' || tresletras === 'SENS' || tresletras === 'SERV' || tresletras === 'PAQU' || tresletras === 'paqu' || tresletras === 'CAMB' || tresletras === 'BVNE'|| tresletras === 'bvne'
-				|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'BBNE' || tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H'){
+				if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' 
+				|| caracter1 === 'f' || iniciales === '75' || iniciales === '98' || iniciales === '24' || iniciales === '25' 
+				|| iniciales === '7L'  || iniciales === '7l' || iniciales === 'AC' || iniciales === 'ac' || iniciales === 'EU'
+				|| iniciales === 'eu' || iniciales === 'OC' || iniciales === 'oc' || iniciales === 'GD' || iniciales === 'gd' 
+				|| caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'aimd' 
+				|| tresletras === 'FREM' || tresletras === 'frem' || tresletras === 'BREM' || tresletras === 'brem' 
+				|| tresletras === 'CENT' || tresletras === 'cent' || tresletras === 'LIQU' || tresletras === 'liqu' 
+				|| caracter1 === 'L' || caracter1 === 'l' || letras === 'RBF' || letras === 'rbf' || letras === 'ATE' || letras === 'ate' 
+				|| letras === 'SENS' || letras === 'sens' || letras === 'SERV' || letras === 'serv' || letras === 'PAQU' || letras === 'paqu'
+				|| iniciales === 'bd' || tresletras === 'ORIG' || tresletras === 'orig' || tresletras === 'SUPE' || tresletras === 'supe'
+				|| caracter1 === 'T' || caracter1 === 't' || caracter1 === 'G' || caracter1 === 'g' || letras === 'SMD' || letras === 'smd' 
+				|| letras === 'GMD' || letras === 'gmd' || letras === 'amo' || letras === 'AMO'
+				|| tresletras === 'CAMB' || tresletras === 'BVNE'|| tresletras === 'bvne'
+				|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'amor' || tresletras === 'BBNE' 
+				|| tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H'){
+					//Filtros por texto
 					POSTDATA['search_text'] = this.search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
-				|| tresletras === '309.' || tresletras === '106.' || caracter1 === 'T' || caracter1 === 'G' || iniciales === 'OC' 
-				|| tresletras === '103.' || tresletras === '500.' || letras === 'SMD' || letras === 'GMD' || tresletras === '300.' 
+				|| tresletras === '309.' || tresletras === '106.' || tresletras === '103.' || tresletras === '500.' || tresletras === '300.' 
 				|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.' || tresletras === '125.' 
-				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' || tresletras === '950.' 
-				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
+				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' 
+				|| tresletras === '950.' || tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
 				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
-				|| letras === '001' || letras === '002' || letras === '22-' || letras === '19-' || tresletras === 'B20-' || caracter1 === '8' 
-				|| iniciales === '14' || caracter1 === '8'){
+				|| letras === '001' || letras === '331' || letras === '360' || letras === '409' || letras ==="410" || letras ==="411" || letras ==="412" 
+				|| letras ==="416" || letras ==="420" || letras ==="422" || letras ==="424" || letras ==="425" || letras ==="426" 
+				|| letras ==="428" || letras ==="430" || letras ==="432" || letras ==="436" || letras ==="602" || letras ==="603"
+				|| letras ==="604" || letras ==="605" || letras ==="606" || letras ==="607" || letras ==="620" || letras ==="650" 
+				|| tresletras === 'B20-' || tresletras === 'b20-' || tresletras === 'B-VN' 
+				|| tresletras === 'B19-' || tresletras === 'b19-'|| tresletras === 'B22-' || tresletras === 'b22-' ){
+					//Filtros por Key_Id
 					POSTDATA['or_filters']['key_id'] = busquedas;
 				}else if(iniciales === 'BD' || iniciales === 'bd' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		
-						if(busquedas === numLargos){			
-							POSTDATA['or_filters']['key_id'] = busquedas.toUpperCase();				
+						if(busquedas === numLargos ){			
+							POSTDATA['or_filters']['key_id'] = busquedas;				
 						}else{
 							
 						}
@@ -1116,7 +1121,8 @@ class CrudLayout extends Component {
 					{this.renderFilters()}
 					{Add_Button}
                 </div>
-                <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>				
+                <Divider dashed={true} orientation="left">{"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.</Divider>
+				<Divider dashed={true} orientation="left">{"[" + this.model.name + "]   "} Resultados.</Divider>
 				<Table 
 					bordered
 					style={styles.tableLayout}
@@ -1152,6 +1158,7 @@ class CrudLayout extends Component {
         );
     }
 }
+
 
 //Numeros largos
 const numberLarge = [
