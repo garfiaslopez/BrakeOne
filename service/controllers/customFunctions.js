@@ -8,7 +8,7 @@ module.exports =  {
         let NewProperties = {};
 
         //Modify price percentage
-        if (req.body.brand === 'ANGEL' && req.body.quantity_percent) { // update by brand 
+        if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.key_id;
 
             const multiplier = (Number(req.body.quantity_percent) +1) - 1;
