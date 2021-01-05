@@ -14,6 +14,7 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
+            Products.key_id = 'ANGEL';
             NewProperties.stock = 1;
            
             objectModel.update(
