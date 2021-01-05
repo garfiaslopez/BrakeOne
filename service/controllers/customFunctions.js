@@ -8,7 +8,7 @@ module.exports =  {
         let NewProperties = {};
 
         //Modify price percentage
-        if (req.body.key_id === 'ANGEL' && req.body.quantity_percent) { // update by brand 
+        if (req.body.brand === 'ANGEL' && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.key_id;
 
             const multiplier = (Number(req.body.quantity_percent) +1) - 1;
@@ -16,10 +16,10 @@ module.exports =  {
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
            
-            NewProperties.stock = 123;
-
+            NewProperties.stock = 1;
+            
             objectModel.update(
-                Filter,
+                {_id: '5ff21923b86ac93e020a7cfe'}, 
                 { 
                     $set: NewProperties 
                 },
@@ -35,6 +35,7 @@ module.exports =  {
                 }
             );
         } else {
+            alert("No es el producto correcto");
             return res.json({ success: false, message: "Missing fields." });
         }
     },
