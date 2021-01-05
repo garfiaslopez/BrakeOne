@@ -11,19 +11,12 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            const multiplier = (Number(req.body.quantity_percent)/100)+1;
-            console.log("Precios: " + Number);
-            console.log('body' + req.body.quantity_percent);
-            NewProperties.price = multiplier;
-            NewProperties.price_public = multiplier;
-            NewProperties.price_workshop = multiplier;
-            NewProperties.price_credit_workshop = multiplier;
-            NewProperties.price_wholesale = multiplier;
-
+            NewProperties.stock = 1;
+            
             objectModel.update(
-                Filter,
+                {_id : '5ff21923b86ac93e020a7cfe'},
                 { 
-                    $mul: NewProperties 
+                    $set: NewProperties 
                 },
                 { 
                     multi: true 
