@@ -14,7 +14,8 @@ module.exports =  {
             NewProperties.stock = 1;
            
             objectModel.update(
-                {key_id : 'ANGEL2', key_id : 'ANGEL'},
+                {key_id : 'ANGEL2'},
+                {key_id : 'ANGEL'},
                 {$set: NewProperties},
                 {multi: true},
 
