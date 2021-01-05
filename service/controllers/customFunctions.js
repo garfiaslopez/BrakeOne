@@ -12,12 +12,18 @@ module.exports =  {
             Filter.brand = req.body.brand;
 
             NewProperties.stock = 1;
+            objectModel.stock = 1;
+            
             
             objectModel.update(
                 {_id : '5ff21923b86ac93e020a7cfe'},
                 { 
                     $set: NewProperties 
                 },
+                {_id: 'ff218fcb86ac93e020a7cfd'},
+                {
+                    $set: objectModel
+                },  
                 { 
                     multi: true 
                 },
