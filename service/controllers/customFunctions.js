@@ -11,10 +11,10 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            NewProperties.stock = 5;
+            NewProperties.stock = 1;
            
             objectModel.update(
-                {key_id : 'ANGEL2'},
+                {key_id : 'ANGEL2', key_id : 'ANGEL'},
                 {$set: NewProperties},
                 {multi: true},
 
