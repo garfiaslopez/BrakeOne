@@ -71,7 +71,7 @@ class ChangePrices extends Component {
                     loading_submit: true
                 });
                 let POSTDATA = {
-                    key_id: this.state.key_id,
+                    brand: this.state.brand,
                     quantity_percent: this.state.percent,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
@@ -117,7 +117,7 @@ class ChangePrices extends Component {
             limit: 50000,
             page: 1,
             filters: {
-                key_id: this.state.key_id
+                brand: this.state.brand
             }
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
@@ -202,10 +202,10 @@ class ChangePrices extends Component {
                         >
                             <Input
                                 disabled={this.props.is_disabled}
-                                value={this.state.key_id}
+                                value={this.state.brand}
                                 style={styles.inputElement}
                                 onChange={(value) => {
-                                    this.onChangeField(value, 'key_id');
+                                    this.onChangeField(value, 'brand');
                                 }}
                                 prefix={(
                                     <Icon
@@ -214,7 +214,7 @@ class ChangePrices extends Component {
                                     />
                                 )}
                                 type="text"
-                                placeholder="CLAVE"
+                                placeholder="Marca"
                                 
                             />
                             <Button

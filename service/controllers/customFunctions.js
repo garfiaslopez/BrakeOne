@@ -9,19 +9,21 @@ module.exports =  {
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
-            Filter.brand = req.body.key_id;
+            Filter.brand = req.body.brand;
 
-            const multiplier = (Number(req.body.quantity_percent) +1) - 1;
-            const numero = Number(req.body.quantity_percent) * 1;
+            const multiplier = (Number(req.body.quantity_percent)/100)+1;
             console.log("Precios: " + Number);
             console.log('body' + req.body.quantity_percent);
-           
-            NewProperties.stock = 123;
-            
+            NewProperties.price = multiplier;
+            NewProperties.price_public = multiplier;
+            NewProperties.price_workshop = multiplier;
+            NewProperties.price_credit_workshop = multiplier;
+            NewProperties.price_wholesale = multiplier;
+
             objectModel.update(
                 Filter,
                 { 
-                    $set: NewProperties 
+                    $mul: NewProperties 
                 },
                 { 
                     multi: true 
@@ -35,7 +37,6 @@ module.exports =  {
                 }
             );
         } else {
-            alert("No es el producto correcto");
             return res.json({ success: false, message: "Missing fields." });
         }
     },
