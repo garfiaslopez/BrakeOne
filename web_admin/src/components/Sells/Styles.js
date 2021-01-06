@@ -32,6 +32,11 @@ export default {
         marginRight: 10,
         width: '100%'
     },
+    inputElement1: {
+        marginLeft: 10,
+        marginRight: 10,
+        width: '100%'
+    },
     cardContainer: {
         width: '100%',
         marginLeft: 10,
@@ -56,8 +61,12 @@ export default {
         alignItems: 'flex-end'
     },
     inputSearch: {
-        width: 300,
-        paddingRight: 20
+        width: 250,
+        paddingRight: 25
+    },
+    inputSearchClient: {
+        width: 500,
+        paddingRight: 25
     },
     inputSearchCard: {
         display: 'flex',

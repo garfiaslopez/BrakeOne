@@ -6,19 +6,16 @@ module.exports =  {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {};
-        let Products = {};
+        
 
         //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            Products.key_id = 'ANGEL';
             NewProperties.stock = 1;
            
             objectModel.update(
                 {key_id : 'ANGEL2'},
-                {$set: NewProperties},
-                {key_id : 'ANGEL'},
                 {$set: NewProperties},
                 {multi: true},
 

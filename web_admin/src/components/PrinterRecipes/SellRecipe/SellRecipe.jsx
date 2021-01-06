@@ -95,13 +95,14 @@ const SellTicket = ({
                     </li>
                     <li>
                         <span className="recipe__item__data">
-                            C.p. 033000
+                        C.p. 03303
                         </span>
                     </li>
                 </ul>
                 
-                <span>{`Tel: (55)${subsidiary.phone} / (55)68402850 
-                (55)52733450`}</span>
+                <span>{`Tel: (55) ${subsidiary.phone} / (55) 68402850 `}</span>
+                <span>{`(55) 52733450`}</span>
+                
             </p>
             <h1 className="sell-ticket__title1">
                 Ticket sin valor fiscal
@@ -151,8 +152,8 @@ const SellTicket = ({
                     <li className="recipe__flex-container" key={i}>
                    {/*  <span>{item.quantity}</span> */}
                       
-                      <span class="inicialPrec"> ${String(round2(Math.round(item.price) ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} c/u</span>
-                       ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      <span class="inicialPrec"> ${String(round2(Math.round(item.price) ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </span>
+                      ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                        
                         <span>{`${item.quantity} ${item.fmsi} ${item.key_id} 
                         ${item.line} ${item.brand}`}</span>
@@ -184,7 +185,7 @@ const SellTicket = ({
                 </ul>     
                 
             </div>
-         <p>{NumeroALetras(totalNumber)}</p>    
+        <center><p>{NumeroALetras(totalNumber)} 00/100 M.N.</p></center>    
          <center><h1>Aviso de privacidad / Terminos y condiciones en: </h1></center>
          <center><h1>www.brakeone.mx</h1></center>
         </div>
@@ -194,7 +195,7 @@ const SellTicket = ({
         <footer className="sell-ticket__footer">            
             <img
                 className="sell-ticket__QR"
-                src="/images/CodigoQR.png"
+                src="/images/QR.jpeg"
             />
         </footer>
     );

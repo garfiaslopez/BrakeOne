@@ -93,7 +93,7 @@ class CreateSell extends Component {
   getPayments() {
     const url = process.env.REACT_APP_API_URL + "/payments";
     let POSTDATA = {
-      limit: 1000,
+      limit: 25000,
       page: 1,
       filters: {
         subsidiary_id: this.props.session.subsidiary._id,
@@ -524,7 +524,6 @@ class CreateSell extends Component {
             />
           </Card.Grid>
           <Card.Grid style={styles.grid_element}>
-          <p style={styles.label_title}>Tipo de precio:</p>
           <Select
             showSearch
             onFocus={() => {
@@ -535,7 +534,7 @@ class CreateSell extends Component {
               (this.props.fields && this.props.session.user.rol !== "ADMIN")
             }
             value={this.state.price_type}
-            style={styles.inputElement}
+            style={styles.inputElement1}
             placeholder="TIPO PRECIO"
             optionFilterProp="children"
             onChange={(value) => {
@@ -693,19 +692,7 @@ class CreateSell extends Component {
                   title="Información de cliente"
                   extra={
                     <Fragment>
-                      <Input.Search
-                        disabled={
-                          this.props.is_disabled || this.props.fields
-                            ? true
-                            : false
-                        }
-                        key="search_filter"
-                        placeholder="Folio"
-                        enterButton="Buscar"
-                        onSearch={this.getQuotations}
-                        style={styles.inputSearch}
-                      />
-                      <Select
+                    <Select
                         disabled={
                           this.props.is_disabled || this.props.fields
                             ? true
@@ -714,7 +701,7 @@ class CreateSell extends Component {
                         showSearch
                         value={this.state.client_id.name}
                         placeholder={"Buscar Cliente..."}
-                        style={styles.inputSearch}
+                        style={styles.inputSearchClient}
                         defaultActiveFirstOption={false}
                         showArrow={false}
                         filterOption={false}
@@ -732,6 +719,18 @@ class CreateSell extends Component {
                       >
                         {OptionsClients}
                       </Select>
+                      <Input.Search
+                        disabled={
+                          this.props.is_disabled || this.props.fields
+                            ? true
+                            : false
+                        }
+                        key="search_filter"
+                        placeholder="Folio"
+                        enterButton="Buscar"
+                        onSearch={this.getQuotations}
+                        style={styles.inputSearch}
+                      />
                     </Fragment>
                   }
                   style={styles.cardContainer}
