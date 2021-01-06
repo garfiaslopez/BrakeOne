@@ -22,25 +22,36 @@ module.exports =  {
                     stock: 2,
                 }
             }
-           
-            objectModel.find({key_id : 'ANGEL2'}).update(data,
-                (err, response) => {
-                    if(err){
+            
+
+            objectModel.updateMany({key_id: 'ANGEL'}, data, function(err, response) {
+                   /*  if(err){
                         return next(new errs.InternalServerError(err));
                     } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    } */
+                    if (err) {
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        //console,log(result);
                         return res.json({ success: true, message: "Succesfully updated.", obj: response });
                     }
                 }
             ),
-            objectModel.find({key_id : '002'}).update(data2,
-                (err, response) => {
-                    if(err){
-                        return next(new errs.InternalServerError(err));
-                    } else {
-                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
-                    }
-                }
-            );
+            objectModel.updateMany({key_id: '001'}, data, function(err, response) {
+                /*  if(err){
+                     return next(new errs.InternalServerError(err));
+                 } else {
+                     return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                 } */
+                 if (err) {
+                     return next(new errs.InternalServerError(err));
+                 } else {
+                     //console,log(result);
+                     return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                 }
+             }
+         )
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
