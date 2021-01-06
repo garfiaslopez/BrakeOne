@@ -14,7 +14,17 @@ module.exports =  {
 
             NewProperties.stock = 1;
            
-            objectModel.find({key_id : 'ANGEL2'},{key_id : 'ANGEL'}).update(
+            objectModel.find({key_id : 'ANGEL2'}).update(
+                {$set: NewProperties},
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            )
+            objectModel.find({key_id : 'ANGEL'}).update(
                 {$set: NewProperties},
                 (err, response) => {
                     if(err){
