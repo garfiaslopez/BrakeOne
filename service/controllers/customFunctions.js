@@ -12,10 +12,13 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            NewProperties.stock = 1;
+            var data = {
+                $set : {
+                    stock: 1,
+                }
+            }
            
-            objectModel.find({key_id : 'ANGEL2'}).update(
-                {$set: NewProperties},
+            objectModel.find({key_id : 'ANGEL2'}).update(data,
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
