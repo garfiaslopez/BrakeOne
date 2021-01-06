@@ -50,6 +50,8 @@
 }
 .sell-ticket__list li span:last-child{
     width: 100%;
+    margin-top: 3px;
+    margin-bottom: 6;
 }
 /* 
 .sell-ticket__list__total {
