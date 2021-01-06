@@ -309,7 +309,7 @@ class CreatePayment extends Component {
                                     disabled={this.props.is_disabled}
                                     value={this.state.type}
                                     style={styles.inputElement}
-                                    placeholder="Tipo de precio"
+                                    placeholder="Forma de pago"
                                     
                                     onChange={(value) => {
                                         this.onChangeDropdown(value, 'type');
