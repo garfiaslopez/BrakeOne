@@ -24,7 +24,7 @@ module.exports =  {
             }
             
 
-            objectModel.updateMany({key_id: 'ANGEL'}, data, function(err, response) {                  
+            objectModel.updateMany({key_id: 'P859917'}, data, function(err, response) {                  
                     if (err) {
                         return next(new errs.InternalServerError(err));
                     } else {                       
@@ -32,7 +32,7 @@ module.exports =  {
                     }
                 }
             ),
-            objectModel.updateMany({key_id: 'ANGEL2'}, data, function(err, response) {               
+            objectModel.updateMany({key_id: 'P859916'}, data, function(err, response) {               
                  if (err) {
                      return next(new errs.InternalServerError(err));
                  } else {                  
