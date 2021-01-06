@@ -14,7 +14,7 @@ module.exports =  {
 
             var data = {
                 $set : {
-                    stock: 1,
+                    stock: 2,
                 }
             }
             var data2 = {
@@ -24,7 +24,7 @@ module.exports =  {
             }
             
 
-            objectModel.updateMany({key_id: 'P859917'}, data, function(err, response) {                  
+            objectModel.updateMany({key_id: '002'}, data, function(err, response) {                  
                     if (err) {
                         return next(new errs.InternalServerError(err));
                     } else {                       
@@ -32,14 +32,27 @@ module.exports =  {
                     }
                 }
             ),
-            objectModel.updateMany({key_id: 'P859916'}, data, function(err, response) {               
+            objectModel.updateMany({key_id: '001'}, data, function(err, response) {               
                  if (err) {
                      return next(new errs.InternalServerError(err));
                  } else {                  
                      return res.json({ success: true, message: "Succesfully updated.", obj: response });
                  }
-             }
-         )
+            })
+            objectModel.updateMany({key_id: 'P859917'}, data, function(err, response) {               
+                if (err) {
+                    return next(new errs.InternalServerError(err));
+                } else {                  
+                    return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                }
+           })
+           objectModel.updateMany({key_id: 'P859916'}, data, function(err, response) {               
+            if (err) {
+                return next(new errs.InternalServerError(err));
+            } else {                  
+                return res.json({ success: true, message: "Succesfully updated.", obj: response });
+            }
+       })
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
