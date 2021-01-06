@@ -101,7 +101,13 @@ const SellTicket = ({
                 </ul>
                 
                 <span>{`Tel: (55) ${subsidiary.phone} / (55) 68402850 `}</span>
-                <span>{`(55) 52733450`}</span>
+                
+                <span>{`(55) 52733450`} / {`(55) 43834342`} {' '}
+                <img
+                    className="sell-ticket_what"
+                    src="/images/whatsapp.png"
+                />
+                </span>
                 
             </p>
             <h1 className="sell-ticket__title1">
@@ -133,6 +139,9 @@ const SellTicket = ({
                 Cliente:  {client.name}
             </h2>
             <h2 className="sell-ticket__list__title">
+                RFC: {client.rfc}
+            </h2>
+            <h2 className="sell-ticket__list__title">
                 Tel. {client.phone_number}
             </h2>
             <h2 className="sell-ticket__list__title">
@@ -152,11 +161,11 @@ const SellTicket = ({
                     <li className="recipe__flex-container" key={i}>
                    {/*  <span>{item.quantity}</span> */}
                       
-                      <span class="inicialPrec"> ${String(round2(Math.round(item.price) ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </span>
+                      <span class="inicialPrec"> ${String(round2(item.price ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </span>
                       ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                       
+                  
                         <span>{`${item.quantity} ${item.fmsi} ${item.key_id} 
-                        ${item.line} ${item.brand}`}</span>
+                        ${item.line} ${item.brand}\n`}</span>{`\n`}
                     </li>
                 ))}
             </ul>
