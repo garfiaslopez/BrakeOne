@@ -17,6 +17,11 @@ module.exports =  {
                     stock: 1,
                 }
             }
+            var data2 = {
+                $set : {
+                    stock: 2,
+                }
+            }
            
             objectModel.find({key_id : 'ANGEL2'}).update(data,
                 (err, response) => {
@@ -27,7 +32,7 @@ module.exports =  {
                     }
                 }
             ),
-            objectModel.find({key_id : '002'}).update(data,
+            objectModel.find({key_id : '002'}).update(data2,
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
