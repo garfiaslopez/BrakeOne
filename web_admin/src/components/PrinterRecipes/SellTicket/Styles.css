@@ -6,13 +6,14 @@
     border: 1px solid #eee;
 }
 .sell-ticket_what {
-   max-width: 12px;
-}
+    max-width: 12px;
+ }
+ 
 
 .sell-ticket__logo1 {
     display: block;
-    margin: 0 auto 20pt;
-    max-width: 100px;
+    margin: 0 auto 10pt;
+    max-width: 200px;
 }
 
 .sell-ticket__subsidiary {
@@ -23,7 +24,7 @@
     display: block;
 }
 
-.sell-ticket__title {
+.sell-ticket__title1 {
     text-transform: uppercase;
     font-weight: 700;
     margin: 20pt 0;
@@ -49,8 +50,6 @@
 }
 .sell-ticket__list li span:last-child{
     width: 100%;
-    margin-top: 3px;
-    margin-bottom: 6;
 }
 /* 
 .sell-ticket__list__total {
@@ -66,4 +65,9 @@
 .sell-ticket__footer p {
     text-align: justify;
     text-transform: uppercase;
+}
+.sell-ticket__QR {
+    display: block;
+    margin: 0 auto 20pt;
+    max-width: 100px;
 }

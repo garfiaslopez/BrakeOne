@@ -1,69 +1,62 @@
-.sell-ticket {
-    font-size: 8pt;
-    max-width: 6.501cm;
-    padding: 0.5cm;
-    text-align: center;
-    border: 1px solid #eee;
-}
-.sell-ticket_what {
-   max-width: 12px;
+.sell-recipe {
+    font-size: 10pt;
+    padding: 2% 20% 0% 0%;
+    display: flex;
+    flex-direction: column;
+    height: 10cm;
 }
 
-.sell-ticket__logo {
-    display: block;
-    margin: 0 auto 20pt;
+.sell-recipe
+.ant-divider-inner-text {
+    font-size: .8em;
+    text-transform: uppercase;
+}
+
+.sell-recipe
+.ant-divider {
+    margin: 0;
+}
+
+.sell-recipe
+.ant-table-wrapper {
+    margin: 30pt 0;
+}
+
+.sell-recipe
+.recipe__flex-container {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px 1px 1px;
+    padding: 5pt;
+}
+
+.sell-recipe__header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10pt;
+}
+
+.sell-recipe__logo {
     max-width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
-.sell-ticket__subsidiary {
+.sell-recipe__title {
+    margin: 8px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
     text-transform: uppercase;
 }
 
-.sell-ticket__subsidiary span {
-    display: block;
-}
-
-.sell-ticket__title {
-    text-transform: uppercase;
-    font-weight: 700;
-    margin: 20pt 0;
-}
-
-.sell-ticket__client,
-.sell-ticket__list {
-    margin-top: 20pt;
-}
-
-.sell-ticket__client h2,
-.sell-ticket__list h2,
-.sell-ticket__list__total span:first-child,
-.sell-ticket__list__total + p {
-    text-align: left;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 5pt;
-}
-
-.sell-ticket__list li span {
-    text-transform: uppercase;
-}
-.sell-ticket__list li span:last-child{
+.sell-recipe__total {
     width: 100%;
-    margin-top: 3px;
-    margin-bottom: 6;
+    margin-top: auto;
 }
-/* 
-.sell-ticket__list__total {
-    padding-top: 10pt;
-    margin-bottom: 20pt;
-    border-top: 1px solid #000;
-} */
 
-
-/* .sell-ticket__footer {
-    margin-top: 40px;
-} */
-.sell-ticket__footer p {
-    text-align: justify;
-    text-transform: uppercase;
+.sell-recipe__total + footer {
+    margin-top: 20px;
 }
