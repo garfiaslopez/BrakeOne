@@ -23,7 +23,7 @@ module.exports =  {
                         return res.json({ success: true, message: "Succesfully updated.", obj: response });
                     }
                 }
-            )
+            ),
             objectModel.find({key_id : 'ANGEL'}).update(
                 {$set: NewProperties},
                 (err, response) => {
