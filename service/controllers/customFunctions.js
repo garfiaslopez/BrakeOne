@@ -14,7 +14,7 @@ module.exports =  {
 
             NewProperties.stock = 1;
            
-            objectModel.findOne({key_id : 'ANGEL2'}).update(
+            objectModel.find({key_id : 'ANGEL2'},{key_id : 'ANGEL'}).update(
                 {$set: NewProperties},
                 (err, response) => {
                     if(err){
