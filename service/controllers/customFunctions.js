@@ -24,30 +24,18 @@ module.exports =  {
             }
             
 
-            objectModel.updateMany({key_id: 'ANGEL'}, data, function(err, response) {
-                   /*  if(err){
-                        return next(new errs.InternalServerError(err));
-                    } else {
-                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
-                    } */
+            objectModel.updateMany({key_id: 'ANGEL'}, data, function(err, response) {                  
                     if (err) {
                         return next(new errs.InternalServerError(err));
-                    } else {
-                        //console,log(result);
+                    } else {                       
                         return res.json({ success: true, message: "Succesfully updated.", obj: response });
                     }
                 }
             ),
-            objectModel.updateMany({key_id: '001'}, data, function(err, response) {
-                /*  if(err){
-                     return next(new errs.InternalServerError(err));
-                 } else {
-                     return res.json({ success: true, message: "Succesfully updated.", obj: response });
-                 } */
+            objectModel.updateMany({key_id: 'ANGEL2'}, data, function(err, response) {               
                  if (err) {
                      return next(new errs.InternalServerError(err));
-                 } else {
-                     //console,log(result);
+                 } else {                  
                      return res.json({ success: true, message: "Succesfully updated.", obj: response });
                  }
              }
