@@ -27,8 +27,7 @@ module.exports =  {
                     }
                 }
             ),
-            objectModel.find({key_id : 'ANGEL'}).update(
-                {$set: NewProperties},
+            objectModel.find({key_id : '002'}).update(data,
                 (err, response) => {
                     if(err){
                         return next(new errs.InternalServerError(err));
