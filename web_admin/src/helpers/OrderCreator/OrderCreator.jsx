@@ -525,12 +525,12 @@ class OrderCreator extends Component {
 					|| tresletras === '8872' || tresletras === '8895' || tresletras === '8899'
 					//OTROS
 					|| tresletras === '1Z20' || tresletras === '7L09' || tresletras === 'S305' 
-					|| tresletras === 'S615' || letras === '3QF' || tresletras === '934F' || tresletras === 'FR27'
-											
-					 || tresletras === '1605' || tresletras === '1596' || tresletras === '3435' || tresletras === 'LR06'
+					|| tresletras === 'S615' || letras === '3QF' || tresletras === '934F' || tresletras === 'FR27'				
+					|| tresletras === '1605' || tresletras === '1596' || tresletras === '3435' || tresletras === 'LR06'
 					|| tresletras === '7502' || tresletras === '6908'){
 						POSTDATA['or_filters']['barcode'] = busquedas;
 					}else
+
 	
 					if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
 						POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
@@ -552,7 +552,7 @@ class OrderCreator extends Component {
 					|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'amor' || tresletras === 'BBNE' 
 					|| tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H'){
 						//Filtros por texto
-						POSTDATA['search_text'] = this.search_text;
+						POSTDATA['search_text'] = search_text;
 					}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
 					|| tresletras === '309.' || tresletras === '106.' || tresletras === '103.' || tresletras === '500.' || tresletras === '300.' 
 					|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.'  
