@@ -194,57 +194,43 @@ class OrderCreator extends Component {
         ];
 
         this.table_columns_selected = [
-            {
-                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
-            	dataIndex: 'quantity',
-                key: 'quantity',
-                render: renderRowSmall,
-                width: '4%',
-                editable: props.can_edit_quantity,
-            },
-            {
+             /*  {
                 title: <div style={{ fontSize: FontTable }}>Usuario</div>,
                 render: renderRowSmall,
             	dataIndex: 'user_name',
                 key: 'user_name',
                 width: '5%'
-            },
-            {
-            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-            	dataIndex: 'fmsi',
-				key: 'fmsi',
-                render: renderRowSmallTruncate,
-                width: '8%'
-            },
+            }, */    
             {
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
                 width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Linea</div>,
-            	dataIndex: 'line',
-				key: 'line',
-                render: renderRowSmall,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Marca</div>,
-            	dataIndex: 'brand',
-				key: 'brand',
-                render: renderRowSmall,
+			},
+			{
+            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+            	dataIndex: 'fmsi',
+				key: 'fmsi',
+                render: renderRowSmallTruncate,
                 width: '8%'
 			},
 			{
-                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-                render: renderRowSmallTruncate,
-            	dataIndex: 'description',
+                title: <div style={{ fontSize: FontTable }}>Concepto</div>,
+				dataIndex: 'description',
                 key: 'description',
-                width: '12%'
-            },
-            {
+				width: '30%',
+				editable: props.can_edit_disccount,			
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
+            	dataIndex: 'quantity',
+                key: 'quantity',
+                render: renderRowSmall,
+                width: '12%',
+                editable: props.can_edit_quantity,
+			},
+			{
                 title: <div style={{ fontSize: FontTable }}>Precio</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
@@ -252,12 +238,12 @@ class OrderCreator extends Component {
                 width: '10%',
                 editable: props.can_edit_price,
 			},
-            {
+			{
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '6%',
+                width: '12%',
                 editable: props.can_edit_disccount,
 			},
 			{
@@ -267,9 +253,31 @@ class OrderCreator extends Component {
                 key: 'discount',
                 width: '10%',
                 editable: props.can_edit_disccount,
-			},
+			},	
+           /*  {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRowSmall,
+                width: '8%'
+            }, */
+           /*  {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRowSmall,
+                width: '8%'
+			}, */
+			/* {
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+                render: renderRowSmallTruncate,
+            	dataIndex: 'description',
+                key: 'description',
+                width: '12%'
+            }, */                       
+					
 			{
-                title: <div style={{ fontSize: FontTable }}>Total</div>,
+                title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
@@ -285,8 +293,7 @@ class OrderCreator extends Component {
                 render: renderRow,
                 width: '5%'
             });
-        }
- */
+        }*/
         if (!props.disabled) {
             this.table_columns_selected.push({
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,

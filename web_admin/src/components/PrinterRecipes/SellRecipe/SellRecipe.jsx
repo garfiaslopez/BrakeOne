@@ -164,8 +164,8 @@ const SellTicket = ({
                       <span class="inicialPrec"> ${String(round2(item.price ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </span>
                       ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   
-                        <span>{`${item.quantity} ${item.fmsi} ${item.key_id} 
-                        ${item.line} ${item.brand}\n`}</span>{`\n`}
+                        <span>{/* {`${item.quantity} */} {item.description} {/* ${item.key_id} 
+                        ${item.line} ${item.brand}\n` */}</span>{/* {`\n`} */}
                     </li>
                 ))}
             </ul>
