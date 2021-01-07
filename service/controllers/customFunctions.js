@@ -9,6 +9,9 @@ module.exports =  {
         
 
         //Modify price percentage
+        if (req.body.brand && req.body.quantity_percent) { // update by brand 
+            Filter.brand = req.body.brand;
+
             var data = {
                 $set : {
                     stock: 1,
@@ -16,13 +19,13 @@ module.exports =  {
             }
 
             objectModel.updateMany({key_id: '002'}, data, function(err, response) {                  
-                    if (err) {
-                        return console.log('No se pudo actualizar el producto' + response)
-                    } else {                       
-                        return console.log('Se actualizo correctamente el producto')
-                    }
+                if (err) {
+                    return console.log('No se pudo actualizar el producto' + response)
+                } else {                       
+                    return console.log('Se actualizo correctamente el producto')
+                }
             })
-            objectModel.updateMany({key_id: '////'}, data, function(err, response) {                  
+            objectModel.updateMany({key_id: '001'}, data, function(err, response) {                  
                 if (err) {
                     return console.log('No se pudo actualizar el producto' + response)
                 } else {                       
@@ -30,6 +33,9 @@ module.exports =  {
                 }
             })  
 
+        } else {
+            return res.json({ success: false, message: "Producto no encontrado" });
+        }
     },
     car_makes:  (req, res, next) => {
         const objectModel = require("../models/car");
