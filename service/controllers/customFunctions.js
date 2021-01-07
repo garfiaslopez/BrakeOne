@@ -20,14 +20,21 @@ module.exports =  {
 
             objectModel.updateMany({key_id: '002'}, data, function(err, response) {                  
                     if (err) {
-                        return next(new errs.InternalServerError(err));
+                        return next(new errs.InternalServerError('Producto no actualizado'));
                     } else {                       
                         return res.json({ success: true, message: "Succesfully updated.", obj: response });
                     }
+            })
+            objectModel.updateMany({key_id: '////'}, data, function(err, response) {                  
+                if (err) {
+                    return next(new errs.InternalServerError('Producto no actualizado'));
+                } else {                       
+                    return res.json({ success: true, message: "Succesfully updated.", obj: response });
                 }
-            )
+            })  
+
         } else {
-            return res.json({ success: false, message: "Missing fields." });
+            return res.json({ success: false, message: "Producto no encontrado" });
         }
     },
     car_makes:  (req, res, next) => {
