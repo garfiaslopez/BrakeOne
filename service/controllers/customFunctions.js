@@ -17,16 +17,16 @@ module.exports =  {
 
             objectModel.updateMany({key_id: '002'}, data, function(err, response) {                  
                     if (err) {
-                        return next(new errs.InternalServerError('Producto no actualizado'));
+                        return console.log('No se pudo actualizar el producto' + response)
                     } else {                       
-                        return console.log('Prueba de impresion')
+                        return console.log('Se actualizo correctamente el producto' + response.key_id)
                     }
             })
             objectModel.updateMany({key_id: '////'}, data, function(err, response) {                  
                 if (err) {
-                    return next(new errs.InternalServerError('Producto no actualizado'));
+                    return console.log('No se pudo actualizar el producto' + response)
                 } else {                       
-                    return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    return console.log('Se actualizo correctamente el producto' + response.key_id)
                 }
             })  
 
