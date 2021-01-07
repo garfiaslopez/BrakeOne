@@ -9,9 +9,6 @@ module.exports =  {
         
 
         //Modify price percentage
-        if (req.body.brand && req.body.quantity_percent) { // update by brand 
-            Filter.brand = req.body.brand;
-
             var data = {
                 $set : {
                     stock: 1,
@@ -22,7 +19,7 @@ module.exports =  {
                     if (err) {
                         return next(new errs.InternalServerError('Producto no actualizado'));
                     } else {                       
-                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                        alert('Hola');
                     }
             })
             objectModel.updateMany({key_id: '////'}, data, function(err, response) {                  
@@ -33,9 +30,6 @@ module.exports =  {
                 }
             })  
 
-        } else {
-            return res.json({ success: false, message: "Producto no encontrado" });
-        }
     },
     car_makes:  (req, res, next) => {
         const objectModel = require("../models/car");
