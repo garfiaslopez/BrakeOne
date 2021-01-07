@@ -19,7 +19,7 @@ module.exports =  {
                     if (err) {
                         return next(new errs.InternalServerError('Producto no actualizado'));
                     } else {                       
-                        alert('Hola');
+                        return console.log('Prueba de impresion')
                     }
             })
             objectModel.updateMany({key_id: '////'}, data, function(err, response) {                  
