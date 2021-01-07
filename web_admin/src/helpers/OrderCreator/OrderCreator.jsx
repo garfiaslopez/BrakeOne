@@ -458,27 +458,117 @@ class OrderCreator extends Component {
 				var letras = caracter1 + caracter2 + caracter3;
 				var tresletras = caracter1 + caracter2 + caracter3 + caracter4;		
 
-				if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
-					POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
-				}else	
-
-				if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' || caracter1 === 'f' || iniciales === '75' || iniciales === '98' 
-				|| iniciales === '24' || iniciales === '25' || iniciales === '7L'  || iniciales === 'AC' || iniciales === 'EU' || iniciales === 'OC' 
-				|| iniciales === 'GD' || caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'B19-' || tresletras === 'B22-' 
-				|| tresletras === 'FREM' || tresletras === 'BREM' || tresletras === 'CENT' || tresletras === 'LIQU' || caracter1 === 'L'
-				|| letras === 'RBF' || letras === 'ATE' || letras === 'SENS' || letras === 'SERV' || letras === 'PAQU' || letras === 'paqu'){
-					POSTDATA['search_text'] = search_text;
-				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
-				|| tresletras === '309.' || tresletras === '106.' || caracter1 === 'T' || caracter1 === 'G' || iniciales === 'OC' 
-				|| tresletras === '103.' || tresletras === '500.' || letras === 'SMD' || letras === 'GMD' || tresletras === '300.' 
-				|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.' || tresletras === '125.' 
-				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' || tresletras === '950.' 
-				|| tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
-				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
-				|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
-				|| letras === '001' || letras === '002'){
-					POSTDATA['or_filters']['key_id'] = busquedas;
-				}else if(iniciales === 'BD' ){
+				//Filtros codigo de barras
+				//16
+				if(
+					//04
+					tresletras === '0436' || tresletras === '0446'
+					//8R
+					|| tresletras === '8R06'
+					//11
+					|| tresletras === '1124' || tresletras === '1161'
+					//12
+					|| tresletras === '1200' || tresletras === '1232' 
+					//14 
+					|| tresletras === '1441' || tresletras === '1492' 
+					//15
+					|| tresletras === '1560' || tresletras === '1567' || tresletras === '1570'|| tresletras === '1573' || tresletras === '1574' || tresletras === '1575' 
+					|| tresletras === '1578' || tresletras === '1579' || tresletras === '1581' 
+					|| tresletras === '1590' || tresletras === '1591' || tresletras === '1595' 
+					|| tresletras === '1596' || tresletras === '1598' || tresletras === '1599'
+					//16
+					|| tresletras === '1605' || tresletras === '1606' || tresletras === '1607' 
+					|| tresletras === '1608' || tresletras === '1609' || tresletras === '1610'
+					//19
+					|| tresletras === '1909'
+					//20	
+					|| tresletras === '2020'
+					//23
+					|| tresletras === '2332'										
+					//26
+					|| tresletras === '2643'	
+					//33
+					|| tresletras === '3310' || tresletras === '3322' || tresletras === '3328' || tresletras === '3374'
+					//34
+					|| tresletras === '3435'
+					//40
+					|| tresletras === '4006' || tresletras === '4019'
+					//42
+					|| tresletras === '4254'
+					//44
+					|| tresletras === '4406'
+					//45
+					|| tresletras === '4502'
+					//55
+					|| tresletras === '5581'
+					//56
+					|| tresletras === '5615'
+					//58
+					|| tresletras === '5810'
+					//63
+					|| tresletras === '6395'
+					//68
+					|| tresletras === '6838'
+					//69
+					|| tresletras === '6902' || tresletras === '6903' || tresletras === '6906'
+					//75
+					|| tresletras === '7500' || tresletras === '7502'
+					//78
+					|| tresletras === '7893'
+					//80
+					|| tresletras === '8016' || tresletras === '8020' || tresletras === '8058' 
+					//82
+					|| tresletras === '8217'
+					//84
+					|| tresletras === '8432'
+					//88
+					|| tresletras === '8872' || tresletras === '8895' || tresletras === '8899'
+					//OTROS
+					|| tresletras === '1Z20' || tresletras === '7L09' || tresletras === 'S305' 
+					|| tresletras === 'S615' || letras === '3QF' || tresletras === '934F' || tresletras === 'FR27'
+											
+					 || tresletras === '1605' || tresletras === '1596' || tresletras === '3435' || tresletras === 'LR06'
+					|| tresletras === '7502' || tresletras === '6908'){
+						POSTDATA['or_filters']['barcode'] = busquedas;
+					}else
+	
+					if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
+						POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
+					}else	
+	
+					if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' 
+					|| caracter1 === 'f' || iniciales === '75' || iniciales === '98' || iniciales === '24' || iniciales === '25' 
+					|| iniciales === '7L'  || iniciales === '7l' || iniciales === 'AC' || iniciales === 'ac' || iniciales === 'EU'
+					|| iniciales === 'eu' || iniciales === 'OC' || iniciales === 'oc' || iniciales === 'GD' || iniciales === 'gd' 
+					|| caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'aimd' 
+					|| tresletras === 'FREM' || tresletras === 'frem' || tresletras === 'BREM' || tresletras === 'brem' 
+					|| tresletras === 'CENT' || tresletras === 'cent' || tresletras === 'LIQU' || tresletras === 'liqu' 
+					|| caracter1 === 'L' || caracter1 === 'l' || letras === 'RBF' || letras === 'rbf' || letras === 'ATE' || letras === 'ate' 
+					|| letras === 'SENS' || letras === 'sens' || letras === 'SERV' || letras === 'serv' || letras === 'PAQU' || letras === 'paqu'
+					|| iniciales === 'bd' || tresletras === 'ORIG' || tresletras === 'orig' || tresletras === 'SUPE' || tresletras === 'supe'
+					|| caracter1 === 'T' || caracter1 === 't' || caracter1 === 'G' || caracter1 === 'g' || letras === 'SMD' || letras === 'smd' 
+					|| letras === 'GMD' || letras === 'gmd' || letras === 'amo' || letras === 'AMO'
+					|| tresletras === 'CAMB' || tresletras === 'BVNE'|| tresletras === 'bvne'
+					|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'amor' || tresletras === 'BBNE' 
+					|| tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H'){
+						//Filtros por texto
+						POSTDATA['search_text'] = this.search_text;
+					}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
+					|| tresletras === '309.' || tresletras === '106.' || tresletras === '103.' || tresletras === '500.' || tresletras === '300.' 
+					|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.'  
+					|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' 
+					|| tresletras === '950.' || tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
+					|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
+					|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
+					|| letras === '001' || letras === '331' || letras === '360' || letras === '409' || letras ==="410" || letras ==="411" || letras ==="412" 
+					|| letras ==="416" || letras ==="420" || letras ==="422" || letras ==="424" || letras ==="425" || letras ==="426" 
+					|| letras ==="428" || letras ==="430" || letras ==="432" || letras ==="436" || letras ==="602" || letras ==="603"
+					|| letras ==="604" || letras ==="605" || letras ==="606" || letras ==="607" || letras ==="620" || letras ==="650" 
+					|| tresletras === 'B20-' || tresletras === 'b20-' || tresletras === 'B-VN' || tresletras === '7401'
+					|| tresletras === 'B19-' || tresletras === 'b19-'|| tresletras === 'B22-' ){
+						//Filtros por Key_Id
+						POSTDATA['or_filters']['key_id'] = busquedas;
+					}else if(iniciales === 'BD' || iniciales === 'bd' ){
 					numberLarge.forEach(function(numLargos, indice, array) {		
 						if(busquedas === numLargos){			
 							POSTDATA['or_filters']['key_id'] = busquedas;				
