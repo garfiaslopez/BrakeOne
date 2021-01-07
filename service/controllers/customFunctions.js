@@ -20,9 +20,9 @@ module.exports =  {
 
             objectModel.updateMany({key_id: '002'}, data, function(err, response) {                  
                     if (err) {
-                        return next(new errs.InternalServerError(err));
+                        return res.json({ success: false, message: "Producto no actualizado" });
                     } else {                       
-                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                        return alert('Producto actualizado')
                     }
                 }
             )
