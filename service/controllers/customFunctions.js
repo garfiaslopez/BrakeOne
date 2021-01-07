@@ -22,7 +22,7 @@ module.exports =  {
                     if (err) {
                         return res.json({ success: false, message: "Producto no actualizado" });
                     } else {                       
-                        return alert('Producto actualizado')
+                        return res.json({ success: true, message: "Producto actualizado", obj: response });
                     }
                 }
             )
