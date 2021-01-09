@@ -14,7 +14,7 @@ module.exports =  {
 
             var data = {
                 $set : {
-                    stock: 1,
+                    stock: 0,
                 }
             }
 
