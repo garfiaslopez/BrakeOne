@@ -17,7 +17,7 @@ module.exports =  {
                     stock: 0,
                 }
             }
-            objectModel.findOne({key_id:"AIMD1977CP"}, function(err, response) { if (err) { return console.log('No existe el producto' + response.key_id) } else { return console.log('Se encontro el producto') } })
+            objectModel.updateMany({key_id:"AIMD1977CP"}, data, function(err, response) { if (err) {  return next(new errs.InternalServerError(err) + "Error al actualizar"); } else {  return res.json({ success: true, message: "Se actualizo el producto", obj: response }); } })
            /*  objectModel.updateMany({key_id:"AIMD1977CP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
             objectModel.updateMany({key_id:"AC D840"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
             objectModel.updateMany({key_id:"AIMD1111CP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
