@@ -18,15 +18,17 @@ module.exports =  {
                 }
             }
 
+            objectModel.updateMany({key_id:"AC D840"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
             objectModel.updateMany({key_id:"AIMD1111CP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1141MP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1259CP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1321MP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1368MP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1471CP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1529LP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1541MP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({key_id:"AIMD1542LP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
 
-            objectModel.updateMany({key_id: '001'}, data, function(err, response) {                  
-                if (err) {
-                    return console.log('No se pudo actualizar el producto' + response)
-                } else {                       
-                    return console.log('Se actualizo correctamente el producto')
-                }
-            })  
 
         } else {
             return res.json({ success: false, message: "Producto no encontrado" });
