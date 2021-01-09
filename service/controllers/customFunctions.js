@@ -18,13 +18,8 @@ module.exports =  {
                 }
             }
 
-            objectModel.updateMany({key_id: '002'}, data, function(err, response) {                  
-                if (err) {
-                    return console.log('No se pudo actualizar el producto' + response)
-                } else {                       
-                    return console.log('Se actualizo correctamente el producto')
-                }
-            })
+            objectModel.updateMany({key_id:"AIMD1111CP"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto' + response) } else { return console.log('Se actualizo correctamente el producto') } })
+
             objectModel.updateMany({key_id: '001'}, data, function(err, response) {                  
                 if (err) {
                     return console.log('No se pudo actualizar el producto' + response)
