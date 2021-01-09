@@ -220,7 +220,7 @@ class CrudLayout extends Component {
 				|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'amor' || tresletras === 'BBNE' 
 				|| tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H' || letras === 'ACT' || letras === 'EUR'
 				|| letras === 'ASP'  || iniciales === '21' || iniciales === '22' || iniciales === '23' || iniciales === '24' || iniciales === '25' || iniciales === '26' 
-				|| iniciales === '27' || iniciales === '28' || iniciales === '29' || iniciales === '30' || iniciales === '62' ){
+				|| iniciales === '27' || iniciales === '28' || iniciales === '29' /*|| iniciales === '30'*/ || iniciales === '62'){
 					//Filtros por texto
 					POSTDATA['search_text'] = this.search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
@@ -239,7 +239,7 @@ class CrudLayout extends Component {
 				//Textar
 				|| iniciales === '92' || iniciales === '95' || iniciales === '96' || iniciales === '98' || caracter1 === 'N' || caracter1 === 'n' 
 				|| iniciales === 'TX' || iniciales === 'tx' || iniciales === '20' 
-				){
+				|| iniciales === '30'){
 					//Filtros por Key_Id
 					POSTDATA['or_filters']['key_id'] = busquedas;
 				}else if(iniciales === 'BD' || iniciales === 'bd' ){
