@@ -80,32 +80,11 @@ module.exports =  {
             }
             var data129 = {
                 $set : {
-                    stock: 41,
+                    stock: 129,
                 }
             }
             
-             objectModel.updateMany({key_id:"S10514"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S24540"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S24548"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S30525"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S56515"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S56529"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S61543"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S83553N"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S56547"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S83552N"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S10517"}, data2, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S28513N"}, data2, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S85541"}, data2, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S56506"}, data2, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S85540N"}, data2, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S10518"}, data3, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"S28515N"}, data3, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"L04010"}, data8, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"L05010"}, data31, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"LA4002"}, data41, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-             objectModel.updateMany({key_id:"L05005"}, data129, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-
+            
 
         } else {
             return res.json({ success: false, message: "Producto no encontrado" });
