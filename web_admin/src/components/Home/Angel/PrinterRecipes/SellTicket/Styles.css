@@ -1,9 +1,10 @@
 .sell-ticket {
     font-size: 8pt;
     max-width: 6.501cm;
-    padding: 0.5cm;
+    padding: 0.6cm;
     text-align: center;
-    border: 1px solid #eee;
+    border: 0px solid #eee;
+    margin-top: 0em;
 }
 
 .sell-ticket__logo {

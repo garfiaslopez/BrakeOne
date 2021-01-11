@@ -135,18 +135,18 @@ const SellTicket = ({
 
     const renderClient = () => (
         <div className="sell-ticket__list">
-            <h2 className="sell-ticket__list__title">
+            <span className="recipe__item__data">
                 Cliente:  {client.name}
-            </h2>
-            <h2 className="sell-ticket__list__title">
+            </span>
+            <span className="recipe__item__data">
                 RFC: {client.rfc}
-            </h2>
-            <h2 className="sell-ticket__list__title">
+            </span>
+            <span className="recipe__item__data">
                 Tel. {client.phone_number}
-            </h2>
-            <h2 className="sell-ticket__list__title">
+            </span>
+            <span className="recipe__item__data">
                 Col. {client.address_country} {`C.p. ${client.address_cp}`} {client.address_city} {client.address_state}
-            </h2>
+            </span>
         </div>
     );
 
