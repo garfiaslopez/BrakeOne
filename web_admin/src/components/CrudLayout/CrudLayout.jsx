@@ -223,7 +223,7 @@ class CrudLayout extends Component {
 				|| tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H' || letras === 'ACT' || letras === 'EUR'
 				|| letras === 'ASP'  || iniciales === '21' || iniciales === '22' || iniciales === '23' || iniciales === '24' || iniciales === '25' || iniciales === '26' 
 				|| iniciales === '27' || iniciales === '28' || iniciales === '29' /*|| iniciales === '30'*/ || iniciales === '62'
-				){
+				|| letras === 'RCP'){
 					//Filtros por texto
 					POSTDATA['search_text'] = this.search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
