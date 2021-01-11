@@ -37,31 +37,31 @@ export default {
         });
     },
     renderRowTextProducts: (text, record) => {
-        let color = record.stock < record.stock_ideal ? 'red' : 'blue';
+        let color = record.stock < 1 ? 'red' : 'blue';
         return ({
             children: <p style={{color, fontSize}}>{text}</p>,
         });
     },
     renderRowTextTruncateProducts: (text, record) => {
-        let color = record.stock < record.stock_ideal ? 'red' : 'blue';
+        let color = record.stock < 1 ? 'red' : 'blue';
         return ({
             children: <p style={{color, fontSize}}>{text.substring(0,20) + '...'}</p>,
         });
     },
     renderRowDateProducts: (text, record) => {
-        let color = record.stock < record.stock_ideal ? 'red' : 'blue';
+        let color = record.stock < 1 ? 'red' : 'blue';
         return ({
             children: <p style={{color, fontSize}}>{moment(text).format('DD/MM/YYYY HH:mm')}</p>,
         });
     },
     renderRowNumberProducts: (text, record) => {
-        let color = record.stock < record.stock_ideal ? 'red' : 'blue';
+        let color = record.stock < 1 ? 'red' : 'blue';
         return ({
             children: <p style={{color, fontSize}}>${Intl.NumberFormat("en-IN").format(Math.trunc(String(round2(text ? text : 0))))}</p>,
         });
     },
     renderRowPercentProducts: (text, record) => {
-        let color = record.stock < record.stock_ideal ? 'red' : 'blue';
+        let color = record.stock < 1 ? 'red' : 'blue';
         return ({
             children: <p style={{color, fontSize}}>{text.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} %</p>,
         });

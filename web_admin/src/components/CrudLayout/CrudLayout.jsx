@@ -129,14 +129,16 @@ class CrudLayout extends Component {
 				//Filtros codigo de barras
 				//16
 				if(
-				//04
-				tresletras === '0436' || tresletras === '0446'
+				//01
+				tresletras === '0114'
+				//04				
+				|| tresletras === '0436' || tresletras === '0446'
 				//8R
 				|| tresletras === '8R06'
 				//11
 				|| tresletras === '1124' || tresletras === '1161'
 				//12
-				|| tresletras === '1200' || tresletras === '1232' 
+				|| tresletras === '1200' || tresletras === '1232' || tresletras === '1240' 
 				//14 
 				|| tresletras === '1441' || tresletras === '1492' 
 				//15
@@ -238,7 +240,7 @@ class CrudLayout extends Component {
 				|| tresletras === 'B19-' || tresletras === 'b19-'|| tresletras === 'B22-' 
 				//Textar
 				|| iniciales === '92' || iniciales === '95' || iniciales === '96' || iniciales === '98' || caracter1 === 'N' || caracter1 === 'n' 
-				|| iniciales === 'TX' || iniciales === 'tx' || iniciales === '20' 
+				|| iniciales === 'TX' || iniciales === 'tx' || iniciales === '20' || iniciales === '24' 
 				|| iniciales === '30'){
 					//Filtros por Key_Id
 					POSTDATA['or_filters']['key_id'] = busquedas;
