@@ -34,13 +34,13 @@ export default [
 		}
 	],
 	[
-		/* {
+		{
 			id: 'address_city',
-			type: 'Dropdown_Postal_Code',
+			type: 'String',
 			placeholder: 'Colonia',
 			prefixIcon: 'environment',
 			rules: Rules['string']
-		}, */
+		},
 		{
 			id: 'address_country',
 			type: 'String',
@@ -62,21 +62,21 @@ export default [
 			type: 'String',
 			placeholder: 'Teléfono Particular',
 			prefixIcon: 'phone',
-			rules: Rules['phone']
+			rules: Rules['string']
 		},
 		{
 			id: 'phone_office',
 			type: 'String',
 			placeholder: 'Teléfono Oficina',
 			prefixIcon: 'phone',
-			rules: Rules['phone']
+			rules: Rules['string']
 		},
 		{
 			id: 'phone_mobil',
 			type: 'String',
 			placeholder: 'Teléfono Móvil',
 			prefixIcon: 'phone',
-			rules: Rules['phone']
+			rules: Rules['string']
 		},
 	],
 	[
@@ -99,7 +99,7 @@ export default [
 			id: 'price_type',
 			type: 'Dropdown',
 			placeholder: 'Tipo de precio',
-			options: ['PUBLICO','TALLER','CREDITO TALLER','MAYOREO'],
+			options: ['PUBLICO','TALLER','CREDITO TALLER', 'MAYOREO'],
 			rules: Rules['string']
 		},	
 	],

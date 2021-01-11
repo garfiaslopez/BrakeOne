@@ -192,7 +192,7 @@ class CrudLayout extends Component {
 				//84
 				|| tresletras === '8432'
 				//88
-				|| tresletras === '8872' || tresletras === '8895' || tresletras === '8899'
+				|| tresletras === '8872' || tresletras === '8895' || tresletras === '8899' || tresletras === '8831'
 				//OTROS
 				|| tresletras === '1Z20' || tresletras === '7L09' || tresletras === 'S305' 
 				|| tresletras === 'S615' || letras === '3QF' || tresletras === '934F' || tresletras === 'FR27'
