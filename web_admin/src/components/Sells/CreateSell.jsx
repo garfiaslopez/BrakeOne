@@ -474,7 +474,7 @@ class CreateSell extends Component {
       );
     });
 
-    const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
+    const OptionsTypes = ["PUBLICO", "TALLER", "CREDITO TALLER", "MAYOREO"].map(
       (item, index) => {
         return (
           <Select.Option value={item} key={`${item} - ${index}`}>
@@ -535,7 +535,7 @@ class CreateSell extends Component {
             }
             value={this.state.price_type}
             style={styles.inputElement1}
-            placeholder="TIPO PRECIO"
+            placeholder="TIPO DE PRECIO"
             optionFilterProp="children"
             onChange={(value) => {
               this.onChangeDropdown(value, "price_type");
