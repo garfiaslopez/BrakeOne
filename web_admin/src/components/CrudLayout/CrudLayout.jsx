@@ -208,7 +208,7 @@ class CrudLayout extends Component {
 				|| caracter1 === 'f' || iniciales === '75' || iniciales === '98' || iniciales === '25' 
 				|| iniciales === '7L'  || iniciales === '7l' || iniciales === 'AC' || iniciales === 'ac' || iniciales === 'EU'
 				|| iniciales === 'eu' || iniciales === 'OC' || iniciales === 'oc' || iniciales === 'GD' || iniciales === 'gd' 
-				|| caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'aimd' 
+				|| caracter1 === 'P' || caracter1 === 'p' || letras === 'AIM' || letras === 'aim' 
 				|| tresletras === 'FREM' || tresletras === 'frem' || tresletras === 'BREM' || tresletras === 'brem' 
 				|| tresletras === 'CENT' || tresletras === 'cent' || tresletras === 'LIQU' || tresletras === 'liqu' 
 				|| caracter1 === 'L' || caracter1 === 'l' || letras === 'RBF' || letras === 'rbf' || letras === 'ATE' || letras === 'ate' 
@@ -225,7 +225,7 @@ class CrudLayout extends Component {
 					POSTDATA['search_text'] = this.search_text;
 				}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
 				|| tresletras === '309.' || tresletras === '106.' || tresletras === '103.' || tresletras === '500.' || tresletras === '300.' 
-				|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.'  
+				|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '123.' || tresletras === '125.'  
 				|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' 
 				|| tresletras === '950.' || tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 				|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
@@ -688,9 +688,9 @@ class CrudLayout extends Component {
 			Object.keys(this.table_filters).forEach((f) => {
 				if (this.table_filters[f].length > 0) {
 					if (this.table_filters[f][0] === 'stock.low.exists') {
-						POSTDATA['filters']['$expr'] ={ $lte: [ "$stock" , "$stock_ideal" ] };
+						POSTDATA['filters']['stock'] ={ $lt: 0 };
 					} else if (this.table_filters[f][0] === 'stock.exists') {
-						POSTDATA['filters']['$expr'] ={ $gt: [ "$stock" , "$stock_ideal" ] };
+						POSTDATA['filters']['stock'] ={ $gt: 0};
 					} else if (this.table_filters[f][0] === 'stock.no.exists') {
 						POSTDATA['filters']['stock'] = { $lte: 0 };
 					} else {
@@ -981,7 +981,7 @@ class CrudLayout extends Component {
 				locale={locale_es}
 			/>
 		);
-		if (this.state.filters_layout) {
+		if (this.state.filters_layout) {	
 			return this.state.filters_layout.map((f) => {
 				switch (f) {
 					case 'search':
