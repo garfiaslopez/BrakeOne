@@ -32,8 +32,9 @@
 .sell-ticket__title1 {
     text-transform: uppercase;
     font-weight: 700;
-    margin: 2pt 0;
-    margin-bottom: 10px;
+    margin: 2pt 0 10px;
+    margin-top: 22px;
+    margin-bottom: 12px;
 }
 
 .sell-ticket__client,
