@@ -128,18 +128,7 @@ module.exports = (method, model) => {
         }
         if (req.body.search_text != undefined) {
             /* Filter['$text'] = { '$search': req.body.search_text }; */
-            objectModel.find(req.body.search_text, (err, newObj) => {           
-                if (err) {
-                    return next(new errs.InternalServerError(err));
-                } else {
-                    if (newObj) {
-                        return res.json({ success: true , obj: newObj });                                        
-                    } else {
-                        return next(new errs.BadRequestError("El elemento no existe."));
-                    }
-                }
-                
-            });
+            objectModel.find({});
            /*  console.log("Texto: " + req.body.search_text); */
         }
         if (req.body.filters != undefined) {
