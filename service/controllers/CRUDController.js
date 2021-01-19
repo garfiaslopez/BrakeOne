@@ -48,8 +48,6 @@ module.exports = (method, model) => {
             }
             
         });
-       
-       
     }
 
     let Update = (req, res, next) => {
@@ -127,8 +125,14 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
-            Filter['$text'] = { '$search': req.body.search_text };
+           /*  Filter['$text'] = { '$search': req.body.search_text }; */
            /*  console.log("Texto: " + req.body.search_text); */
+            objectModel.index(
+                {key_id: req.body.search_text, fmsi: req.body.search_text, brand: req.body.search_text, 
+                barcode: req.body.search_text}
+            )
+
+
         }
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 

@@ -148,14 +148,14 @@ class CrudLayout extends Component {
         }
         //Numeros largos Centric
         else if (
-		  tresletras === "320." ||
-		  tresletras === "905." ||
-		  tresletras === "412." ||
-		  tresletras === "406." ||
-		  tresletras === "116." ||
-		  tresletras === "117." ||
-		  tresletras === "122." ||
-		  tresletras === "227." ||
+          tresletras === "320." ||
+          tresletras === "905." ||
+          tresletras === "412." ||
+          tresletras === "406." ||
+          tresletras === "116." ||
+          tresletras === "117." ||
+          tresletras === "122." ||
+          tresletras === "227." ||
           tresletras === "301." ||
           tresletras === "105." ||
           tresletras === "104." ||
