@@ -127,7 +127,8 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
-            objectModel.findById(req.params.object_id, (err, newObj) => {           
+            /* Filter['$text'] = { '$search': req.body.search_text }; */
+            objectModel.find(req.body.search_text, (err, newObj) => {           
                 if (err) {
                     return next(new errs.InternalServerError(err));
                 } else {
