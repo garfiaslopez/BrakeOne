@@ -127,7 +127,18 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
-            Filter['$text'] = { '$search': req.body.search_text };
+            objectModel.findById(req.params.object_id, (err, newObj) => {           
+                if (err) {
+                    return next(new errs.InternalServerError(err));
+                } else {
+                    if (newObj) {
+                        return res.json({ success: true , obj: newObj });                                        
+                    } else {
+                        return next(new errs.BadRequestError("El elemento no existe."));
+                    }
+                }
+                
+            });
            /*  console.log("Texto: " + req.body.search_text); */
         }
         if (req.body.filters != undefined) {
