@@ -127,7 +127,7 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
-            Filter['$text'] = { '$search': req.body.search_text };
+            Filter['$text'] = { '$zipCode': req.body.search_text };
            /*  console.log("Texto: " + req.body.search_text); */
         }
         if (req.body.filters != undefined) {
