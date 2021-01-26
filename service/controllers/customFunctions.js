@@ -129,7 +129,15 @@ module.exports =  {
                 }
             }
          
-
+            objectModel.remove({ fmsi: 'ANGEL'}, (err, response) => {
+                if(err){
+                    return next(new errs.InternalServerError(err));
+                } else if (response) {
+                    return res.json({ success: true, message: "Succesfully deleted." });                    
+                } else {
+                    return next(new errs.BadRequestError("El elemento no existe."));
+                }
+            });
 
         } else {
             return res.json({ success: false, message: "Producto no encontrado" });
