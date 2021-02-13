@@ -88,14 +88,6 @@ class OrderCreator extends Component {
         super(props);
         const init_selected_data = [];
 
-        if (props.init_data) {
-            if (props.init_data.products) {
-                props.init_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
-            }
-            if (props.init_data.services) {
-                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
-            }
-        }
 
         this.state = {
             loading_data: false,
@@ -300,7 +292,7 @@ class OrderCreator extends Component {
                 key: 'action',
                 width: '10%',
                 render: (text, record) => {
-                    if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
+                  
                         return (
                             <span>
                                 <Popconfirm
@@ -326,7 +318,7 @@ class OrderCreator extends Component {
                                 </Popconfirm>
                             </span>
                         );
-                    }
+                    
                     return <div></div>;
                 },
 		  	});
