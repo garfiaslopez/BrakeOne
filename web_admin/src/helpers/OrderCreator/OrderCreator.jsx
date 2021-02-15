@@ -88,6 +88,14 @@ class OrderCreator extends Component {
         super(props);
         const init_selected_data = [];
 
+        if (props.init_data) {
+            if (props.init_data.products) {
+                props.init_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
+            }
+            if (props.init_data.services) {
+                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
+            }
+        }
 
         this.state = {
             loading_data: false,
@@ -292,7 +300,7 @@ class OrderCreator extends Component {
                 key: 'action',
                 width: '10%',
                 render: (text, record) => {
-                  
+                
                         return (
                             <span>
                                 <Popconfirm
@@ -559,10 +567,10 @@ class OrderCreator extends Component {
 					|| tresletras === '950.' || tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
 					|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
 					|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
-					|| letras === '001' || letras === '331' || letras === '360' || letras === '409' || letras ==="410" || letras ==="411" || letras ==="412" 
-					|| letras ==="416" || letras ==="420" || letras ==="422" || letras ==="424" || letras ==="425" || letras ==="426" 
-					|| letras ==="428" || letras ==="430" || letras ==="432" || letras ==="436" || letras ==="602" || letras ==="603"
-					|| letras ==="604" || letras ==="605" || letras ==="606" || letras ==="607" || letras ==="620" || letras ==="650" 
+					|| letras === '001' || letras === '331' || letras === '360' || letras === '409' || letras ==="410" || letras ==="411" || letras ==="412" 
+					|| letras ==="416" || letras ==="420" || letras ==="422" || letras ==="424" || letras ==="425" || letras ==="426" 
+					|| letras ==="428" || letras ==="430" || letras ==="432" || letras ==="436" || letras ==="602" || letras ==="603"
+					|| letras ==="604" || letras ==="605" || letras ==="606" || letras ==="607" || letras ==="620" || letras ==="650" 
 					|| tresletras === 'B20-' || tresletras === 'b20-' || tresletras === 'B-VN' || tresletras === '7401'
 					|| tresletras === 'B19-' || tresletras === 'b19-'|| tresletras === 'B22-' ){
 						//Filtros por Key_Id
@@ -1425,6 +1433,9 @@ class OrderCreator extends Component {
                 },
             };
         });
+
+
+
 
 
 
