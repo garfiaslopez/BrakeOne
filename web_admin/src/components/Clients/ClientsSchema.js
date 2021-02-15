@@ -114,7 +114,7 @@ export default [
 		{
 			type: 'Tab_Component',
 			fields: [
-				/* [{
+				[{
 					id: 'contacts',
 					type: 'Nested_Object',
 					placeholder: 'Contacto',
@@ -149,7 +149,7 @@ export default [
 							}
 						]
 					]
-				}], */
+				}],
 				[{
 					id: 'cars',
 					type: 'Nested_Object',

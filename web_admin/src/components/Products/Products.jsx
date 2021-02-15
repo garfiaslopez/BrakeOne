@@ -167,9 +167,7 @@ class Products extends CrudLayout {
 				sorter: true,
 				width: '8%',
 				filters: [
-					{ text: 'En stock', value: 'stock.exists' },
-					{ text: 'Bajo stock', value: 'stock.low.exists'},
-					{ text: 'Sin stock', value: 'stock.no.exists'},
+					{ text: 'En stock', value: 'stock.exists' }					
 				],
 				onCell: () => {
 					return CellStyle(100)

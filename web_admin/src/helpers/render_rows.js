@@ -134,7 +134,7 @@ export default {
             color = 'blue';
         }
         return ({
-            children: <p style={{color, fontSize}}>{car.brand + ' - ' + car.model}</p>,
+            children: <p style={{color, fontSize}}></p>,
         });
     },
 
