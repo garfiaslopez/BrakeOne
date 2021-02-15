@@ -567,7 +567,7 @@ class CreateReception extends Component {
 
                         <OrderCreator
                             is_reception
-                            can_edit_price
+                            
                             can_edit_quantity
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}

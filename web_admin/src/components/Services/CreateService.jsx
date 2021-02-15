@@ -852,6 +852,9 @@ class CreateService extends Component {
                         </div>
 
                         <OrderCreator
+                             can_edit_price
+                            can_edit_quantity
+                            can_edit_description
                             can_edit_disccount={this.props.fields ? false : true }
                             is_recovered={this.state.quotation_folio !== '' ? true : false}
                             disabled={this.props.is_disabled}
