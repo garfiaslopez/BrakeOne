@@ -566,18 +566,24 @@ class CreateReception extends Component {
                         </div>
 
                         <OrderCreator
+                            can_edit_description
                             is_reception
-                            
-                            can_edit_quantity
+                            can_edit_price
+                            can_edit_quantity                            
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
                             onChange={this.onChangeOrderCreator}
                             price_type={this.state.price_type}
                             session={this.props.session}
                             init_data={{
-                                products: this.props.fields ? this.props.fields.products : null,
+                                //products: this.props.fields ? this.props.fields.products : null,
                                 services: this.props.fields ? this.props.fields.services : null,
                                 total: this.props.fields ? this.props.fields.total : null
+                            }}
+                            update_data={{
+                                products: this.state.products,
+                                services: this.state.services,
+                                total: this.state.total
                             }}
                         />
 

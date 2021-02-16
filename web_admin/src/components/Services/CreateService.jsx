@@ -677,7 +677,7 @@ class CreateService extends Component {
                 <PrinterDownload
 					key={"Print_Form"}
 					title={"Imprimir o Descargar"}
-					onClose={() => {
+					onClose={() => {
 						this.setState({
 							opened_printer_history: false,
 						});
@@ -855,7 +855,7 @@ class CreateService extends Component {
                              can_edit_price
                             can_edit_quantity
                             can_edit_description
-                            can_edit_disccount={this.props.fields ? false : true }
+                            can_edit_disccount                            
                             is_recovered={this.state.quotation_folio !== '' ? true : false}
                             disabled={this.props.is_disabled}
                             onError={this.onErrorOrderCreator}
@@ -863,7 +863,7 @@ class CreateService extends Component {
                             price_type={this.state.price_type}
                             session={this.props.session}
                             init_data={{
-                                products: this.props.fields ? this.props.fields.products : this.state.products,
+                                //products: this.props.fields ? this.props.fields.products : this.state.products,
                                 services: this.props.fields ? this.props.fields.services : this.state.services,
                                 total: this.props.fields ? this.props.fields.total : this.state.total
                             }}

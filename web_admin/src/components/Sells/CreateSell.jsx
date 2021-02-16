@@ -540,6 +540,7 @@ class CreateSell extends Component {
             onChange={(value) => {
               this.onChangeDropdown(value, "price_type");
             }}
+          
           >
             {OptionsTypes}
           </Select>
@@ -753,19 +754,17 @@ class CreateSell extends Component {
               </div>
             </div>
             <OrderCreator
-              isSell
               can_edit_quantity={true}
-              can_edit_disccount={true}
+              can_edit_description={true}
+              can_edit_price={true}
+              can_edit_disccount={true}                        
               is_recovered={this.state.quotation_folio !== "" ? true : false}
               disabled={this.props.is_disabled}
               onError={this.onErrorOrderCreator}
               onChange={this.onChangeOrderCreator}
               price_type={this.state.price_type}
               session={this.props.session}
-              init_data={{
-                products: this.props.fields
-                  ? this.props.fields.products
-                  : this.state.products,
+              init_data={{                
                 services: this.props.fields
                   ? this.props.fields.services
                   : this.state.services,
