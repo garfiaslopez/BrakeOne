@@ -10,5 +10,5 @@ export default {
     number: [{ required: true }],
     number_credit: [{ required: true }],
     date: [{ required: true }],
-    contacts: [{ min: 0 }]
+    contacts: [{ required: false}]
 }
