@@ -118,15 +118,14 @@ export default [
 					id: 'contacts',
 					type: 'Nested_Object',
 					placeholder: 'Contacto',
-					
+					rules: Rules['contacts'],
 					schema: [
 						[
 							{
 								id: 'name',
 								type: 'String',
 								placeholder: 'Nombre',
-								rules: Rules['string'],
-								
+								rules: Rules['string']
 							},
 							{
 								id: 'job_role',
