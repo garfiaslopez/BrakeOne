@@ -82,32 +82,36 @@ const SellTicket = ({
                 className="sell-ticket__logo1"
                 src="/images/BrakeOneBrembo.png"
             />
-            <p className="sell-ticket__subsidiary">
-                <span>{`${subsidiary.street}-C`} {`Col. Portales Norte`}</span>
-                <span>{`Col. Portales Norte`}</span>
-                <span>{`Alcaldia Benito Juarez`}</span>
+            <p className="">
+                <p className="texto" >{`${subsidiary.street}-C`} {`Col. Portales Norte`}</p>
+                <p className="texto" >{`Col. Portales Norte`}</p>
+                <p className="texto" >{`Alcaldia Benito Juarez`}</p>
                 
+
+
                 <ul className="recipe__flex-container1">
                     <li>
-                        <span className="recipe__item__data">
+                    <p className="texto" >
                             {subsidiary.city}
-                         </span>
+                         </p>
                     </li>
                     <li>
-                        <span className="recipe__item__data">
+                    <p className="texto" >
                         C.p. 03303
-                        </span>
+                        </p>
                     </li>
                 </ul>
+
+
                 
-                <span>{`Tel: (55) ${subsidiary.phone} / (55) 68402850 `}</span>
+                <p className="texto" >{`Tel: (55) ${subsidiary.phone} / (55) 68402850 `}</p>
                 
-                <span>{`(55) 52733450`} / {`(55) 43834342`} {' '}
+                <p className="texto" >{`(55) 52733450`} / {`(55) 43834342`} {' '}
                 <img
                     className="sell-ticket_what"
                     src="/images/whatsapp.png"
                 />
-                </span>
+                </p>
                 
             </p>
             <h1 className="sell-ticket__title1">
@@ -120,44 +124,44 @@ const SellTicket = ({
         <ul className="recipe__flex-container">
             <li>
                 
-                <span className="recipe__item__data">
-                   Folio: {folio}
-                </span>
+            <p className="texto" >
+                   <b>Folio:</b> {folio}
+            </p>
             </li>
             <li>
               
-                <span className="recipe__item__data">
-                    Fecha: {moment().format('MM-DD-YYYY')}
-                </span>
+            <p className="texto" >
+                    <b>Fecha:</b> {moment().format('MM-DD-YYYY')}
+            </p>
             </li>
         </ul>
     );
 
     const renderClient = () => (
         <div className="sell-ticket__list">
-           <h1 className="Prueba">Cliente: </h1> <p className="Prueba">{client.name}</p>
-                {/* <h1 className="Prueba">RFC: </h1>  */}<p className="Prueba">RFC: {client.rfc}</p>
-                {/* <h1 className="Prueba">Tel. </h1>  */}<p className="Prueba">Tel. {client.phone_number}</p>
-                {/* <h1 className="Prueba">Col. </h1>  */}<p className="Prueba"> Col. {client.address_country} {`C.p. ${client.address_cp}`} {client.address_city} {client.address_state}</p>
+          <p className="texto3" ><b>Cliente:</b> </p><p className="texto4">{client.name}</p>
+                {/* <h1 className="Prueba">RFC: </h1>  */}<p className="texto3" ><b>RFC:</b> {client.rfc}</p>
+                {/* <h1 className="Prueba">Tel. </h1>  */}<p className="texto3" ><b>Tel.</b> {client.phone_number}</p>
+                {/* <h1 className="Prueba">Col. </h1>  */}<p className="texto4" ><b>Col.</b> {client.address_country} {`C.p. ${client.address_cp}`} {client.address_city} {client.address_state}</p>
         </div>
     );
 
     const renderSellItems = () => (
         <div className="sell-ticket__list">
             <h2 className="sell-ticket__list__title recipe__flex-container">
-                <span>Cant. / Concepto</span>
-                <span>Importe</span>
+            <p className="texto" >Cant. / Concepto</p>
+            <p className="texto" >Importe</p>
             </h2>
             <ul>
                 {sellItems.map((item, i) => ( 
                     <li className="recipe__flex-container" key={i}>
                    {/*  <span>{item.quantity}</span> */}
                       
-                      <span class="inicialPrec"> ${String(round2(item.price ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </span>
-                      ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                   <p className="texto" > ${String(round2(item.price ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </p>
+                   <p className="texto" > ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
                   
-                        <span>{/* {`${item.quantity} */} {item.description} {/* ${item.key_id} 
-                        ${item.line} ${item.brand}\n` */}</span>{/* {`\n`} */}
+                      <p className="texto5" >{/* {`${item.quantity} */} {item.description} {/* ${item.key_id} 
+                        ${item.line} ${item.brand}\n` */}</p>{/* {`\n`} */}
                     </li>
                 ))}
             </ul>
@@ -170,25 +174,25 @@ const SellTicket = ({
                return previus + current;  
             }, 0)
             }
-            <span className="recipe__item__data1">
+            <p className="texto2" >
             Cantidad piezas
-            </span>
+            </p>
                          
 
 
                 <ul className="recipe__flex-container2">
                         <li>
-                            <span className="recipe__item__data">
-                            Total: ${String(round2(totalNumber)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            </span>
+                        <p className="texto" >
+                            <b>Total: </b>${String(round2(totalNumber)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        </p>
                         </li>
 
                 </ul>     
                 
             </div>
-        <center><p>{NumeroALetras(totalNumber)} 00/100 M.N.</p></center>    
-         <center><h1>Aviso de privacidad / Terminos y condiciones en: </h1></center>
-         <center><h1>www.brakeone.mx</h1></center>
+        <center><b><p className="texto" >{NumeroALetras(totalNumber)} 00/100 M.N.</p></b></center>   
+         <center><p className="texto" >Aviso de privacidad / Terminos y condiciones en: </p></center>
+         <center><p className="texto" >www.brakeone.mx</p></center>
         </div>
     );
 
