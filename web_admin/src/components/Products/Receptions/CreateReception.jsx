@@ -228,7 +228,7 @@ class CreateReception extends Component {
                         Object.keys(mapped_products_stock).forEach((el) => {
                             OperationsProducts.push((callback) => {
                                 const new_p = {
-                                    stock: actual_max_stock[el] + mapped_products_stock[el]
+                                    stock: actual_max_stock[el] + Number(mapped_products_stock[el])
                                 }
                                 const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
                                 FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
