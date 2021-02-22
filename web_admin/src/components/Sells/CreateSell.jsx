@@ -474,7 +474,7 @@ class CreateSell extends Component {
       );
     });
 
-    const OptionsTypes = ["PUBLICO", "TALLER", "CREDITO TALLER", "MAYOREO"].map(
+    const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
       (item, index) => {
         return (
           <Select.Option value={item} key={`${item} - ${index}`}>
@@ -535,12 +535,11 @@ class CreateSell extends Component {
             }
             value={this.state.price_type}
             style={styles.inputElement1}
-            placeholder="TIPO DE PRECIO"
+            placeholder="TIPO PRECIO"
             optionFilterProp="children"
             onChange={(value) => {
               this.onChangeDropdown(value, "price_type");
             }}
-          
           >
             {OptionsTypes}
           </Select>
@@ -754,17 +753,19 @@ class CreateSell extends Component {
               </div>
             </div>
             <OrderCreator
+              isSell
               can_edit_quantity={true}
-              can_edit_description={true}
-              can_edit_price={true}
-              can_edit_disccount={true}                        
+              can_edit_disccount={true}
               is_recovered={this.state.quotation_folio !== "" ? true : false}
               disabled={this.props.is_disabled}
               onError={this.onErrorOrderCreator}
               onChange={this.onChangeOrderCreator}
               price_type={this.state.price_type}
               session={this.props.session}
-              init_data={{                
+              init_data={{
+                products: this.props.fields
+                  ? this.props.fields.products
+                  : this.state.products,
                 services: this.props.fields
                   ? this.props.fields.services
                   : this.state.services,

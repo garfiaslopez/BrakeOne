@@ -284,6 +284,7 @@ class OrderCreator extends Component {
                 width: '7%'
 			}
         ];
+		
 
         /* if (this.props.is_quotation) {
             this.table_columns_selected.unshift({
@@ -294,13 +295,13 @@ class OrderCreator extends Component {
                 width: '5%'
             });
         }*/
-        if (!props.disabled) {
+       // if (!props.disabled) {
             this.table_columns_selected.push({
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
                 width: '10%',
                 render: (text, record) => {
-                
+                    if("Hola") {
                         return (
                             <span>
                                 <Popconfirm
@@ -326,11 +327,11 @@ class OrderCreator extends Component {
                                 </Popconfirm>
                             </span>
                         );
-                    
+                    }
                     return <div></div>;
                 },
 		  	});
-        }
+       // }
 
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
         this.onChangeUser = this.onChangeUser.bind(this);
@@ -1171,6 +1172,7 @@ class OrderCreator extends Component {
                     this.setState({
                         selected_data: actualProducts,
                         selected_quantity: 1,
+						selected_fmsi: 5,
                         selected_discount: undefined,
                         total: new_total
                     });
@@ -1433,9 +1435,6 @@ class OrderCreator extends Component {
                 },
             };
         });
-
-
-
 
 
 

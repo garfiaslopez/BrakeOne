@@ -499,7 +499,9 @@ class CrudLayout extends Component {
   // SEARCH TEXT:
   onClickSearch = (search_text) => {
     this.search_text = search_text;
+    setTimeout(() => {
     this.getData();
+  }, 1000);
   };
 
   // RANGES DATE:

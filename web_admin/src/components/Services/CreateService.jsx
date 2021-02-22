@@ -107,15 +107,15 @@ class CreateService extends Component {
 
     getPayments() {
         console.log("getting payments");
-		const url = process.env.REACT_APP_API_URL + '/payments';
+        const url = process.env.REACT_APP_API_URL + '/payments';
         let POSTDATA = {
             limit: 1000,
-			page: 1,
-			filters: {
+            page: 1,
+            filters: {
                 subsidiary_id: this.props.session.subsidiary._id,
                 sell_id: this.props.fields._id,
             }
-		}
+        }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 let total_payments = 0;
@@ -128,27 +128,27 @@ class CreateService extends Component {
                 })
                 this.setState({
                     total_payments, 
-					payments
+                    payments
                 });
             } else {
-				console.log(response.message);
-				this.setState({
-					error: response.message
-				});
+                console.log(response.message);
+                this.setState({
+                    error: response.message
+                });
             }
         }).catch((onError) => {
-			console.log(onError);
-			this.setState({
-				error: onError.message
-			});
+            console.log(onError);
+            this.setState({
+                error: onError.message
+            });
         });
     }
 
     getClients(search_text) {
         this.setState({
-			loading_clients: true,
-		});
-		const url = process.env.REACT_APP_API_URL + '/clients';
+            loading_clients: true,
+        });
+        const url = process.env.REACT_APP_API_URL + '/clients';
         const POSTDATA = {
             limit: 100,
             page: 1,
@@ -158,32 +158,32 @@ class CreateService extends Component {
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 this.setState({
-					clients: response.json.data.docs.map((el, index)=>({
-						...el,
-						key: index
+                    clients: response.json.data.docs.map((el, index)=>({
+                        ...el,
+                        key: index
                     })),
                     loading_users: false
                 });
             } else {
-				this.setState({
+                this.setState({
                     loading_clients: false,
                     error: response.message
-				});
+                });
             }
         }).catch((onError) => {
-			this.setState({
+            this.setState({
                 loading_clients: false,
                 error: onError.message
-			});
+            });
         });
     }
 
     getQuotations(search_text) {
         this.setState({
             quotation_folio: search_text,
-			loading_quotations: true,
-		});
-		const url = process.env.REACT_APP_API_URL + '/quotations';
+            loading_quotations: true,
+        });
+        const url = process.env.REACT_APP_API_URL + '/quotations';
         const POSTDATA = {
             limit: 100,
             page: 1,
@@ -210,16 +210,16 @@ class CreateService extends Component {
                     });
                 }
             } else {
-				this.setState({
+                this.setState({
                     loading_quotations: false,
                     error: response.message
-				});
+                });
             }
         }).catch((onError) => {
-			this.setState({
+            this.setState({
                 loading_quotations: false,
                 error: onError.message
-			});
+            });
         });
     }
 
@@ -450,7 +450,7 @@ class CreateService extends Component {
 
     render() {
         let alert='';
-		if (this.state.error) {
+        if (this.state.error) {
             alert = (
                 <Alert
                     style={styles.alertContainer}
@@ -533,13 +533,13 @@ class CreateService extends Component {
 
         const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
             (item, index) => {
-              return (
+            return (
                 <Select.Option value={item} key={`${item} - ${index}`}>
-                  {item}
+                {item}
                 </Select.Option>
-              );
+            );
             }
-          );
+        );
 
         let CardContent = <div style={styles.cardInitialText}> Favor de buscar y seleccionar un cliente. </div>;
         if (this.state.client_id._id) {
@@ -675,28 +675,28 @@ class CreateService extends Component {
         if (this.state.opened_printer_history) {
             PrinterModal = (
                 <PrinterDownload
-					key={"Print_Form"}
-					title={"Imprimir o Descargar"}
-					onClose={() => {
-						this.setState({
-							opened_printer_history: false,
-						});
-					}}
-					model={{
+                    key={"Print_Form"}
+                    title={"Imprimir o Descargar"}
+                    onClose={() => {
+                        this.setState({
+                            opened_printer_history: false,
+                        });
+                    }}
+                    model={{
                         name: 'sell',
                         singular: 'sell',
                         plural: 'sells',
                         label: 'Servicios'
                     }}
-					additional_get_data = {{
+                    additional_get_data = {{
                         subsidiary_id: this.props.session.subsidiary._id,
                         client_id: this.state.client_id._id,
                         is_service: true,
                         is_finished: true,
                         car_id: this.state.car_id
                     }}
-					populate_ids={['client_id']}
-					table_columns={[
+                    populate_ids={['client_id']}
+                    table_columns={[
                         {
                             title: 'Fecha',
                             dataIndex: 'date',
@@ -726,7 +726,7 @@ class CreateService extends Component {
                             width: '15%'
                         }
                     ]}
-				/>
+                />
             );
         }
 
@@ -852,7 +852,7 @@ class CreateService extends Component {
                         </div>
 
                         <OrderCreator
-                             can_edit_price
+                            can_edit_price
                             can_edit_quantity
                             can_edit_description
                             can_edit_disccount                            
@@ -863,7 +863,7 @@ class CreateService extends Component {
                             price_type={this.state.price_type}
                             session={this.props.session}
                             init_data={{
-                                //products: this.props.fields ? this.props.fields.products : this.state.products,
+                                products: this.props.fields ? this.props.fields.products : this.state.products,
                                 services: this.props.fields ? this.props.fields.services : this.state.services,
                                 total: this.props.fields ? this.props.fields.total : this.state.total
                             }}
