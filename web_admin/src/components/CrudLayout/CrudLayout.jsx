@@ -516,6 +516,7 @@ class CrudLayout extends Component {
     }
     this.getData();
   };
+  
   onSelectClient(client_name) {
 	const client = this.state.products.find((el) => (el.key_id === client_name));
 	let phone = client.phone_mobil;

@@ -18,6 +18,7 @@ import OrderCreator from "../../helpers/OrderCreator/OrderCreator";
 import RenderRows from "../../helpers/render_rows";
 import async from "async";
 import moment from "moment";
+import CrudLayout from '../CrudLayout/CrudLayout';
 
 class CreateSell extends Component {
   constructor(props) {
@@ -92,8 +93,12 @@ class CreateSell extends Component {
 
   getPayments() {
     const url = process.env.REACT_APP_API_URL + "/payments";
+    if(false){
+      alert(url);
+    }
+    
     let POSTDATA = {
-      limit: 25000,
+      limit: 50,
       page: 1,
       filters: {
         subsidiary_id: this.props.session.subsidiary._id,

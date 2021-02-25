@@ -566,6 +566,7 @@ class CreateReception extends Component {
                         </div>
 
                         <OrderCreator
+                            is_reception
                             can_edit_description
                             is_reception
                             can_edit_price

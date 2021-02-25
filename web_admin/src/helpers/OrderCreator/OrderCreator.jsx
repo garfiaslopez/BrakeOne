@@ -447,568 +447,117 @@ class OrderCreator extends Component {
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;
 			POSTDATA['sort_order'] = this.sort_order;			
-		}
-
-
-
-        if (search_text) {
-
-            POSTDATA['or_filters'] = {};
-
-                var busquedas = search_text;
-
-			    var caracter1 = search_text.charAt(0);
-				var caracter2 = search_text.charAt(1);	
-				var caracter3 = search_text.charAt(2);
-				var caracter4 = search_text.charAt(3);
-				
-				var iniciales = caracter1 + caracter2;		
-				var letras = caracter1 + caracter2 + caracter3;
-				var tresletras = caracter1 + caracter2 + caracter3 + caracter4;		
-
-				//Filtros codigo de barras
-				//16
-				if(
-					//04
-					tresletras === '0436' || tresletras === '0446'
-					//8R
-					|| tresletras === '8R06'
-					//11
-					|| tresletras === '1124' || tresletras === '1161'
-					//12
-					|| tresletras === '1200' || tresletras === '1232' 
-					//14 
-					|| tresletras === '1441' || tresletras === '1492' 
-					//15
-					|| tresletras === '1560' || tresletras === '1567' || tresletras === '1570'|| tresletras === '1573' || tresletras === '1574' || tresletras === '1575' 
-					|| tresletras === '1578' || tresletras === '1579' || tresletras === '1581' 
-					|| tresletras === '1590' || tresletras === '1591' || tresletras === '1595' 
-					|| tresletras === '1596' || tresletras === '1598' || tresletras === '1599'
-					//16
-					|| tresletras === '1605' || tresletras === '1606' || tresletras === '1607' 
-					|| tresletras === '1608' || tresletras === '1609' || tresletras === '1610'
-					//19
-					|| tresletras === '1909'
-					//20	
-					|| tresletras === '2020'
-					//23
-					|| tresletras === '2332'										
-					//26
-					|| tresletras === '2643'	
-					//33
-					|| tresletras === '3310' || tresletras === '3322' || tresletras === '3328' || tresletras === '3374'
-					//34
-					|| tresletras === '3435'
-					//40
-					|| tresletras === '4006' || tresletras === '4019'
-					//42
-					|| tresletras === '4254'
-					//44
-					|| tresletras === '4406'
-					//45
-					|| tresletras === '4502'
-					//55
-					|| tresletras === '5581'
-					//56
-					|| tresletras === '5615'
-					//58
-					|| tresletras === '5810'
-					//63
-					|| tresletras === '6395'
-					//68
-					|| tresletras === '6838'
-					//69
-					|| tresletras === '6902' || tresletras === '6903' || tresletras === '6906'
-					//75
-					|| tresletras === '7500' || tresletras === '7502'
-					//78
-					|| tresletras === '7893'
-					//80
-					|| tresletras === '8016' || tresletras === '8020' || tresletras === '8058' 
-					//82
-					|| tresletras === '8217'
-					//84
-					|| tresletras === '8432'
-					//88
-					|| tresletras === '8872' || tresletras === '8895' || tresletras === '8899'
-					//OTROS
-					|| tresletras === '1Z20' || tresletras === '7L09' || tresletras === 'S305' 
-					|| tresletras === 'S615' || letras === '3QF' || tresletras === '934F' || tresletras === 'FR27'				
-					|| tresletras === '1605' || tresletras === '1596' || tresletras === '3435' || tresletras === 'LR06'
-					|| tresletras === '7502' || tresletras === '6908'){
-						POSTDATA['or_filters']['barcode'] = busquedas;
-					}else
-
+		} 
+		if (search_text) {
+			POSTDATA["or_filters"] = {};
+			let busquedas = search_text;
+			var caracter1 = search_text.charAt(0);
+			var caracter2 = search_text.charAt(1);
+			var caracter3 = search_text.charAt(2);
+			var caracter4 = search_text.charAt(3);
+			var caracter5 = search_text.charAt(4);
+			var caracter6 = search_text.charAt(5);
+			var caracter7 = search_text.charAt(6);
+			/* var caracter8 = this.search_text.charAt(7); */
 	
-					if(iniciales === 'A-' || iniciales === 'I-' || iniciales === 'a-' || iniciales === 'i-'){
-						POSTDATA['search_text'] = busquedas + " " + '&&' +  busquedas + 'MAX' + " " + '&&' +  busquedas + 'XTRA'  ;
-					}else	
+			// //2275.10
+			var iniciales = caracter1 + caracter2;
+			var letras = caracter1 + caracter2 + caracter3;
+			var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
+			var ultimas = caracter5 + caracter6 + caracter7;
 	
-					if(caracter1 === 'D' || caracter1 === 'd' || caracter1 === 'S' || caracter1 === 's' || caracter1 === 'F' 
-					|| caracter1 === 'f' || iniciales === '75' || iniciales === '98' || iniciales === '24' || iniciales === '25' 
-					|| iniciales === '7L'  || iniciales === '7l' || iniciales === 'AC' || iniciales === 'ac' || iniciales === 'EU'
-					|| iniciales === 'eu' || iniciales === 'OC' || iniciales === 'oc' || iniciales === 'GD' || iniciales === 'gd' 
-					|| caracter1 === 'P' || caracter1 === 'p' || tresletras === 'AIMD' || tresletras === 'aimd' 
-					|| tresletras === 'FREM' || tresletras === 'frem' || tresletras === 'BREM' || tresletras === 'brem' 
-					|| tresletras === 'CENT' || tresletras === 'cent' || tresletras === 'LIQU' || tresletras === 'liqu' 
-					|| caracter1 === 'L' || caracter1 === 'l' || letras === 'RBF' || letras === 'rbf' || letras === 'ATE' || letras === 'ate' 
-					|| letras === 'SENS' || letras === 'sens' || letras === 'SERV' || letras === 'serv' || letras === 'PAQU' || letras === 'paqu'
-					|| iniciales === 'bd' || tresletras === 'ORIG' || tresletras === 'orig' || tresletras === 'SUPE' || tresletras === 'supe'
-					|| caracter1 === 'T' || caracter1 === 't' || caracter1 === 'G' || caracter1 === 'g' || letras === 'SMD' || letras === 'smd' 
-					|| letras === 'GMD' || letras === 'gmd' || letras === 'amo' || letras === 'AMO'
-					|| tresletras === 'CAMB' || tresletras === 'BVNE'|| tresletras === 'bvne'
-					|| caracter1 === 'E' || caracter1 === 'e' || tresletras === 'AMOR' || tresletras === 'amor' || tresletras === 'BBNE' 
-					|| tresletras === 'bbne' || tresletras === 'BVNE' || caracter1 === 'h' || caracter1 === 'H'){
-						//Filtros por texto
-						POSTDATA['search_text'] = search_text;
-					}else if(tresletras === '301.' || tresletras === '105.' || tresletras === '104.' || tresletras === '102.' || tresletras === '121.'
-					|| tresletras === '309.' || tresletras === '106.' || tresletras === '103.' || tresletras === '500.' || tresletras === '300.' 
-					|| tresletras === '100.' || tresletras === '306.' || tresletras === '120.' || tresletras === '125.'  
-					|| tresletras === '126.' || tresletras === '127.' || tresletras === '128.' || tresletras === '110.' || tresletras === '111.' 
-					|| tresletras === '950.' || tresletras === '978.' || tresletras === '905.' || letras === '83.' || letras === '31.' || tresletras === '228.' 
-					|| tresletras === '7600' || tresletras === '9000.' || tresletras === '9900' || tresletras === '7601' || tresletras === '7500' 
-					|| tresletras === '7402' || tresletras === '7401' || tresletras === '7400' || tresletras === '7300' || letras === '705' || letras === '706'
-					|| letras === '001' || letras === '331' || letras === '360' || letras === '409' || letras ==="410" || letras ==="411" || letras ==="412" 
-					|| letras ==="416" || letras ==="420" || letras ==="422" || letras ==="424" || letras ==="425" || letras ==="426" 
-					|| letras ==="428" || letras ==="430" || letras ==="432" || letras ==="436" || letras ==="602" || letras ==="603"
-					|| letras ==="604" || letras ==="605" || letras ==="606" || letras ==="607" || letras ==="620" || letras ==="650" 
-					|| tresletras === 'B20-' || tresletras === 'b20-' || tresletras === 'B-VN' || tresletras === '7401'
-					|| tresletras === 'B19-' || tresletras === 'b19-'|| tresletras === 'B22-' ){
-						//Filtros por Key_Id
-						POSTDATA['or_filters']['key_id'] = busquedas;
-					}else if(iniciales === 'BD' || iniciales === 'bd' ){
-					numberLarge.forEach(function(numLargos, indice, array) {		
-						if(busquedas === numLargos){			
-							POSTDATA['or_filters']['key_id'] = busquedas;				
-						}else{
-							
-						}
-					})
-					numberCortsDV.forEach(function(numberCortsDV) {
-						if(busquedas === numberCortsDV){						
-							POSTDATA['or_filters']['key_id'] = busquedas + 'DV';	
-						}
-					})
-
-					numberCortsDS.forEach(function(numberCortsDV) {
-						if(busquedas === numberCortsDV){					
-							POSTDATA['or_filters']['key_id'] = busquedas + 'DS';	
-						}
-					})	
-							
-				}			
-
-					if('numeros cortos Fremax'){
-						numberMinDV.forEach(function(numberMinDV) {
-							if(busquedas === numberMinDV){
-								POSTDATA['or_filters']['key_id'] = 'BD' + busquedas + 'DV';
+			//Brembo con Xtra, Max y Normar
+			if (
+			  iniciales === "A-" ||
+			  iniciales === "I-" ||
+			  iniciales === "a-" ||
+			  iniciales === "i-"
+			) {
+			  POSTDATA["search_text"] =
+				search_text +
+				" " +
+				"&&" +
+				search_text +
+				"MAX" +
+				" " +
+				"&&" +
+				search_text +
+				"XTRA";
+			}
+			//Numeros largos Centric
+			else if (
+			  tresletras === "320." ||
+			  tresletras === "905." ||
+			  tresletras === "412." ||
+			  tresletras === "406." ||
+			  tresletras === "116." ||
+			  tresletras === "117." ||
+			  tresletras === "122." ||
+			  tresletras === "227." ||
+			  tresletras === "301." ||
+			  tresletras === "105." ||
+			  tresletras === "104." ||
+			  tresletras === "102." ||
+			  tresletras === "121." ||
+			  tresletras === "309." ||
+			  tresletras === "106." ||
+			  tresletras === "103." ||
+			  tresletras === "500." ||
+			  tresletras === "300." ||
+			  tresletras === "100." ||
+			  tresletras === "306." ||
+			  tresletras === "120." ||
+			  tresletras === "123." ||
+			  tresletras === "125." ||
+			  tresletras === "126." ||
+			  tresletras === "127." ||
+			  tresletras === "128." ||
+			  tresletras === "110." ||
+			  tresletras === "111." ||
+			  tresletras === "950." ||
+			  tresletras === "978." ||
+			  tresletras === "905." ||
+			  letras === "83." ||
+			  letras === "31." ||
+			  tresletras === "228."
+			) {
+			  POSTDATA["or_filters"]["key_id"] = busquedas;
+			}
+			//Brembo numeros largos
+			else if (letras === "09." || letras === "08." || letras === "14.") {
+			  bremLarge.forEach(function(numLargos, indice, array) {
+				if (busquedas === numLargos) {
+				  POSTDATA["or_filters"]["key_id"] = busquedas;
+				}
+			  });
+			 
+			} else if(caracter5 === '.'){
+				bremCort08.forEach(function(numLargos, indice, array) {
+					if (busquedas === numLargos) {
+					  POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
+					}else{
+						bremCort09.forEach(function(numLargos, indice, array) {
+							if (busquedas === numLargos) {
+							  POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
+							}else{
+								bremCorto14.forEach(function(numLargos, indice, array) {		
+									if(busquedas === numLargos ){			
+										POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
+									}else{									
+										
+									}
+								})
 							}
-						});
-
-						numberMinDS.forEach(function(numberMinDV) {
-							if(busquedas === numberMinDV){
-								POSTDATA['or_filters']['key_id'] = 'BD' + busquedas + 'DS';
-							}
-						});
+	
+						  })
 					}
-						
-					if('Numeros cortos sin terminacion .10, .11 etc.....'){
-						//.10
-						bremCort10.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.10';	
-							}
-						})
-						//11
-						bremCort11.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.11';	
-							}
-						})
-						//13
-						bremCort13.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.13';	
-							}
-						})
-						bremCort14.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.14';	
-							}
-						})
-						bremCort17.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.17';	
-							}
-						})
-						bremCort1X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.1X';	
-							}
-						})
-						bremCort20.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.20';	
-							}
-						})
-						bremCort21.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.21';	
-							}
-						})
-						bremCort25.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.25';	
-							}
-						})
-						bremCort27.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.27';	
-							}
-						})
-						bremCort2X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.2X';	
-							}
-						})
-						bremCort30.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.30';	
-							}
-						})
-						bremCort31.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.31';	
-							}
-						})
-						bremCort3X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.3X';	
-							}
-						})
-						bremCort40.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.40';	
-							}
-						})
-						bremCort41.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.41';	
-							}
-						})
-						bremCort4X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.4X';	
-							}
-						})
-						bremCort50.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.50';	
-							}
-						})
-						bremCort51.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.51';	
-							}
-						})
-						bremCort60.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.60';	
-							}
-						})
-						bremCort75.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.75';	
-							}
-						})
-						bremCort76.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.76';	
-							}
-						})
-						bremCort77.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.77';	
-							}
-						})
-						bremCort80.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.80';	
-							}
-						})
-						bremCort81.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.81';	
-							}
-						})
-						bremCort85.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas + '.85';	
-							}
-						})
-
-						//Numeros muy cortos
-						bremMin0810.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.10';	
-							}
-						})
-						bremMin0910.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.10';	
-							}
-						})
-						bremMIn1410.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '14.' + busquedas + '.10';	
-							}
-						})
-						bremMin0875.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.75';	
-							}
-						})
-						bremMin0975.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.75';	
-							}
-						})
-						bremMin0821.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.21';	
-							}
-						})
-						bremMIn0921.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.21';	
-							}
-						})
-						bremMin0811.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.11';	
-							}
-						})
-						bremMIn0911.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.11';	
-							}
-						})
-						bremMin0820.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.20';	
-							}
-						})
-						bremMin0920.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.20';	
-							}
-						})
-						bremMin1420.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '14.' + busquedas + '.20';	
-							}
-						})
-						bremMin0880.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.80';	
-							}
-						})
-						bremMin0980.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.80';	
-							}
-						})
-						bremMin0975.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.75';	
-							}
-						})
-						bremMin1480.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '14.' + busquedas + '.80';	
-							}
-						})
-						bremMin082X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.2X';	
-							}
-						})
-						bremMin092X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.2X';	
-							}
-						})
-						bremMin0830.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.30';	
-							}
-						})
-						bremMin0930.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.30';	
-							}
-						})
-						bremMin081X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.1X';	
-							}
-						})
-						bremMin091X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.1X';	
-							}
-						})
-						bremMin082X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.2X';	
-							}
-						})
-						bremMin0876.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.76';	
-							}
-						})
-						bremMin0976.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.76';	
-							}
-						})
-						bremMin0831.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.31';	
-							}
-						})
-						bremMin0931.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.31';	
-							}
-						})
-						bremMin0860.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.60';	
-							}
-						})
-						bremMin0876.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.76';	
-							}
-						})
-						bremMin0825.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.25';	
-							}
-						})
-						bremMin0881.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.81';	
-							}
-						})
-						bremMin0981.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.81';	
-							}
-						})
-						bremMin0850.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.50';	
-							}
-						})
-						bremMin0950.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.50';	
-							}
-						})
-						bremMin0841.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.41';	
-							}
-						})
-						bremMin0941.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.41';	
-							}
-						})
-						bremMin0827.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.27';	
-							}
-						})
-						bremMin0817.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.17';	
-							}
-						})
-						bremMin0813.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.13';	
-							}
-						})
-						bremMin0913.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.13';	
-							}
-						})
-						bremMin0840.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas + '.40';	
-							}
-						})
-						bremMin0977.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.77';	
-							}
-						})
-						bremMin093X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.3X';	
-							}
-						})
-						bremMin0914.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.14';	
-							}
-						})
-						bremMin0951.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.51';	
-							}
-						})
-						bremMin094X.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas + '.4X';	
-							}
-						})
-						bremMin1485.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '14.' + busquedas + '.85';	
-							}
-						})
-
-					}
-					if('Numeros cortos sin comienzo 08., 09., 14. '){
-
-						bremCort08.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '08.' + busquedas;	
-							}
-						})
-						bremCort09.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '09.' + busquedas;	
-							}
-						})
-						bremCorto14.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = '14.' + busquedas;	
-							}
-						})
-						bremLarge.forEach(function(numberCorts) {
-							if(busquedas === numberCorts){						
-								POSTDATA['or_filters']['key_id'] = busquedas;	
-							}
-						})
-					}
-        }
+				  });
+												   
+			}else{
+			  POSTDATA["search_text"] = this.search_text;
+			}
+		}	
+		
 
         FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
             if (responseServices.json.success) {
@@ -1080,6 +629,7 @@ class OrderCreator extends Component {
             this.props.onError(onError.message);
         });
     }
+
 
     sendToOnChange( actual_products, actual_total) {
         // split the arrays and do calculation for total:
@@ -1246,26 +796,47 @@ class OrderCreator extends Component {
 
 
     deleteRecord(record) {
-        // delete from table:
-        console.log("GOING TO DETELE RECORD");
-        console.log(record);
-        let actualProducts = Object.assign([], this.state.selected_data);
-        console.log("ACTUALPRODUCTS", actualProducts);
-        const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
-        console.log("INDEX,", index);
-        if (index != -1) {
-            actualProducts.splice(index, 1);
-        }
-        const new_total = this.state.total - (record.total);
 
-        console.log("ACTUALPRODUCTS", actualProducts);
-        console.log("new_total", new_total);
+		if(true){
+				console.log("GOING TO DETELE RECORD");
+				console.log(record);
+				let actualProducts = Object.assign([], this.state.selected_data);
+				console.log("ACTUALPRODUCTS", actualProducts);
+				const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
+				console.log("INDEX,", index);
+				if (index != -1) {					
+					actualProducts.splice(index, 1);
 
-        this.setState({
-            total: new_total,
-            selected_data: actualProducts,
-        });
-        this.sendToOnChange(actualProducts, new_total);
+					//////////////////////////////////////////////////////////////
+					//Elimina el producto y suma el quantity al stock del producto
+					
+						
+							const url_get_product = process.env.REACT_APP_API_URL + '/product/' + record.id;	
+							FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
+								const new_p = {
+									stock: response_actual_p.json.obj.stock	+ record.quantity		
+								}
+								const url_put_product = process.env.REACT_APP_API_URL + '/product/' + record.id;
+								FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
+									console.log(response_actual_p.json.obj.stock);
+								})
+							});
+							
+				
+			}
+				
+				const new_total = this.state.total - (record.total);
+
+				console.log("ACTUALPRODUCTS", actualProducts);
+				console.log("new_total", new_total);
+
+				this.setState({
+					total: new_total,
+					selected_data: actualProducts,
+				});
+				this.sendToOnChange(actualProducts, new_total);		
+	
+		}
     }
 
     render() {

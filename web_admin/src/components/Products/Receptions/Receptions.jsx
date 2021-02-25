@@ -122,7 +122,7 @@ class Receptions extends CrudLayout {
 					let CancelButton = '';
 					let EditButton = '';
 					if (!record.is_canceled) {
-						EditButton = (
+						/* EditButton = (
 							<Fragment>
 								<Button 
 									type="primary" 
@@ -135,7 +135,7 @@ class Receptions extends CrudLayout {
 								/>
 								<Divider type="vertical" />
 							</Fragment>
-						);
+						); */
 						CancelButton = (
 							<Popconfirm
 								onClick={(event)=> {
