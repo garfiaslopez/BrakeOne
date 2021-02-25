@@ -449,7 +449,8 @@ class OrderCreator extends Component {
 			POSTDATA['sort_order'] = this.sort_order;			
 		} 
 		if (search_text) {
-			POSTDATA["or_filters"] = {};
+
+			POSTDATA["or_filters"] = {};;
 			let busquedas = search_text;
 			var caracter1 = search_text.charAt(0);
 			var caracter2 = search_text.charAt(1);
@@ -554,7 +555,7 @@ class OrderCreator extends Component {
 				  });
 												   
 			}else{
-			  POSTDATA["search_text"] = this.search_text;
+			  POSTDATA["search_text"] = search_text;
 			}
 		}	
 		
