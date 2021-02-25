@@ -57,6 +57,7 @@ class Products extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
+		if(this.props.session.user.address_state === 'QRO'){			
 		this.table_columns = [
 			{
             	title: 'Clave',
@@ -109,7 +110,7 @@ class Products extends CrudLayout {
 					return CellStyle(150)
 				},
 			}, 
-			{
+			/* {
             	title: 'Costo',
             	dataIndex: 'price',
 				key: 'price',
@@ -118,7 +119,7 @@ class Products extends CrudLayout {
 				onCell: () => {
 					return CellStyle(100)
 				},
-			},
+			}, */
 			{
             	title: 'Publico/' + '\n' +'Mostrador',
             	dataIndex: 'price_public',
@@ -174,7 +175,125 @@ class Products extends CrudLayout {
 				},
 			}
 		];
-
+		}else{
+			this.table_columns = [
+				{
+					title: 'Clave',
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: RenderRows.renderRowTextProducts,
+					width: '7%',
+					onCell: () => {
+						return CellStyle(100)
+					}
+				},
+				{
+					title: 'FMSI',
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: RenderRows.renderRowTextProducts,
+					width: '6%',
+					onCell: () => {
+						return CellStyle(100)
+					},
+				},
+				{
+					title: 'Linea',
+					dataIndex: 'line',
+					key: 'line',
+					render: RenderRows.renderRowTextProducts,
+					width: '7%',
+					onCell: () => {
+						return CellStyle(120)
+					},
+				},
+				{
+					title: 'Marca',
+					dataIndex: 'brand',
+					key: 'brand',
+					render: RenderRows.renderRowTextProducts,
+					width: '8%',
+					onCell: () => {
+						return CellStyle(120)
+					},
+				},
+				{
+					title: 'Descripción',
+					dataIndex: 'description',
+					key: 'description',
+					sorter: true,
+					render: RenderRows.renderRowTextTruncateProducts,
+					width: '12%',
+					onCell: () => {
+						return CellStyle(150)
+					},
+				}, 
+				{
+					title: 'Costo',
+					dataIndex: 'price',
+					key: 'price',
+					render: RenderRows.renderRowNumberProducts,
+					width: '6%',
+					onCell: () => {
+						return CellStyle(100)
+					},
+				},
+				{
+					title: 'Publico/' + '\n' +'Mostrador',
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: RenderRows.renderRowNumberProducts,
+					width: '9%',
+					onCell: () => {
+						return CellStyle(100)
+					},
+				},
+				{
+					title: 'Taller/' + '\n' + 'Tienda en Linea',
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: RenderRows.renderRowNumberProducts,
+					width: '10%',
+					onCell: () => {
+						return CellStyle(100)
+					},
+				},
+				{
+					title: 'Crédito Taller',
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: RenderRows.renderRowNumberProducts,
+					width: '8%',
+					onCell: () => {
+						return CellStyle(100)
+					},
+				},
+				{
+					title: 'Mayoreo',
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: RenderRows.renderRowNumberProducts,
+					width: '8%',
+					onCell: () => {
+						return CellStyle(100)
+					},
+				},
+				{
+					title: 'Stock',
+					dataIndex: 'stock',
+					key: 'stock',
+					render: RenderRows.renderRowTextProducts,
+					sorter: true,
+					width: '8%',
+					filters: [
+						{ text: 'En stock', value: 'stock.exists' }					
+					],
+					onCell: () => {
+						return CellStyle(100)
+					},
+				}
+			];
+		}	
 		if (this.props.session.user.rol === 'ADMIN' ||
 			this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
@@ -222,7 +341,7 @@ class Products extends CrudLayout {
 			});
 		} else {
 			this.table_columns.push({
-            	title: 'Acciones',
+            	title: 'Acciones prueba',
 				key: 'action',
 				width: '12%',
 				onCell: () => {

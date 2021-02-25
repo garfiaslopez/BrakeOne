@@ -21,6 +21,7 @@ import moment from 'moment';
 import RenderRows from '../render_rows';
 import isNumber from 'lodash/isNumber';
 import { EditableFormRow, EditableCell } from './TableHelpers';
+import CrudLayout from '../../components/CrudLayout/CrudLayout';
 
 const FontTable = 12;
 const round2 = (number) => (Math.round(number * 100) / 100);
@@ -83,8 +84,11 @@ const renderRowNumber = (text, record) => {
 }
 
 
-class OrderCreator extends Component {
+class OrderCreator extends CrudLayout {
+
+
     constructor(props) {
+	
         super(props);
         const init_selected_data = [];
 
@@ -112,86 +116,170 @@ class OrderCreator extends Component {
             products: props.init_data.products
         }
 
+		
+
         this.scroll_table = 300;
-        this.table_columns_results = [
-            {
-            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-            	dataIndex: 'fmsi',
-				key: 'fmsi',
-                render: renderTruncateRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Clave</div>,
-            	dataIndex: 'key_id',
-				key: 'key_id',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Linea</div>,
-            	dataIndex: 'line',
-				key: 'line',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Marca</div>,
-            	dataIndex: 'brand',
-				key: 'brand',
-                render: renderRow,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-            	dataIndex: 'description',
-				key: 'description',
-                render: renderTruncateRow,
-                width: '15%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Costo</div>,
-            	dataIndex: 'price',
-            	key: 'price',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Publico</div>,
-            	dataIndex: 'price_public',
-            	key: 'price_public',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Taller</div>,
-            	dataIndex: 'price_workshop',
-            	key: 'price_workshop',
-                render: renderRowNumber,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
-            	dataIndex: 'price_credit_workshop',
-            	key: 'price_credit_workshop',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-            	dataIndex: 'price_wholesale',
-            	key: 'price_wholesale',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Stock</div>,
-            	dataIndex: 'stock',
-				key: 'stock',
-                render: renderRow,
-                width: '10%'
-			}
-        ];
+		if(this.props.session.user.address_state === 'QRO'){			
+			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: renderTruncateRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Clave</div>,
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Linea</div>,
+					dataIndex: 'line',
+					key: 'line',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Marca</div>,
+					dataIndex: 'brand',
+					key: 'brand',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+					dataIndex: 'description',
+					key: 'description',
+					render: renderTruncateRow,
+					width: '15%'
+				},
+				/* {
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				}, */
+				{
+					title: <div style={{ fontSize: FontTable }}>Publico</div>,
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Taller</div>,
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Stock</div>,
+					dataIndex: 'stock',
+					key: 'stock',
+					render: renderRow,
+					width: '10%'
+				}
+			];
+		}else{
+			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: renderTruncateRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Clave</div>,
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Linea</div>,
+					dataIndex: 'line',
+					key: 'line',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Marca</div>,
+					dataIndex: 'brand',
+					key: 'brand',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+					dataIndex: 'description',
+					key: 'description',
+					render: renderTruncateRow,
+					width: '15%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Publico</div>,
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Taller</div>,
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Stock</div>,
+					dataIndex: 'stock',
+					key: 'stock',
+					render: renderRow,
+					width: '10%'
+				}
+			];
+		}
 
         this.table_columns_selected = [
              /*  {
@@ -223,7 +311,7 @@ class OrderCreator extends Component {
 				editable: props.can_edit_disccount,			
 			},
 			{
-                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
+                title: <div style={{ fontSize: FontTable }}>Cantidad</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
@@ -334,6 +422,7 @@ class OrderCreator extends Component {
        // }
 
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
+		
         this.onChangeUser = this.onChangeUser.bind(this);
 
         this.getUsers = this.getUsers.bind(this);
@@ -342,6 +431,7 @@ class OrderCreator extends Component {
         this.sendToOnChange = this.sendToOnChange.bind(this);
         this.deleteRecord = this.deleteRecord.bind(this);
         this.addRecord = this.addRecord.bind(this);
+		
     }
 
     componentDidMount() {
@@ -360,6 +450,7 @@ class OrderCreator extends Component {
                 nextProps.update_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
             if (nextProps.update_data.services) {
+
                 nextProps.update_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
 
@@ -385,6 +476,7 @@ class OrderCreator extends Component {
         this.setState({
             selected_user: this.state.users.find((el) => (el._id === user_id))
         });
+		
     }
 
     getUsers() {
@@ -449,8 +541,7 @@ class OrderCreator extends Component {
 			POSTDATA['sort_order'] = this.sort_order;			
 		} 
 		if (search_text) {
-
-			POSTDATA["or_filters"] = {};;
+			POSTDATA["filters"] = {};
 			let busquedas = search_text;
 			var caracter1 = search_text.charAt(0);
 			var caracter2 = search_text.charAt(1);
@@ -528,22 +619,22 @@ class OrderCreator extends Component {
 			else if (letras === "09." || letras === "08." || letras === "14.") {
 			  bremLarge.forEach(function(numLargos, indice, array) {
 				if (busquedas === numLargos) {
-				  POSTDATA["or_filters"]["key_id"] = busquedas;
+				  POSTDATA["filters"]["key_id"] = busquedas;
 				}
 			  });
 			 
 			} else if(caracter5 === '.'){
 				bremCort08.forEach(function(numLargos, indice, array) {
 					if (busquedas === numLargos) {
-					  POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
+					  POSTDATA["filters"]["key_id"] = '08.' + busquedas;
 					}else{
 						bremCort09.forEach(function(numLargos, indice, array) {
 							if (busquedas === numLargos) {
-							  POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
+							  POSTDATA["filters"]["key_id"] = '09.' + busquedas;
 							}else{
 								bremCorto14.forEach(function(numLargos, indice, array) {		
 									if(busquedas === numLargos ){			
-										POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
+										POSTDATA['filters']['key_id'] = '14.' + busquedas;				
 									}else{									
 										
 									}
@@ -630,7 +721,6 @@ class OrderCreator extends Component {
             this.props.onError(onError.message);
         });
     }
-
 
     sendToOnChange( actual_products, actual_total) {
         // split the arrays and do calculation for total:
@@ -727,7 +817,7 @@ class OrderCreator extends Component {
                         selected_discount: undefined,
                         total: new_total
                     });
-                    this.sendToOnChange(actualProducts, new_total);
+                    this.sendToOnChange(actualProducts, new_total);//Checar aqui
                     this.scrollToBottom();
                 } else {
                     this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
@@ -796,16 +886,18 @@ class OrderCreator extends Component {
 	}
 
 
+
     deleteRecord(record) {
 
-		if(true){
+		if(false){
 				console.log("GOING TO DETELE RECORD");
 				console.log(record);
 				let actualProducts = Object.assign([], this.state.selected_data);
 				console.log("ACTUALPRODUCTS", actualProducts);
 				const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
 				console.log("INDEX,", index);
-				if (index != -1) {					
+				if (index != -1) {
+					alert(record.id);
 					actualProducts.splice(index, 1);
 
 					//////////////////////////////////////////////////////////////
@@ -819,7 +911,7 @@ class OrderCreator extends Component {
 								}
 								const url_put_product = process.env.REACT_APP_API_URL + '/product/' + record.id;
 								FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
-									console.log(response_actual_p.json.obj.stock);
+									alert(response_actual_p.json.obj.stock);
 								})
 							});
 							
@@ -840,8 +932,12 @@ class OrderCreator extends Component {
 		}
     }
 
+
+
+
+
+
     render() {
-        
         let widthTable = (window.innerWidth/2) - 60;
         if (this.props.disabled) {
             widthTable = window.innerWidth;
