@@ -586,9 +586,16 @@ class CreateReception extends Component {
                                 services: this.state.services,
                                 total: this.state.total
                             }}
-                        />
-
+                        />                                                
                         {PaymentsModel}
+
+                        <center><Card
+                                    title="¡Verificar antes de guardar!"                                    
+                                    style={styles.cardContainer}
+                                    bodyStyle={styles.cardBody}
+
+                                ></Card></center>
+                        
                     </div>
                 </Modal>
             </Fragment>

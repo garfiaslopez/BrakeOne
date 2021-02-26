@@ -83,9 +83,9 @@ const SellTicket = ({
                 src="/images/BrakeOneBrembo.png"
             />
             <p className="">
-                <p className="texto" >{`${subsidiary.street}-C`} {`Col. Portales Norte`}</p>
-                <p className="texto" >{`Col. Portales Norte`}</p>
-                <p className="texto" >{`Alcaldia Benito Juarez`}</p>
+                <p className="texto" >{`SARATOGA 313-C`} {/* {`COL. PORTALES NORTE`} */}</p>
+                <p className="texto" >{`COL. PORTALES NORTE`}</p>
+                <p className="texto" >{`ALCALDIA BENITO JUAREZ`}</p>
                 
 
 
@@ -97,7 +97,7 @@ const SellTicket = ({
                     </li>
                     <li>
                     <p className="texto" >
-                        C.p. 03303
+                        C.P. 03303
                         </p>
                     </li>
                 </ul>
@@ -157,10 +157,10 @@ const SellTicket = ({
                     <li className="recipe__flex-container" key={i}>
                    {/*  <span>{item.quantity}</span> */}
                       
-                   <p className="texto" > ${String(round2(item.price ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % </p>
-                   <p className="texto" > ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                   <p className="key_id" >{item.key_id}</p><p className="texto" >{/* ${String(round2(item.price ? Math.round(item.price) : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} = Descuento {item.discount} % */} </p>
+                   <p className="textoprec" > ${String(round2(item.total ? item.total : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
                   
-                      <p className="texto5" >{/* {`${item.quantity} */} {item.description} {/* ${item.key_id} 
+                      <p className="texto5" >{item.quantity} {item.description} {/* ${item.key_id} 
                         ${item.line} ${item.brand}\n` */}</p>{/* {`\n`} */}
                     </li>
                 ))}
@@ -168,14 +168,16 @@ const SellTicket = ({
             <div className="sell-ticket__list__total recipe__flex-container">
               
            {/*Sum total of products */}   
+           <p className="texto">
            {sellItems.map((item, i) => parseFloat(item.quantity))
 
             .reduce((previus, current) => {
                return previus + current;  
             }, 0)
             }
+            </p>
             <p className="texto2" >
-            Cantidad piezas
+            CANTIDAD PIEZAS
             </p>
                          
 
@@ -190,7 +192,9 @@ const SellTicket = ({
                 </ul>     
                 
             </div>
+            
         <center><b><p className="texto" >{NumeroALetras(totalNumber)} 00/100 M.N.</p></b></center>   
+        <br></br>
          <center><p className="texto" >Aviso de privacidad / Terminos y condiciones en: </p></center>
          <center><p className="texto" >www.brakeone.mx</p></center>
         </div>

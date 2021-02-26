@@ -889,7 +889,7 @@ class OrderCreator extends CrudLayout {
 
     deleteRecord(record) {
 
-		if(false){
+		if(true){
 				console.log("GOING TO DETELE RECORD");
 				console.log(record);
 				let actualProducts = Object.assign([], this.state.selected_data);
