@@ -126,7 +126,7 @@
     font-family: calibri;
     font-size: 12px;
     color: #000000;
-    margin-bottom: 0px;
+    margin-bottom: 4px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -138,6 +138,6 @@
     font-family: calibri;
     font-size: 12px;
     color: #000000;
-    margin-bottom: 0px;
+    margin-bottom: 4px;
     margin-right: 0px;
 }   
