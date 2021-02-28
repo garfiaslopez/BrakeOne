@@ -17,6 +17,9 @@ var SellSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Client'
     },
+    client_name: {
+        type: String,
+    },
     quotation_id: {
         type: Schema.ObjectId,
         ref: 'Quotation'
@@ -32,9 +35,6 @@ var SellSchema = new Schema({
     },
     folio: {
         type: Number
-    },
-    user_name: {
-        user_name: { type: String }
     },
     legacy_folio: {
         type: String

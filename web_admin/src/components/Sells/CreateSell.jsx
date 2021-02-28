@@ -30,6 +30,7 @@ class CreateSell extends Component {
       loading_clients: false,
       quotation_id: null,
       client_id: {},
+      client_name: {},
       clients: [],
       quotation_folio: "",
       notes: "",
@@ -43,6 +44,9 @@ class CreateSell extends Component {
     if (props.fields) {
       if (props.fields.client_id) {
         initial_state.client_id = props.fields.client_id;
+      }
+      if(props.fields.client_name){
+        initial_state.client_name = props.fields.client_name
       }
       if (props.fields.notes) {
         initial_state.notes = props.fields.notes;
@@ -269,6 +273,7 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
+          client_name: this.props.client_name.name,
           notes: this.state.notes,
           products: this.state.products,
           services: this.state.services,
