@@ -273,7 +273,7 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          name: this.state.client_name,
+          name: this.state.client_name.name,
           notes: this.state.notes,
           products: this.state.products,
           services: this.state.services,
@@ -306,7 +306,7 @@ class CreateSell extends Component {
             if (response.json.success) {
               const saved_sell = response.json.obj;
               const quotation_url = process.env.REACT_APP_API_URL + "/quotation/" + this.state.quotation_id;
-              
+
               FetchXHR(quotation_url, "PUT", { sell_id: saved_sell._id });
               const OperationsProducts = [];
               let mapped_products_stock = {}; // product_id -> sum_quantity.
