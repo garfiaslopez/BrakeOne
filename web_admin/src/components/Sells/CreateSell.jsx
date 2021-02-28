@@ -273,7 +273,7 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          client_name: this.props.client_name._id,
+          client_name: this.state.client_name.name,
           notes: this.state.notes,
           products: this.state.products,
           services: this.state.services,
