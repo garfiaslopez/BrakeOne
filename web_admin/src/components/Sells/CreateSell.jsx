@@ -30,7 +30,7 @@ class CreateSell extends Component {
       loading_clients: false,
       quotation_id: null,
       client_id: {},
-      client_name: '',
+      client_name: {},
       clients: [],
       quotation_folio: "",
       notes: "",
