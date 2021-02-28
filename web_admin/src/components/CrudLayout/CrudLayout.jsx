@@ -92,7 +92,7 @@ class CrudLayout extends Component {
         POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
       } else if (this.model.name === "sell") {
         POSTDATA["or_filters"] = {};
-        POSTDATA["or_filters"]["folio"] = Number(this.search_text);
+        /* POSTDATA["or_filters"]["folio"] = Number(this.search_text); */
         POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
       } else if (this.model.name === "reception") {
         POSTDATA["or_filters"] = {};
