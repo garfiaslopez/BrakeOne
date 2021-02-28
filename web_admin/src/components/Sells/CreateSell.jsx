@@ -30,7 +30,7 @@ class CreateSell extends Component {
       loading_clients: false,
       quotation_id: null,
       client_id: {},
-      client_name: {},
+      client_name: '',
       clients: [],
       quotation_folio: "",
       notes: "",
@@ -45,9 +45,9 @@ class CreateSell extends Component {
       if (props.fields.client_id) {
         initial_state.client_id = props.fields.client_id;
       }
-      if(props.fields.client_name){
-        initial_state.client_name = props.fields.client_name
-      }
+      if (props.fields.client_name) {
+        initial_state.client_name = props.fields.client_name;
+    }
       if (props.fields.notes) {
         initial_state.notes = props.fields.notes;
       }
@@ -273,7 +273,7 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          client_name: this.state.client_name.name,
+          name: this.state.client_name,
           notes: this.state.notes,
           products: this.state.products,
           services: this.state.services,
@@ -294,24 +294,19 @@ class CreateSell extends Component {
         let url = process.env.REACT_APP_API_URL + "/sell";
         if (this.props.fields) {
           method = "PUT";
-          url =
-            process.env.REACT_APP_API_URL + "/sell/" + this.props.fields._id;
+          url = process.env.REACT_APP_API_URL + "/sell/" + this.props.fields._id;
         }
 
-        const client_url =
-          process.env.REACT_APP_API_URL + "/client/" + this.state.client_id._id;
+        const client_url = process.env.REACT_APP_API_URL + "/client/" + this.state.client_id._id;
         FetchXHR(client_url, "PUT", this.state.client_id);
 
         // group products for calculate minus stock.... and exclude the already saved products.
         // check for relationships and save it apart in her owns models
-        FetchXHR(url, method, POSTDATA)
-          .then((response) => {
+        FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
               const saved_sell = response.json.obj;
-              const quotation_url =
-                process.env.REACT_APP_API_URL +
-                "/quotation/" +
-                this.state.quotation_id;
+              const quotation_url = process.env.REACT_APP_API_URL + "/quotation/" + this.state.quotation_id;
+              
               FetchXHR(quotation_url, "PUT", { sell_id: saved_sell._id });
               const OperationsProducts = [];
               let mapped_products_stock = {}; // product_id -> sum_quantity.
@@ -357,7 +352,7 @@ class CreateSell extends Component {
                     subsidiary_id: this.props.session.subsidiary._id,
                     product_id: p.id,
                     user_id: p.user_id,
-                    quantity: p.quantity,
+                    quantity: p.quantity,                    
                     price: p.price,
                     discount: p.discount,
                     total: p.total,

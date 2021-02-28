@@ -17,10 +17,8 @@ var SellSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Client'
     },
-    client_name: {
-        type: String,
-        ref: 'Client',
-    },
+    client_name: { type: String },
+    
     quotation_id: {
         type: Schema.ObjectId,
         ref: 'Quotation'
