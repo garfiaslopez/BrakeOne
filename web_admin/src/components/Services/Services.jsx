@@ -183,6 +183,23 @@ class Services extends CrudLayout {
 						);
 					};
 					return (
+						<span>																				
+							{EditButton}
+							{CancelButton}
+							{DeleteButton}
+						</span>
+					);
+				},
+			});
+			//////////////////////Ticket///////////////////////
+			this.table_columns.push({
+            	title: 'Ticket',
+				key: 'action',
+				width: '20%',
+				render: (text, record) => {
+					let PayButton = '';
+					
+					return (
 						<span>
 							<Button 
 								type="primary" 
@@ -195,13 +212,42 @@ class Services extends CrudLayout {
 							/>
 							<Divider type="vertical" />
 							{PayButton}
-							{EditButton}
-							{CancelButton}
-							{DeleteButton}
+							
 						</span>
 					);
 				},
 			});
+			//////////////Impresion de Remision/////////////////
+
+
+			this.table_columns.push({
+            	title: 'Remisión',
+				key: 'action',
+				width: '20%',
+				render: (text, record) => {
+					let PayButton = '';
+					
+					return (
+						<span>
+							<Button 
+							type="primary" 
+							shape="circle"
+							icon="printer"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onPrint(record, 'QUOTATION');
+							}}
+						/>
+							<Divider type="vertical" />
+							{PayButton}
+							
+						</span>
+					);
+				},
+			});
+
+
+
 		} else {
 			this.table_columns.push({
             	title: 'Acciones',

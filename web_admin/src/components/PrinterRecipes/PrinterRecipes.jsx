@@ -50,10 +50,15 @@ class PrinterRecipes extends Component {
                         year: this.props.record.car_year,
                         color: this.props.record.car_color,
                         plates: this.props.record.car_plates,
-                        kms: this.props.record.car_kms,
+                        kms: this.props.record.car_kms,                       
                     }}
                     totalNumber={this.props.record.total}
                     sellItems={this.props.record.products}
+                    created={this.props.record.created}
+                    address_city={this.props.record.address_city}
+                    address_country={this.props.record.address_country}
+                    address_cp={this.props.record.address_cp}
+                    address_state={this.props.record.address_state}
                 />
             );
         } else if (this.props.type === 'SELL') {
@@ -91,6 +96,22 @@ class PrinterRecipes extends Component {
             RecipeToPrint = (
                 <SellTicket
 
+                />
+            );
+        } else if (this.props.type === 'SERVICE') {
+            RecipeToPrint = (
+                <QuotationRecipe
+                    client={this.props.record.client_name}
+                    vehicle={{
+                        brand: this.props.record.car_brand,
+                        model: this.props.record.car_model,
+                        year: this.props.record.car_year,
+                        color: this.props.record.car_color,
+                        plates: this.props.record.car_plates,
+                        kms: this.props.record.car_kms,
+                    }}
+                    totalNumber={this.props.record.total}
+                    sellItems={this.props.record.products}
                 />
             );
         }

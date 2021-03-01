@@ -17,29 +17,11 @@ const propTypes = {
 
 const defaultProps = {
     client: {
-        name: 'Josecito Mailob'
+        title: 'Nombre',
+        dataIndex: 'name',
+        key: 'quantity',
     },
-    vehicle: {
-        brand: 'Mini',
-        model: 'Cooper',
-        year: 2013,
-        color: 'Negro',
-        plates: 'MNX 345',
-        kms: 119720,
-    },
-    totalString: 'dos mil doscientos sesenta y ocho M.N.',
-    totalNumber: 2268,
-    sellItems: [{
-        description: 'DEL ALFA ROMEO GT 147 156 02-07 2.0L 1.9L Ø284.00MM',
-        quantity: 2,
-        price: 1085.3,
-        total: 2170.3
-    }, {
-        description: 'DEL ALFA ROMEO GT 35432 5432 mm435 1.7L',
-        quantity: 2,
-        price: 115.3,
-        total: 2270.5
-    }],
+   
     quotationColumns: [{
         title: 'Cantidad',
         dataIndex: 'quantity',
@@ -68,23 +50,36 @@ const QuotationRecipe = ({
     vehicle,
     totalNumber,
     sellItems,
-    quotationColumns
+    quotationColumns,
+    created,
+    address_city,
+    address_country,
+    address_cp,
+    address_state
 }) => (
     <section className="quotation-recipe">
-        <header className="quotation-recipe__header">
-            <img src="/images/MainLogo.png" />
+        <header className="">
+            <img className="imgLogo" src="/images/BrakeOneBrembo.png" />
         </header>
+        
+        {/* Title */}
+        <b><p className='title'>Remision</p></b>
+
+        {/* Date */}
         <p className="quotation-recipe__date">
-            {moment().format('LL')}
+           <b>Fecha:</b> {created}
         </p>
-        <h1>{client.name}</h1>
-        <h2>Presente</h2>
-        <p>Por este medio me permito presentar a su amable consideración el presupuesto para la reparación de la siguiente unidad:</p>
+        {/* Client Name */}
         <ul className="recipe__flex-container">
-            <li>
-                <h3 className="recipe__item__title">Marca</h3>
-                <span>{vehicle.brand}</span>
-            </li>
+        <p><b>Cliente:</b> {client}</p>
+        <p><b>Direccion:</b> 
+        {address_city} {address_country} {address_cp} {address_state}</p>
+        </ul>
+
+        <p>Por este medio me permito presentar a su amable consideración el presupuesto para la reparación de la siguiente unidad:</p>
+       
+        <ul className="recipe__flex-container">
+           
             <li>
                 <h3 className="recipe__item__title">Marca</h3>
                 <span>{vehicle.model}</span>
