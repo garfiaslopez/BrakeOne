@@ -44,7 +44,14 @@ class Sells extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDateSells,
-				width: '20%'
+				width: '12%'
+			},
+			{
+            	title: 'Dias de credito',
+				dataIndex: 'client_id.credit_days',
+				key: 'client_id.credit_days',
+				render: RenderRows.renderRowTextSells,
+				width: '10%'
 			},
 			{
             	title: 'Folio',
@@ -77,20 +84,20 @@ class Sells extends CrudLayout {
             	dataIndex: 'payed',
 				key: 'payed',
 				render: RenderRows.renderRowNumberSells,
-				width: '10%'
+				width: '8%'
 			},
 			{
             	title: 'Falta Pagar',
 				key: 'remaining_pay',
 				render: RenderRows.renderRowRemainingPay,
-				width: '10%'
+				width: '8%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumberSells,
-				width: '10%'
+				width: '8%'
 			}
 		];
 		if (this.props.session.user.rol === 'ADMIN' ||
@@ -98,7 +105,7 @@ class Sells extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '20%',
+				width: '18%',
             	render: (text, record) => {
 					let PayButton = '';
 					if (!record.is_payed) {

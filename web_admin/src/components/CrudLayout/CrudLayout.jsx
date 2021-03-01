@@ -91,9 +91,10 @@ class CrudLayout extends Component {
         POSTDATA["or_filters"]["folio"] = Number(this.search_text);
         POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
       } else if (this.model.name === "sell") {
-        POSTDATA["or_filters"] = {};
-        /* POSTDATA["or_filters"]["folio"] = Number(this.search_text); */
-        POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
+        POSTDATA["or_filters"] = {};       
+        POSTDATA["or_filters"]["client_name"] = this.search_text;
+        POSTDATA["or_filters"]["folio"] = Number(this.search_text);            
+
       } else if (this.model.name === "reception") {
         POSTDATA["or_filters"] = {};
         POSTDATA["or_filters"]["folio"] = Number(this.search_text);
@@ -105,11 +106,9 @@ class CrudLayout extends Component {
         POSTDATA["or_filters"] = {};
         POSTDATA["or_filters"]["folio"] = Number(this.search_text);
       } else if (this.model.name === "client") {
-        POSTDATA["search_text"] = this.search_text;
-        // POSTDATA['or_filters'] = {};
-        // POSTDATA['or_filters']['cars.plates'] = this.search_text;
-        // POSTDATA['or_filters']['rfc'] = this.search_text;
-        // POSTDATA['or_filters']['name'] = this.search_text;
+
+        POSTDATA["search_text"] = this.search_text;        
+
       } else if (this.model.name === "product") {
         POSTDATA["or_filters"] = {};
         let busquedas = this.search_text;
@@ -855,14 +854,11 @@ onChangeFieldName(value, key) {
         </div>
         <Divider dashed={true} orientation="left">
           {"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.
-        </Divider>
-        <Divider dashed={true} orientation="left">
-          {"[" + this.model.name + "]   "} Resultados.
-        </Divider>
+        </Divider>        
         <Table
           bordered
           style={styles.tableLayout}
-          scroll={{ y: window.innerHeight - 350 }}
+          scroll={{ y: window.innerHeight - 155 }}
           onChange={this.onChangeTable}
           columns={this.table_columns}
           dataSource={this.state.table_data}

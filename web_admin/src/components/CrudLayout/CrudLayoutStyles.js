@@ -26,6 +26,6 @@ export default {
         overflowY: 'scroll'
     },
     inputElement: {
-        width: '20%',
+        width: '30%',
     },
 }
