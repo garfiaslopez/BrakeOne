@@ -57,6 +57,12 @@ class CreateSell extends Component {
       if (props.fields.client_name) {
         initial_state.client_name = props.fields.client_name;
     }
+    if (props.fields.client_job) {
+      initial_state.client_job = props.fields.client_job;
+  }
+      if (props.fields.client_phone) {
+        initial_state.client_job = props.fields.client_job;
+      }
       if (props.fields.notes) {
         initial_state.notes = props.fields.notes;
       }
