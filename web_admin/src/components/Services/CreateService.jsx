@@ -265,7 +265,7 @@ class CreateService extends Component {
                     client_id: this.state.client_id._id,
                     client_name: this.state.client_id.name,
                     client_phone: this.state.client_id.phone_mobil,
-                    client_address_city: this.client_id.address_city,
+                    //client_address_city: this.client_id.address_city,
                     client_address_country: this.client_id.address_country,
                     client_address_cp: this.client_id.address_cp,
                     client_address_state: this.client_id.address_state,                    
