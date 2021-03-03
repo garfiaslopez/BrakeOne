@@ -27,6 +27,11 @@ export default {
             children: <p style={{fontSize}}>{text}</p>,
         });
     },
+    renderRowQuantity: (text, record) => {
+        return ({
+            children: <center><p style={{fontSize}}>{text}</p></center>,
+        });
+    },
     renderRowTextFMSI: (text, record) => {
         let fmsis = '';
         record.products.forEach((p) => {
@@ -46,6 +51,12 @@ export default {
         let color = record.stock < 1 ? 'red' : 'blue';
         return ({
             children: <p style={{color, fontSize}}>{text.substring(0,20) + '...'}</p>,
+        });
+    },
+    renderRowTextTruncateDesc: (text, record) => {
+        let color = record.stock < 1 ? 'red' : 'blue';
+        return ({
+            children: <p>{text.substring(0,50) + '...'}</p>,
         });
     },
     renderRowDateProducts: (text, record) => {

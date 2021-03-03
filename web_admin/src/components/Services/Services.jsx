@@ -70,7 +70,7 @@ class Services extends CrudLayout {
             	dataIndex: 'client_id.name',
 				key: 'client_id.name',
 				render: RenderRows.renderRowTextSells,
-				width: '15%'
+				width: '10%'
 			},
 			{
             	title: 'Carro',
@@ -84,7 +84,7 @@ class Services extends CrudLayout {
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumberSells,
-				width: '15%'
+				width: '8%'
 			}
 		];
 
@@ -98,7 +98,8 @@ class Services extends CrudLayout {
 					let PayButton = '';
 					if (!record.is_payed) {
 						PayButton = (
-							<Fragment>
+							<Fragment>							
+							<Divider type="vertical" />
 								<Button 
 									type="primary" 
 									shape="circle" 
@@ -182,23 +183,7 @@ class Services extends CrudLayout {
 							</Popconfirm>
 						);
 					};
-					return (
-						<span>																				
-							{EditButton}
-							{CancelButton}
-							{DeleteButton}
-						</span>
-					);
-				},
-			});
-			//////////////////////Ticket///////////////////////
-			this.table_columns.push({
-            	title: 'Ticket',
-				key: 'action',
-				width: '20%',
-				render: (text, record) => {
-					let PayButton = '';
-					
+					{/* Ticket de venta*/}
 					return (
 						<span>
 							<Button 
@@ -210,44 +195,26 @@ class Services extends CrudLayout {
 									this.onPrint(record, 'SELL');
 								}}
 							/>
+							{/* Remision */}
 							<Divider type="vertical" />
-							{PayButton}
-							
-						</span>
-					);
-				},
-			});
-			//////////////Impresion de Remision/////////////////
-
-
-			this.table_columns.push({
-            	title: 'Remisión',
-				key: 'action',
-				width: '20%',
-				render: (text, record) => {
-					let PayButton = '';
-					
-					return (
-						<span>
 							<Button 
-							type="primary" 
-							shape="circle"
-							icon="printer"
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.onPrint(record, 'QUOTATION');
-							}}
-						/>
+								type="primary" 
+								shape="circle"
+								icon="file-text"
+								onClick={(event)=> {
+									event.stopPropagation();
+									this.onPrint(record, 'QUOTATION');
+								}}
+							/>
 							<Divider type="vertical" />
 							{PayButton}
-							
+							{EditButton}
+							{CancelButton}
+							{DeleteButton}
 						</span>
 					);
 				},
 			});
-
-
-
 		} else {
 			this.table_columns.push({
             	title: 'Acciones',

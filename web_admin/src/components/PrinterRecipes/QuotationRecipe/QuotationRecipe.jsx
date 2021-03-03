@@ -19,18 +19,27 @@ const defaultProps = {
     client: {
         title: 'Nombre',
         dataIndex: 'name',
-        key: 'quantity',
+        key: 'name',
     },
    
-    quotationColumns: [{
-        title: 'Cantidad',
-        dataIndex: 'quantity',
-        key: 'quantity',
-    }, {
+    quotationColumns: [
+    {
+        title: 'Clave',
+        dataIndex: 'key_id',
+        key: 'key_id',       
+    }, 
+    {
         title: 'Concepto',
         dataIndex: 'description',
         key: 'description',
-    }, {
+        render: RenderRows.renderRowTextTruncateDesc,
+    }, 
+    {
+        title: 'Cantidad',
+        dataIndex: 'quantity',
+        key: 'quantity',
+        render: RenderRows.renderRowQuantity,
+    },{
         title: 'Precio',
         dataIndex: 'price',
         key: 'price',
@@ -47,6 +56,8 @@ moment.locale('es');
 
 const QuotationRecipe = ({
     client,
+    client_phone,
+    email,
     vehicle,
     totalNumber,
     sellItems,
@@ -67,13 +78,15 @@ const QuotationRecipe = ({
 
         {/* Date */}
         <p className="quotation-recipe__date">
-           <b>Fecha:</b> {created}
+           <b>Fecha:</b> {created.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1')}
         </p>
         {/* Client Name */}
         <ul className="recipe__flex-container">
-        <p><b>Cliente:</b> {client}</p>
-        <p><b>Direccion:</b> 
-        {address_city} {address_country} {address_cp} {address_state}</p>
+        <p><b>CLIENTE:</b> {client}</p>
+        <p><b>TEL: </b> {client_phone}</p>
+
+     {/*    <p><b>Direccion:</b> 
+        {address_city} {address_country} {address_cp} {address_state}</p> */}
         </ul>
 
         <p>Por este medio me permito presentar a su amable consideración el presupuesto para la reparación de la siguiente unidad:</p>
@@ -127,8 +140,8 @@ const QuotationRecipe = ({
                 </span>
             </li>
         </ul>
-        <p>Agradeciendo la atención que sirva brindar a la presente y en espera de su favorable respuesta, quedo de usted.</p>
-        <h2>Atentamente</h2>
+        {/* <p>Agradeciendo la atención que sirva brindar a la presente y en espera de su favorable respuesta, quedo de usted.</p> */}
+        {/* <h2>Atentamente</h2> */}
         <footer className="recipe__footer">
             <p>QUETZALCOATL 84 (ESQ. TIZOC) COL. TLAXPANA</p>
             <p>Tels. 55-6840-2850 y 55-5273-3450</p>
