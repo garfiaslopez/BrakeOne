@@ -47,7 +47,7 @@
         },
         car_brand: {
             type: String,
-            ref: 'User'
+            ref: 'Car'
         },
         car_color: {
             type: String,
