@@ -36,6 +36,35 @@ var ServiceSchema = new Schema({
         type: String,
         ref: 'User'
     },
+    car_brand: {
+        type: String,
+        ref: 'Car'
+    },
+    car_color: {
+        type: String,
+        ref: 'Car'
+    },
+    car_kms: {
+        type: String,
+        ref: 'Car'
+    },
+    car_model: {
+        type: String,
+        ref: 'Car'
+    },
+    car_plates: {
+        type: String,
+        ref: 'Car'
+    },
+    car_vin: {
+        type: String,
+        ref: 'Car'
+    },
+    car_year: {
+        type: String,
+        ref: 'Car'
+    },
+
     description: {
         type: String
     },
