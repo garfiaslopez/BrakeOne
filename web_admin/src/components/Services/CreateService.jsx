@@ -36,6 +36,7 @@ class CreateService extends Component {
             selected_car: undefined,
             kilometers: undefined,
             car_id: '',
+            car_ids: {},
             client_id: {},
             clients: [],
             quotation_folio: '',
