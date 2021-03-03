@@ -8,6 +8,34 @@ var ServiceSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Subsidiary'
     },
+    client_name: { 
+        type: String,
+        ref: 'User'
+    },       
+    client_phone: {
+        type: String,
+        ref: 'User'
+    },
+    client_address_city: {
+        type: String,
+        ref: 'User'
+    },
+    client_address_country: {
+        type: String,
+        ref: 'User'
+    },
+    client_address_cp: {
+        type: String,
+        ref: 'User'
+    },
+    client_address_cp: {
+        type: String,
+        ref: 'User'
+    },
+    client_address_state: {
+        type: String,
+        ref: 'User'
+    },
     description: {
         type: String
     },
