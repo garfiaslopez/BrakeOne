@@ -44,6 +44,8 @@ class PrinterRecipes extends Component {
             RecipeToPrint = (
                 <QuotationRecipe
                     client={this.props.record.client_name}
+                    client_phone = {this.props.record.client_phone}
+                    
                     vehicle={{
                         brand: this.props.record.car_brand,
                         model: this.props.record.car_model,
