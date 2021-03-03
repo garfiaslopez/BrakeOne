@@ -265,10 +265,10 @@ class CreateService extends Component {
                     client_id: this.state.client_id._id,
                     client_name: this.state.client_id.name,
                     client_phone: this.state.client_id.phone_mobil,
-                    //client_address_city: this.client_id.address_city,
-                    client_address_country: this.client_id.address_country,
-                    client_address_cp: this.client_id.address_cp,
-                    client_address_state: this.client_id.address_state,                    
+                    client_address_city: this.state.client_id.address_city,
+                    client_address_country: this.state.client_id.address_country,
+                    client_address_cp: this.state.client_id.address_cp,
+                    client_address_state: this.state.client_id.address_state,                    
                     notes: this.state.notes,
                     products: this.state.products,
                     services: this.state.services,
@@ -560,7 +560,7 @@ class CreateService extends Component {
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Nombre:</p>
                         <p style={styles.label_value} >{this.state.client_id.name}</p>
-                    </Card.Grid>
+                    </Card.Grid>                   
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >RFC:</p>
                         <p style={styles.label_value}>{this.state.client_id.rfc}</p>
