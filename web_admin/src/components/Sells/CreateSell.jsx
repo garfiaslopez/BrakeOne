@@ -30,8 +30,7 @@ class CreateSell extends Component {
       loading_clients: false,
       quotation_id: null,
       client_id: {},
-      client_name: '',
-      client_job: '',
+      client_name: '',     
       client_phone: '',
       car_brand: '',
       car_color: '',
@@ -57,11 +56,9 @@ class CreateSell extends Component {
       if (props.fields.client_name) {
         initial_state.client_name = props.fields.client_name;
     }
-    if (props.fields.client_job) {
-      initial_state.client_job = props.fields.client_job;
-  }
+    
       if (props.fields.client_phone) {
-        initial_state.client_job = props.fields.client_job;
+        initial_state.client_phone = props.fields.client_phone;
       }
       if (props.fields.notes) {
         initial_state.notes = props.fields.notes;
@@ -288,9 +285,8 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          client_name: this.state.client_id.name,
-          client_job: this.state.client_id.job,
-          client_phone: this.state.client_id.mobil,
+          client_name: this.state.client_id.name,          
+          client_phone: this.state.client_id.phone_mobil,
           car_brand: this.state.client_id.brand,
           car_color: this.state.client_id.color,
           car_kms: this.state.client_id.kms,
