@@ -37,6 +37,10 @@
 }
 
 .quotation-recipe__date {
+    
     margin-top: 40pt;
     text-align: right;
+}
+.imgLogo{
+    width: 500px;
 }
