@@ -36,7 +36,6 @@ class CreateService extends Component {
             selected_car: undefined,
             kilometers: undefined,
             car_id: '',
-            cars: {},
             client_id: {},
             clients: [],
             quotation_folio: '',
@@ -47,12 +46,12 @@ class CreateService extends Component {
             client_address_cp: '',
             client_address_state:'',
             car_brand: '',
-            car_color: '',
-            car_kms: '',
             car_model: '',
-            car_plates: '',
-            car_vin: '',
             car_year: '',
+            car_vin: '',
+            car_color: '',
+            car_plates: '',
+            car_trim:'',
             notes: '',
             products: [],
             services: [],
@@ -216,7 +215,6 @@ class CreateService extends Component {
                         car_id: selected_car._id,
                         kilometers: quotation.car_kms,
                         client_id: quotation.client_id,
-                        cars: quotation.car_id,
                         loading_quotations: false,
                         notes: quotation.notes,
                         products: quotation.products,
@@ -277,14 +275,15 @@ class CreateService extends Component {
                     client_address_city: this.state.client_id.address_city,
                     client_address_country: this.state.client_id.address_country,
                     client_address_cp: this.state.client_id.address_cp,
-                    client_address_state: this.state.client_id.address_state,          
-                    car_brand: this.state.car_id.brand,
-                    car_color: '',
-                    car_kms: '',
-                    car_model: '',
-                    car_plates: '',
-                    car_vin: '',
-                    car_year: '',          
+                    client_address_state: this.state.client_id.address_state,      
+                    car_brand: this.state.selected_car.brand,      
+                    car_model: this.state.selected_car.model,
+                    car_year: this.state.selected_car.year,
+                    car_vin: this.state.selected_car.vin,
+                    car_color: this.state.selected_car.color,
+                    car_plates: this.state.selected_car.plates,
+                    car_trim: this.state.selected_car.trim,    
+                    car_kms: this.state.kilometers,      
                     notes: this.state.notes,
                     products: this.state.products,
                     services: this.state.services,
@@ -425,7 +424,7 @@ class CreateService extends Component {
                     const Sell =  {
                         subsidiary_id: this.props.session.subsidiary._id,
                         user_id: this.props.session.user._id,
-                        client_id: this.state.client_id._id,
+                        client_id: this.state.client_id._id,                        
                         notes: this.state.notes,
                         products: this.state.products,
                         services: this.state.services,
@@ -576,10 +575,14 @@ class CreateService extends Component {
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Nombre:</p>
                         <p style={styles.label_value} >{this.state.client_id.name}</p>
-                    </Card.Grid>                   
+                    </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >RFC:</p>
                         <p style={styles.label_value}>{this.state.client_id.rfc}</p>
+                    </Card.Grid>
+                    <Card.Grid style={styles.grid_element}>
+                        <p style={styles.label_title} >City:</p>
+                        <p style={styles.label_value} >{this.state.client_id.address_city}</p>
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
                     <p style={styles.label_title} >Tipo de precio:</p>
