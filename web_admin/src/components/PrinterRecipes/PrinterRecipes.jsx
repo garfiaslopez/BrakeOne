@@ -45,6 +45,7 @@ class PrinterRecipes extends Component {
                 <QuotationRecipe
                     client={this.props.record.client_name}
                     client_phone = {this.props.record.client_phone}
+                    client_address_city = {this.props.client_address_city}
                     
                     vehicle={{
                         brand: this.props.record.car_brand,
@@ -57,10 +58,13 @@ class PrinterRecipes extends Component {
                     totalNumber={this.props.record.total}
                     sellItems={this.props.record.products}
                     created={this.props.record.created}
-                    address_city={this.props.record.address_city}
+                    client_address_city={this.props.record.client_address_city}
                     address_country={this.props.record.address_country}
                     address_cp={this.props.record.address_cp}
                     address_state={this.props.record.address_state}
+                    client_address_country = {this.props.record.client_address_country}
+                    client_address_cp = {this.props.record.client_address_cp}
+                    client_address_state = {this.props.record.client_address_state}
                 />
             );
         } else if (this.props.type === 'SELL') {

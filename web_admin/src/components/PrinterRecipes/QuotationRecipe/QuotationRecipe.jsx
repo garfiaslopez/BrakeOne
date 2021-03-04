@@ -57,6 +57,10 @@ moment.locale('es');
 const QuotationRecipe = ({
     client,
     client_phone,
+    client_address_city,
+    client_address_country,
+    client_address_cp,
+    client_address_state,
     email,
     vehicle,
     totalNumber,
@@ -83,10 +87,9 @@ const QuotationRecipe = ({
         {/* Client Name */}
         <ul className="recipe__flex-container">
         <p><b>CLIENTE:</b> {client}</p>
-        <p><b>TEL: </b> {client_phone}</p>
-
-     {/*    <p><b>Direccion:</b> 
-        {address_city} {address_country} {address_cp} {address_state}</p> */}
+        <p><b>TEL: </b> {client_phone}</p><br></br>
+        <p><b>Direccion: </b> 
+       {client_address_city} {client_address_country} C.P. {client_address_cp} {client_address_state}</p>
         </ul>
 
         <p>Por este medio me permito presentar a su amable consideración el presupuesto para la reparación de la siguiente unidad:</p>
@@ -95,7 +98,7 @@ const QuotationRecipe = ({
            
             <li>
                 <h3 className="recipe__item__title">Marca</h3>
-                <span>{vehicle.model}</span>
+                <span>{vehicle.brand}</span>
             </li>
             <li>
                 <h3 className="recipe__item__title">Año</h3>
@@ -114,7 +117,7 @@ const QuotationRecipe = ({
                 <span>{vehicle.kms}</span>
             </li>
         </ul>
-        <p>Detalle de mano de obra y refacciones:</p>
+        <p className="Detalle">Detalle de mano de obra y refacciones:</p>
         <Table
             size="small"
             indentSize={0}
@@ -127,15 +130,15 @@ const QuotationRecipe = ({
                 <h3 className="recipe__item__title">
                     Importe con letra
                 </h3>
-                <span className="recipe__item__data">
-                    {NumeroALetras(totalNumber)}
+                <span className="importLetra" >
+                    {NumeroALetras(totalNumber) } 00/100 M.N.
                 </span>
             </li>
             <li>
                 <h3 className="recipe__item__title">
                     Total
                 </h3>
-                <span className="recipe__item__data">
+                <span className="">
                     ${String(round2(totalNumber ? totalNumber : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
             </li>
