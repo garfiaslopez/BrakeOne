@@ -14,7 +14,7 @@ module.exports =  {
 
             var data = {
                 $set : {
-                    stock: 1,
+                    stock: 0,
                 }
             }
             var data2 = {
@@ -129,27 +129,10 @@ module.exports =  {
                 }
             }
          
-            //Eliminar
-           /*  objectModel.remove({ fmsi: 'ANGEL'}, (err, response) => {
-                if(err){
-                    return next(new errs.InternalServerError(err));
-                } else if (response) {
-                    return res.json({ success: true, message: "Succesfully deleted." });                    
-                } else {
-                    return next(new errs.BadRequestError("El elemento no existe."));
-                }
-            }); */
 
-            //Agregar
-            objectModel.insert({ fmsi: 'PRUEBA DE INSERCCION_FMSI', key_id: 'PRUEBA DE INSERCCION KEY_ID'}, (err, response) => {
-                if(err){
-                    return next(new errs.InternalServerError(err));
-                } else if (response) {
-                    return res.json({ success: true, message: "Succesfully deleted." });                    
-                } else {
-                    return next(new errs.BadRequestError("El elemento no existe."));
-                }
-            });
+            objectModel.updateMany({line:"BALATAS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
+
+
 
 
         } else {

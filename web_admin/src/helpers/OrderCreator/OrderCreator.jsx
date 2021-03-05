@@ -1011,7 +1011,7 @@ class OrderCreator extends CrudLayout {
                                 bordered
                                 loading={this.state.loading_data}
                                 size="small"
-                                scroll={{ y: 200 }}
+                                scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
                                 style={styles.tableLayout}
                                 columns={this.table_columns_results}
                                 dataSource={this.state.results_data}

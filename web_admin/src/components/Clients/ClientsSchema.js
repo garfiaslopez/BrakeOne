@@ -92,7 +92,7 @@ export default [
 			type: 'Number',
 			placeholder: 'Crédito',
 			prefixIcon: 'credit-card',
-			options: { max: 30, min: 0, step: 15 },
+			options: { max: 500, min: 0, step: 15 },
 			rules: Rules['number_credit']
 		},
 		{
