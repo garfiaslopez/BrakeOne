@@ -281,7 +281,21 @@ class OrderCreator extends CrudLayout {
 			];
 		}
 
+			
+		this.table_columns_selected = [
+			
+		
+		   {
+			   title: <div style={{ fontSize: FontTable }}>Clave</div>,
+			   dataIndex: 'key_id',
+			   key: 'key_id',
+			   render: renderRowSmall,
+			   width: '8%'
+		   }
+	   ];
+
         this.table_columns_selected = [
+			
              /*  {
                 title: <div style={{ fontSize: FontTable }}>Usuario</div>,
                 render: renderRowSmall,
@@ -384,8 +398,45 @@ class OrderCreator extends CrudLayout {
             });
         }*/
        // if (!props.disabled) {
+		this.table_columns_selected.push({
+			title: <div style={{ fontSize: FontTable }}>Quitar de la lista</div>,
+			key: 'action',
+			width: '10%',
+			render: (text, record) => {
+				if("Hola") {
+					return (
+						<span>
+							<Popconfirm
+								onClick={(event)=> {
+									event.stopPropagation();
+								}}
+								title="¿Quitar de la lista?" 
+								okText="Quitar"
+								cancelText="Cancelar"
+								onCancel={(event) => {
+									event.stopPropagation();
+								}}
+								onConfirm={(event) => {
+									event.stopPropagation();
+									this.deleteList(record);
+								}}
+							>
+								<Button 
+									type="danger" 
+									shape="circle"
+									icon="minus"
+								/>
+							</Popconfirm>								
+						</span>
+						
+					);
+					
+				}
+				return <div></div>;
+			},
+		  });
             this.table_columns_selected.push({
-                title: <div style={{ fontSize: FontTable }}>Acciones</div>,
+                title: <div style={{ fontSize: FontTable }}>Borrar / sumar</div>,
                 key: 'action',
                 width: '10%',
                 render: (text, record) => {
@@ -412,9 +463,48 @@ class OrderCreator extends CrudLayout {
                                         shape="circle"
                                         icon="delete"
                                     />
-                                </Popconfirm>
+                                </Popconfirm>								
                             </span>
+							
                         );
+						
+                    }
+                    return <div></div>;
+                },
+		  	});
+			  this.table_columns_selected.push({
+                title: <div style={{ fontSize: FontTable }}>Borrar / Restar</div>,
+                key: 'action',
+                width: '10%',
+                render: (text, record) => {
+                    if("Hola") {
+                        return (
+                            <span>
+                                <Popconfirm
+                                    onClick={(event)=> {
+                                        event.stopPropagation();
+                                    }}
+                                    title="¿Esta seguro de eliminar?" 
+                                    okText="Eliminar"
+                                    cancelText="Cancelar"
+                                    onCancel={(event) => {
+                                        event.stopPropagation();
+                                    }}
+                                    onConfirm={(event) => {
+                                        event.stopPropagation();
+                                        this.deleteRecordCom(record);
+                                    }}
+                                >
+                                    <Button 
+                                        type="danger" 
+                                        shape="circle"
+                                        icon="delete"
+                                    />
+                                </Popconfirm>								
+                            </span>
+							
+                        );
+						
                     }
                     return <div></div>;
                 },
@@ -513,8 +603,7 @@ class OrderCreator extends CrudLayout {
         });
     }
 
-    getData(search_text) {
-        console.log("search for:" + search_text);
+    getData(search_text) {       
 
         this.setState({
 			loading_data: true,
@@ -531,15 +620,14 @@ class OrderCreator extends CrudLayout {
             sort_field: 'stock',
             populate_ids: ['subsidiary_id'],
             filters: {},
-            
         }
         if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
 		}
 		if (this.sort_field) {
-			POSTDATA['sort_field'] = this.sort_field;
+			POSTDATA['sort_field'] = this.sort_field;			
 			POSTDATA['sort_order'] = this.sort_order;			
-		} 
+		} 		
 		if (search_text) {
 			POSTDATA["filters"] = {};
 			let busquedas = search_text;
@@ -801,7 +889,7 @@ class OrderCreator extends CrudLayout {
                         line: record.line,
                         description: record.description,
                         key_id: record.key_id,
-                        price_type: this.state.price_type | 'PUBLICO',
+                        price_type: this.state.price_type,
                         price: Price,
                         quantity: this.state.selected_quantity,
 						discount: Discount,
@@ -896,8 +984,7 @@ class OrderCreator extends CrudLayout {
 				console.log("ACTUALPRODUCTS", actualProducts);
 				const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
 				console.log("INDEX,", index);
-				if (index != -1) {
-					alert(record.id);
+				if (index != -1) {			
 					actualProducts.splice(index, 1);
 
 					//////////////////////////////////////////////////////////////
@@ -911,11 +998,80 @@ class OrderCreator extends CrudLayout {
 								}
 								const url_put_product = process.env.REACT_APP_API_URL + '/product/' + record.id;
 								FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
-									alert(response_actual_p.json.obj.stock);
+									console.log(response_actual_p.json.obj.stock);
 								})
 							});
 							
 				
+			}
+				
+				const new_total = this.state.total - (record.total);
+
+				console.log("ACTUALPRODUCTS", actualProducts);
+				console.log("new_total", new_total);
+
+				this.setState({
+					total: new_total,
+					selected_data: actualProducts,
+				});
+				this.sendToOnChange(actualProducts, new_total);		
+	
+		}
+    }
+	deleteRecordCom(record) {
+
+		if(true){
+				console.log("GOING TO DETELE RECORD");
+				console.log(record);
+				let actualProducts = Object.assign([], this.state.selected_data);
+				console.log("ACTUALPRODUCTS", actualProducts);
+				const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
+				console.log("INDEX,", index);
+				if (index != -1) {					
+					actualProducts.splice(index, 1);
+
+					//////////////////////////////////////////////////////////////
+					//Elimina el producto y suma el quantity al stock del producto
+					
+						
+							const url_get_product = process.env.REACT_APP_API_URL + '/product/' + record.id;	
+							FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
+								const new_p = {
+									stock: response_actual_p.json.obj.stock	- record.quantity		
+								}
+								const url_put_product = process.env.REACT_APP_API_URL + '/product/' + record.id;
+								FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
+									console.log(response_actual_p.json.obj.stock);
+								})
+							});
+							
+				
+			}
+				
+				const new_total = this.state.total - (record.total);
+
+				console.log("ACTUALPRODUCTS", actualProducts);
+				console.log("new_total", new_total);
+
+				this.setState({
+					total: new_total,
+					selected_data: actualProducts,
+				});
+				this.sendToOnChange(actualProducts, new_total);		
+	
+		}
+    }
+	deleteList(record) {
+
+		if(true){
+				console.log("GOING TO DETELE RECORD");
+				console.log(record);
+				let actualProducts = Object.assign([], this.state.selected_data);
+				console.log("ACTUALPRODUCTS", actualProducts);
+				const index = actualProducts.findIndex((el)=>(el.id === record.id && record.quantity === el.quantity));
+				console.log("INDEX,", index);
+				if (index != -1) {				
+					actualProducts.splice(index, 1);				
 			}
 				
 				const new_total = this.state.total - (record.total);
