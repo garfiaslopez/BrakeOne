@@ -329,7 +329,7 @@ class OrderCreator extends CrudLayout {
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '12%',
+                width: '6%',
                 editable: props.can_edit_quantity,
 			},
 			{
@@ -337,7 +337,7 @@ class OrderCreator extends CrudLayout {
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '10%',
+                width: '8%',
                 editable: props.can_edit_price,
 			},
 			{
@@ -353,7 +353,7 @@ class OrderCreator extends CrudLayout {
                 render: renderRowSmallPrec,
             	dataIndex: 'discount1',
                 key: 'discount',
-                width: '10%',
+                width: '8%',
                 editable: props.can_edit_disccount,
 			},	
            /*  {
@@ -399,12 +399,14 @@ class OrderCreator extends CrudLayout {
         }*/
        // if (!props.disabled) {
 		this.table_columns_selected.push({
-			title: <div style={{ fontSize: FontTable }}>Acciones</div>,
+			
+			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
 			key: 'action',
-			width: '10px',
+			width: '90px',
 			render: (text, record) => {
 				if("Hola") {
 					return (
+						<div style={{}}>
 						<span>									
                                <Popconfirm
 								onClick={(event)=> {
@@ -427,7 +429,8 @@ class OrderCreator extends CrudLayout {
 									shape="circle"
 									icon="minus"
 								/>
-							</Popconfirm>		
+							</Popconfirm>	
+							<Divider type="vertical" />	
 
                             {/* Eliminar de la lista y sumar stock */}
 
@@ -453,6 +456,7 @@ class OrderCreator extends CrudLayout {
 									icon="delete"
 								/>
 							</Popconfirm>		
+							<Divider type="vertical" />
 
 							{/* Eliminar de la lista y restar stock */}
 							<Popconfirm
@@ -479,7 +483,7 @@ class OrderCreator extends CrudLayout {
 							</Popconfirm>	
 
 						</span>
-						
+						</div>
 						
 					);
 					
