@@ -30,7 +30,8 @@ class CreateSell extends Component {
       loading_clients: false,
       quotation_id: null,
       client_id: {},
-      client_name: '',     
+      client_name: '',
+      client_job: '',
       client_phone: '',
       car_brand: '',
       car_color: '',
@@ -56,9 +57,11 @@ class CreateSell extends Component {
       if (props.fields.client_name) {
         initial_state.client_name = props.fields.client_name;
     }
-    
+    if (props.fields.client_job) {
+      initial_state.client_job = props.fields.client_job;
+  }
       if (props.fields.client_phone) {
-        initial_state.client_phone = props.fields.client_phone;
+        initial_state.client_job = props.fields.client_job;
       }
       if (props.fields.notes) {
         initial_state.notes = props.fields.notes;
@@ -285,15 +288,16 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          client_name: this.state.client_id.name,          
+          client_name: this.state.client_id.name,
+          client_job: this.state.client_id.client_job,
           client_phone: this.state.client_id.phone_mobil,
-          car_brand: this.state.car_id.brand,
-          car_color: this.state.car_id.color,
-          car_kms: this.state.car_id.kms,
-          car_model: this.state.car_id.model,
-          car_plates: this.state.car_id.plates,
-          car_vin: this.state.car_id.vin,
-          car_year: this.state.car_id.year,      
+          car_brand: this.state.client_id.car_brand,
+          car_color: this.state.client_id.car_color,
+          car_kms: this.state.client_id.car_kms,
+          car_model: this.state.client_id.car_model,
+          car_plates: this.state.client_id.car_plates,
+          car_vin: this.state.client_id.car_vin,
+          car_year: this.state.client_id.car_year,      
           notes: this.state.notes,
           products: this.state.products,
           services: this.state.services,
