@@ -822,7 +822,7 @@ class OrderCreator extends CrudLayout {
     // 
     addRecord(record) {
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) ||  record.stock - this.state.selected_quantity) {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > -50000 && (record.stock - this.state.selected_quantity)) > -50000) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
                     let actualProducts = Object.assign([] ,this.state.selected_data);
