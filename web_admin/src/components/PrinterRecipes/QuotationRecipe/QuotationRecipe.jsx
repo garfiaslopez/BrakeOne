@@ -82,7 +82,7 @@ const QuotationRecipe = ({
 
         {/* Date */}
         <p className="quotation-recipe__date">
-           <b>Fecha:</b> {created.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1')}
+           <b>Fecha:</b> {moment().format('MM-DD-YYYY')}
         </p>
         {/* Client Name */}
         <ul className="recipe__flex-container">
