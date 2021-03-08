@@ -101,6 +101,10 @@ const QuotationRecipe = ({
                 <span>{vehicle.brand}</span>
             </li>
             <li>
+                <h3 className="recipe__item__title">Modelo</h3>
+                <span>{vehicle.model}</span>
+            </li>
+            <li>
                 <h3 className="recipe__item__title">Año</h3>
                 <span>{vehicle.year}</span>
             </li>
