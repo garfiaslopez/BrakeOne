@@ -783,6 +783,8 @@ class CreateSell extends Component {
             </div>
             <OrderCreator
               isSell
+              can_edit_price                           
+              can_edit_description                            
               can_edit_quantity={true}
               can_edit_disccount={true}
               is_recovered={this.state.quotation_folio !== "" ? true : false}
