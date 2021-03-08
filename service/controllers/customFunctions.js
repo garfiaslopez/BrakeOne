@@ -12,9 +12,10 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
+
             var data = {
                 $set : {
-                    stock: 0,
+                    stock: 1,
                 }
             }
             var data2 = {
@@ -63,6 +64,11 @@ module.exports =  {
                     stock: 10,
                 }
             }
+            var data11 = {
+                $set : {
+                    stock: 11,
+                }
+            }
             var data12 = {
                 $set : {
                     stock: 12,
@@ -71,6 +77,16 @@ module.exports =  {
             var data14 = {
                 $set : {
                     stock: 14,
+                }
+            }
+            var data15 = {
+                $set : {
+                    stock: 15,
+                }
+            }
+            var data16 = {
+                $set : {
+                    stock: 16,
                 }
             }
             var data17 = {
@@ -98,9 +114,19 @@ module.exports =  {
                     stock: 22,
                 }
             }
+            var data25 = {
+                $set : {
+                    stock: 25,
+                }
+            }
             var data26 = {
                 $set : {
                     stock: 26,
+                }
+            }
+            var data29 = {
+                $set : {
+                    stock: 29,
                 }
             }
             var data30 = {
@@ -108,9 +134,19 @@ module.exports =  {
                     stock: 30,
                 }
             }
-            var data34 = {
+            var data31 = {
                 $set : {
-                    stock: 34,
+                    stock: 31,
+                }
+            }
+            var data35 = {
+                $set : {
+                    stock: 35,
+                }
+            }
+            var data36 = {
+                $set : {
+                    stock: 36,
                 }
             }
             var data38 = {
@@ -118,14 +154,49 @@ module.exports =  {
                     stock: 38,
                 }
             }
+            var data41 = {
+                $set : {
+                    stock: 41,
+                }
+            }
             var data48 = {
                 $set : {
                     stock: 48,
                 }
             }
+            var data52 = {
+                $set : {
+                    stock: 52,
+                }
+            }
+            var data54 = {
+                $set : {
+                    stock: 54,
+                }
+            }
+            var data60 = {
+                $set : {
+                    stock: 60,
+                }
+            }
             var data62 = {
                 $set : {
                     stock: 62,
+                }
+            }
+            var data70 = {
+                $set : {
+                    stock: 70,
+                }
+            }
+            var data95 = {
+                $set : {
+                    stock: 95,
+                }
+            }
+            var data100 = {
+                $set : {
+                    stock: 100,
                 }
             }
          
