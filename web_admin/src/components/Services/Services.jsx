@@ -89,7 +89,7 @@ class Services extends CrudLayout {
 		];
 
 		if (this.props.session.user.rol === 'ADMIN' ||
-			this.props.session.user.rol === 'MANAGER') {
+			this.props.session.user.rol === 'MANAGER' || this.props.session.user.rol === 'MOSTRADOR' ) {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',

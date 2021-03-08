@@ -782,6 +782,9 @@ class CreateSell extends Component {
               </div>
             </div>
             <OrderCreator
+              can_edit_price
+              can_edit_quantity
+              can_edit_description
               isSell
               can_edit_quantity={true}
               can_edit_disccount={true}

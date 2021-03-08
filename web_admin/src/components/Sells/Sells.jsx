@@ -101,7 +101,7 @@ class Sells extends CrudLayout {
 			}
 		];
 		if (this.props.session.user.rol === 'ADMIN' ||
-			this.props.session.user.rol === 'MANAGER') {
+			this.props.session.user.rol === 'MANAGER' || this.props.session.user.rol === 'MOSTRADOR' ) {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
@@ -189,7 +189,7 @@ class Sells extends CrudLayout {
 								<Button 
 									type="danger" 
 									shape="circle" 
-									icon="delete"
+									icon="delete"								
 								/>
 							</Popconfirm>
 						);
