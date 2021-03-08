@@ -97,7 +97,7 @@ class OrderCreator extends CrudLayout {
                 props.init_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
             if (props.init_data.services) {
-                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
+                props.init_data.services.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
         }
 
@@ -822,7 +822,7 @@ class OrderCreator extends CrudLayout {
     // 
     addRecord(record) {
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0) {
+            if ((this.props.is_quotation) || (this.props.is_reception) ||  record.stock - this.state.selected_quantity) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
                     let actualProducts = Object.assign([] ,this.state.selected_data);
