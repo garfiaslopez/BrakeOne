@@ -137,7 +137,8 @@ module.exports = function(server) {
         server.post('/' + model.plural, CRUDController('search', model.model_name));
     });
 
-    server.post('/helpers/updatestock', CustomFunctions.update_stock);
+    server.post('/helpers/updatestockPulbico', CustomFunctions.update_stockPublico);
+    server.post('/helpers/updatestockTaller', CustomFunctions.update_stockTaller);
     server.post('/helpers/car_makes', CustomFunctions.car_makes);
     server.post('/helpers/car_models', CustomFunctions.car_models);
     server.post('/helpers/car_trims', CustomFunctions.car_trims);

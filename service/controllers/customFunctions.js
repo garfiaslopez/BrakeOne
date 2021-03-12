@@ -1,6 +1,6 @@
 errs = require('restify-errors');
 module.exports =  {
-    update_stock:  (req, res, next) => {
+    update_stockPublico:  (req, res, next) => {
         const objectModel = require("../models/product");
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
@@ -12,10 +12,9 @@ module.exports =  {
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-
             var data = {
                 $set : {
-                    stock: 1,
+                    stock: 0,
                 }
             }
             var data2 = {
@@ -64,11 +63,6 @@ module.exports =  {
                     stock: 10,
                 }
             }
-            var data11 = {
-                $set : {
-                    stock: 11,
-                }
-            }
             var data12 = {
                 $set : {
                     stock: 12,
@@ -77,16 +71,6 @@ module.exports =  {
             var data14 = {
                 $set : {
                     stock: 14,
-                }
-            }
-            var data15 = {
-                $set : {
-                    stock: 15,
-                }
-            }
-            var data16 = {
-                $set : {
-                    stock: 16,
                 }
             }
             var data17 = {
@@ -114,19 +98,9 @@ module.exports =  {
                     stock: 22,
                 }
             }
-            var data25 = {
-                $set : {
-                    stock: 25,
-                }
-            }
             var data26 = {
                 $set : {
                     stock: 26,
-                }
-            }
-            var data29 = {
-                $set : {
-                    stock: 29,
                 }
             }
             var data30 = {
@@ -134,19 +108,9 @@ module.exports =  {
                     stock: 30,
                 }
             }
-            var data31 = {
+            var data34 = {
                 $set : {
-                    stock: 31,
-                }
-            }
-            var data35 = {
-                $set : {
-                    stock: 35,
-                }
-            }
-            var data36 = {
-                $set : {
-                    stock: 36,
+                    stock: 34,
                 }
             }
             var data38 = {
@@ -154,29 +118,9 @@ module.exports =  {
                     stock: 38,
                 }
             }
-            var data41 = {
-                $set : {
-                    stock: 41,
-                }
-            }
             var data48 = {
                 $set : {
                     stock: 48,
-                }
-            }
-            var data52 = {
-                $set : {
-                    stock: 52,
-                }
-            }
-            var data54 = {
-                $set : {
-                    stock: 54,
-                }
-            }
-            var data60 = {
-                $set : {
-                    stock: 60,
                 }
             }
             var data62 = {
@@ -184,34 +128,47 @@ module.exports =  {
                     stock: 62,
                 }
             }
-            var data70 = {
-                $set : {
-                    stock: 70,
-                }
-            }
-            var data95 = {
-                $set : {
-                    stock: 95,
-                }
-            }
-            var data100 = {
-                $set : {
-                    stock: 100,
-                }
-            }
          
 
-            /* objectModel.updateMany({line:"ADITIVO"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"SENSORES"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"VARIOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"LÍQUIDO DE FRENOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } }) */
+            objectModel.updateMany({line:"BALATAS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
 
-            
-            
-            
+
+
 
         } else {
             return res.json({ success: false, message: "Producto no encontrado" });
+        }
+    },
+    update_stockTaller:  (req, res, next) => {
+
+        const objectModel = require("../models/product");
+
+        let Filter = {
+            subsidiary_id: req.body.subsidiary_id,
+        };
+        let NewProperties = {};
+
+        if (req.body.brand && req.body.quantity_percent) { // update by brand 
+            Filter.brand = req.body.brand;
+
+            const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
+           
+            NewProperties.price_public = multiplier;
+            
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        } else {
+            return res.json({ success: false, message: "Missing fields." });
         }
     },
     car_makes:  (req, res, next) => {

@@ -564,7 +564,7 @@ class CreateReception extends Component {
                                 />
                             </div>
                         </div>
-
+                        {/*Aqui se ocupa la tabla de OrderCreatorReception*/}
                         <OrderCreatorReception
                             is_reception
                             can_edit_description

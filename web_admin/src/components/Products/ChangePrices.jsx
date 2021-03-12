@@ -25,7 +25,8 @@ class ChangePrices extends Component {
             loading_submit: false,
             products: [],
             brand: undefined,
-            percent: undefined
+            percent: undefined,
+            percent2:undefined,
         };
         this.state = initial_state;
         this.getProducts = this.getProducts.bind(this);
@@ -65,7 +66,7 @@ class ChangePrices extends Component {
         event.preventDefault();
         // do validations:
         if (this.state.products.length > 0) {
-            if (this.state.percent !== undefined) {
+            if (this.state.percent !== undefined) {               
                 
                 this.setState({
                     loading_submit: true
@@ -76,7 +77,7 @@ class ChangePrices extends Component {
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/helpers/updatestock';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatestockPublico';
         
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
@@ -96,7 +97,38 @@ class ChangePrices extends Component {
                         loading_submit: false
                     });
                 });
-            } else {
+            } 
+            if(this.state.percent2 !== undefined){
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,
+                    quantity_percent: this.state.percent2,
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatestockTaller';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        this.props.refreshTable();
+                        this.props.onClose();
+                    } else {
+                        console.log(response_update);
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+            }else {
                 this.setState({
                     error: 'Agregar un porcentaje.'
                 });
@@ -228,10 +260,14 @@ class ChangePrices extends Component {
                                 Buscar
                             </Button>
                             <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
-                            <InputNumber
+                            
+                        </div>
+                        <p>Publico / Mostrador</p>
+                        <InputNumber
+                        
                                 disabled={this.props.is_disabled}
                                 value={this.state.percent}
-                                style={styles.inputElement}
+                                style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent');
                                 }}
@@ -242,10 +278,25 @@ class ChangePrices extends Component {
                                     />
                                 )}
                                 type="text"
-                                placeholder="Porcentaje (%)"
-                                
+                                placeholder="Descuento Precio Publico"                                
                             />
-                        </div>
+                            <p>Taller / Tienda en linea</p>
+                            <InputNumber
+                                disabled={this.props.is_disabled}
+                                value={this.state.percent2}
+                                style={styles.inputElement2}
+                                onChange={(value) => {
+                                    this.onChangeFieldNumber(value, 'percent2');
+                                }}
+                                prefix={(
+                                    <Icon
+                                        type="dollar"
+                                        className="field-icon"
+                                    />
+                                )}
+                                type="text"
+                                placeholder="Descuento Precio Taller"                                
+                            />
                     </div>
                 </Modal>
             </Fragment>
