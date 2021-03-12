@@ -97,14 +97,29 @@ class ChangePrices extends Component {
                         loading_submit: false
                     });
                 });
-            } 
-            if(this.state.percent2 !== undefined){
+            }else {
+                this.setState({
+                    error: 'Agregar un porcentaje.'
+                });
+            }
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    onSubmit2 = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {
+            if (this.state.percent !== undefined) {               
+                
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
                     brand: this.state.brand,
-                    quantity_percent: this.state.percent2,
+                    quantity_percent: this.state.percent,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
@@ -113,7 +128,7 @@ class ChangePrices extends Component {
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
                         this.props.refreshTable();
-                        this.props.onClose();
+                       /*  this.props.onClose(); */
                     } else {
                         console.log(response_update);
                         this.setState({
@@ -139,6 +154,7 @@ class ChangePrices extends Component {
             });
         }
     }
+
 
     getProducts() {
         this.setState({
@@ -263,8 +279,8 @@ class ChangePrices extends Component {
                             
                         </div>
                         <p>Publico / Mostrador</p>
+
                         <InputNumber
-                        
                                 disabled={this.props.is_disabled}
                                 value={this.state.percent}
                                 style={styles.inputElement2}
@@ -280,6 +296,15 @@ class ChangePrices extends Component {
                                 type="text"
                                 placeholder="Descuento Precio Publico"                                
                             />
+                            <Button 
+                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary" 
+                                loading={this.state.loading_submit}
+                                onClick={this.onSubmit}
+                                 >
+                                 Aplicar
+                             </Button>,
                             <p>Taller / Tienda en linea</p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
@@ -295,8 +320,17 @@ class ChangePrices extends Component {
                                     />
                                 )}
                                 type="text"
-                                placeholder="Descuento Precio Taller"                                
+                                placeholder="Descuento Precio Taller"                                                                
                             />
+                            <Button 
+                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary" 
+                                loading={this.state.loading_submit}
+                                onClick={this.onSubmit2}
+                            >
+                                Aplicar
+                             </Button>,
                     </div>
                 </Modal>
             </Fragment>
