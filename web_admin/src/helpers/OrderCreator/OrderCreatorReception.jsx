@@ -84,7 +84,7 @@ const renderRowNumber = (text, record) => {
 }
 
 
-class OrderCreator extends CrudLayout {
+class OrderCreatorReception extends CrudLayout {
 
 
     constructor(props) {
@@ -432,32 +432,33 @@ class OrderCreator extends CrudLayout {
 							</Popconfirm>	
 							<Divider type="vertical" />	
 
+                            <Divider type="vertical" />	
+
                             {/* Eliminar de la lista y sumar stock */}
 
-							<Popconfirm
-								onClick={(event)=> {
-									event.stopPropagation();
-								}}
-								title="¿Estas de eliminar?" 
-								okText="De acuerdo"
-								cancelText="Cancelar"
-								onCancel={(event) => {
-									event.stopPropagation();
-								}}
-								onConfirm={(event) => {
-									event.stopPropagation();
-									this.deleteRecord(record);
-								}}
-							>
-							<b>Eliminar</b>
-								<Button 								    
-									type="danger" 
-									shape="circle"
-									icon="delete"
-								/>
-							</Popconfirm>		
-							<Divider type="vertical" />
-
+                            <Popconfirm
+                                onClick={(event)=> {
+                                    event.stopPropagation();
+                                }}
+                                title="¿Estas de eliminar?" 
+                                okText="De acuerdo"
+                                cancelText="Cancelar"
+                                onCancel={(event) => {
+                                    event.stopPropagation();
+                                }}
+                                onConfirm={(event) => {
+                                    event.stopPropagation();
+                                    this.deleteRecordCom(record);
+                                }}
+                            >
+                            <b>Eliminar</b>
+                                <Button 								    
+                                    type="danger" 
+                                    shape="circle"
+                                    icon="delete"
+                                />
+                            </Popconfirm>		
+                            <Divider type="vertical" />	
 							
 						</span>
 						</div>
@@ -1069,7 +1070,7 @@ class OrderCreator extends CrudLayout {
         });
 
         let SearcherProducts = <div></div>;
-        if (!this.props.disabled) {
+       
             SearcherProducts = (
                 <Fragment>
                     <Divider> Buscar y seleccionar productos: </Divider>
@@ -1149,7 +1150,7 @@ class OrderCreator extends CrudLayout {
                     </div>
                 </Fragment>
             );
-        }
+        
 
         const components = {
             body: {
@@ -1268,7 +1269,7 @@ class OrderCreator extends CrudLayout {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default OrderCreator;
+export default OrderCreatorReception;
 
 
 //Numeros largos

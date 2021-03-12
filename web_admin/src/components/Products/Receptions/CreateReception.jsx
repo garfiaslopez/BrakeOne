@@ -14,7 +14,7 @@ import {
 import styles from './Styles';
 import { FetchXHR } from '../../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
-import OrderCreator from '../../../helpers/OrderCreator/OrderCreator';
+import OrderCreatorReception from '../../../helpers/OrderCreator/OrderCreatorReception';
 import RenderRows from '../../../helpers/render_rows';
 import async from 'async';
 import moment from 'moment';
@@ -66,8 +66,8 @@ class CreateReception extends Component {
         this.onChangeDropdown = this.onChangeDropdown.bind(this);
         this.onChangeProvider = this.onChangeProvider.bind (this);
 
-        this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
-        this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+        this.onErrorOrderCreatorReception = this.onErrorOrderCreatorReception.bind(this);
+        this.onChangeOrderCreatorReception = this.onChangeOrderCreatorReception.bind(this);
     }
 
     componentDidMount() {
@@ -306,13 +306,13 @@ class CreateReception extends Component {
         }
     }
 
-    onErrorOrderCreator(err) {
+    onErrorOrderCreatorReception(err) {
         this.setState({
             error: err
         });
     }
 
-    onChangeOrderCreator(values) {
+    onChangeOrderCreatorReception(values) {
         this.setState({
             products: values.products,
             services: values.services,
@@ -565,19 +565,19 @@ class CreateReception extends Component {
                             </div>
                         </div>
 
-                        <OrderCreator
+                        <OrderCreatorReception
                             is_reception
                             can_edit_description
                             is_reception
                             can_edit_price
                             can_edit_quantity                            
                             disabled={this.props.is_disabled}
-                            onError={this.onErrorOrderCreator}
-                            onChange={this.onChangeOrderCreator}
+                            onError={this.onErrorOrderCreatorReception}
+                            onChange={this.onChangeOrderCreatorReception}
                             price_type={this.state.price_type}
                             session={this.props.session}
                             init_data={{
-                                //products: this.props.fields ? this.props.fields.products : null,
+                                products: this.props.fields ? this.props.fields.products : null,
                                 services: this.props.fields ? this.props.fields.services : null,
                                 total: this.props.fields ? this.props.fields.total : null
                             }}

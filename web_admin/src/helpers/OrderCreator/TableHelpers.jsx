@@ -62,7 +62,7 @@ export class EditableCell extends React.Component {
                         {form.getFieldDecorator(dataIndex, {
                         rules: [{
                             required: true,
-                            message: `${title} is required.`,
+                            message: `Campo requerido`,
                         }],
                         initialValue: record[dataIndex],
                         })(
@@ -76,7 +76,7 @@ export class EditableCell extends React.Component {
                     ) : (
                     <div
                         className="editable-cell-value-wrap"
-                        style={{ paddingRight: 24 }}
+                        style={{ paddingRight: 150 }}
                         onClick={this.toggleEdit}
                     >
                         {restProps.children}

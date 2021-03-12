@@ -12,7 +12,8 @@ import {
 import styles from './Styles';
 import { FetchXHR, filterList } from '../../helpers/generals';
 import moment from 'moment';
-import OrderCreator from '../../helpers/OrderCreator/OrderCreator';
+import OrderCreator from '../../helpers/OrderCreator/OrderCreatorQuotation';
+import OrderCreatorQuotation from '../../helpers/OrderCreator/OrderCreatorQuotation';
 
 moment.locale('es');
 
@@ -107,8 +108,8 @@ class CreateQuotation extends Component {
         this.onSelectBrand = this.onSelectBrand.bind(this);
         this.onSelectModel = this.onSelectModel.bind(this);
 
-        this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
-        this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+        this.onErrorOrderCreatorQuotation = this.onErrorOrderCreatorQuotation.bind(this);
+        this.onChangeOrderCreatorQuotation = this.onChangeOrderCreatorQuotation.bind(this);
 
         this.filterCarMakes = this.filterCarMakes.bind(this);
         this.filterCarModels = this.filterCarModels.bind(this);
@@ -303,13 +304,13 @@ class CreateQuotation extends Component {
         }
     }
 
-    onErrorOrderCreator(err) {
+    onErrorOrderCreatorQuotation(err) {
         this.setState({
             error: err
         });
     }
 
-    onChangeOrderCreator(values) {
+    onChangeOrderCreatorQuotation(values) {
         console.log("received:");
         console.log(values);
         this.setState({
@@ -751,12 +752,12 @@ class CreateQuotation extends Component {
                             </div>
                         </div>
 
-                        <OrderCreator
+                        <OrderCreatorQuotation
                             can_edit_disccount={this.props.is_disabled ? false : true }
                             is_quotation={true}
                             disabled={this.props.is_disabled}
-                            onError={this.onErrorOrderCreator}
-                            onChange={this.onChangeOrderCreator}
+                            onError={this.onErrorOrderCreatorQuotation}
+                            onChange={this.onChangeOrderCreatorQuotation}
                             price_type={this.state.price_type}
                             session={this.props.session}
                             init_data={{

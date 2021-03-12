@@ -14,7 +14,8 @@ import {
 import styles from "./Styles";
 import { FetchXHR } from "../../helpers/generals";
 import isEmpty from "lodash/isEmpty";
-import OrderCreator from "../../helpers/OrderCreator/OrderCreator";
+//import OrderCreator from "../../helpers/OrderCreator/OrderCreator";
+import OrderCreatorVentas from "../../helpers/OrderCreator/OrderCreatorVentas"
 import RenderRows from "../../helpers/render_rows";
 import async from "async";
 import moment from "moment";
@@ -88,8 +89,9 @@ class CreateSell extends Component {
     this.onChangeClient = this.onChangeClient.bind(this);
     this.onChangeCar = this.onChangeCar.bind(this);
 
-    this.onErrorOrderCreator = this.onErrorOrderCreator.bind(this);
-    this.onChangeOrderCreator = this.onChangeOrderCreator.bind(this);
+    this.onErrorOrderCreatorVentas = this.onErrorOrderCreatorVentas.bind(this);
+    
+    this.onChangeOrderCreatorVentas = this.onChangeOrderCreatorVentas.bind(this);
     this.onChangeClientInfo = this.onChangeClientInfo.bind(this);
 
     this.scrollContainer = React.createRef();
@@ -439,14 +441,14 @@ class CreateSell extends Component {
     this.alertDiv.scrollIntoView({ behavior: "smooth" });
   };
 
-  onErrorOrderCreator(err) {
+  onErrorOrderCreatorVentas(err) {
     this.scrollToAlert();
     this.setState({
       error: err,
     });
   }
 
-  onChangeOrderCreator(values) {
+  onChangeOrderCreatorVentas(values) {
     this.setState({
       products: values.products,
       services: values.services,
@@ -781,16 +783,16 @@ class CreateSell extends Component {
                 />
               </div>
             </div>
-            <OrderCreator
+            <OrderCreatorVentas
               isSell
               can_edit_price                           
-              can_edit_description                            
+              can_edit_description  
               can_edit_quantity={true}
               can_edit_disccount={true}
               is_recovered={this.state.quotation_folio !== "" ? true : false}
               disabled={this.props.is_disabled}
-              onError={this.onErrorOrderCreator}
-              onChange={this.onChangeOrderCreator}
+              onError={this.onErrorOrderCreatorVentas}
+              onChange={this.onChangeOrderCreatorVentas}
               price_type={this.state.price_type}
               session={this.props.session}
               init_data={{

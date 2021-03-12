@@ -84,7 +84,7 @@ const renderRowNumber = (text, record) => {
 }
 
 
-class OrderCreator extends CrudLayout {
+class OrderCreatorVentas extends CrudLayout {
 
 
     constructor(props) {
@@ -456,8 +456,7 @@ class OrderCreator extends CrudLayout {
 									icon="delete"
 								/>
 							</Popconfirm>		
-							<Divider type="vertical" />
-
+							<Divider type="vertical" />						
 							
 						</span>
 						</div>
@@ -1069,7 +1068,7 @@ class OrderCreator extends CrudLayout {
         });
 
         let SearcherProducts = <div></div>;
-        if (!this.props.disabled) {
+       
             SearcherProducts = (
                 <Fragment>
                     <Divider> Buscar y seleccionar productos: </Divider>
@@ -1149,7 +1148,7 @@ class OrderCreator extends CrudLayout {
                     </div>
                 </Fragment>
             );
-        }
+        
 
         const components = {
             body: {
@@ -1268,7 +1267,7 @@ class OrderCreator extends CrudLayout {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default OrderCreator;
+export default OrderCreatorVentas;
 
 
 //Numeros largos
