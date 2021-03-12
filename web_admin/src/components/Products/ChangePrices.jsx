@@ -82,7 +82,7 @@ class ChangePrices extends Component {
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
                         this.props.refreshTable();
-                        this.props.onClose();
+                       /*  this.props.onClose(); */
                     } else {
                         console.log(response_update);
                         this.setState({
