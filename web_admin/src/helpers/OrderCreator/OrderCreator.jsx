@@ -122,6 +122,13 @@ class OrderCreator extends CrudLayout {
 		if(this.props.session.user.address_state === 'QRO'){			
 			this.table_columns_results = [
 				{
+					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderRow,
+					width: '8%'
+				},
+				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
 					key: 'fmsi',
@@ -194,6 +201,13 @@ class OrderCreator extends CrudLayout {
 			];
 		}else{
 			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderRow,
+					width: '8%'
+				},
 				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
@@ -280,20 +294,20 @@ class OrderCreator extends CrudLayout {
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
-                width: '8%'
+                width: '10%'
 			},
 			{
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
                 render: renderRowSmallTruncate,
-                width: '8%'
+                width: '10%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
 				dataIndex: 'description',
                 key: 'description',
-				width: '25%',
+				width: '20%',
 				editable: props.can_edit_disccount,			
 			},
 			{
@@ -301,7 +315,7 @@ class OrderCreator extends CrudLayout {
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '6%',
+                width: '10%',
                 editable: props.can_edit_quantity,
 			},
 			{
@@ -309,7 +323,7 @@ class OrderCreator extends CrudLayout {
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '8%',
+                width: '10%',
                 editable: props.can_edit_price,
 			},
 			{
@@ -317,23 +331,15 @@ class OrderCreator extends CrudLayout {
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '8%',
+                width: '10%',
                 editable: props.can_edit_disccount,
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Costo Extra</div>,
-                render: renderRowSmallPrec,
-            	dataIndex: 'discount1',
-                key: 'discount',
-                width: '8%',
-                editable: props.can_edit_disccount,
-			},	
+			},			
 			{
                 title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '7%'
+                width: '10%'
 			}
         ];
 		
@@ -341,7 +347,7 @@ class OrderCreator extends CrudLayout {
 			
 			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
 			key: 'action',
-			width: '90px',
+			width: '40px',
 			render: (text, record) => {
 				if("Hola") {
 					return (

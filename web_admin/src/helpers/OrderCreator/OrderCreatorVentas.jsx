@@ -119,85 +119,174 @@ class OrderCreatorVentas extends CrudLayout {
 		
 
         this.scroll_table = 300;
-        this.table_columns_results = [
-            {
-            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-            	dataIndex: 'subsidiary_id.denomination',
-				key: 'subsidiary_id.denomination',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-            	dataIndex: 'fmsi',
-				key: 'fmsi',
-                render: renderTruncateRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Clave</div>,
-            	dataIndex: 'key_id',
-				key: 'key_id',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Linea</div>,
-            	dataIndex: 'line',
-				key: 'line',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Marca</div>,
-            	dataIndex: 'brand',
-				key: 'brand',
-                render: renderRow,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-            	dataIndex: 'description',
-				key: 'description',
-                render: renderTruncateRow,
-                width: '15%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Costo</div>,
-            	dataIndex: 'price',
-            	key: 'price',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Publico</div>,
-            	dataIndex: 'price_public',
-            	key: 'price_public',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Taller</div>,
-            	dataIndex: 'price_workshop',
-            	key: 'price_workshop',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-            	dataIndex: 'price_wholesale',
-            	key: 'price_wholesale',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Stock</div>,
-            	dataIndex: 'stock',
-				key: 'stock',
-                render: renderRow,
-                width: '15%'
-			}
-        ];
+        if(this.props.session.user.address_state === 'QRO'){			
+			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: renderTruncateRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Clave</div>,
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Linea</div>,
+					dataIndex: 'line',
+					key: 'line',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Marca</div>,
+					dataIndex: 'brand',
+					key: 'brand',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+					dataIndex: 'description',
+					key: 'description',
+					render: renderTruncateRow,
+					width: '15%'
+				},				
+				{
+					title: <div style={{ fontSize: FontTable }}>Publico</div>,
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Taller</div>,
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Stock</div>,
+					dataIndex: 'stock',
+					key: 'stock',
+					render: renderRow,
+					width: '10%'
+				}
+			];
+		}else{
+			this.table_columns_results = [	
+				{
+					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderRow,
+					width: '8%'
+				},			
+				{
+					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: renderTruncateRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Clave</div>,
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Linea</div>,
+					dataIndex: 'line',
+					key: 'line',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Marca</div>,
+					dataIndex: 'brand',
+					key: 'brand',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+					dataIndex: 'description',
+					key: 'description',
+					render: renderTruncateRow,
+					width: '15%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Publico</div>,
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Taller</div>,
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Stock</div>,
+					dataIndex: 'stock',
+					key: 'stock',
+					render: renderRow,
+					width: '10%'
+				}
+			];
+		}
 
         this.table_columns_selected = [                      
 			{
@@ -205,7 +294,7 @@ class OrderCreatorVentas extends CrudLayout {
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
-                width: '20%'
+                width: '10%'
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
@@ -219,7 +308,7 @@ class OrderCreatorVentas extends CrudLayout {
                 render: renderRowSmallTruncate,
             	dataIndex: 'description',
                 key: 'description',
-                width: '25%',
+                width: '20%',
 				editable: props.can_edit_disccount,
             },    
 			{
@@ -269,7 +358,7 @@ class OrderCreatorVentas extends CrudLayout {
             this.table_columns_selected.push({
                 title: <div style={{ fontSize: FontTable }}>Acciones</div>,
                 key: 'action',
-                width: '20%',
+                width: '40%',
                 render: (text, record) => {
                     if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
                         return (
