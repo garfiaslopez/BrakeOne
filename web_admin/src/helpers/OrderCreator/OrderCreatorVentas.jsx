@@ -119,249 +119,161 @@ class OrderCreatorVentas extends CrudLayout {
 		
 
         this.scroll_table = 300;
-		if(this.props.session.user.address_state === 'QRO'){			
-			this.table_columns_results = [
-				{
-					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-					dataIndex: 'fmsi',
-					key: 'fmsi',
-					render: renderTruncateRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Clave</div>,
-					dataIndex: 'key_id',
-					key: 'key_id',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Linea</div>,
-					dataIndex: 'line',
-					key: 'line',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Marca</div>,
-					dataIndex: 'brand',
-					key: 'brand',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-					dataIndex: 'description',
-					key: 'description',
-					render: renderTruncateRow,
-					width: '15%'
-				},				
-				{
-					title: <div style={{ fontSize: FontTable }}>Publico</div>,
-					dataIndex: 'price_public',
-					key: 'price_public',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Taller</div>,
-					dataIndex: 'price_workshop',
-					key: 'price_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
-					dataIndex: 'price_credit_workshop',
-					key: 'price_credit_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-					dataIndex: 'price_wholesale',
-					key: 'price_wholesale',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Stock</div>,
-					dataIndex: 'stock',
-					key: 'stock',
-					render: renderRow,
-					width: '10%'
-				}
-			];
-		}else{
-			this.table_columns_results = [
-				{
-					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-					dataIndex: 'fmsi',
-					key: 'fmsi',
-					render: renderTruncateRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Clave</div>,
-					dataIndex: 'key_id',
-					key: 'key_id',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Linea</div>,
-					dataIndex: 'line',
-					key: 'line',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Marca</div>,
-					dataIndex: 'brand',
-					key: 'brand',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-					dataIndex: 'description',
-					key: 'description',
-					render: renderTruncateRow,
-					width: '15%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Costo</div>,
-					dataIndex: 'price',
-					key: 'price',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Publico</div>,
-					dataIndex: 'price_public',
-					key: 'price_public',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Taller</div>,
-					dataIndex: 'price_workshop',
-					key: 'price_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
-					dataIndex: 'price_credit_workshop',
-					key: 'price_credit_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-					dataIndex: 'price_wholesale',
-					key: 'price_wholesale',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Stock</div>,
-					dataIndex: 'stock',
-					key: 'stock',
-					render: renderRow,
-					width: '10%'
-				}
-			];
-		}
-
-			
-		this.table_columns_selected = [
-			
-		
-		   {
-			   title: <div style={{ fontSize: FontTable }}>Clave</div>,
-			   dataIndex: 'key_id',
-			   key: 'key_id',
-			   render: renderRowSmall,
-			   width: '8%'
-		   }
-	   ];
-
-        this.table_columns_selected = [
-			             
+        this.table_columns_results = [
             {
+            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+            	dataIndex: 'subsidiary_id.denomination',
+				key: 'subsidiary_id.denomination',
+                render: renderRow,
+                width: '8%'
+            },
+            {
+            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+            	dataIndex: 'fmsi',
+				key: 'fmsi',
+                render: renderTruncateRow,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Clave</div>,
+            	dataIndex: 'key_id',
+				key: 'key_id',
+                render: renderRow,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRow,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRow,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+            	dataIndex: 'description',
+				key: 'description',
+                render: renderTruncateRow,
+                width: '15%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Costo</div>,
+            	dataIndex: 'price',
+            	key: 'price',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Publico</div>,
+            	dataIndex: 'price_public',
+            	key: 'price_public',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Taller</div>,
+            	dataIndex: 'price_workshop',
+            	key: 'price_workshop',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+            	dataIndex: 'price_wholesale',
+            	key: 'price_wholesale',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Stock</div>,
+            	dataIndex: 'stock',
+				key: 'stock',
+                render: renderRow,
+                width: '10%'
+			}
+        ];
+
+        this.table_columns_selected = [                      
+			{
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
                 width: '8%'
-			},
-			{
+            },
+            {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
                 render: renderRowSmallTruncate,
                 width: '8%'
-			},
+            },  
 			{
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
-				dataIndex: 'description',
+                render: renderRowSmallTruncate,
+            	dataIndex: 'description',
                 key: 'description',
-				width: '25%',
-				editable: props.can_edit_disccount,			
-			},
+                width: '15%',
+				editable: props.can_edit_disccount,
+            },    
 			{
-                title: <div style={{ fontSize: FontTable }}>Cantidad</div>,
+                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '6%',
+                width: '5%',
                 editable: props.can_edit_quantity,
-			},
+            },     
 			{
                 title: <div style={{ fontSize: FontTable }}>Precio</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '12%',
+                width: '10%',
                 editable: props.can_edit_price,
-			},
+			}, 
 			{
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '12%',
+                width: '10%',
                 editable: props.can_edit_disccount,
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Costo Extra</div>,
-                render: renderRowSmallPrec,
-            	dataIndex: 'discount1',
-                key: 'discount',
-                width: '12%',
-                editable: props.can_edit_disccount,
-			},	
-           
+			},                      				                      
 			{
                 title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '7%'
+                width: '10%'
 			}
         ];
-		
-		this.table_columns_selected.push({
-			
-			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
-			key: 'action',
-			width: '50px',
-			render: (text, record) => {
-				if("Hola") {
-					return (
-						<div style={{}}>
-						<span>									
+
+        if (this.props.is_quotation) {
+            this.table_columns_selected.unshift({
+            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+            	dataIndex: 'subsidiary_id.denomination',
+				key: 'subsidiary_id.denomination',
+                render: renderRow,
+                width: '5%'
+            });
+        }
+
+     
+            this.table_columns_selected.push({
+                title: <div style={{ fontSize: FontTable }}>Acciones</div>,
+                key: 'action',
+                width: '20%',
+                render: (text, record) => {
+                    if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
+                        return (
+                            <span>
                                <Popconfirm
 								onClick={(event)=> {
 									event.stopPropagation();
@@ -392,7 +304,7 @@ class OrderCreatorVentas extends CrudLayout {
 								onClick={(event)=> {
 									event.stopPropagation();
 								}}
-								title="¿Estas de eliminar?" 
+								title="¿Estas seguro de eliminar?" 
 								okText="De acuerdo"
 								cancelText="Cancelar"
 								onCancel={(event) => {
@@ -410,18 +322,13 @@ class OrderCreatorVentas extends CrudLayout {
 									icon="delete"
 								/>
 							</Popconfirm>		
-							<Divider type="vertical" />						
-							
-						</span>
-						</div>
-						
-					);
-					
-				}
-				return <div></div>;
-			},
-		  });         
-       // }
+							<Divider type="vertical" />		
+                            </span>
+                        );
+                    }
+                    return <div></div>;
+                },
+		  	});
 
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
 		
