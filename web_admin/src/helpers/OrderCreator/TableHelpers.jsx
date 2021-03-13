@@ -76,7 +76,7 @@ export class EditableCell extends React.Component {
                     ) : (
                     <div
                         className="editable-cell-value-wrap"
-                        style={{ paddingRight: 150 }}
+                        style={{ paddingRight: 100 }}
                         onClick={this.toggleEdit}
                     >
                         {restProps.children}
