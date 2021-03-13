@@ -32,7 +32,7 @@ export default {
     },
     labelContainer: {
         paddingTop: 10,
-        paddingRight: '5%',
+       
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end'
@@ -40,7 +40,7 @@ export default {
     labelTitle: {
         display: 'flex',
         alignSelf: 'left',
-        paddingRight: 100,
+       
         fontSize: 20,
         fontWeight: 'bold'
     },
