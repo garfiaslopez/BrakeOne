@@ -1087,12 +1087,11 @@ class OrderCreatorVentas extends CrudLayout {
         return (
             <Fragment>
                 <div
-                    style={styles.columnContainer}
+                    
                 >
                     {SearcherProducts}
                     <Divider> Orden de venta </Divider>
-                    <div
-                        style={styles.rowContainer}
+                    <div                      
                     >
                         <Table
                             components={components}
@@ -1100,7 +1099,7 @@ class OrderCreatorVentas extends CrudLayout {
                             bordered
                             columns={columns}
                             size="small"
-                            scroll={{ y: 200 }}
+                            scroll={{ y: 500 }}
                             style={styles.tableLayout}
                             dataSource={this.state.selected_data}
                             locale={{
