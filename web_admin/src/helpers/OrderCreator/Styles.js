@@ -28,7 +28,7 @@ export default {
         justifyContent: 'center'
     },
     tableLayout: {
-        width: '95%'
+        width: '100%'
     },
     labelContainer: {
         paddingTop: 10,
