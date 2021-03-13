@@ -34,19 +34,19 @@ const renderRowSmall = (text, record) => {
 const renderRowSmallTruncate = (text, record) => {
     if (text) {
         return ({
-            children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
+            children: <p style={{fontSize: FontTable}}>{text.length > 15 ? text.substring(0,25) + '...' : text}</p>,
         });
     }
     return '';
 }
 const renderRowSmallPercent = (text, record) => {
     return ({
-        children: <p style={{fontSize: FontTable}}>%{text}</p>,
+        children: <p style={{fontSize: FontTable}}>%{String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
 }
 const renderRowSmallPrec = (text, record) => {
     return ({
-        children: <p style={{fontSize: FontTable}}>${text}</p>,
+        children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
 }
 
@@ -195,7 +195,7 @@ class OrderCreatorVentas extends CrudLayout {
             	dataIndex: 'stock',
 				key: 'stock',
                 render: renderRow,
-                width: '10%'
+                width: '15%'
 			}
         ];
 
@@ -205,21 +205,21 @@ class OrderCreatorVentas extends CrudLayout {
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
-                width: '8%'
+                width: '20%'
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
                 render: renderRowSmallTruncate,
-                width: '8%'
+                width: '10%'
             },  
 			{
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
                 render: renderRowSmallTruncate,
             	dataIndex: 'description',
                 key: 'description',
-                width: '15%',
+                width: '25%',
 				editable: props.can_edit_disccount,
             },    
 			{
@@ -227,12 +227,12 @@ class OrderCreatorVentas extends CrudLayout {
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '5%',
+                width: '10%',
                 editable: props.can_edit_quantity,
             },     
 			{
                 title: <div style={{ fontSize: FontTable }}>Precio</div>,
-                render: renderRowSmallNumber,
+                render: renderRowSmallPrec,
             	dataIndex: 'price',
                 key: 'price',
                 width: '10%',
