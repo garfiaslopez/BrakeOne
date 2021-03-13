@@ -156,6 +156,13 @@ class OrderCreatorVentas extends CrudLayout {
 					render: renderTruncateRow,
 					width: '15%'
 				},
+				/* {
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				}, */
 				{
 					title: <div style={{ fontSize: FontTable }}>Publico</div>,
 					dataIndex: 'price_public',
@@ -273,8 +280,29 @@ class OrderCreatorVentas extends CrudLayout {
 				}
 			];
 		}
+
+			
+		this.table_columns_selected = [
+			
+		
+		   {
+			   title: <div style={{ fontSize: FontTable }}>Clave</div>,
+			   dataIndex: 'key_id',
+			   key: 'key_id',
+			   render: renderRowSmall,
+			   width: '8%'
+		   }
+	   ];
+
         this.table_columns_selected = [
-			 
+			
+             /*  {
+                title: <div style={{ fontSize: FontTable }}>Usuario</div>,
+                render: renderRowSmall,
+            	dataIndex: 'user_name',
+                key: 'user_name',
+                width: '5%'
+            }, */    
             {
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
@@ -327,7 +355,29 @@ class OrderCreatorVentas extends CrudLayout {
                 key: 'discount',
                 width: '8%',
                 editable: props.can_edit_disccount,
-			},	          
+			},	
+           /*  {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRowSmall,
+                width: '8%'
+            }, */
+           /*  {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRowSmall,
+                width: '8%'
+			}, */
+			/* {
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+                render: renderRowSmallTruncate,
+            	dataIndex: 'description',
+                key: 'description',
+                width: '12%'
+            }, */                       
+					
 			{
                 title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
@@ -337,11 +387,22 @@ class OrderCreatorVentas extends CrudLayout {
 			}
         ];
 		
+
+        /* if (this.props.is_quotation) {
+            this.table_columns_selected.unshift({
+            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+            	dataIndex: 'subsidiary_id.denomination',
+				key: 'subsidiary_id.denomination',
+                render: renderRow,
+                width: '5%'
+            });
+        }*/
+       // if (!props.disabled) {
 		this.table_columns_selected.push({
 			
 			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
 			key: 'action',
-			width: '90px',
+			width: '50px',
 			render: (text, record) => {
 				if("Hola") {
 					return (
@@ -405,7 +466,9 @@ class OrderCreatorVentas extends CrudLayout {
 				}
 				return <div></div>;
 			},
-		  });              
+		  });         
+       // }
+
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
 		
         this.onChangeUser = this.onChangeUser.bind(this);
