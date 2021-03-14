@@ -66,7 +66,7 @@ class ChangePrices extends Component {
         event.preventDefault();
         // do validations:
         if (this.state.products.length > 0) {
-            if (this.state.percent !== undefined) {               
+            if (this.state.percent >= 0 || this.state.percent <= 0) {               
                 
                 this.setState({
                     loading_submit: true
@@ -114,7 +114,7 @@ class ChangePrices extends Component {
         event.preventDefault();
         // do validations:
         if (this.state.products.length > 0) {
-            if (this.state.percent !== undefined) {               
+            if (this.state.percent >= 0 || this.state.percent <= 0) {                
                 
                 this.setState({
                     loading_submit: true
@@ -302,7 +302,11 @@ class ChangePrices extends Component {
                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                                 key="submit"
                                 type="primary" 
-                                loading={this.state.loading_submit}
+                                loading={
+                                    setTimeout(function(){
+                                        this.state.loading_submit
+                                    }, 2000)                                    
+                                    }
                                 onClick={this.onSubmit}
                                  >
                                  Aplicar
@@ -310,10 +314,10 @@ class ChangePrices extends Component {
                             <p>Taller / Tienda en linea</p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
-                                value={this.state.percent2}
+                                value={this.state.percent}
                                 style={styles.inputElement2}
                                 onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent2');
+                                    this.onChangeFieldNumber(value, 'percent');
                                 }}
                                 prefix={(
                                     <Icon
@@ -328,7 +332,11 @@ class ChangePrices extends Component {
                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                                 key="submit"
                                 type="primary" 
-                                loading={this.state.loading_submit}
+                                loading={
+                                    setTimeout(function(){
+                                        this.state.loading_submit
+                                    }, 2000)                                    
+                                    }
                                 onClick={this.onSubmit2}
                                  >
                                  Aplicar

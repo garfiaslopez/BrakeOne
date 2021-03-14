@@ -1,142 +1,35 @@
 errs = require('restify-errors');
 module.exports =  {
     update_stockPublico:  (req, res, next) => {
+       
         const objectModel = require("../models/product");
+
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {};
-        
 
-        //Modify price percentage
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            var data = {
-                $set : {
-                    stock: 0,
+            const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
+           
+            NewProperties.price_public = multiplier;
+            
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
                 }
-            }
-            var data2 = {
-                $set : {
-                    stock: 2,
-                }
-            }
-            var data3 = {
-                $set : {
-                    stock: 3,
-                }
-            }
-            var data4 = {
-                $set : {
-                    stock: 4,
-                }
-            }
-            var data5 = {
-                $set : {
-                    stock: 5,
-                }
-            }
-            var data6 = {
-                $set : {
-                    stock: 6,
-                }
-            }
-            var data7 = {
-                $set : {
-                    stock: 7,
-                }
-            }
-            var data8 = {
-                $set : {
-                    stock: 8, 
-
-                }
-            }
-            var data9 = {
-                $set : {
-                    stock: 9,
-                }
-            }
-            var data10 = {
-                $set : {
-                    stock: 10,
-                }
-            }
-            var data12 = {
-                $set : {
-                    stock: 12,
-                }
-            }
-            var data14 = {
-                $set : {
-                    stock: 14,
-                }
-            }
-            var data17 = {
-                $set : {
-                    stock: 17,
-                }
-            }
-            var data18 = {
-                $set : {
-                    stock: 18,
-                }
-            }
-            var data19 = {
-                $set : {
-                    stock: 19,
-                }
-            }
-            var data20 = {
-                $set : {
-                    stock: 20,
-                }
-            }
-            var data22 = {
-                $set : {
-                    stock: 22,
-                }
-            }
-            var data26 = {
-                $set : {
-                    stock: 26,
-                }
-            }
-            var data30 = {
-                $set : {
-                    stock: 30,
-                }
-            }
-            var data34 = {
-                $set : {
-                    stock: 34,
-                }
-            }
-            var data38 = {
-                $set : {
-                    stock: 38,
-                }
-            }
-            var data48 = {
-                $set : {
-                    stock: 48,
-                }
-            }
-            var data62 = {
-                $set : {
-                    stock: 62,
-                }
-            }
-         
-
-            objectModel.updateMany({line:"BALATAS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-
-
-
-
+            );
         } else {
-            return res.json({ success: false, message: "Producto no encontrado" });
+            return res.json({ success: false, message: "Missing fields." });
         }
     },
     update_stockTaller:  (req, res, next) => {
@@ -153,7 +46,7 @@ module.exports =  {
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
-            NewProperties.price_wholesale = multiplier;
+            NewProperties.price_workshop = multiplier;
             
             objectModel.update(
                 Filter,
