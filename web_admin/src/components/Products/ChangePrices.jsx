@@ -81,9 +81,11 @@ class ChangePrices extends Component {
         
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
+                        alert('Precios actualizados');
                         this.props.refreshTable();
                        /*  this.props.onClose(); */
                     } else {
+                        alert('No se realizo la actualización');
                         console.log(response_update);
                         this.setState({
                             error: response_update.json.message,
@@ -321,16 +323,7 @@ class ChangePrices extends Component {
                                 )}
                                 type="text"
                                 placeholder="Descuento Precio Taller"                                                                
-                            />
-                            <Button 
-                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary" 
-                                loading={this.state.loading_submit}
-                                onClick={this.onSubmit2}
-                            >
-                                Aplicar
-                             </Button>,
+                            />                           
                     </div>
                 </Modal>
             </Fragment>
