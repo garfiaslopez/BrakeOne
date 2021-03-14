@@ -119,174 +119,85 @@ class OrderCreatorVentas extends CrudLayout {
 		
 
         this.scroll_table = 300;
-        if(this.props.session.user.address_state === 'QRO'){			
-			this.table_columns_results = [
-				{
-					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-					dataIndex: 'subsidiary_id.denomination',
-					key: 'subsidiary_id.denomination',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-					dataIndex: 'fmsi',
-					key: 'fmsi',
-					render: renderTruncateRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Clave</div>,
-					dataIndex: 'key_id',
-					key: 'key_id',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Linea</div>,
-					dataIndex: 'line',
-					key: 'line',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Marca</div>,
-					dataIndex: 'brand',
-					key: 'brand',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-					dataIndex: 'description',
-					key: 'description',
-					render: renderTruncateRow,
-					width: '15%'
-				},				
-				{
-					title: <div style={{ fontSize: FontTable }}>Publico</div>,
-					dataIndex: 'price_public',
-					key: 'price_public',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Taller</div>,
-					dataIndex: 'price_workshop',
-					key: 'price_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
-					dataIndex: 'price_credit_workshop',
-					key: 'price_credit_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-					dataIndex: 'price_wholesale',
-					key: 'price_wholesale',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Stock</div>,
-					dataIndex: 'stock',
-					key: 'stock',
-					render: renderRow,
-					width: '10%'
-				}
-			];
-		}else{
-			this.table_columns_results = [	
-				{
-					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-					dataIndex: 'subsidiary_id.denomination',
-					key: 'subsidiary_id.denomination',
-					render: renderRow,
-					width: '8%'
-				},			
-				{
-					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-					dataIndex: 'fmsi',
-					key: 'fmsi',
-					render: renderTruncateRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Clave</div>,
-					dataIndex: 'key_id',
-					key: 'key_id',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Linea</div>,
-					dataIndex: 'line',
-					key: 'line',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Marca</div>,
-					dataIndex: 'brand',
-					key: 'brand',
-					render: renderRow,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-					dataIndex: 'description',
-					key: 'description',
-					render: renderTruncateRow,
-					width: '15%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Costo</div>,
-					dataIndex: 'price',
-					key: 'price',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Publico</div>,
-					dataIndex: 'price_public',
-					key: 'price_public',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Taller</div>,
-					dataIndex: 'price_workshop',
-					key: 'price_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
-					dataIndex: 'price_credit_workshop',
-					key: 'price_credit_workshop',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-					dataIndex: 'price_wholesale',
-					key: 'price_wholesale',
-					render: renderRowNumber,
-					width: '8%'
-				},
-				{
-					title: <div style={{ fontSize: FontTable }}>Stock</div>,
-					dataIndex: 'stock',
-					key: 'stock',
-					render: renderRow,
-					width: '10%'
-				}
-			];
-		}
+        this.table_columns_results = [
+            {
+            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+            	dataIndex: 'subsidiary_id.denomination',
+				key: 'subsidiary_id.denomination',
+                render: renderRow,
+                width: '8%'
+            },
+            {
+            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+            	dataIndex: 'fmsi',
+				key: 'fmsi',
+                render: renderTruncateRow,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Clave</div>,
+            	dataIndex: 'key_id',
+				key: 'key_id',
+                render: renderRow,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRow,
+                width: '8%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRow,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+            	dataIndex: 'description',
+				key: 'description',
+                render: renderTruncateRow,
+                width: '15%'
+            },
+            {
+                title: <div style={{ fontSize: FontTable }}>Costo</div>,
+            	dataIndex: 'price',
+            	key: 'price',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Publico</div>,
+            	dataIndex: 'price_public',
+            	key: 'price_public',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Taller</div>,
+            	dataIndex: 'price_workshop',
+            	key: 'price_workshop',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+            	dataIndex: 'price_wholesale',
+            	key: 'price_wholesale',
+                render: renderRowNumber,
+                width: '8%'
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Stock</div>,
+            	dataIndex: 'stock',
+				key: 'stock',
+                render: renderRow,
+                width: '15%'
+			}
+        ];
 
         this.table_columns_selected = [                      
 			{
@@ -360,7 +271,7 @@ class OrderCreatorVentas extends CrudLayout {
                 key: 'action',
                 width: '40%',
                 render: (text, record) => {
-                    if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
+                    if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {						
                         return (
                             <span>
                                <Popconfirm
@@ -378,16 +289,20 @@ class OrderCreatorVentas extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Limpiar</b>
+							<b>Quitar de lista</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"
 									icon="minus"
 								/>
 							</Popconfirm>	
-							<Divider type="vertical" />	
-
-                            {/* Eliminar de la lista y sumar stock */}
+							<Divider type="vertical" />	                            	
+                            </span>
+                        );
+                    }else{
+						return (
+                            <span>
+                               {/* Eliminar de la lista y sumar stock */}
 
 							<Popconfirm
 								onClick={(event)=> {
@@ -411,10 +326,10 @@ class OrderCreatorVentas extends CrudLayout {
 									icon="delete"
 								/>
 							</Popconfirm>		
-							<Divider type="vertical" />		
+							<Divider type="vertical" />	
                             </span>
                         );
-                    }
+					}
                     return <div></div>;
                 },
 		  	});

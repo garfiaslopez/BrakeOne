@@ -23,7 +23,7 @@ import isNumber from 'lodash/isNumber';
 import { EditableFormRow, EditableCell } from './TableHelpers';
 import CrudLayout from '../../components/CrudLayout/CrudLayout';
 
-const FontTable = 12;
+const FontTable = 12
 const round2 = (number) => (Math.round(number * 100) / 100);
 
 const renderRowSmall = (text, record) => {
@@ -118,16 +118,9 @@ class OrderCreator extends CrudLayout {
 
 		
 
-        this.scroll_table = 300;
+        this.scroll_table = 150;
 		if(this.props.session.user.address_state === 'QRO'){			
 			this.table_columns_results = [
-				{
-					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-					dataIndex: 'subsidiary_id.denomination',
-					key: 'subsidiary_id.denomination',
-					render: renderRow,
-					width: '8%'
-				},
 				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
@@ -162,7 +155,14 @@ class OrderCreator extends CrudLayout {
 					key: 'description',
 					render: renderTruncateRow,
 					width: '15%'
-				},				
+				},
+				/* {
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				}, */
 				{
 					title: <div style={{ fontSize: FontTable }}>Publico</div>,
 					dataIndex: 'price_public',
@@ -201,13 +201,6 @@ class OrderCreator extends CrudLayout {
 			];
 		}else{
 			this.table_columns_results = [
-				{
-					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-					dataIndex: 'subsidiary_id.denomination',
-					key: 'subsidiary_id.denomination',
-					render: renderRow,
-					width: '8%'
-				},
 				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
@@ -287,27 +280,28 @@ class OrderCreator extends CrudLayout {
 				}
 			];
 		}
+		
 
-        this.table_columns_selected = [  
+        this.table_columns_selected = [			
             {
-                title: <div style={{ fontSize: FontTable }}>Clave</div>,
-            	dataIndex: 'key_id',
-				key: 'key_id',
-                render: renderRowSmall,
-                width: '10%'
+				title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+				dataIndex: 'fmsi',
+				key: 'fmsi',
+				render: renderTruncateRow,
+				width: '8%'
 			},
 			{
-            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-            	dataIndex: 'fmsi',
-				key: 'fmsi',
-                render: renderRowSmallTruncate,
-                width: '10%'
+				title: <div style={{ fontSize: FontTable }}>Clave</div>,
+				dataIndex: 'key_id',
+				key: 'key_id',
+				render: renderRow,
+				width: '8%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
 				dataIndex: 'description',
                 key: 'description',
-				width: '20%',
+				width: '25%',
 				editable: props.can_edit_disccount,			
 			},
 			{
@@ -315,7 +309,7 @@ class OrderCreator extends CrudLayout {
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '10%',
+                width: '6%',
                 editable: props.can_edit_quantity,
 			},
 			{
@@ -323,7 +317,7 @@ class OrderCreator extends CrudLayout {
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '10%',
+                width: '12%',
                 editable: props.can_edit_price,
 			},
 			{
@@ -331,15 +325,23 @@ class OrderCreator extends CrudLayout {
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '10%',
+                width: '8%',
                 editable: props.can_edit_disccount,
-			},			
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Costo Extra</div>,
+                render: renderRowSmallPrec,
+            	dataIndex: 'discount1',
+                key: 'discount',
+                width: '8%',
+                editable: props.can_edit_disccount,
+			},	          
 			{
                 title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '10%'
+                width: '7%'
 			}
         ];
 		
@@ -347,9 +349,9 @@ class OrderCreator extends CrudLayout {
 			
 			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
 			key: 'action',
-			width: '40px',
+			width: '90px',
 			render: (text, record) => {
-				if("Hola") {
+				if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
 					return (
 						<div style={{}}>
 						<span>									
@@ -368,48 +370,49 @@ class OrderCreator extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Limpiar</b>
+							<b>Quitar de lista</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"
 									icon="minus"
 								/>
 							</Popconfirm>	
-							<Divider type="vertical" />	
-
-                            {/* Eliminar de la lista y sumar stock */}
-
-							<Popconfirm
-								onClick={(event)=> {
-									event.stopPropagation();
-								}}
-								title="¿Estas de eliminar?" 
-								okText="De acuerdo"
-								cancelText="Cancelar"
-								onCancel={(event) => {
-									event.stopPropagation();
-								}}
-								onConfirm={(event) => {
-									event.stopPropagation();
-									this.deleteRecord(record);
-								}}
-							>
-							<b>Eliminar</b>
-								<Button 								    
-									type="danger" 
-									shape="circle"
-									icon="delete"
-								/>
-							</Popconfirm>		
-							<Divider type="vertical" />
-
-							
+							<Divider type="vertical" />	                            
 						</span>
 						</div>
 						
 					);
-					
-				}
+			}else{
+				return (
+					<span>
+					   {/* Eliminar de la lista y sumar stock */}
+
+					<Popconfirm
+						onClick={(event)=> {
+							event.stopPropagation();
+						}}
+						title="¿Estas seguro de eliminar?" 
+						okText="De acuerdo"
+						cancelText="Cancelar"
+						onCancel={(event) => {
+							event.stopPropagation();
+						}}
+						onConfirm={(event) => {
+							event.stopPropagation();
+							this.deleteRecord(record);
+						}}
+					>
+					<b>Eliminar</b>
+						<Button 								    
+							type="danger" 
+							shape="circle"
+							icon="delete"
+						/>
+					</Popconfirm>		
+					<Divider type="vertical" />	
+					</span>
+				);
+			}
 				return <div></div>;
 			},
 		  });         
