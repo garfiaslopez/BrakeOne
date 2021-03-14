@@ -107,9 +107,7 @@ class ChangePrices extends Component {
     onSubmit2 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {
-            if (this.state.percent >= 0 || this.state.percent <= 0) {                
-                
+        if (this.state.products.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -140,11 +138,7 @@ class ChangePrices extends Component {
                         loading_submit: false
                     });
                 });
-            }else {
-                this.setState({
-                    error: 'Agregar un porcentaje.'
-                });
-            }
+           
         } else {
             this.setState({
                 error: 'Favor de buscar una marca.'
@@ -296,8 +290,7 @@ class ChangePrices extends Component {
                             <Button 
                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                                 key="submit"
-                                type="primary" 
-                                loading={this.state.loading_submit                            }
+                                type="primary"                                
                                 onClick={this.onSubmit}
                                  >
                                  Aplicar
@@ -322,8 +315,7 @@ class ChangePrices extends Component {
                              <Button 
                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                                 key="submit"
-                                type="primary" 
-                                loading={this.state.loading_submit}
+                                type="primary"                                
                                 onClick={this.onSubmit2}
                                  >
                                  Aplicar
