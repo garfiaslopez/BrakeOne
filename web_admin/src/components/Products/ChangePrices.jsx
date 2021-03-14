@@ -217,9 +217,9 @@ class ChangePrices extends Component {
                 key="cancel"
                 onClick={this.props.onClose}
             >
-                Cancelar
+                Cerrar
             </Button>,
-            <Button 
+           /*  <Button 
                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                 key="submit"
                 type="primary" 
@@ -227,7 +227,7 @@ class ChangePrices extends Component {
                 onClick={this.onSubmit}
             >
                 Aplicar
-            </Button>,
+            </Button>, */
         ];
 
         return (
@@ -323,7 +323,16 @@ class ChangePrices extends Component {
                                 )}
                                 type="text"
                                 placeholder="Descuento Precio Taller"                                                                
-                            />                           
+                            />   
+                             <Button 
+                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary" 
+                                loading={this.state.loading_submit}
+                                onClick={this.onSubmit2}
+                                 >
+                                 Aplicar
+                             </Button>,                        
                     </div>
                 </Modal>
             </Fragment>
