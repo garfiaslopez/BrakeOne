@@ -27,6 +27,8 @@ class ChangePrices extends Component {
             brand: undefined,
             percent: undefined,
             percent2:undefined,
+            percent3:undefined,
+            percent4:undefined,
         };
         this.state = initial_state;
         this.getProducts = this.getProducts.bind(this);
@@ -118,6 +120,88 @@ class ChangePrices extends Component {
                 }
                 let method = 'POST';
                 let url = process.env.REACT_APP_API_URL + '/helpers/updatestockTaller';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        alert('Precios actualizados');
+                        this.props.refreshTable();
+                       /*  this.props.onClose(); */
+                    } else {
+                        alert('No se realizo la actualización');                       
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    onSubmit3 = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,
+                    quantity_percent: this.state.percent3,
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatestockCredito';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        alert('Precios actualizados');
+                        this.props.refreshTable();
+                       /*  this.props.onClose(); */
+                    } else {
+                        alert('No se realizo la actualización');                       
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    onSubmit4 = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,
+                    quantity_percent: this.state.percent4,
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatestockMayoreo';
         
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
@@ -273,7 +357,7 @@ class ChangePrices extends Component {
 
                         <InputNumber
                                 disabled={this.props.is_disabled}
-                                value= {Number(0)}
+                                value= {this.props.percent}
                                 style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent');
@@ -294,11 +378,11 @@ class ChangePrices extends Component {
                                 onClick={this.onSubmit}
                                  >
                                  Aplicar
-                             </Button>,
+                             </Button>
                             <p>Taller / Tienda en linea</p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
-                                value= {Number(0)}
+                                value= {this.props.percent2}
                                 style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent2');
@@ -319,7 +403,59 @@ class ChangePrices extends Component {
                                 onClick={this.onSubmit2}
                                  >
                                  Aplicar
-                             </Button>,                        
+                             </Button>
+
+                        <p>Credito Taller</p>
+                        <InputNumber
+                                disabled={this.props.is_disabled}
+                                value= {this.props.percent3}
+                                style={styles.inputElement2}
+                                onChange={(value) => {
+                                    this.onChangeFieldNumber(value, 'percent3');
+                                }}
+                                prefix={(
+                                    <Icon
+                                        type="dollar"
+                                        className="field-icon"
+                                    />
+                                )}
+                                type="text"
+                                placeholder="Descuento Credito Taller"                                
+                            />
+                            <Button 
+                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary"                                
+                                onClick={this.onSubmit3}
+                                 >
+                                 Aplicar
+                             </Button>
+
+                             <p>Mayoreo</p>
+                        <InputNumber
+                                disabled={this.props.is_disabled}
+                                value= {this.props.percent4}
+                                style={styles.inputElement2}
+                                onChange={(value) => {
+                                    this.onChangeFieldNumber(value, 'percent4');
+                                }}
+                                prefix={(
+                                    <Icon
+                                        type="dollar"
+                                        className="field-icon"
+                                    />
+                                )}
+                                type="text"
+                                placeholder="Descuento Mayoreo"                                
+                            />
+                            <Button 
+                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary"                                
+                                onClick={this.onSubmit4}
+                                 >
+                                 Aplicar
+                             </Button>,                              
                     </div>
                 </Modal>
             </Fragment>
