@@ -129,10 +129,11 @@ class ChangePrices extends Component {
         
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
+                        alert('Precios actualizados');
                         this.props.refreshTable();
                        /*  this.props.onClose(); */
                     } else {
-                        console.log(response_update);
+                        alert('No se realizo la actualización');                       
                         this.setState({
                             error: response_update.json.message,
                             loading_submit: false
@@ -284,7 +285,7 @@ class ChangePrices extends Component {
 
                         <InputNumber
                                 disabled={this.props.is_disabled}
-                                value={this.state.percent}
+                                value= '0'
                                 style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent');
@@ -310,7 +311,7 @@ class ChangePrices extends Component {
                             <p>Taller / Tienda en linea</p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
-                                value={this.state.percent2}
+                                value='0'
                                 style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent2');
