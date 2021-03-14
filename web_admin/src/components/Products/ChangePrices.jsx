@@ -66,7 +66,7 @@ class ChangePrices extends Component {
         event.preventDefault();
         // do validations:
         if (this.state.products.length > 0) {
-            if (this.state.percent >= 0 || this.state.percent <= 0) {               
+            if (this.state.percent =! '') {               
                 
                 this.setState({
                     loading_submit: true
