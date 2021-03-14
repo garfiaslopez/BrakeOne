@@ -65,9 +65,7 @@ class ChangePrices extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {
-            if (this.state.percent =! '') {               
-                
+        if (this.state.products.length > 0) {                                     
                 this.setState({
                     loading_submit: true
                 });
@@ -99,11 +97,7 @@ class ChangePrices extends Component {
                         loading_submit: false
                     });
                 });
-            }else {
-                this.setState({
-                    error: 'Agregar un porcentaje.'
-                });
-            }
+          
         } else {
             this.setState({
                 error: 'Favor de buscar una marca.'
