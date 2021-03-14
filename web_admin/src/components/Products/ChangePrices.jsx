@@ -121,7 +121,7 @@ class ChangePrices extends Component {
                 });
                 let POSTDATA = {
                     brand: this.state.brand,
-                    quantity_percent: this.state.percent,
+                    quantity_percent: this.state.percent2,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
@@ -310,10 +310,10 @@ class ChangePrices extends Component {
                             <p>Taller / Tienda en linea</p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
-                                value={this.state.percent}
+                                value={this.state.percent2}
                                 style={styles.inputElement2}
                                 onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent');
+                                    this.onChangeFieldNumber(value, 'percent2');
                                 }}
                                 prefix={(
                                     <Icon
