@@ -285,7 +285,7 @@ class ChangePrices extends Component {
 
                         <InputNumber
                                 disabled={this.props.is_disabled}
-                                value= '0'
+                                value= {Number(0)}
                                 style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent');
@@ -311,7 +311,7 @@ class ChangePrices extends Component {
                             <p>Taller / Tienda en linea</p>
                             <InputNumber
                                 disabled={this.props.is_disabled}
-                                value='0'
+                                value= {Number(0)}
                                 style={styles.inputElement2}
                                 onChange={(value) => {
                                     this.onChangeFieldNumber(value, 'percent2');
