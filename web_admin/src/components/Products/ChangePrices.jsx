@@ -302,11 +302,7 @@ class ChangePrices extends Component {
                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                                 key="submit"
                                 type="primary" 
-                                loading={
-                                    setTimeout(function(){
-                                        this.state.loading_submit
-                                    }, 2000)                                    
-                                    }
+                                loading={this.state.loading_submit                            }
                                 onClick={this.onSubmit}
                                  >
                                  Aplicar
@@ -332,11 +328,7 @@ class ChangePrices extends Component {
                                 is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
                                 key="submit"
                                 type="primary" 
-                                loading={
-                                    setTimeout(function(){
-                                        this.state.loading_submit
-                                    }, 2000)                                    
-                                    }
+                                loading={this.state.loading_submit}
                                 onClick={this.onSubmit2}
                                  >
                                  Aplicar
