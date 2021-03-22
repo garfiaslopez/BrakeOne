@@ -130,7 +130,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
       page: 1,
       filters: {
         subsidiary_id: this.props.session.subsidiary._id,
-        sell_id: this.props.fields._id,
+        warranty_id: this.props.fields._id,
       },
     };
     FetchXHR(url, "POST", POSTDATA)
@@ -340,7 +340,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
               const saved_sell = response.json.obj;
               const quotation_url = process.env.REACT_APP_API_URL + "/quotation/" + this.state.quotation_id;
 
-              FetchXHR(quotation_url, "PUT", { sell_id: saved_sell._id });
+              FetchXHR(quotation_url, "PUT", { warranty_id: saved_sell._id });
               const OperationsProducts = [];
               let mapped_products_stock = {}; // product_id -> sum_quantity.
               let actual_max_stock = {};
@@ -620,7 +620,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
           </Card.Grid>
           <Card.Grid style={styles.grid_element}>
             <p style={styles.label_title}>Compras:</p>
-            <p style={styles.label_value}>${this.state.client_id.sells}</p>
+            <p style={styles.label_value}>${this.state.client_id.warrantys}</p>
           </Card.Grid>
           <Card.Grid style={styles.grid_element}>
             <p style={styles.label_title}>Crédito:</p>

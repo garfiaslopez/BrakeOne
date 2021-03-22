@@ -12,11 +12,12 @@ import {
 	Popconfirm,
 	Button
 } from 'antd';
+import CreateWarranty from './CreateWarranty';
 
 class Warranty extends CrudLayout {
     constructor(props) {
 		super(props);
-		this.custom_submit = CreateSell;
+		this.custom_submit = CreateWarranty;
 		this.custom_modals = {
 			'open_create_payment': CreatePayment
 		}
@@ -286,7 +287,7 @@ class Warranty extends CrudLayout {
 
 		// 	CAMBIAR STATUS SELL A CANCELADO
 		OperationsProducts.push((callback) => {
-			const url_sell = process.env.REACT_APP_API_URL + '/sell/' + record._id;
+			const url_sell = process.env.REACT_APP_API_URL + '/warranty/' + record._id;
 			let new_sell = {
 				payed: 0,
 				is_canceled: true,
@@ -380,7 +381,7 @@ class Warranty extends CrudLayout {
 			page: 1,
 			filters: {
 				subsidiary_id: this.props.session.subsidiary._id,
-				sell_id: record._id,
+				warranty_id: record._id,
 			}
 		}
 		FetchXHR(url_payments, 'POST', data_payments).then((response_payments) => {
@@ -398,7 +399,7 @@ class Warranty extends CrudLayout {
 					// 	RESTAR EN SELLS AL CLIENT_ID
 					const url_client_id = process.env.REACT_APP_API_URL + '/client/' + record.client_id._id;
 					let new_client = {
-						sells: record.client_id.sells - total_payments,
+						warrantys: record.client_id.warrantys - total_payments,
 					}
 					FetchXHR(url_client_id, 'PUT', new_client).then((response_client) => {
 						if (response_client.json.success) {

@@ -98,7 +98,7 @@
         },
         status: {
             type: String,
-            default: 'NORMAL' // pagada, cancelada, deuda, activa
+            default: 'GARANTIA' // pagada, cancelada, deuda, activa
         },
         date: {
             type: Date,
