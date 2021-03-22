@@ -64,6 +64,7 @@
             brand: { type: String },
             line: { type: String },
             price_type: { type: String },
+            discount: { type: Number },
             price: { type: Number },
             quantity: { type: Number },
             total: { type: Number }

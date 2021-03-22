@@ -130,7 +130,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
       page: 1,
       filters: {
         subsidiary_id: this.props.session.subsidiary._id,
-        sell_id: this.props.fields._id,
+        warranty_id: this.props.fields._id,
       },
     };
     FetchXHR(url, "POST", POSTDATA)
@@ -293,33 +293,22 @@ class CreateWarranty extends CrudLayoutClientsSell {
     // do validations:
     if (!isEmpty(this.state.client_id)) {
       if (this.state.products.length > 0 || this.state.services.length > 0) {
-        let Sell = {
+        let Warranty = {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          client_name: this.state.client_id.name,
-          client_job: this.state.client_id.client_job,
-          client_phone: this.state.client_id.phone_mobil,
-          car_brand: this.state.client_id.car_brand,
-          car_color: this.state.client_id.car_color,
-          car_kms: this.state.client_id.car_kms,
-          car_model: this.state.client_id.car_model,
-          car_plates: this.state.client_id.car_plates,
-          car_vin: this.state.client_id.car_vin,
-          car_year: this.state.client_id.car_year,      
+          client_name: this.state.client_id.name,          
           notes: this.state.notes,
-          products: this.state.products,
-          services: this.state.services,
-          total: this.state.total,
-          is_service: false,
+          products: this.state.products,          
+          total: this.state.total,          
           is_finished: true,
         };
         if (this.state.quotation_id) {
-          Sell["quotation_id"] = this.state.quotation_id;
+          Warranty["quotation_id"] = this.state.quotation_id;
         }
         // CUSTOM UPLOAD FUNCTION AND SEND THE NEW ARRAY TO CRUDLAYOUT
         let POSTDATA = {
-          ...Sell,
+          ...Warranty,
           subsidiary_id: this.props.session.subsidiary._id,
           populate_ids: ["client_id"],
         };
@@ -340,7 +329,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
               const saved_sell = response.json.obj;
               const quotation_url = process.env.REACT_APP_API_URL + "/quotation/" + this.state.quotation_id;
 
-              FetchXHR(quotation_url, "PUT", { sell_id: saved_sell._id });
+              FetchXHR(quotation_url, "PUT", { warranty_id: saved_sell._id });
               const OperationsProducts = [];
               let mapped_products_stock = {}; // product_id -> sum_quantity.
               let actual_max_stock = {};
@@ -620,7 +609,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
           </Card.Grid>
           <Card.Grid style={styles.grid_element}>
             <p style={styles.label_title}>Compras:</p>
-            <p style={styles.label_value}>${this.state.client_id.sells}</p>
+            <p style={styles.label_value}>${this.state.client_id.warrantys}</p>
           </Card.Grid>
           <Card.Grid style={styles.grid_element}>
             <p style={styles.label_title}>Crédito:</p>
@@ -783,7 +772,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
 
                 <Fragment>
                 <OrderCreatorClients
-                    isSell
+                    isWarranty
                     can_edit_price                           
                     can_edit_description  
                     can_edit_quantity={true}
@@ -827,7 +816,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
               </div>
             </div>
             <OrderCreatorVentas
-              isSell
+              isWarranty
               can_edit_price                           
               can_edit_description  
               can_edit_quantity={true}
