@@ -26,7 +26,7 @@ class Warranty extends CrudLayout {
         this.model = {
 			name: 'warranty',
 			singular: 'warranty',
-			plural: 'warrantys',
+			plural: 'warranty',
 			label: 'Garantias'
 		};
 		this.additional_get_data = {
@@ -45,14 +45,33 @@ class Warranty extends CrudLayout {
 				key: 'date',
 				render: RenderRows.renderRowDateSells,
 				width: '12%'
-			},			
+			},
+			{
+            	title: 'Dias de credito',
+				dataIndex: 'client_id.credit_days',
+				key: 'client_id.credit_days',
+				render: RenderRows.renderRowTextSells,
+				width: '10%'
+			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
 				render: RenderRows.renderRowTextSells,
 				width: '5%'
-			},		
+			},
+			{
+            	title: 'Estatus',
+            	dataIndex: 'status',
+				key: 'status',
+				render: RenderRows.renderRowTextSells,
+				width: '10%',
+				filters: [
+					{ text: 'NORMAL', value: 'NORMAL' },
+					{ text: 'PAGADA', value: 'PAGADA'},
+					{ text: 'CANCELADO', value: 'CANCELADO'},
+				],
+			},
 			{
             	title: 'Cliente',
             	dataIndex: 'client_id.name',
@@ -61,12 +80,25 @@ class Warranty extends CrudLayout {
 				width: '15%'
 			},
 			{
-            	title: 'Codigo Balata',
-            	dataIndex: 'fmsi',
-				key: 'fmsi',
-                render: RenderRows.renderRowTextSells,
+            	title: 'Pagado',
+            	dataIndex: 'payed',
+				key: 'payed',
+				render: RenderRows.renderRowNumberSells,
 				width: '8%'
 			},
+			{
+            	title: 'Falta Pagar',
+				key: 'remaining_pay',
+				render: RenderRows.renderRowRemainingPay,
+				width: '8%'
+			},
+			{
+            	title: 'Total',
+            	dataIndex: 'total',
+				key: 'total',
+				render: RenderRows.renderRowNumberSells,
+				width: '8%'
+			}
 		];
 		if (this.props.session.user.rol === 'ADMIN' ||
 			this.props.session.user.rol === 'MANAGER' || this.props.session.user.rol === 'MOSTRADOR' ) {

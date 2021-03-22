@@ -21,6 +21,72 @@
             type: String,
             ref: 'User'
         },       
+        client_phone: {
+            type: String,
+            ref: 'User'
+        },
+        client_address_city: {
+            type: String,
+            ref: 'User'
+        },
+        client_address_country: {
+            type: String,
+            ref: 'User'
+        },
+        client_address_cp: {
+            type: String,
+            ref: 'User'
+        },
+        client_address_cp: {
+            type: String,
+            ref: 'User'
+        },
+        client_address_state: {
+            type: String,
+            ref: 'User'
+        },
+        car_brand: {
+            type: String,
+            ref: 'User'
+        },
+        car_color: {
+            type: String,
+            ref: 'Car'
+        },
+        car_kms: {
+            type: String,
+            ref: 'Car'
+        },
+        car_model: {
+            type: String,
+            ref: 'Car'
+        },
+        car_plates: {
+            type: String,
+            ref: 'Car'
+        },
+        car_vin: {
+            type: String,
+            ref: 'Car'
+        },
+        car_year: {
+            type: String,
+            ref: 'Car'
+        },
+
+        quotation_id: {
+            type: Schema.ObjectId,
+            ref: 'Quotation'
+        },
+        car_id: {
+            type: String
+        },
+        legacy_id: {
+            type: String
+        },
+        kilometers: {
+            type: String
+        },
         folio: {
             type: Number
         },
@@ -32,7 +98,7 @@
         },
         status: {
             type: String,
-            default: 'GARANTIA' // pagada, cancelada, deuda, activa
+            default: 'NORMAL' // pagada, cancelada, deuda, activa
         },
         date: {
             type: Date,
@@ -64,17 +130,57 @@
             brand: { type: String },
             line: { type: String },
             price_type: { type: String },
-            discount: { type: Number },
             price: { type: Number },
             quantity: { type: Number },
+            discount: { type: Number },
+            total: { type: Number }
+        }],
+        services: [{
+            id: {
+                type: Schema.ObjectId,
+                ref: 'Service'
+            },
+            user_id: {
+                type: Schema.ObjectId,
+                ref: 'User'
+            },
+            user_name: { type: String },
+            description: { type: String },
+            price_type: { type: String },
+            price: { type: Number },
+            quantity: { type: Number },
+            discount: { type: Number },
             total: { type: Number }
         }],
         total: {
             type: Number
         },
+        payed: {
+            type: Number,
+            default: 0
+        },
+        is_payed: { 
+            type: Boolean,
+            default: false
+        },
+        is_claim: {
+            type: Boolean,
+            default: false
+        },
+        is_canceled: {
+            type: Boolean,
+            default: false
+        },
         is_remission: {
             type: Boolean,
             default: true
+        },
+        is_service: {
+            type: Boolean
+        },
+        is_finished: {
+            type: Boolean,
+            default: false
         },
         created: {
             type: Date,

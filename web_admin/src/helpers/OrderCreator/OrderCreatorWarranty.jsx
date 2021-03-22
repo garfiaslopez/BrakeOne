@@ -111,7 +111,8 @@ class OrderCreatorWarranty extends CrudLayout {
             price_type: props.price_type,
             selected_quantity: 1,
             selected_discount: undefined,
-			selected_user: {},			
+			selected_user: {},
+			
 			total: props.init_data.total | 0,
             products: props.init_data.products
         }

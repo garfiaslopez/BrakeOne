@@ -16,6 +16,7 @@ import styles from "./Styles";
 import { FetchXHR, formatNumber } from "../../../helpers/generals";
 import isEmpty from "lodash/isEmpty";
 //import OrderCreator from "../../helpers/OrderCreator/OrderCreator";
+import OrderCreatorWarranty from "../../../helpers/OrderCreator/OrderCreatorWarranty"
 import RenderRows from "../../../helpers/render_rows";
 import async from "async";
 import moment from "moment";
@@ -24,7 +25,6 @@ import Schema from '../../Clients/ClientsSchema';
 import PrinterDownload from '../../PrinterDownload/PrinterDownload';
 import CrudLayoutClientsSell from '../../CrudLayout/CrudLayoutClientsSell';
 import OrderCreatorClients from '../../../helpers/OrderCreator/OrderCreatorClients';
-import OrderCreatorWarranty from "../../../helpers/OrderCreator/OrderCreatorWarranty";
 
 class CreateWarranty extends CrudLayoutClientsSell {
   
@@ -37,11 +37,23 @@ class CreateWarranty extends CrudLayoutClientsSell {
       open: this.props.open,
       loading: this.props.loading,
       loading_clients: false,
+      quotation_id: null,
       client_id: {},
-      client_name: '',      
+      client_name: '',
+      client_job: '',
+      client_phone: '',
+      car_brand: '',
+      car_color: '',
+      car_kms: '',
+      car_model: '',
+      car_plates: '',
+      car_vin: '',
+      car_year: '',      
       clients: [],
+      quotation_folio: "",
       notes: "",
       products: [],
+      services: [],
       total: 0,
       payments: [],
       total_payments: 0,
@@ -53,9 +65,21 @@ class CreateWarranty extends CrudLayoutClientsSell {
       }
       if (props.fields.client_name) {
         initial_state.client_name = props.fields.client_name;
-    }   
+    }
+    if (props.fields.client_job) {
+      initial_state.client_job = props.fields.client_job;
+  }
+      if (props.fields.client_phone) {
+        initial_state.client_job = props.fields.client_job;
+      }
+      if (props.fields.notes) {
+        initial_state.notes = props.fields.notes;
+      }
       if (props.fields.products) {
         initial_state.products = props.fields.products;
+      }
+      if (props.fields.services) {
+        initial_state.services = props.fields.services;
       }
       if (props.fields.total) {
         initial_state.total = props.fields.total;
@@ -65,11 +89,13 @@ class CreateWarranty extends CrudLayoutClientsSell {
     this.state = initial_state;
 
     this.getClients = this.getClients.bind(this);
+    this.getQuotations = this.getQuotations.bind(this);
     this.getPayments = this.getPayments.bind(this);
 
     this.onChangeField = this.onChangeField.bind(this);
     this.onChangeDropdown = this.onChangeDropdown.bind(this);
     this.onChangeClient = this.onChangeClient.bind(this);
+    this.onChangeCar = this.onChangeCar.bind(this);
 
     this.onErrorOrderCreatorWarranty = this.onErrorOrderCreatorWarranty.bind(this);
     
@@ -104,7 +130,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
       page: 1,
       filters: {
         subsidiary_id: this.props.session.subsidiary._id,
-        warranty_id: this.props.fields._id,
+        sell_id: this.props.fields._id,
       },
     };
     FetchXHR(url, "POST", POSTDATA)
@@ -175,6 +201,59 @@ class CreateWarranty extends CrudLayoutClientsSell {
       });
   }
 
+  getQuotations(search_text) {
+    this.setState({
+      quotation_folio: search_text,
+      loading_quotations: true,
+    });
+    const url = process.env.REACT_APP_API_URL + "/quotations";
+    const POSTDATA = {
+      limit: 100,
+      page: 1,
+      populate_ids: ["client_id", "subsidiary_id", "products.subsidiary_id"],
+      filters: {
+        folio: Number(search_text),
+      },
+    };
+    FetchXHR(url, "POST", POSTDATA)
+      .then((response) => {
+        if (response.json.success) {
+          if (response.json.data.docs.length >= 1) {
+            const quotation = response.json.data.docs[0];
+            const p = quotation.products.filter(
+              (p) => p.subsidiary_id._id === this.props.session.subsidiary._id
+            );
+            let newTotal = 0;
+            p.forEach((el) => {
+              newTotal += el.total;
+            });
+            this.setState({
+              quotation_id: quotation._id,
+              client_id: quotation.client_id,
+              loading_quotations: false,
+              notes: quotation.notes,
+              products: p,
+              services: quotation.services,
+              total: newTotal,
+            });
+          }
+        } else {
+          this.scrollToAlert();
+          this.setState({
+            loading_quotations: false,
+            error: response.message,
+          });
+        }
+      })
+      .catch((onError) => {
+        this.scrollToAlert();
+        this.setState({
+          loading_quotations: false,
+          error: onError.message,
+        });
+      });
+  }
+
   onChangeClientInfo(key, value) {
     console.log(key, value);
     console.log(this.state.client_id);
@@ -188,6 +267,12 @@ class CreateWarranty extends CrudLayoutClientsSell {
   onChangeClient(client_id) {
     this.setState({
       client_id: this.state.clients.find((el) => el._id === client_id),
+    });
+  }
+
+  onChangeCar(car_id) {
+    this.setState({
+      car_id,
     });
   }
 
@@ -208,19 +293,33 @@ class CreateWarranty extends CrudLayoutClientsSell {
     // do validations:
     if (!isEmpty(this.state.client_id)) {
       if (this.state.products.length > 0 || this.state.services.length > 0) {
-        let Warranty = {
+        let Sell = {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
-          client_name: this.state.client_id.name,          
+          client_name: this.state.client_id.name,
+          client_job: this.state.client_id.client_job,
+          client_phone: this.state.client_id.phone_mobil,
+          car_brand: this.state.client_id.car_brand,
+          car_color: this.state.client_id.car_color,
+          car_kms: this.state.client_id.car_kms,
+          car_model: this.state.client_id.car_model,
+          car_plates: this.state.client_id.car_plates,
+          car_vin: this.state.client_id.car_vin,
+          car_year: this.state.client_id.car_year,      
           notes: this.state.notes,
-          products: this.state.products,          
-          total: this.state.total,          
+          products: this.state.products,
+          services: this.state.services,
+          total: this.state.total,
+          is_service: false,
           is_finished: true,
-        };      
+        };
+        if (this.state.quotation_id) {
+          Sell["quotation_id"] = this.state.quotation_id;
+        }
         // CUSTOM UPLOAD FUNCTION AND SEND THE NEW ARRAY TO CRUDLAYOUT
         let POSTDATA = {
-          ...Warranty,
+          ...Sell,
           subsidiary_id: this.props.session.subsidiary._id,
           populate_ids: ["client_id"],
         };
@@ -238,7 +337,10 @@ class CreateWarranty extends CrudLayoutClientsSell {
         // check for relationships and save it apart in her owns models
         FetchXHR(url, method, POSTDATA).then((response) => {
             if (response.json.success) {
-              const saved_sell = response.json.obj;                           
+              const saved_sell = response.json.obj;
+              const quotation_url = process.env.REACT_APP_API_URL + "/quotation/" + this.state.quotation_id;
+
+              FetchXHR(quotation_url, "PUT", { sell_id: saved_sell._id });
               const OperationsProducts = [];
               let mapped_products_stock = {}; // product_id -> sum_quantity.
               let actual_max_stock = {};
@@ -267,7 +369,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
                     stock: actual_max_stock[el] - mapped_products_stock[el],
                   };
                   const url_put_product =
-                    process.env.REACT_APP_API_URL + "/warranty/" + el;
+                    process.env.REACT_APP_API_URL + "/product/" + el;
                   FetchXHR(url_put_product, "PUT", new_p).then((response_p) => {
                     if (response_p.json.success) {
                       callback(null, response_p.json.obj);
@@ -355,7 +457,8 @@ class CreateWarranty extends CrudLayoutClientsSell {
 
   onChangeOrderCreatorWarranty(values) {
     this.setState({
-      products: values.products,      
+      products: values.products,
+      services: values.services,
       total: values.total,
     });
   }
@@ -428,7 +531,37 @@ class CreateWarranty extends CrudLayoutClientsSell {
     );
     if (this.state.client_id._id) {
       CardContent = (
-        <Fragment>                   
+        <Fragment>
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>Dirección: </p>
+            <Input
+              disabled={
+                this.props.is_disabled || this.props.fields ? true : false
+              }
+              key="user_address"
+              placeholder="Dirección"
+              style={styles.inputSearchCard}
+              value={this.state.client_id.address}
+              onChange={(e) => {
+                this.onChangeClientInfo("address", e.target.value);
+              }}
+            />
+          </Card.Grid>
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>RFC:</p>
+            <Input
+              disabled={
+                this.props.is_disabled || this.props.fields ? true : false
+              }
+              key="user_rfc"
+              placeholder="RFC"
+              style={styles.inputSearchCard}
+              value={this.state.client_id.rfc}
+              onChange={(e) => {
+                this.onChangeClientInfo("rfc", e.target.value);
+              }}
+            />
+          </Card.Grid>           
           <Card.Grid style={styles.grid_element}>
           <Select
             showSearch
@@ -449,7 +582,61 @@ class CreateWarranty extends CrudLayoutClientsSell {
           >
             {OptionsTypes}
           </Select>
-          </Card.Grid>  
+          </Card.Grid>
+
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>Email:</p>
+            <Input
+              disabled={
+                this.props.is_disabled || this.props.fields ? true : false
+              }
+              key="user_email"
+              placeholder="Email"
+              style={styles.inputSearchCard}
+              value={this.state.client_id.email}
+              onChange={(e) => {
+                this.onChangeClientInfo("email", e.target.value);
+              }}
+            />
+          </Card.Grid>
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>Teléfono:</p>
+            <Input
+              disabled={
+                this.props.is_disabled || this.props.fields ? true : false
+              }
+              key="user_phone_number"
+              placeholder="Teléfono"
+              style={styles.inputSearchCard}
+              value={this.state.client_id.phone_number}
+              onChange={(e) => {
+                this.onChangeClientInfo("phone_number", e.target.value);
+              }}
+            />
+          </Card.Grid>
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>Móvil:</p>
+            <p style={styles.label_value}>{this.state.client_id.phone_mobil}</p>
+          </Card.Grid>
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>Compras:</p>
+            <p style={styles.label_value}>${this.state.client_id.sells}</p>
+          </Card.Grid>
+          <Card.Grid style={styles.grid_element}>
+            <p style={styles.label_title}>Crédito:</p>
+            <Input
+              disabled={
+                this.props.is_disabled || this.props.fields ? true : false
+              }
+              key="user_credit"
+              placeholder="Crédito"
+              style={styles.inputSearchCard}
+              value={this.state.client_id.credit_days}
+              onChange={(e) => {
+                this.onChangeClientInfo("credit_days", e.target.value);
+              }}
+            />
+          </Card.Grid>
         </Fragment>
       );
     }
@@ -571,7 +758,20 @@ class CreateWarranty extends CrudLayoutClientsSell {
                         }
                       >
                         {OptionsClients}
-                      </Select>                     
+                      </Select>
+                      
+                      <Input.Search
+                        disabled={
+                          this.props.is_disabled || this.props.fields
+                            ? true
+                            : false
+                        }
+                        key="search_filter"
+                        placeholder="Folio"
+                        enterButton="Buscar"
+                        onSearch={this.getQuotations}
+                        style={styles.inputSearch}
+                      />
                     </Fragment>
                   }
                   style={styles.cardContainer}
@@ -583,7 +783,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
 
                 <Fragment>
                 <OrderCreatorClients
-                    isWarranty
+                    isSell
                     can_edit_price                           
                     can_edit_description  
                     can_edit_quantity={true}
@@ -597,13 +797,17 @@ class CreateWarranty extends CrudLayoutClientsSell {
                     init_data={{
                       products: this.props.fields
                         ? this.props.fields.products
-                        : this.state.products,                      
+                        : this.state.products,
+                      services: this.props.fields
+                        ? this.props.fields.services
+                        : this.state.services,
                       total: this.props.fields
                         ? this.props.fields.total
                         : this.state.total,
                     }}
                     update_data={{
-                      products: this.state.products,                    
+                      products: this.state.products,
+                      services: this.state.services,
                       total: this.state.total,
                     }}
                 />
@@ -623,7 +827,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
               </div>
             </div>
             <OrderCreatorWarranty
-              isWarranty
+              isSell
               can_edit_price                           
               can_edit_description  
               can_edit_quantity={true}
@@ -637,13 +841,17 @@ class CreateWarranty extends CrudLayoutClientsSell {
               init_data={{
                 products: this.props.fields
                   ? this.props.fields.products
-                  : this.state.products,                
+                  : this.state.products,
+                services: this.props.fields
+                  ? this.props.fields.services
+                  : this.state.services,
                 total: this.props.fields
                   ? this.props.fields.total
                   : this.state.total,
               }}
               update_data={{
-                products: this.state.products,               
+                products: this.state.products,
+                services: this.state.services,
                 total: this.state.total,
               }}
             />
