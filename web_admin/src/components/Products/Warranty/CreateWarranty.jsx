@@ -324,10 +324,10 @@ class CreateWarranty extends CrudLayoutClientsSell {
           populate_ids: ["client_id"],
         };
         let method = "POST";
-        let url = process.env.REACT_APP_API_URL + "/sell";
+        let url = process.env.REACT_APP_API_URL + "/warranty";
         if (this.props.fields) {
           method = "PUT";
-          url = process.env.REACT_APP_API_URL + "/sell/" + this.props.fields._id;
+          url = process.env.REACT_APP_API_URL + "/warranty/" + this.props.fields._id;
         }
 
         const client_url = process.env.REACT_APP_API_URL + "/client/" + this.state.client_id._id;
@@ -369,7 +369,7 @@ class CreateWarranty extends CrudLayoutClientsSell {
                     stock: actual_max_stock[el] - mapped_products_stock[el],
                   };
                   const url_put_product =
-                    process.env.REACT_APP_API_URL + "/product/" + el;
+                    process.env.REACT_APP_API_URL + "/warranty/" + el;
                   FetchXHR(url_put_product, "PUT", new_p).then((response_p) => {
                     if (response_p.json.success) {
                       callback(null, response_p.json.obj);
