@@ -8,6 +8,7 @@ import ProductServices from '../Products/Services/Services';
 import Receptions from '../Products/Receptions/Receptions';
 import ReceptionPayments from '../Products/ReceptionPayments/ReceptionPayments';
 import Kardex from '../Products/Kardex/Kardex';
+import Warranty from '../Products/Warranty/warranty';
 import Paysheet from '../Paysheet/Paysheet';
 import Clients from '../Clients/Clients';
 import Cashdrawer from '../Cashdrawer/Cashdrawer';
@@ -53,6 +54,11 @@ const adminMenu = [
                 'component': Products
             },
             {
+                'name': 'Garantias',
+                'icon': 'rest',
+                'component': Warranty
+            },
+            {
                 'name': 'Servicios',
                 'icon': 'tool',
                 'component': ProductServices,
@@ -72,11 +78,12 @@ const adminMenu = [
                 'icon': 'dollar',
                 'component': ReceptionPayments
             },
-            {
+            
+         /*    {
                 'name': 'Pruebas consultas',
                 'icon': 'plus-circle',
                 'component': Productos
-            }
+            } */
         ]
     },
     {

@@ -14,6 +14,12 @@ var Models = [
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
+        model_name: 'warranty',
+        singular: 'warranty',
+        plural: 'warrantys',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
         model_name: 'client',
         singular: 'client',
         plural: 'clients',
