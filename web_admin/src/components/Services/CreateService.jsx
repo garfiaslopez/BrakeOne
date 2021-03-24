@@ -19,11 +19,14 @@ import RenderRows from '../../helpers/render_rows';
 import async from 'async';
 import moment from 'moment';
 import PrinterDownload from '../PrinterDownload/PrinterDownload';
+import CrudLayoutClientsSell from '../CrudLayout/CrudLayoutClientsSell';
+import OrderCreatorClients from '../../helpers/OrderCreator/OrderCreatorClients';
+import OrderReception from "../../helpers/OrderCreator/OrderReception";
 
 // CALL TO PRINTER DOWNLOAD AND RENDER WITH CARS MODELS AND PROPS...
 // 
 
-class CreateService extends Component {
+class CreateService extends CrudLayoutClientsSell {
     constructor(props) {
         super(props);
         let initial_state = {
@@ -862,8 +865,40 @@ class CreateService extends Component {
                                     style={styles.cardContainer}
                                     bodyStyle={styles.cardBody}
                                 >
+                                
                                     {CardContent}
                                 </Card>
+                                <div style={styles.cardInitialText}>
+                <OrderCreatorClients
+                    isSell
+                    can_edit_price                           
+                    can_edit_description  
+                    can_edit_quantity={true}
+                    can_edit_disccount={true}
+                    is_recovered={this.state.quotation_folio !== "" ? true : false}
+                    disabled={this.props.is_disabled}
+                    onError={this.onErrorOrderCreatorVentas}
+                    onChange={this.onChangeOrderCreatorVentas}
+                    price_type={this.state.price_type}
+                    session={this.props.session}
+                    init_data={{
+                      products: this.props.fields
+                        ? this.props.fields.products
+                        : this.state.products,
+                      services: this.props.fields
+                        ? this.props.fields.services
+                        : this.state.services,
+                      total: this.props.fields
+                        ? this.props.fields.total
+                        : this.state.total,
+                    }}
+                    update_data={{
+                      products: this.state.products,
+                      services: this.state.services,
+                      total: this.state.total,
+                    }}
+                />
+                </div>  
                             </div>
                             <div
                                 style={styles.inputsRowContainer}
@@ -882,6 +917,37 @@ class CreateService extends Component {
                             </div>
                         </div>
 
+                        <div style={styles.cardInitialText}>
+                <OrderReception
+                    isSell
+                    can_edit_price                           
+                    can_edit_description  
+                    can_edit_quantity={true}
+                    can_edit_disccount={true}
+                    is_recovered={this.state.quotation_folio !== "" ? true : false}
+                    disabled={this.props.is_disabled}
+                    onError={this.onErrorOrderCreatorVentas}
+                    onChange={this.onChangeOrderCreatorVentas}
+                    price_type={this.state.price_type}
+                    session={this.props.session}
+                    init_data={{
+                      products: this.props.fields
+                        ? this.props.fields.products
+                        : this.state.products,
+                      services: this.props.fields
+                        ? this.props.fields.services
+                        : this.state.services,
+                      total: this.props.fields
+                        ? this.props.fields.total
+                        : this.state.total,
+                    }}
+                    update_data={{
+                      products: this.state.products,
+                      services: this.state.services,
+                      total: this.state.total,
+                    }}
+                />
+            </div>
                         <OrderCreator
                             can_edit_price
                             can_edit_quantity
