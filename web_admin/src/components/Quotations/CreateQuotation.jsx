@@ -14,6 +14,8 @@ import { FetchXHR, filterList } from '../../helpers/generals';
 import moment from 'moment';
 import OrderCreator from '../../helpers/OrderCreator/OrderCreatorQuotation';
 import OrderCreatorQuotation from '../../helpers/OrderCreator/OrderCreatorQuotation';
+import OrderCreatorClients from '../../helpers/OrderCreator/OrderCreatorClients';
+import Schema from '../Clients/ClientsSchema';
 
 moment.locale('es');
 
@@ -749,8 +751,40 @@ class CreateQuotation extends Component {
                                 </div>
                                     
                                 </Card>
+                                <div style={styles.cardInitialText}>
+                                    <OrderCreatorClients
+                                        isSell
+                                        can_edit_price                           
+                                        can_edit_description  
+                                        can_edit_quantity={true}
+                                        can_edit_disccount={true}
+                                        is_recovered={this.state.quotation_folio !== "" ? true : false}
+                                        disabled={this.props.is_disabled}
+                                        onError={this.onErrorOrderCreatorVentas}
+                                        onChange={this.onChangeOrderCreatorVentas}
+                                        price_type={this.state.price_type}
+                                        session={this.props.session}
+                                        init_data={{
+                                        products: this.props.fields
+                                            ? this.props.fields.products
+                                            : this.state.products,
+                                        services: this.props.fields
+                                            ? this.props.fields.services
+                                            : this.state.services,
+                                        total: this.props.fields
+                                            ? this.props.fields.total
+                                            : this.state.total,
+                                        }}
+                                        update_data={{
+                                        products: this.state.products,
+                                        services: this.state.services,
+                                        total: this.state.total,
+                                        }}
+                                    />
+                                </div> 
                             </div>
                         </div>
+                        
 
                         <OrderCreatorQuotation
                             can_edit_disccount={this.props.is_disabled ? false : true }

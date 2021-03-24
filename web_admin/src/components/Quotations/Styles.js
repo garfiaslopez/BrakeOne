@@ -12,6 +12,9 @@ export default {
         top: 0,
         padding: 0
     },
+    cardInitialText: {
+        margin: 24,
+    },
     inputsContainer: {
         display: 'flex',
         flexDirection: 'column',
