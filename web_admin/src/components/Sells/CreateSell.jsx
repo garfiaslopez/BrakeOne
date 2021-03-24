@@ -10,20 +10,29 @@ import {
   Card,
   Divider,
   Table,
+  Popconfirm,
 } from "antd";
 import styles from "./Styles";
-import { FetchXHR } from "../../helpers/generals";
+import { FetchXHR, formatNumber } from "../../helpers/generals";
 import isEmpty from "lodash/isEmpty";
 //import OrderCreator from "../../helpers/OrderCreator/OrderCreator";
 import OrderCreatorVentas from "../../helpers/OrderCreator/OrderCreatorVentas"
 import RenderRows from "../../helpers/render_rows";
 import async from "async";
 import moment from "moment";
-import CrudLayout from '../CrudLayout/CrudLayout';
+import FormGenerator from "../FormGenerator/FormGenerator";
+import Schema from '../Clients/ClientsSchema';
+import PrinterDownload from '../PrinterDownload/PrinterDownload';
+import CrudLayoutClientsSell from '../CrudLayout/CrudLayoutClientsSell';
+import OrderCreatorClients from '../../helpers/OrderCreator/OrderCreatorClients';
+import OrderReception from "../../helpers/OrderCreator/OrderReception";
 
 class CreateSell extends Component {
+  
   constructor(props) {
     super(props);
+    this.schema = Schema;
+    
     let initial_state = {
       error: this.props.error,
       open: this.props.open,
@@ -115,7 +124,6 @@ class CreateSell extends Component {
   getPayments() {
     const url = process.env.REACT_APP_API_URL + "/payments";
     if(false){
-      alert(url);
     }
     
     let POSTDATA = {
@@ -457,6 +465,7 @@ class CreateSell extends Component {
   }
 
   render() {
+    
     let alert = "";
     if (this.state.error) {
       alert = (
@@ -719,6 +728,7 @@ class CreateSell extends Component {
             {alert}
             <div style={styles.inputsContainer}>
               <div style={styles.inputsRowContainer}>
+              
                 <Card
                   title="Información de cliente"
                   extra={
@@ -750,6 +760,7 @@ class CreateSell extends Component {
                       >
                         {OptionsClients}
                       </Select>
+                      
                       <Input.Search
                         disabled={
                           this.props.is_disabled || this.props.fields
@@ -768,7 +779,40 @@ class CreateSell extends Component {
                   bodyStyle={styles.cardBody}
                 >
                   {CardContent}
+                  
                 </Card>
+
+                <div style={styles.cardInitialText}>
+                <OrderCreatorClients
+                    isSell
+                    can_edit_price                           
+                    can_edit_description  
+                    can_edit_quantity={true}
+                    can_edit_disccount={true}
+                    is_recovered={this.state.quotation_folio !== "" ? true : false}
+                    disabled={this.props.is_disabled}
+                    onError={this.onErrorOrderCreatorVentas}
+                    onChange={this.onChangeOrderCreatorVentas}
+                    price_type={this.state.price_type}
+                    session={this.props.session}
+                    init_data={{
+                      products: this.props.fields
+                        ? this.props.fields.products
+                        : this.state.products,
+                      services: this.props.fields
+                        ? this.props.fields.services
+                        : this.state.services,
+                      total: this.props.fields
+                        ? this.props.fields.total
+                        : this.state.total,
+                    }}
+                    update_data={{
+                      products: this.state.products,
+                      services: this.state.services,
+                      total: this.state.total,
+                    }}
+                />
+                </div>                
               </div>
               <div style={styles.inputsRowContainer}>
                 <Input.TextArea
@@ -783,6 +827,37 @@ class CreateSell extends Component {
                 />
               </div>
             </div>
+            <div style={styles.cardInitialText}>
+                <OrderReception
+                    isSell
+                    can_edit_price                           
+                    can_edit_description  
+                    can_edit_quantity={true}
+                    can_edit_disccount={true}
+                    is_recovered={this.state.quotation_folio !== "" ? true : false}
+                    disabled={this.props.is_disabled}
+                    onError={this.onErrorOrderCreatorVentas}
+                    onChange={this.onChangeOrderCreatorVentas}
+                    price_type={this.state.price_type}
+                    session={this.props.session}
+                    init_data={{
+                      products: this.props.fields
+                        ? this.props.fields.products
+                        : this.state.products,
+                      services: this.props.fields
+                        ? this.props.fields.services
+                        : this.state.services,
+                      total: this.props.fields
+                        ? this.props.fields.total
+                        : this.state.total,
+                    }}
+                    update_data={{
+                      products: this.state.products,
+                      services: this.state.services,
+                      total: this.state.total,
+                    }}
+                />
+              </div>
             <OrderCreatorVentas
               isSell
               can_edit_price                           
@@ -819,6 +894,4 @@ class CreateSell extends Component {
     );
   }
 }
-
-// wrap a HOC to handle the inject of the fields?
 export default CreateSell;
