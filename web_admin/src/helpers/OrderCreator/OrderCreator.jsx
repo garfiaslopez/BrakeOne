@@ -1,19 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import {
-    AutoComplete,
-    Form,
     InputNumber,
-    Icon,
-    Modal,
     Button,
-    Alert,
     Table,
     Tabs,
     Select,
     Popconfirm,
     Divider,
     Input,
-    Pagination
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
@@ -116,8 +110,6 @@ class OrderCreator extends CrudLayout {
             products: props.init_data.products
         }
 
-		
-
         this.scroll_table = 150;
 		if(this.props.session.user.address_state === 'QRO'){			
 			this.table_columns_results = [
@@ -155,14 +147,7 @@ class OrderCreator extends CrudLayout {
 					key: 'description',
 					render: renderTruncateRow,
 					width: '15%'
-				},
-				/* {
-					title: <div style={{ fontSize: FontTable }}>Costo</div>,
-					dataIndex: 'price',
-					key: 'price',
-					render: renderRowNumber,
-					width: '8%'
-				}, */
+				},				
 				{
 					title: <div style={{ fontSize: FontTable }}>Publico</div>,
 					dataIndex: 'price_public',
@@ -351,7 +336,7 @@ class OrderCreator extends CrudLayout {
 			key: 'action',
 			width: '90px',
 			render: (text, record) => {
-				if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
+				if(!record._id) {
 					return (
 						<div style={{}}>
 						<span>									
@@ -382,12 +367,12 @@ class OrderCreator extends CrudLayout {
 						</div>
 						
 					);
-			}else{
+			}/* else{
 				return (
-					<span>
+					<span> */
 					   {/* Eliminar de la lista y sumar stock */}
 
-					<Popconfirm
+					{/* <Popconfirm
 						onClick={(event)=> {
 							event.stopPropagation();
 						}}
@@ -412,7 +397,7 @@ class OrderCreator extends CrudLayout {
 					<Divider type="vertical" />	
 					</span>
 				);
-			}
+			} */}
 				return <div></div>;
 			},
 		  });         
@@ -745,9 +730,9 @@ class OrderCreator extends CrudLayout {
 
     // update actual list product stock, minus selected quantity.
     // 
-    addRecord(record) {
+	addRecord(record) {
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > -50000 && (record.stock - this.state.selected_quantity)) > -50000) {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
                     let actualProducts = Object.assign([] ,this.state.selected_data);
@@ -796,7 +781,7 @@ class OrderCreator extends CrudLayout {
                         line: record.line,
                         description: record.description,
                         key_id: record.key_id,
-                        price_type: this.state.price_type,
+                        price_type: this.state.price_type | 'PUBLICO',
                         price: Price,
                         quantity: this.state.selected_quantity,
 						discount: Discount,
