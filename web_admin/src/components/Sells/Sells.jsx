@@ -33,12 +33,26 @@ class Sells extends CrudLayout {
 			subsidiary_id: this.props.session.subsidiary._id,
 			is_service: false
 		}
-		this.populate_ids = ['subsidiary_id', 'client_id', 'products.subsidiary_id'];
+		this.populate_ids = ['subsidiary_id', 'client_id', 'products.subsidiary_id', 'user_id'];
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
 
         this.table_columns = [
+			{
+            	title: 'Folio',
+            	dataIndex: 'folio',
+				key: 'folio',
+				render: RenderRows.renderRowTextSells,
+				width: '5%'
+			},
+			{
+            	title: 'Vendedor',
+            	dataIndex: 'user_id.name',
+				key: 'user_id.name',
+				width: '10%',
+				render: RenderRows.renderRowTextSells,
+			},
 			{
             	title: 'Fecha',
             	dataIndex: 'date',
@@ -51,15 +65,8 @@ class Sells extends CrudLayout {
 				dataIndex: 'client_id.credit_days',
 				key: 'client_id.credit_days',
 				render: RenderRows.renderRowTextSells,
-				width: '10%'
-			},
-			{
-            	title: 'Folio',
-            	dataIndex: 'folio',
-				key: 'folio',
-				render: RenderRows.renderRowTextSells,
-				width: '5%'
-			},
+				width: '8%'
+			},			
 			{
             	title: 'Estatus',
             	dataIndex: 'status',
@@ -87,7 +94,7 @@ class Sells extends CrudLayout {
 				width: '8%'
 			},
 			{
-            	title: 'Falta Pagar',
+            	title: 'Falta por pagar',
 				key: 'remaining_pay',
 				render: RenderRows.renderRowRemainingPay,
 				width: '8%'
@@ -100,17 +107,19 @@ class Sells extends CrudLayout {
 				width: '8%'
 			}
 		];
-		if (this.props.session.user.rol === 'ADMIN' ||
-			this.props.session.user.rol === 'MANAGER' || this.props.session.user.rol === 'MOSTRADOR' ) {
+		if (this.props.session.user.rol === 'ADMIN' 
+		&& this.props.session.user.branch === "ADMIN" 
+		|| this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '18%',
-            	render: (text, record) => {
+				width: '20%',
+				render: (text, record) => {
 					let PayButton = '';
 					if (!record.is_payed) {
 						PayButton = (
-							<Fragment>
+							<Fragment>							
+							<Divider type="vertical" />
 								<Button 
 									type="primary" 
 									shape="circle" 
@@ -189,12 +198,12 @@ class Sells extends CrudLayout {
 								<Button 
 									type="danger" 
 									shape="circle" 
-									icon="delete"								
+									icon="delete"
 								/>
 							</Popconfirm>
 						);
 					};
-
+					{/* Ticket de venta*/}
 					return (
 						<span>
 							<Button 
@@ -205,26 +214,27 @@ class Sells extends CrudLayout {
 									event.stopPropagation();
 									this.onPrint(record, 'SELL');
 								}}
-							/>
-							<Divider type="vertical" />
+							/>						
 							{PayButton}
 							{EditButton}
 							{CancelButton}
 							{DeleteButton}
 						</span>
 					);
-				}
+				},
 			});
+		//Botones usuario
 		} else {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
 				width: '20%',
-            	render: (text, record) => {
+				render: (text, record) => {
 					let PayButton = '';
-					if (!record.is_payed) {
+					if (!record.is_canceled) {
 						PayButton = (
-							<Fragment>
+							<Fragment>							
+							<Divider type="vertical" />
 								<Button 
 									type="primary" 
 									shape="circle" 
@@ -241,23 +251,33 @@ class Sells extends CrudLayout {
 							</Fragment>
 						);
 					};
-					let EditButton = '';
-					if (!record.is_canceled) {
-						EditButton = (
-							<Fragment>
+					let CancelButton = '';					
+					if (!record.is_canceled) {						
+						CancelButton = (
+							<Popconfirm
+								onClick={(event)=> {
+									event.stopPropagation();
+								}}
+								title="¿Esta seguro de cancelar?" 
+								okText="Cancelar"
+								cancelText="Cancelar"
+								onCancel={(event) => {
+									event.stopPropagation();
+								}}
+								onConfirm={(event) => {
+									event.stopPropagation();
+									this.cancel_sell(record)
+								}}
+							>
 								<Button 
-									type="primary" 
+									type="danger" 
 									shape="circle" 
-									icon="edit"
-									onClick={(event)=> {
-										event.stopPropagation();
-										this.onEdit(record);
-									}}
+									icon="close-circle"
 								/>
-								<Divider type="vertical" />
-							</Fragment>
+							</Popconfirm>
 						);
-					};
+					};					
+					{/* Ticket de venta*/}
 					return (
 						<span>
 							<Button 
@@ -268,16 +288,14 @@ class Sells extends CrudLayout {
 									event.stopPropagation();
 									this.onPrint(record, 'SELL');
 								}}
-							/>
-							<Divider type="vertical" />
-							{PayButton}
-							{EditButton}
+							/>																				
+							{PayButton}						
+							{CancelButton}							
 						</span>
 					);
-				}
+				},
 			});
 		}
-
 		this.cancel_sell = this.cancel_sell.bind(this);
 	}
 
@@ -376,7 +394,7 @@ class Sells extends CrudLayout {
 		let payments = [];
 		const url_payments = process.env.REACT_APP_API_URL + '/payments';
 		let data_payments = {
-			limit: 1000,
+			limit: 350,
 			page: 1,
 			filters: {
 				subsidiary_id: this.props.session.subsidiary._id,

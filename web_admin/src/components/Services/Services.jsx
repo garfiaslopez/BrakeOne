@@ -88,8 +88,9 @@ class Services extends CrudLayout {
 			}
 		];
 
-		if (this.props.session.user.rol === 'ADMIN' ||
-			this.props.session.user.rol === 'MANAGER' || this.props.session.user.rol === 'MOSTRADOR' ) {
+		if (this.props.session.user.rol === 'ADMIN' 
+		&& this.props.session.user.branch === "ADMIN" 
+		|| this.props.session.user.rol === 'MANAGER') {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
@@ -224,7 +225,8 @@ class Services extends CrudLayout {
 					let PayButton = '';
 					if (!record.is_payed) {
 						PayButton = (
-							<Fragment>
+							<Fragment>							
+							<Divider type="vertical" />
 								<Button 
 									type="primary" 
 									shape="circle" 
@@ -241,6 +243,7 @@ class Services extends CrudLayout {
 							</Fragment>
 						);
 					};
+					let CancelButton = '';
 					let EditButton = '';
 					if (!record.is_canceled) {
 						EditButton = (
@@ -257,7 +260,57 @@ class Services extends CrudLayout {
 								<Divider type="vertical" />
 							</Fragment>
 						);
+						CancelButton = (
+							<Popconfirm
+								onClick={(event)=> {
+									event.stopPropagation();
+								}}
+								title="¿Esta seguro de cancelar?" 
+								okText="Cancelar"
+								cancelText="Cancelar"
+								onCancel={(event) => {
+									event.stopPropagation();
+								}}
+								onConfirm={(event) => {
+									event.stopPropagation();
+									this.cancel_sell(record)
+								}}
+							>
+								<Button 
+									type="danger" 
+									shape="circle" 
+									icon="close-circle"
+								/>
+							</Popconfirm>
+						);
 					};
+					let DeleteButton = '';
+					if (record.is_canceled) {
+						DeleteButton = (
+							<Popconfirm
+								onClick={(event)=> {
+									event.stopPropagation();
+								}}
+								title="¿Esta seguro de eliminar?" 
+								okText="Eliminar"
+								cancelText="Cancelar"
+								onCancel={(event) => {
+									event.stopPropagation();
+								}}
+								onConfirm={(event) => {
+									event.stopPropagation();
+									this.onDelete(record);
+								}}
+							>
+								<Button 
+									type="danger" 
+									shape="circle" 
+									icon="delete"
+								/>
+							</Popconfirm>
+						);
+					};
+					{/* Ticket de venta*/}
 					return (
 						<span>
 							<Button 
@@ -269,12 +322,25 @@ class Services extends CrudLayout {
 									this.onPrint(record, 'SELL');
 								}}
 							/>
+							{/* Remision */}
+							<Divider type="vertical" />
+							<Button 
+								type="primary" 
+								shape="circle"
+								icon="file-text"
+								onClick={(event)=> {
+									event.stopPropagation();
+									this.onPrint(record, 'QUOTATION');
+								}}
+							/>
 							<Divider type="vertical" />
 							{PayButton}
 							{EditButton}
+							{CancelButton}
+							{DeleteButton}
 						</span>
 					);
-				}
+				},
 			});
 		}
 		this.cancel_sell = this.cancel_sell.bind(this);

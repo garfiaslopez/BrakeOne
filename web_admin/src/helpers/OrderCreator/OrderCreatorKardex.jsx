@@ -65,7 +65,6 @@ const renderRow = (text, record) => {
     });
 }
 
-
 const renderTruncateRow = (text, record) => {
     return ({
         props: {
@@ -85,7 +84,7 @@ const renderRowNumber = (text, record) => {
 }
 
 
-class OrderCreatorVentas extends CrudLayout {
+class OrderCreatorKardex extends CrudLayout {
 
 
 	//Contiene las tablas para agregar nuevas ventas
@@ -115,8 +114,7 @@ class OrderCreatorVentas extends CrudLayout {
 			selected_user: {},
 			user_id: {},
 			total: props.init_data.total | 0,
-            products: props.init_data.products,
-			client_id: {}
+            products: props.init_data.products
         }
 
 		
@@ -268,45 +266,9 @@ class OrderCreatorVentas extends CrudLayout {
             });
         }
 
-			//Acciones al arrastrar productos a Orden de venta
-			this.table_columns_selected.push({
-                title: <div style={{ fontSize: FontTable }}>Acciones</div>,
-                key: 'action',
-                width: '40%',
-                render: (text, record) => {
-                    if(!record._id) {						
-                        return (
-                            <span>
-                               <Popconfirm
-								onClick={(event)=> {
-									event.stopPropagation();
-								}}
-								title="¿Estas seguro de quitar de la lista?" 
-								okText="De acuerdo"
-								cancelText="Cancelar"
-								onCancel={(event) => {
-									event.stopPropagation();
-								}}
-								onConfirm={(event) => {
-									event.stopPropagation();
-									this.deleteList(record);
-								}}
-							>
-							<b>Quitar de lista</b>
-								<Button 								    
-									type="danger" 
-									shape="circle"
-									icon="minus"
-								/>
-							</Popconfirm>	
-							<Divider type="vertical" />	                            	
-                            </span>
-                        );
-                    }
-                    return <div></div>;
-                },
-		  	});
-		
+     
+			//Acciones al arrastrar productos a Orden de venta           
+
 
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
 		
@@ -645,13 +607,10 @@ class OrderCreatorVentas extends CrudLayout {
     // 
     addRecord(record) {
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0) {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > -50000 && (record.stock - this.state.selected_quantity)) > -50000) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
                     let actualProducts = Object.assign([] ,this.state.selected_data);
-
-                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
-                    // actualProducts[id].stock -= record.quantity;
 
                     // Price selector:
                     let Price = Number(record.price_public);
@@ -694,7 +653,7 @@ class OrderCreatorVentas extends CrudLayout {
                         line: record.line,
                         description: record.description,
                         key_id: record.key_id,
-                        price_type: this.state.price_type | 'PUBLICO',
+                        price_type: this.state.price_type,
                         price: Price,
                         quantity: this.state.selected_quantity,
 						discount: Discount,
@@ -914,87 +873,6 @@ class OrderCreatorVentas extends CrudLayout {
             );
         });
 
-        let SearcherProducts = <div></div>;
-       
-            SearcherProducts = (
-				
-                <Fragment>
-                    <Divider> Buscar y seleccionar productos: </Divider>
-                    <div
-                        style={styles.columnContainer}
-                    >
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Input.Search
-                                onFocus={() => {
-                                    this.scrollToBottom();
-                                }}
-                                style={styles.rowSearchElement}
-                                placeholder="Buscar..."
-                                onSearch={(value) => {
-                                    this.getData(value);
-                                    this.scrollToBottom();
-                                }}
-                                enterButton
-                            />
-                            <div style={styles.groupLabel}>
-                                <p style={styles.quantityLabel}>Cantidad (#)</p>
-                                <InputNumber
-                                    style={styles.rowElementQuantity}
-                                    placeholder="Cantidad (#)"
-                                    value={this.state.selected_quantity}
-                                    onChange={this.onChangeQuantity}
-                                    size="100%"
-                                    step={1}
-                                    min={1}
-                                />
-                            </div>
-                            <div style={styles.groupLabel}>
-                                <p style={styles.quantityLabel}>Usuario</p>
-                                <Select
-                                    style={styles.rowElementUser}
-                                    value={this.state.selected_user._id}
-                                    showSearch
-                                    optionFilterProp="children"
-                                    placeholder="Usuario"                                    
-                                    onChange={this.onChangeUser}
-                                >
-                                        {OptionsUsers}
-                                </Select>
-                            </div>     													                     
-                        </div>
-
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Table
-                                bordered
-                                loading={this.state.loading_data}
-                                size="small"
-                                scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
-                                style={styles.tableLayout}
-                                columns={this.table_columns_results}
-                                dataSource={this.state.results_data}
-                                locale={{
-                                    filterTitle: 'Filtro',
-                                    filterConfirm: 'Ok',
-                                    filterReset: 'Reset',
-                                    emptyText: 'Sin Datos'
-                                }}
-                                pagination={false}
-                                onRow={(record) => {
-                                    return {
-                                        onClick: () => {
-                                            this.addRecord(record);
-                                        },
-                                    };
-                                }}
-                            />
-                        </div>
-                    </div>
-                </Fragment>
-            );
         
 
         const components = {
@@ -1074,8 +952,7 @@ class OrderCreatorVentas extends CrudLayout {
             <Fragment>
                 <div
                     
-                >
-                    {SearcherProducts}
+                >                   
                     <Divider> Orden de venta </Divider>
                     <div                      
                     >
@@ -1113,7 +990,7 @@ class OrderCreatorVentas extends CrudLayout {
 }
 
 // wrap a HOC to handle the inject of the fields?
-export default OrderCreatorVentas;
+export default OrderCreatorKardex;
 
 
 //Numeros largos
