@@ -16,6 +16,10 @@ var ProductTransactionSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    client_id: {
+        type: Schema.ObjectId,
+        red: 'Client'
+    },
     quantity: {
         type: Number
     },

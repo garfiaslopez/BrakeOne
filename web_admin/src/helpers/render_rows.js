@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Icon } from 'antd';
 
 const round2 = (number) => (Math.round(number * 100) / 100);
-const fontSize = 12;
+const fontSize = 11.3;
 
 export default {
     round2,
@@ -25,6 +25,11 @@ export default {
     renderRowText: (text, record) => {
         return ({
             children: <p style={{fontSize}}>{text}</p>,
+        });
+    },
+    renderRowTextMin: (text, record) => {
+        return ({
+            children: <p style={{fontSize}}>{text.substring(0,30) + '...'}</p>,
         });
     },
     renderRowQuantity: (text, record) => {
