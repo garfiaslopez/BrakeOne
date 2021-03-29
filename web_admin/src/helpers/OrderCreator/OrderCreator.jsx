@@ -355,7 +355,7 @@ class OrderCreator extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Quitar de lista</b>
+							<b>Eliminar</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"

@@ -412,7 +412,7 @@ class OrderCreatorQuotation extends CrudLayout {
 								onClick={(event)=> {
 									event.stopPropagation();
 								}}
-								title="¿Estas seguro de quitar de la lista?" 
+								title="¿Estas seguro de eliminar?" 
 								okText="De acuerdo"
 								cancelText="Cancelar"
 								onCancel={(event) => {
@@ -423,7 +423,7 @@ class OrderCreatorQuotation extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Quitar de lista</b>
+							<b>Eliminar</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"
