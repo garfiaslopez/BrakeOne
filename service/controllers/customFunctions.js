@@ -243,7 +243,7 @@ module.exports =  {
                 if(err){
                     return next(new errs.InternalServerError(err));                    
                 } else if (response) {
-                    return res.send("Llegaste aqui mero");                    
+                    return res.json({ success: true, obj: response});                    
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
