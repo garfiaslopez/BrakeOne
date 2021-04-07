@@ -437,7 +437,7 @@ class OrderCreatorVentas extends CrudLayout {
 			POSTDATA['sort_order'] = this.sort_order;			
 		} 		
 		if (search_text) {
-			POSTDATA["filters"] = {};      
+			POSTDATA["filters"] = {};
 			let busquedas = search_text;
 			var caracter1 = search_text.charAt(0);
 			var caracter2 = search_text.charAt(1);
@@ -539,13 +539,12 @@ class OrderCreatorVentas extends CrudLayout {
 	
 						  })
 					}
-				  });					   
-			}else if(caracter4 === '.'){                
-        POSTDATA['filters']['key_id'] = 'P' + busquedas;	       	
+				  });
+												   
+			}else{
+			  POSTDATA["search_text"] = search_text;
 			}
-		}	else{
-      POSTDATA["search_text"] = search_text;
-    }
+		}	
 		
 
         FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
@@ -956,19 +955,19 @@ class OrderCreatorVentas extends CrudLayout {
                             style={styles.rowContainer}
                         >
                             <AutoComplete
-                              disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                              autoFocus
-                              backfill
-                              placeholder={'Buscador...'}
-                              onSearch={this.getData}
-                              onSelect={(value) => { this.getData() }}
-                              value={this.state.client_name}
-                              onChange={(value) => {
-                                  this.onChangeFieldName(value, 'client_name');
-                              }}
-                              dataSource={this.state.name_clients}
-                              style={styles.inputElement}
-                          />
+								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+								autoFocus
+								backfill
+								placeholder={'Buscador...'}
+								onSearch={this.getData}
+								onSelect={(value) => { this.getData() }}
+								value={this.state.client_name}
+								onChange={(value) => {
+									this.onChangeFieldName(value, 'client_name');
+								}}
+								dataSource={this.state.name_clients}
+								style={styles.inputElement}
+							/>
                             <div style={styles.groupLabel}>
                                 <p style={styles.quantityLabel}>Cantidad (#)</p>
                                 <InputNumber
