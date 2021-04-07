@@ -197,7 +197,8 @@
     });
 
     SellSchema.index({
-        folio: 'text'
+        folio: 'text',
+        client_name: 'text',
     });
 
     //Return the module
