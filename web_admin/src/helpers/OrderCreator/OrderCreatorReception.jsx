@@ -34,7 +34,7 @@ const renderRowSmall = (text, record) => {
 const renderRowSmallTruncate = (text, record) => {
     if (text) {
         return ({
-            children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
+            children: <p style={{fontSize: FontTable}}>{text.substring(0,16) + '...'}</p>,
         });
     }
     return '';
@@ -70,7 +70,7 @@ const renderTruncateRow = (text, record) => {
         props: {
             style: { background: record.subsidiary_id ? record.subsidiary_id.color : '#8FC7FF'  },
         },
-        children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
+        children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
 }
 
@@ -576,7 +576,7 @@ class OrderCreatorReception extends CrudLayout {
 
 
         const POSTDATA = {
-            limit: 1000,
+            limit: 500,
             page: 1,
             sort_field: 'stock',
             populate_ids: ['subsidiary_id'],
@@ -800,6 +800,10 @@ class OrderCreatorReception extends CrudLayout {
     // update actual list product stock, minus selected quantity.
     // 
     addRecord(record) {
+		if(this.props.session.subsidiary_id === null){
+			alert("No existe en la base de datos");
+			return;
+		}
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
             if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > -50000 && (record.stock - this.state.selected_quantity)) > -50000) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
@@ -1049,224 +1053,242 @@ class OrderCreatorReception extends CrudLayout {
 		}
     }
 
-
-
-
-
-
-    render() {
-        let widthTable = (window.innerWidth/2) - 60;
-        if (this.props.disabled) {
-            widthTable = window.innerWidth;
-        }
-        const OptionsUsers = this.state.users.map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item._id}
-                    key={`${item._id} - ${index}`} 
-                >
-                    {item.name}
-                </Select.Option>
-            );
-        });
-
-        let SearcherProducts = <div></div>;
-       
-            SearcherProducts = (
-                <Fragment>
-                    <Divider> Buscar y seleccionar productos: </Divider>
-                    <div
-                        style={styles.columnContainer}
-                    >
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Input.Search
-                                onFocus={() => {
-                                    this.scrollToBottom();
-                                }}
-                                style={styles.rowSearchElement}
-                                placeholder="Buscar..."
-                                onSearch={(value) => {
-                                    this.getData(value);
-                                    this.scrollToBottom();
-                                }}
-                                enterButton
-                            />
-                            <div style={styles.groupLabel}>
-                                <p style={styles.quantityLabel}>Cantidad (#)</p>
-                                <InputNumber
-                                    style={styles.rowElementQuantity}
-                                    placeholder="Cantidad (#)"
-                                    value={this.state.selected_quantity}
-                                    onChange={this.onChangeQuantity}
-                                    size="100%"
-                                    step={1}
-                                    min={1}
-                                />
-                            </div>
-                            <div style={styles.groupLabel}>
-                                <p style={styles.quantityLabel}>Usuario </p>
-                                <Select
-                                    style={styles.rowElementUser}
-                                    value={this.state.selected_user._id}
-                                    showSearch
-                                    optionFilterProp="children"
-                                    placeholder="Usuario"
-                                    
-                                    onChange={this.onChangeUser}
-                                >
-                                        {OptionsUsers}
-                                </Select>
-                            </div>                        
-                        </div>
-
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Table
-                                bordered
-                                loading={this.state.loading_data}
-                                size="small"
-                                scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
-                                style={styles.tableLayout}
-                                columns={this.table_columns_results}
-                                dataSource={this.state.results_data}
-                                locale={{
-                                    filterTitle: 'Filtro',
-                                    filterConfirm: 'Ok',
-                                    filterReset: 'Reset',
-                                    emptyText: 'Sin Datos'
-                                }}
-                                pagination={false}
-                                onRow={(record) => {
-                                    return {
-                                        onClick: () => {
-                                            this.addRecord(record);
-                                        },
-                                    };
-                                }}
-                            />
-                        </div>
-                    </div>
-                </Fragment>
-            );
-        
-
-        const components = {
-            body: {
-                row: EditableFormRow,
-                cell: EditableCell,
-            }
-        };
-
-
-		////////////////////////////////////////////
-
-        const columns = this.table_columns_selected.map((col) => {
-            if (!col.editable) {
-              return col;
-            }
-            return {
-                ...col,
-                onCell: record => {
-                    if (Number(record.key) > this.state.initial_length_data) {
-                        return ({
-                            record,
-                            editable: col.editable,
-                            dataIndex: col.dataIndex,
-                            title: col.title,
-							handleSave: this.updateRecord,
-                        });
-                    }
-                    return ({
-                        record,
-                        editable: false,
-                        dataIndex: col.dataIndex,
-                        title: col.title,
-                        handleSave: this.updateRecord,
-                    });
-                },
-            };
+	onSelectClient(client_name) {
+		const client = this.state.products.find((el) => (el.key_id === client_name));
+		let phone = client.phone_mobil;
+		if (phone === "") {
+		  phone = client.phone_number;
+		  if (phone === "") {
+			phone = client.phone_office;
+		  }
+		}
+		this.setState({
+		  openCarDropdown: true,
+		  search_text: client.name,
+		  client_id: client,
+		  client_name: client.name,
+		  client_phone: phone,
+		  price_type: client.price_type
 		});
-		
-
-
-
-
-		const columns1 = this.table_columns_selected.map((col) => {
-            if (!col.editable) {
-              return col;
-            }
-            return {
-                ...col,
-                onCell: record => {
-                    if (Number(record.key) > this.state.initial_length_data) {
-                        return ({
-                            record,
-                            editable: col.editable,
-                            dataIndex: col.dataIndex,
-                            title: col.title,
-							handleSave: this.updateRecord,
-                        });
-                    }
-                    return ({
-                        record,
-                        editable: false,
-                        dataIndex: col.dataIndex,
-                        title: col.title,
-                        handleSave: this.updateRecord,
-                    });
-                },
-            };
-        });
-
-
-
-
-
-
-        return (
-            <Fragment>
-                <div
-                    style={styles.columnContainer}
-                >
-                    {SearcherProducts}
-                    <Divider> Orden de venta </Divider>
-                    <div
-                        style={styles.rowContainer}
-                    >
-                        <Table
-                            components={components}
-                            rowClassName={() => 'editable-row'}
-                            bordered
-                            columns={columns}
-                            size="small"
-                            scroll={{ y: 200 }}
-                            style={styles.tableLayout}
-                            dataSource={this.state.selected_data}
-                            locale={{
-                                filterTitle: 'Filtro',
-                                filterConfirm: 'Ok',
-                                filterReset: 'Reset',
-                                emptyText: 'Sin Datos'
-                            }}
-                            pagination={false}
-                        />
-                    </div>
-                    <div style={styles.labelContainer}>
-                        <p style={styles.labelTitle}> Total de compra: </p>
-                        <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
-                    </div>
-                    <div 
-                        ref={(el) => { this.endView = el; }} 
-                    >
-
-                    </div>
-                </div>
-            </Fragment>
-        );
-    }
+	  }
+  
+  
+  
+  
+	  render() {		
+		  let widthTable = (window.innerWidth/2) - 60;
+		  if (this.props.disabled) {
+			  widthTable = window.innerWidth;
+		  }
+		  const OptionsUsers = this.state.users.map((item, index) => {
+			  return (
+				  <Select.Option 
+					  value={item._id}
+					  key={`${item._id} - ${index}`} 
+				  >
+					  {item.name}
+				  </Select.Option>
+			  );
+		  });
+  
+		  let SearcherProducts = <div></div>;
+		 
+			  SearcherProducts = (
+				  
+				  <Fragment>
+					  <Divider> Buscar y seleccionar productos: </Divider>
+					  <div
+						  style={styles.columnContainer}
+					  >
+						  <div
+							  style={styles.rowContainer}
+						  >
+							  <AutoComplete
+								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+								autoFocus
+								backfill
+								placeholder={'Buscador...'}
+								onSearch={this.getData}
+								onSelect={(value) => { this.getData() }}
+								value={this.state.client_name}
+								onChange={(value) => {
+									this.onChangeFieldName(value, 'client_name');
+								}}
+								dataSource={this.state.name_clients}
+								style={styles.inputElement}
+							/>
+							  <div style={styles.groupLabel}>
+								  <p style={styles.quantityLabel}>Cantidad (#)</p>
+								  <InputNumber
+									  style={styles.rowElementQuantity}
+									  placeholder="Cantidad (#)"
+									  value={this.state.selected_quantity}
+									  onChange={this.onChangeQuantity}
+									  size="100%"
+									  step={1}
+									  min={1}
+								  />
+							  </div>
+							  <div style={styles.groupLabel}>
+								  <p style={styles.quantityLabel}>Usuario</p>
+								  <Select
+									  style={styles.rowElementUser}
+									  value={this.state.selected_user._id}
+									  showSearch
+									  optionFilterProp="children"
+									  placeholder="Usuario"                                    
+									  onChange={this.onChangeUser}
+								  >
+										  {OptionsUsers}
+								  </Select>
+							  </div>     													                     
+						  </div>
+  
+						  <div
+							  style={styles.rowContainer}
+						  >
+							  <Table
+								  bordered
+								  loading={this.state.loading_data}
+								  size="small"
+								  scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
+								  style={styles.tableLayout}
+								  columns={this.table_columns_results}
+								  dataSource={this.state.results_data}
+								  locale={{
+									filterTitle: "Filtro",
+									filterConfirm: "Ok",
+									filterReset: "Limpiar",
+									emptyText: "Sin Datos",
+								  }}
+								  pagination={false}
+								  onRow={(record) => {
+									  return {
+										  onClick: () => {
+											  this.addRecord(record);
+										  },
+									  };
+								  }}
+							  />
+						  </div>
+					  </div>
+				  </Fragment>
+			  );
+		  
+  
+		  const components = {
+			  body: {
+				  row: EditableFormRow,
+				  cell: EditableCell,
+			  }
+		  };
+  
+  
+		  ////////////////////////////////////////////
+  
+		  const columns = this.table_columns_selected.map((col) => {
+			  if (!col.editable) {
+				return col;
+			  }
+			  return {
+				  ...col,
+				  onCell: record => {
+					  if (Number(record.key) > this.state.initial_length_data) {
+						  return ({
+							  record,
+							  editable: col.editable,
+							  dataIndex: col.dataIndex,
+							  title: col.title,
+							  handleSave: this.updateRecord,
+						  });
+					  }
+					  return ({
+						  record,
+						  editable: false,
+						  dataIndex: col.dataIndex,
+						  title: col.title,
+						  handleSave: this.updateRecord,
+					  });
+				  },
+			  };
+		  });
+		  
+  
+  
+  
+  
+		  const columns1 = this.table_columns_selected.map((col) => {
+			  if (!col.editable) {
+				return col;
+			  }
+			  return {
+				  ...col,
+				  onCell: record => {
+					  if (Number(record.key) > this.state.initial_length_data) {
+						  return ({
+							  record,
+							  editable: col.editable,
+							  dataIndex: col.dataIndex,
+							  title: col.title,
+							  handleSave: this.updateRecord,
+						  });
+					  }
+					  return ({
+						  record,
+						  editable: false,
+						  dataIndex: col.dataIndex,
+						  title: col.title,
+						  handleSave: this.updateRecord,
+					  });
+				  },
+			  };
+		  });
+  
+  
+  
+  
+  
+  
+		  return (
+			  <Fragment>
+				  <div
+					  
+				  >
+					  {SearcherProducts}
+					  <Divider> Orden de venta </Divider>
+					  <div                      
+					  >
+						  <Table
+							  components={components}
+							  rowClassName={() => 'editable-row'}
+							  bordered
+							  columns={columns}
+							  size="small"
+							  scroll={{ y: 500 }}
+							  style={styles.tableLayout}
+							  dataSource={this.state.selected_data}
+							  locale={{
+								  filterTitle: 'Filtro',
+								  filterConfirm: 'Ok',
+								  filterReset: 'Reset',
+								  emptyText: 'Sin Datos'
+							  }}
+							  pagination={false}
+						  />
+					  </div>
+					  <div style={styles.labelContainer}>
+						  <p style={styles.labelTitle}> Total de compra: </p>
+						  <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+					  </div>
+					  <div 
+						  ref={(el) => { this.endView = el; }} 
+					  >
+  
+					  </div>
+				  </div>
+			  </Fragment>
+		  );
+	  }
 }
 
 // wrap a HOC to handle the inject of the fields?
