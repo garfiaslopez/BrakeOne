@@ -141,7 +141,7 @@ class Services extends CrudLayout {
 								}}
 								title="¿Esta seguro de cancelar?" 
 								okText="Cancelar"
-								cancelText="Cancelar"
+								cancelText="Aceptar"
 								onCancel={(event) => {
 									event.stopPropagation();
 								}}
@@ -267,7 +267,7 @@ class Services extends CrudLayout {
 								}}
 								title="¿Esta seguro de cancelar?" 
 								okText="Cancelar"
-								cancelText="Cancelar"
+								cancelText="Aceptar"
 								onCancel={(event) => {
 									event.stopPropagation();
 								}}

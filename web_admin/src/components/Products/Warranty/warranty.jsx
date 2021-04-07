@@ -152,7 +152,7 @@ class Warranty extends CrudLayout {
 								}}
 								title="¿Esta seguro de cancelar?" 
 								okText="Cancelar"
-								cancelText="Cancelar"
+								cancelText="Aceptar"
 								onCancel={(event) => {
 									event.stopPropagation();
 								}}

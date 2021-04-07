@@ -40,6 +40,7 @@ class CreateSell extends Component {
       loading_clients: false,
       quotation_id: null,
       client_id: {},
+      user_name:'',
       client_name: '',
       client_job: '',
       client_phone: '',
@@ -298,6 +299,7 @@ class CreateSell extends Component {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
           client_id: this.state.client_id._id,
+          user_name: this.state.name,
           client_name: this.state.client_id.name,
           client_job: this.state.client_id.client_job,
           client_phone: this.state.client_id.phone_mobil,
@@ -735,9 +737,7 @@ class CreateSell extends Component {
                     <Fragment>
                     <Select
                         disabled={
-                          this.props.is_disabled || this.props.fields
-                            ? true
-                            : false
+                          false
                         }
                         showSearch
                         value={this.state.client_id.name}
@@ -755,7 +755,7 @@ class CreateSell extends Component {
                         notFoundContent={
                           this.state.loading_clients ? (
                             <Spin size="small" />
-                          ) : null
+                          ) : true
                         }
                       >
                         {OptionsClients}

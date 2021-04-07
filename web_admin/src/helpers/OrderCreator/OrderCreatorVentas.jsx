@@ -126,13 +126,9 @@ class OrderCreatorVentas extends CrudLayout {
             {
             	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
             	dataIndex: 'subsidiary_id.denomination',
-				      key: 'subsidiary_id.denomination',
-              render: renderRow,
-              width: '8%',
-              filters: [
-                { text: 'PORTALES', value: 'PORTALES' },
-                { text: 'PAGADA', value: 'PAGADA'},              
-              ],
+				key: 'subsidiary_id.denomination',
+                render: renderRow,
+                width: '8%',              
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
@@ -441,8 +437,7 @@ class OrderCreatorVentas extends CrudLayout {
 			POSTDATA['sort_order'] = this.sort_order;			
 		} 		
 		if (search_text) {
-			POSTDATA["filters"] = {};
-      alert(this.search_text);
+			POSTDATA["filters"] = {};      
 			let busquedas = search_text;
 			var caracter1 = search_text.charAt(0);
 			var caracter2 = search_text.charAt(1);
