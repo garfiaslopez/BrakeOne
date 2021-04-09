@@ -22,7 +22,7 @@ import RenderRows from '../render_rows';
 import isNumber from 'lodash/isNumber';
 import { EditableFormRow, EditableCell } from './TableHelpers';
 import CrudLayout from '../../components/CrudLayout/CrudLayout';
-
+import isEmpty from "lodash/isEmpty";
 const FontTable = 12;
 const round2 = (number) => (Math.round(number * 100) / 100);
 
@@ -116,7 +116,7 @@ class OrderCreatorVentas extends CrudLayout {
 			user_id: {},
 			total: props.init_data.total | 0,
             products: props.init_data.products,
-			client_id: {}
+			client_id: {},            
         }
 
 		
@@ -126,9 +126,9 @@ class OrderCreatorVentas extends CrudLayout {
             {
             	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
             	dataIndex: 'subsidiary_id.denomination',
-				key: 'subsidiary_id.denomination',
+			    key: 'subsidiary_id.denomination',
                 render: renderRow,
-                width: '8%',              
+                width: '8%',               
             },
             {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
@@ -317,7 +317,7 @@ class OrderCreatorVentas extends CrudLayout {
         this.onChangeUser = this.onChangeUser.bind(this);
 
         this.getUsers = this.getUsers.bind(this);
-        this.getData = this.getData.bind(this);
+      /*   this.getData = this.getData.bind(this); */
 
         this.sendToOnChange = this.sendToOnChange.bind(this);
         this.deleteRecord = this.deleteRecord.bind(this);
@@ -410,144 +410,163 @@ class OrderCreatorVentas extends CrudLayout {
         });
     }
 
-	//Filtros busquedas de productos
-    getData(search_text) {       
+    
 
+	//Filtros busquedas de productos
+    getData() {         
         this.setState({
 			loading_data: true,
-        });
-        
+        });             
         const urlServices = process.env.REACT_APP_API_URL + '/services';
         const urlProducts = process.env.REACT_APP_API_URL + '/products';
         const urlPackages = process.env.REACT_APP_API_URL + '/product-packages';
-
-
-        const POSTDATA = {
-            limit: 500,
-            page: 1,
-            sort_field: 'stock',
-            populate_ids: ['subsidiary_id'],
-            filters: {},
-        }
+        var POSTDATA = {
+          limit: 50,
+          page: 1,
+          sort_field: 'stock',
+          populate_ids: ['subsidiary_id'],
+          filters: {},
+        };
+          
+        
+        let num;
+        console.log("Prueba de insercción precios", num)
+    
+        FetchXHR(urlProducts, "POST", POSTDATA).then((response) => {    
+    
+            var prec1 = response.json.data.docs[0].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
+            var prec11 = response.json.data.docs[10].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
+            num = prec1 + prec2 + prec3 + prec4 + prec5 + prec6 + prec7 + prec8 + prec9 + prec10;
+            //alert(totalPrec);   
+           console.log("Precios totales", num)
+    
+        }).then (console.log(num))
+    
+        console.log(num)
+     
+    
+        this.setState({
+          loading_data: true,
+        });
+        
         if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;			
 			POSTDATA['sort_order'] = this.sort_order;			
-		} 		
-		if (search_text) {
-			POSTDATA["filters"] = {};
-			let busquedas = search_text;
-			var caracter1 = search_text.charAt(0);
-			var caracter2 = search_text.charAt(1);
-			var caracter3 = search_text.charAt(2);
-			var caracter4 = search_text.charAt(3);
-			var caracter5 = search_text.charAt(4);
-			var caracter6 = search_text.charAt(5);
-			var caracter7 = search_text.charAt(6);
-			/* var caracter8 = this.search_text.charAt(7); */
-	
-			// //2275.10
-			var iniciales = caracter1 + caracter2;
-			var letras = caracter1 + caracter2 + caracter3;
-			var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
-			var ultimas = caracter5 + caracter6 + caracter7;
-	
-			//Brembo con Xtra, Max y Normar
-			if (
-			  iniciales === "A-" ||
-			  iniciales === "I-" ||
-			  iniciales === "a-" ||
-			  iniciales === "i-"
-			) {
-			  POSTDATA["search_text"] =
-				search_text +
-				" " +
-				"&&" +
-				search_text +
-				"MAX" +
-				" " +
-				"&&" +
-				search_text +
-				"XTRA";
-			}
-			//Numeros largos Centric
-			else if (
-			  tresletras === "320." ||
-			  tresletras === "905." ||
-			  tresletras === "412." ||
-			  tresletras === "406." ||
-			  tresletras === "116." ||
-			  tresletras === "117." ||
-			  tresletras === "122." ||
-			  tresletras === "227." ||
-			  tresletras === "301." ||
-			  tresletras === "105." ||
-			  tresletras === "104." ||
-			  tresletras === "102." ||
-			  tresletras === "121." ||
-			  tresletras === "309." ||
-			  tresletras === "106." ||
-			  tresletras === "103." ||
-			  tresletras === "500." ||
-			  tresletras === "300." ||
-			  tresletras === "100." ||
-			  tresletras === "306." ||
-			  tresletras === "120." ||
-			  tresletras === "123." ||
-			  tresletras === "125." ||
-			  tresletras === "126." ||
-			  tresletras === "127." ||
-			  tresletras === "128." ||
-			  tresletras === "110." ||
-			  tresletras === "111." ||
-			  tresletras === "950." ||
-			  tresletras === "978." ||
-			  tresletras === "905." ||
-			  letras === "83." ||
-			  letras === "31." ||
-			  tresletras === "228."
-			) {
-			  POSTDATA["or_filters"]["key_id"] = busquedas;
-			}
-			//Brembo numeros largos
-			else if (letras === "09." || letras === "08." || letras === "14.") {
-			  bremLarge.forEach(function(numLargos, indice, array) {
-				if (busquedas === numLargos) {
-				  POSTDATA["filters"]["key_id"] = busquedas;
-				}
-			  });
-			 
-			} else if(caracter5 === '.'){
-				bremCort08.forEach(function(numLargos, indice, array) {
-					if (busquedas === numLargos) {
-					  POSTDATA["filters"]["key_id"] = '08.' + busquedas;
-					}else{
-						bremCort09.forEach(function(numLargos, indice, array) {
-							if (busquedas === numLargos) {
-							  POSTDATA["filters"]["key_id"] = '09.' + busquedas;
-							}else{
-								bremCorto14.forEach(function(numLargos, indice, array) {		
-									if(busquedas === numLargos ){			
-										POSTDATA['filters']['key_id'] = '14.' + busquedas;				
-									}else{									
-										
-									}
-								})
-							}
-	
-						  })
-					}
-				  });
-												   
-			}else{
-			  POSTDATA["search_text"] = search_text;
-			}
-		}	
-		
-
-        FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
+		} 
+    
+       
+          if(this.search_text) {
+            POSTDATA["or_filters"] = {};
+            let busquedas = this.search_text;
+            var caracter1 = this.search_text.charAt(0);
+            var caracter2 = this.search_text.charAt(1);
+            var caracter3 = this.search_text.charAt(2);
+            var caracter4 = this.search_text.charAt(3);
+            var caracter5 = this.search_text.charAt(4);
+            var caracter6 = this.search_text.charAt(5);
+            var caracter7 = this.search_text.charAt(6);		
+    
+            var iniciales = caracter1 + caracter2;
+            var letras = caracter1 + caracter2 + caracter3;
+            var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
+            var ultimas = caracter5 + caracter6 + caracter7;
+    
+            //Brembo con Xtra, Max y Normar
+            if (
+              iniciales === "A-" ||
+              iniciales === "I-" ||
+              iniciales === "a-" ||
+              iniciales === "i-"
+            ) {
+              POSTDATA["search_text"] =
+                this.search_text +
+                " " +
+                "&&" +
+                this.search_text +
+                "MAX" +
+                " " +
+                "&&" +
+                this.search_text +
+                "XTRA";
+            }
+            //Numeros largos Centric
+            else if (
+              tresletras === "320." ||
+              tresletras === "905." ||
+              tresletras === "412." ||
+              tresletras === "406." ||
+              tresletras === "116." ||
+              tresletras === "117." ||
+              tresletras === "122." ||
+              tresletras === "227." ||
+              tresletras === "301." ||
+              tresletras === "105." ||
+              tresletras === "104." ||
+              tresletras === "102." ||
+              tresletras === "121." ||
+              tresletras === "309." ||
+              tresletras === "106." ||
+              tresletras === "103." ||
+              tresletras === "500." ||
+              tresletras === "300." ||
+              tresletras === "100." ||
+              tresletras === "306." ||
+              tresletras === "120." ||
+              tresletras === "123." ||
+              tresletras === "125." ||
+              tresletras === "126." ||
+              tresletras === "127." ||
+              tresletras === "128." ||
+              tresletras === "110." ||
+              tresletras === "111." ||
+              tresletras === "950." ||
+              tresletras === "978." ||
+              tresletras === "905." ||
+              letras === "83." ||
+              letras === "31." ||
+              tresletras === "228."
+            ) {
+              POSTDATA["or_filters"]["key_id"] = busquedas;
+            }
+            //Brembo numeros largos
+            else if (letras === "09." || letras === "08." || letras === "14.") {
+              bremLarge.forEach(function(numLargos, indice, array) {
+                if (busquedas === numLargos) {
+                  POSTDATA["or_filters"]["key_id"] = busquedas;
+                }
+              });
+             
+            } else if(caracter5 === '.'){
+                bremCort08.forEach(function(numLargos, indice, array) {
+                    if (busquedas === numLargos) {
+                      POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
+                    }else{
+                        bremCort09.forEach(function(numLargos, indice, array) {
+                            if (busquedas === numLargos) {
+                              POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
+                            }else{
+                                bremCorto14.forEach(function(numLargos, indice, array) {		
+                                    if(busquedas === numLargos ){			
+                                        POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
+                                    }else{									
+                                        
+                                    }
+                                })
+                            }
+    
+                          })
+                    }
+                  });
+                                                   
+            }else{
+              POSTDATA["search_text"] = this.search_text;
+            }
+          }
+    
+          FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
             if (responseServices.json.success) {
                 FetchXHR(urlProducts, 'POST', POSTDATA).then((responseProducts) => {
                     if (responseProducts.json.success) {
@@ -617,6 +636,27 @@ class OrderCreatorVentas extends CrudLayout {
             this.props.onError(onError.message);
         });
     }
+
+      componentDidMount() {
+        this.limit = 50;
+        this.page = 1;
+        this.getData();
+    
+        this.refresh_interval = setInterval(() => {
+          this.getData();
+        }, 60000);
+      }
+
+      refreshTable = () => {
+        this.getData();
+      };
+
+      onClickSearch = (search_text) => {                 
+        this.search_text = search_text;
+        setTimeout(() => {
+        this.getData();
+      }, 1000);
+      };
 
 	//Al arrastrar los productos a la Orden de Venta
     sendToOnChange( actual_products, actual_total) {
@@ -881,7 +921,7 @@ class OrderCreatorVentas extends CrudLayout {
 				console.log("INDEX,", index);
 				if (index != -1) {				
 					actualProducts.splice(index, 1);				
-			}
+			    }
 				
 				const new_total = this.state.total - (record.total);
 
@@ -955,19 +995,19 @@ class OrderCreatorVentas extends CrudLayout {
                             style={styles.rowContainer}
                         >
                             <AutoComplete
-								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-								autoFocus
-								backfill
-								placeholder={'Buscador...'}
-								onSearch={this.getData}
-								onSelect={(value) => { this.getData() }}
-								value={this.state.client_name}
-								onChange={(value) => {
-									this.onChangeFieldName(value, 'client_name');
-								}}
-								dataSource={this.state.name_clients}
-								style={styles.inputElement}
-							/>
+                              disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                              autoFocus
+                              backfill
+                              placeholder={'Buscador...'}
+                              onSearch={this.onClickSearch}
+                              onSelect={(value) => { this.onClickSearch(value)}}
+                              value={this.state.client_name}
+                              onChange={(value) => {
+                                  this.onChangeFieldName(value, 'client_name');
+                              }}
+                              dataSource={this.state.name_clients}
+                              style={styles.inputElement}
+                          />
                             <div style={styles.groupLabel}>
                                 <p style={styles.quantityLabel}>Cantidad (#)</p>
                                 <InputNumber
