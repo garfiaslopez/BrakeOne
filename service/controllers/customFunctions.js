@@ -15,24 +15,10 @@ module.exports =  {
                 $set : {
                     stock: 0,
                 }
-            }
-            
-            objectModel.updateMany({line:"BALATAS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"DISCOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"DISCO / TAMBOR"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"ZAPATA"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"SENSORES"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"LIQUIDO FRENOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"ACEITE"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"ADITIVO"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"ANTICONGELANTE"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"ATE"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"BALATAS LOW METAL"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"BMW"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"PALPADOR"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"SENSOR DESGASTE"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"TAMBOR"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"ZAPATAS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
+            }            
+            objectModel.updateMany({line:"BALATAS CERAMICA"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({line:"VARIOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
+            objectModel.updateMany({line:"LÍQUIDO DE FRENOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
