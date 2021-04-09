@@ -1031,7 +1031,7 @@ class OrderCreator extends CrudLayout {
 						  <div
 							  style={styles.rowContainer}
 						  >
-							  <AutoComplete
+							<AutoComplete
 								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
 								autoFocus
 								backfill
