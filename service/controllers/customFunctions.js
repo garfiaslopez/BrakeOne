@@ -1,29 +1,37 @@
 errs = require('restify-errors');
 module.exports =  {
-    update_stockPublico:  (req, res, next) => {       
+    update_stockPublico:  (req, res, next) => {
+       
         const objectModel = require("../models/product");
+
         let Filter = {
             subsidiary_id: req.body.subsidiary_id,
         };
         let NewProperties = {};
-            
-        //Modify price percentage
+
         if (req.body.brand && req.body.quantity_percent) { // update by brand 
             Filter.brand = req.body.brand;
 
-            var data = {
-                $set : {
-                    stock: 0,
+            const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
+           
+            NewProperties.price_public = multiplier;
+            
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
                 }
-            }            
-            objectModel.updateMany({line:"BALATAS CERAMICA"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"VARIOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
-            objectModel.updateMany({line:"LÍQUIDO DE FRENOS"}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } })
+            );
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
     },
-
     update_stockTaller:  (req, res, next) => {
 
         const objectModel = require("../models/product");
