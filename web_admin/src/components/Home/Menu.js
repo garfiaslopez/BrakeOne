@@ -8,6 +8,7 @@ import ProductServices from '../Products/Services/Services';
 import Receptions from '../Products/Receptions/Receptions';
 import ReceptionPayments from '../Products/ReceptionPayments/ReceptionPayments';
 import Kardex from '../Products/Kardex/Kardex';
+import KardexSell from '../Sells/Kardex/Kardex';
 import Warranty from '../Products/Warranty/warranty';
 import Paysheet from '../Paysheet/Paysheet';
 import Clients from '../Clients/Clients';
@@ -27,7 +28,18 @@ const adminMenu = [
     {
         'name': 'Ventas',
         'icon': 'shopping-cart',
-        'component': Sells,
+        'sub_menus': [
+            {
+                'name': 'Ventas',
+                'icon': 'shopping-cart',
+                'component': Sells
+            },
+            {
+                'name': 'Kardex',
+                'icon': 'swap',
+                'component': KardexSell
+            },           
+        ]
     },
     {
         'name': 'Servicios',
@@ -128,7 +140,18 @@ const managerMenu = [
     {
         'name': 'Ventas',
         'icon': 'shopping-cart',
-        'component': Sells,
+        'sub_menus': [
+            {
+                'name': 'Ventas',
+                'icon': 'shopping-cart',
+                'component': Sells
+            },
+            {
+                'name': 'Kardex',
+                'icon': 'swap',
+                'component': KardexSell
+            },           
+        ]
     },
     {
         'name': 'Servicios',
@@ -155,6 +178,11 @@ const managerMenu = [
                 'component': Products
             },
             {
+                'name': 'Garantias',
+                'icon': 'rest',
+                'component': Warranty
+            },
+            {
                 'name': 'Servicios',
                 'icon': 'tool',
                 'component': ProductServices,
@@ -173,7 +201,13 @@ const managerMenu = [
                 'name': 'Pagos Productos',
                 'icon': 'dollar',
                 'component': ReceptionPayments
-            }
+            },
+            
+         /*    {
+                'name': 'Pruebas consultas',
+                'icon': 'plus-circle',
+                'component': Productos
+            } */
         ]
     },
     {
@@ -206,6 +240,7 @@ const managerMenu = [
         'icon': 'shop',
         'component': Subsidiarys,
     }
+    
 ];
 
 const userMenu = [
@@ -217,7 +252,18 @@ const userMenu = [
     {
         'name': 'Ventas',
         'icon': 'shopping-cart',
-        'component': Sells,
+        'sub_menus': [
+            {
+                'name': 'Ventas',
+                'icon': 'shopping-cart',
+                'component': Sells
+            },
+            {
+                'name': 'Kardex',
+                'icon': 'swap',
+                'component': KardexSell
+            },           
+        ]
     },
     {
         'name': 'Servicios',
@@ -244,6 +290,11 @@ const userMenu = [
                 'component': Products
             },
             {
+                'name': 'Garantias',
+                'icon': 'rest',
+                'component': Warranty
+            },
+            {
                 'name': 'Servicios',
                 'icon': 'tool',
                 'component': ProductServices,
@@ -262,7 +313,7 @@ const userMenu = [
                 'name': 'Pagos Productos',
                 'icon': 'dollar',
                 'component': ReceptionPayments
-            }
+            },            
         ]
     },
     {
@@ -282,8 +333,11 @@ const userMenu = [
     }
 ];
 
+
 export default {
     'ADMIN': adminMenu,
     'MANAGER': managerMenu,
-    'MOSTRADOR': userMenu
+    'MOSTRADOR': userMenu,
+    'ROBERTOQRO': userMenu
+
 }
