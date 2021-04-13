@@ -100,8 +100,7 @@ module.exports = (method, model) => {
         });
     }
 
-    let Search = (req, res, next) => {
-        console.log('Llegaste aqui');
+    let Search = (req, res, next) => {    
         var Paginator = {
             page: 1,
             limit: 50,
@@ -130,6 +129,7 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
+            console.log('Prueba de busqueda', req.body.search_text);
             Filter['$text'] = { '$search': req.body.search_text };
            /*  console.log("Texto: " + req.body.search_text); */
         }
