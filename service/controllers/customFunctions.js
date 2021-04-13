@@ -241,6 +241,7 @@ module.exports =  {
         const objectModel = require("../models/product");
         if (req.body.key_id && req.body._id) {
             objectModel.findById({ key_id: req.body.key_id}, (err, response) => {
+                console.log(req.body.key_id);
                 if(err){
                     return next(new errs.InternalServerError(err));                    
                 } else if (response) {
