@@ -41,7 +41,8 @@ module.exports = (method, model) => {
                 return next(new errs.InternalServerError(err));
             } else {
                 if (newObj) {
-                    return res.json({ success: true , obj: newObj });                                        
+                    console.log(req.params.object_id);
+                    return res.json({ success: true , obj: newObj });                                                         
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
