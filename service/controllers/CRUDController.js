@@ -131,7 +131,7 @@ module.exports = (method, model) => {
         if (req.body.search_text != undefined) {
             console.log('Busqueda de productos');
             console.log(req.body.search_text);
-            Filter['$text'] = { '$search':'\'$req.body.search_text\''};
+            Filter['$text'] = { '$search': req.body.search_text};
         };          
         if (req.body.filters != undefined) {
             Object.keys(req.body.filters).forEach((filter_key)  => { 
