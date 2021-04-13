@@ -240,11 +240,11 @@ module.exports =  {
         
         const objectModel = require("../models/product");
         if (req.body.key_id && req.body._id) {
-            objectModel.findById({ key_id: req.body.key_id}, (err, response) => {
-                console.log(req.body.key_id);
+            objectModel.findById({ key_id: req.body.key_id}, (err, response) => {               
                 if(err){
                     return next(new errs.InternalServerError(err));                    
                 } else if (response) {
+                    console.log(response);
                     return res.json({ success: true, obj: response});                    
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
