@@ -129,7 +129,7 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
-            console.log('Prueba de busqueda', req.body.search_text);
+            console.log('Busqueda de productos');
             Filter['$text'] = { '$search': req.body.search_text };
            /*  console.log("Texto: " + req.body.search_text); */
         }

@@ -236,6 +236,7 @@ module.exports =  {
     },
 
     search_product:  async (req, res, next) => {
+        console.log('Busqueda productos');
         
         const objectModel = require("../models/product");
         if (req.body.key_id && req.body._id) {
