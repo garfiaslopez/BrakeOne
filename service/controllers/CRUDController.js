@@ -53,6 +53,7 @@ module.exports = (method, model) => {
        
     }
 
+
     let Update = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, obj) => {
             if (err) {
@@ -100,6 +101,7 @@ module.exports = (method, model) => {
     }
 
     let Search = (req, res, next) => {
+        console.log('Llegaste aqui');
         var Paginator = {
             page: 1,
             limit: 50,
