@@ -35,7 +35,7 @@ module.exports = (method, model) => {
         });
     }
 
-    let Read = (req, res, next) => {
+  /*   let Read = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, newObj) => {           
             if (err) {
                 return next(new errs.InternalServerError(err));
@@ -50,7 +50,7 @@ module.exports = (method, model) => {
         });
        
        
-    }
+    } */
 
     let Update = (req, res, next) => {
         objectModel.findById(req.params.object_id, (err, obj) => {
@@ -190,7 +190,7 @@ module.exports = (method, model) => {
     if (method == 'create') {
         return Create;
     } else if (method == 'read') {
-        return Read;
+        return /* Read */;
     } else if (method == 'update') {
         return Update;
     } else if (method == 'delete') {
