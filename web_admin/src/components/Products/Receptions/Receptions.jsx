@@ -42,14 +42,14 @@ class Receptions extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDateSells,
-				width: '20%'
+				width: '8%'
 			},
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
 				render: RenderRows.renderRowTextSells,
-				width: '10%'
+				width: '5%'
 			},
 			{
             	title: 'Factura',
@@ -63,7 +63,7 @@ class Receptions extends CrudLayout {
             	dataIndex: 'status',
 				key: 'status',
 				render: RenderRows.renderRowTextSells,
-				width: '10%',
+				width: '8%',
 				filters: [
 					{ text: 'NORMAL', value: 'NORMAL' },
 					{ text: 'PAGADA', value: 'PAGADA'},
@@ -82,14 +82,14 @@ class Receptions extends CrudLayout {
             	dataIndex: 'payed',
 				key: 'payed',
 				render: RenderRows.renderRowNumberSells,
-				width: '10%'
+				width: '7%'
 			},
 			{
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumberSells,
-				width: '10%'
+				width: '8%'
 			}
 		];
 		if (this.props.session.user.rol === 'ADMIN' ||
@@ -423,7 +423,6 @@ class Receptions extends CrudLayout {
 			});
 		});		
 	}
-
 }
 
 export default Receptions;
