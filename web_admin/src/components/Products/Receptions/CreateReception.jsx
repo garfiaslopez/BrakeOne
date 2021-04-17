@@ -173,7 +173,8 @@ class CreateReception extends Component {
         obj[key] = value;
         this.setState(obj);
     }
-
+    
+    //Cerrar compras sin volver agregar los productos eliminados
     onSubmit = (event) => {                
         event.preventDefault();
         // do validations:
@@ -226,6 +227,7 @@ class CreateReception extends Component {
                         });
 
                         Object.keys(mapped_products_stock).forEach((el) => {
+                           
                             OperationsProducts.push((callback) => {
                                 const new_p = {
                                     stock: actual_max_stock[el] + Number(mapped_products_stock[el])
@@ -258,14 +260,14 @@ class CreateReception extends Component {
                                 const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
                                 FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
                                     if (response_pt.json.success) {
-                                       alert('Productos actualizados!');
+                                        callback(null, response_pt.json.obj);
                                     }
                                 });
                             });
-
                         });
 
                         async.series(OperationsProducts,(err, responses) => {
+                            console.log('Llegaste aqui 2');
                             if (!err) {
                                 console.log("NO ERROR");
                                 console.log(saved_reception);
@@ -280,279 +282,14 @@ class CreateReception extends Component {
                                 });
                             }
                         });
-                    } else {
+                    } else {                       
                         console.log(response);
                         this.setState({
                             error: response.json.message,
                             loading_submit: false
                         });
                     }
-                }).catch((onError) => {
-                    console.log(onError);
-                    this.setState({
-                        error: onError.message,
-                        loading_submit: false
-                    });
-                });
-            } else {
-                this.setState({
-                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
-                });
-            }
-        } else {
-            this.setState({
-                error: 'Favor de seleccionar algun proveedor.'
-            });
-        }
-    }
-    
-    //Cerrar compras sin volver agregar los productos eliminados
-    onClose = (event) => {                
-        event.preventDefault();
-        // do validations:
-        if (!isEmpty(this.state.provider_id)) {
-            if (this.state.products.length > 0) {
-                const Reception =  {
-                    subsidiary_id: this.props.session.subsidiary._id,
-                    user_id: this.props.session.user._id,
-                    provider_id: this.state.provider_id._id,
-                    notes: this.state.notes,
-                    products: this.state.products,
-                    invoice_folio: this.state.invoice_folio,
-                    total: this.state.total
-                }
-                console.log(Reception);
-                let POSTDATA = {
-                    ...Reception,
-                    populate_ids: ['user_id', 'provider_id']
-                }
-                let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/reception';
-                if (this.props.fields) {
-                    method = 'PUT';
-                    url = process.env.REACT_APP_API_URL + '/reception/' + this.props.fields._id;
-                }
-
-                // group products for calculate minus stock.... and exclude the already saved products.
-                // check for relationships and save it apart in her owns models
-                FetchXHR(url, method, POSTDATA).then((response) => {
-                    if (response.json.success) {
-                        const saved_reception = response.json.obj;
-
-                        const OperationsProducts = [];
-                        let mapped_products_stock = {}; // product_id -> sum_quantity.
-                        let actual_max_stock = {};
-                        this.state.products.forEach((p) => {
-                            if (!p._id) {
-                                if (mapped_products_stock[p.id]) {
-                                    mapped_products_stock[p.id] += p.quantity;
-                                } else {
-                                    mapped_products_stock[p.id] = p.quantity;
-                                }
-
-                                if (actual_max_stock[p.id]) {
-                                    actual_max_stock[p.id] = Math.max(actual_max_stock[p.id], p.old_stock);
-                                } else {
-                                    actual_max_stock[p.id] = p.old_stock;
-                                }
-                            }
-                        });
-
-                        Object.keys(mapped_products_stock).forEach((el) => {
-                            OperationsProducts.push((callback) => {
-                                const new_p = {
-                                    stock: actual_max_stock[el] + Number(mapped_products_stock[el])
-                                }
-                                const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
-                                FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
-                                    if (response_p.json.success) {
-                                        callback(null, response_p.json.obj);
-                                    }
-                                });
-                            });
-                        });
-
-                      /*   this.state.products.forEach((p) => {
-                            OperationsProducts.push((callback) => {
-                                //create transaction obj...
-                                const new_transaction = {
-                                    subsidiary_id: this.props.session.subsidiary._id,
-                                    product_id: p.id,
-                                    user_id: p.user_id,
-                                    quantity: p.quantity,
-                                    price: p.price,
-                                    discount: p.discount,
-                                    total: p.total,
-                                    type: 'RECEPCION',
-                                    date: moment().toISOString()
-                                }
-                                console.log(new_transaction);
-                                //te creas! :'v
-                                const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
-                                FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
-                                    if (response_pt.json.success) {
-                                       alert('Productos actualizados!');
-                                    }
-                                });
-                            });
-
-                        }); */
-
-                        async.series(OperationsProducts,(err, responses) => {
-                            if (!err) {
-                                console.log("NO ERROR");
-                                console.log(saved_reception);
-                                this.props.onCustomSubmit(saved_reception);
-                            } else {
-                                console.log(err);
-                                console.log("ERROR");
-                                console.log(responses);
-                                this.setState({
-                                    error: 'Error al procesar la petición',
-                                    loading_submit: false
-                                });
-                            }
-                        });
-                    } else {
-                        console.log(response);
-                        this.setState({
-                            error: response.json.message,
-                            loading_submit: false
-                        });
-                    }
-                }).catch((onError) => {
-                    console.log(onError);
-                    this.setState({
-                        error: onError.message,
-                        loading_submit: false
-                    });
-                });
-            } else {
-                this.setState({
-                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
-                });
-            }
-        } else {
-            this.setState({
-                error: 'Favor de seleccionar algun proveedor.'
-            });
-        }
-    }
-
-    update = (event) => {
-        event.preventDefault();
-        // do validations:
-        if (!isEmpty(this.state.provider_id)) {
-            if (this.state.products.length > 0) {
-                const Reception =  {
-                    subsidiary_id: this.props.session.subsidiary._id,
-                    user_id: this.props.session.user._id,
-                    provider_id: this.state.provider_id._id,
-                    notes: this.state.notes,
-                    products: this.state.products,
-                    invoice_folio: this.state.invoice_folio,
-                    total: this.state.total
-                }
-                console.log(Reception);
-                let POSTDATA = {
-                    ...Reception,
-                    populate_ids: ['user_id', 'provider_id']
-                }
-                let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/reception';
-                if (this.props.fields) {
-                    method = 'PUT';
-                    url = process.env.REACT_APP_API_URL + '/reception/' + this.props.fields._id;
-                }
-
-                // group products for calculate minus stock.... and exclude the already saved products.
-                // check for relationships and save it apart in her owns models
-                FetchXHR(url, method, POSTDATA).then((response) => {
-                    if (response.json.success) {
-                        const saved_reception = response.json.obj;
-
-                        const OperationsProducts = [];
-                        let mapped_products_stock = {}; // product_id -> sum_quantity.
-                        let actual_max_stock = {};
-                        this.state.products.forEach((p) => {
-                            if (!p._id) {
-                                if (mapped_products_stock[p.id]) {
-                                    mapped_products_stock[p.id] += p.quantity;
-                                } else {
-                                    mapped_products_stock[p.id] = p.quantity;
-                                }
-
-                                if (actual_max_stock[p.id]) {
-                                    actual_max_stock[p.id] = Math.max(actual_max_stock[p.id], p.old_stock);
-                                } else {
-                                    actual_max_stock[p.id] = p.old_stock;
-                                }
-                            }
-                        });
-
-                        Object.keys(mapped_products_stock).forEach((el) => {
-                            OperationsProducts.push((callback) => {
-                                const new_p = {
-                                    stock: actual_max_stock[el] + Number(mapped_products_stock[el])
-                                }
-                                const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
-                                FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
-                                    if (response_p.json.success) {
-                                        callback(null, response_p.json.obj);
-                                    }
-                                });
-                            });
-                        });
-
-                        this.state.products.forEach((p) => {
-                            OperationsProducts.push((callback) => {
-                                //create transaction obj...
-                                const new_transaction = {
-                                    subsidiary_id: this.props.session.subsidiary._id,
-                                    product_id: p.id,
-                                    user_id: p.user_id,
-                                    quantity: p.quantity,
-                                    price: p.price,
-                                    discount: p.discount,
-                                    total: p.total,
-                                    type: 'RECEPCION',
-                                    date: moment().toISOString()
-                                }
-                                console.log(new_transaction);
-                                //te creas! :'v
-                                const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
-                                FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
-                                    if (response_pt.json.success) {
-                                        alert('Productos actualizados');
-                                    }
-                                });
-                            });
-
-                        });
-
-                        async.series(OperationsProducts,(err, responses) => {
-                            if (!err) {
-                                console.log("NO ERROR");
-                                console.log(saved_reception);
-                                this.props.onCustomSubmit(saved_reception);
-                            } else {
-                                console.log(err);
-                                console.log("ERROR");
-                                console.log(responses);
-                                this.setState({
-                                    error: 'Error al procesar la petición',
-                                    loading_submit: false
-                                });
-                            }
-                        });
-                    } else {
-                        console.log(response);
-                        this.setState({
-                            error: response.json.message,
-                            loading_submit: false
-                        });
-                    }
-                }).catch((onError) => {
+                }).catch((onError) => {                    
                     console.log(onError);
                     this.setState({
                         error: onError.message,
@@ -605,23 +342,17 @@ class CreateReception extends Component {
             )
         }
 
-        let ModalButtons = [
-            <Button 
-                key=""
-                onClick={this.onClose}
-            >
-                Cerrar
-            </Button>,
+        let ModalButtons = [            
             <Button 
                 key="submit" 
                 type="primary" 
                 loading={this.state.loading}
                 onClick={this.onSubmit}
             >
-                Actualizar
+                Guardar
             </Button>,          
         ];
-
+/* 
         if (this.props.is_disabled) {
             ModalButtons = [
                 <Button 
@@ -632,7 +363,7 @@ class CreateReception extends Component {
                 </Button>
             ];
         }
-
+ */
         const OptionsProviders = this.state.providers.map((item, index) => {
             return (
                 <Select.Option 

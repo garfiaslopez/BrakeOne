@@ -616,10 +616,6 @@ class CreateSell extends Component {
     }
 
     let ModalButtons = [
-      <Button key="cancel" onClick={this.onClose}>
-        Cerrar
-      </Button>,
-
       <Button
         key="submit"
         type="primary"
@@ -629,14 +625,14 @@ class CreateSell extends Component {
         Guardar
       </Button>,
     ];
-
+/* 
     if (this.props.is_disabled) {
       ModalButtons = [
         <Button key="cancel" onClick={this.onClose}>
           Cerrar
         </Button>,
       ];
-    }
+    } */
 
     const OptionsClients = this.state.clients.map((item, index) => {
       return (

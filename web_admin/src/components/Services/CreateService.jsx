@@ -499,12 +499,12 @@ class CreateService extends CrudLayoutClientsSell {
         }
 
         let ModalButtons = [
-            <Button 
+           /*  <Button 
                 key="cancel"
                 onClick={this.props.onClose}
             >
                 Cancelar
-            </Button>,
+            </Button>, */
             <Button 
                 key="submit" 
                 type="primary" 
@@ -525,7 +525,7 @@ class CreateService extends CrudLayoutClientsSell {
                 </Button>
             )
         }
-        if (this.props.is_disabled) {
+     /*    if (this.props.is_disabled) {
             ModalButtons = [
                 <Button 
                     key="cancel"
@@ -534,7 +534,7 @@ class CreateService extends CrudLayoutClientsSell {
                     Cerrar
                 </Button>
             ];
-        }
+        } */
 
         const OptionsClients = this.state.clients.map((item, index) => {
             return (
