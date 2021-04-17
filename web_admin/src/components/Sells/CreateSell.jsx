@@ -130,10 +130,7 @@ class CreateSell extends Component {
     let POSTDATA = {
       limit: 50,
       page: 1,
-      filters: {
-        subsidiary_id: this.props.session.subsidiary._id,
-        sell_id: this.props.fields._id,
-      },
+      filters: {},
     };
     FetchXHR(url, "POST", POSTDATA)
       .then((response) => {
@@ -214,7 +211,7 @@ class CreateSell extends Component {
       page: 1,
       populate_ids: ["client_id", "subsidiary_id", "products.subsidiary_id"],
       filters: {
-        folio: Number(search_text),
+        client_name: search_text,
       },
     };
     FetchXHR(url, "POST", POSTDATA)
@@ -447,6 +444,138 @@ class CreateSell extends Component {
     }
   };
 
+  onClose = (event) => {
+    event.preventDefault();
+    // do validations:
+    if (!isEmpty(this.state.client_id)) {
+      if (this.state.products.length > 0 || this.state.services.length > 0) {
+        let Sell = {
+          subsidiary_id: this.props.session.subsidiary._id,
+          user_id: this.props.session.user._id,
+          client_id: this.state.client_id._id,
+          user_name: this.state.name,
+          client_name: this.state.client_id.name,
+          client_job: this.state.client_id.client_job,
+          client_phone: this.state.client_id.phone_mobil,
+          car_brand: this.state.client_id.car_brand,
+          car_color: this.state.client_id.car_color,
+          car_kms: this.state.client_id.car_kms,
+          car_model: this.state.client_id.car_model,
+          car_plates: this.state.client_id.car_plates,
+          car_vin: this.state.client_id.car_vin,
+          car_year: this.state.client_id.car_year,      
+          notes: this.state.notes,
+          products: this.state.products,
+          services: this.state.services,
+          total: this.state.total,
+          is_service: false,
+          is_finished: true,
+        };
+        if (this.state.quotation_id) {
+          Sell["quotation_id"] = this.state.quotation_id;
+        }
+        // CUSTOM UPLOAD FUNCTION AND SEND THE NEW ARRAY TO CRUDLAYOUT
+        let POSTDATA = {
+          ...Sell,
+          subsidiary_id: this.props.session.subsidiary._id,
+          populate_ids: ["client_id"],
+        };
+        let method = "POST";
+        let url = process.env.REACT_APP_API_URL + "/sell";
+        if (this.props.fields) {
+          method = "PUT";
+          url = process.env.REACT_APP_API_URL + "/sell/" + this.props.fields._id;
+        }
+
+        const client_url = process.env.REACT_APP_API_URL + "/client/" + this.state.client_id._id;
+        FetchXHR(client_url, "PUT", this.state.client_id);
+
+        // group products for calculate minus stock.... and exclude the already saved products.
+        // check for relationships and save it apart in her owns models
+        FetchXHR(url, method, POSTDATA).then((response) => {
+            if (response.json.success) {
+              const saved_sell = response.json.obj;
+              const quotation_url = process.env.REACT_APP_API_URL + "/quotation/" + this.state.quotation_id;
+
+              FetchXHR(quotation_url, "PUT", { sell_id: saved_sell._id });
+              const OperationsProducts = [];
+              let mapped_products_stock = {}; // product_id -> sum_quantity.
+              let actual_max_stock = {};
+              this.state.products.forEach((p) => {
+                if (!p._id) {
+                  if (mapped_products_stock[p.id]) {
+                    mapped_products_stock[p.id] += p.quantity;
+                  } else {
+                    mapped_products_stock[p.id] = p.quantity;
+                  }
+
+                  if (actual_max_stock[p.id]) {
+                    actual_max_stock[p.id] = Math.max(
+                      actual_max_stock[p.id],
+                      p.old_stock
+                    );
+                  } else {
+                    actual_max_stock[p.id] = p.old_stock;
+                  }
+                }
+              });
+
+              Object.keys(mapped_products_stock).forEach((el) => {
+                OperationsProducts.push((callback) => {
+                  const new_p = {
+                    stock: actual_max_stock[el] - mapped_products_stock[el],
+                  };
+                  const url_put_product =
+                    process.env.REACT_APP_API_URL + "/product/" + el;
+                  FetchXHR(url_put_product, "PUT", new_p).then((response_p) => {
+                    if (response_p.json.success) {
+                      callback(null, response_p.json.obj);
+                    }
+                  });
+                });
+              });
+
+
+              async.series(OperationsProducts, (err, responses) => {
+                if (!err) {
+                  this.props.onCustomSubmit(saved_sell);
+                } else {
+                  this.scrollToAlert();
+                  this.setState({
+                    error: "Error al procesar la petición",
+                    loading_submit: false,
+                  });
+                }
+              });
+            } else {
+              this.scrollToAlert();
+              this.setState({
+                error: response.json.message,
+                loading_submit: false,
+              });
+            }
+          })
+          .catch((onError) => {
+            this.scrollToAlert();
+            this.setState({
+              error: onError.message,
+              loading_submit: false,
+            });
+          });
+      } else {
+        this.scrollToAlert();
+        this.setState({
+          error: "Agregar algun producto o servicio o paquete a la cotización.",
+        });
+      }
+    } else {
+      this.scrollToAlert();
+      this.setState({
+        error: "Seleccionar algun cliente.",
+      });
+    }
+  };
+
   scrollToAlert = () => {
     this.alertDiv.scrollIntoView({ behavior: "smooth" });
   };
@@ -487,9 +616,10 @@ class CreateSell extends Component {
     }
 
     let ModalButtons = [
-      <Button key="cancel" onClick={this.props.onClose}>
-        Cancelar
+      <Button key="cancel" onClick={this.onClose}>
+        Cerrar
       </Button>,
+
       <Button
         key="submit"
         type="primary"
@@ -502,7 +632,7 @@ class CreateSell extends Component {
 
     if (this.props.is_disabled) {
       ModalButtons = [
-        <Button key="cancel" onClick={this.props.onClose}>
+        <Button key="cancel" onClick={this.onClose}>
           Cerrar
         </Button>,
       ];

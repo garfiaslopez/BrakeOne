@@ -765,36 +765,70 @@ class CreateReception extends Component {
 
         return (
             <Fragment>
-                <Modal
-                    width="100%"
-                    bodyStyle={styles.modalContainer}
-                    style={styles.modalBodyContainer}
-                    visible={this.state.open}
-                    title={this.props.title}
-                    onCancel={this.props.onClose}
-                    keyboard={true}
-                    footer={ModalButtons}
+            <Modal
+                width="100%"
+                bodyStyle={styles.modalContainer}
+                style={styles.modalBodyContainer}
+                visible={this.state.open}
+                title={this.props.title}
+                onCancel={this.props.onClose}
+                keyboard={true}
+                footer={ModalButtons}
+            >
+                <div
+                    key="sub_modal_container"
+                    style={styles.modalInBodyContainer}
                 >
+                    {alert}
                     <div
-                        key="sub_modal_container"
-                        style={styles.modalInBodyContainer}
+                        style={styles.inputsContainer}
                     >
-                        {alert}
                         <div
-                            style={styles.inputsContainer}
+                            style={styles.inputsRowContainer}
                         >
-                            <div
-                                style={styles.inputsRowContainer}
+                            
+                            <Card
+                                title="Información de Proveedor"
+                                extra={
+                                    <Select
+                                        disabled={this.props.is_disabled || this.props.fields ? true : false }
+                                        
+                                        showSearch
+                                        value={this.state.provider_id.name}
+                                        placeholder={'Buscar Proveedor...'}
+                                        style={styles.inputSearch}
+                                        defaultActiveFirstOption={false}
+                                        showArrow={false}
+                                        filterOption={false}
+                                        onSearch={(value) => { this.getProviders(value) }}
+                                        onChange={(value) => { this.onChangeProvider(value) }}
+                                        notFoundContent={this.state.loading_providers ? <Spin size="small" /> : null}
+                                    >
+                                        {OptionsProviders}
+                                    </Select>
+                                }
+                                style={styles.cardContainer}
+                                bodyStyle={styles.cardBody}
                             >
-                                
-                               
-                            </div>
-                            <div
-                                style={styles.inputsRowContainer}
-                            >
-                               
-                            </div>
+                                {CardContent}
+                            </Card>
                         </div>
+                        <div
+                            style={styles.inputsRowContainer}
+                        >
+                            <Input.TextArea
+                                disabled={this.props.is_disabled}
+                                style={styles.inputElement}
+                                value={this.state.notes}
+                                autosize={{ minRows: 2, maxRows: 6 }}
+                                placeholder="Notas adicionales..."
+                                
+                                onChange={(value) => {
+                                    this.onChangeField(value, 'notes');
+                                }}
+                            />
+                        </div>
+                    </div>
                         {/*Aqui se ocupa la tabla de OrderCreatorReception*/}
                         <OrderCreatorReception
                             is_reception
@@ -817,8 +851,9 @@ class CreateReception extends Component {
                                 services: this.state.services,
                                 total: this.state.total
                             }}
-                        />                                                
+                        />                                                                  
                         {PaymentsModel}
+                        
 
                         <center><Card
                                     title="¡Verificar antes de guardar!"                                    

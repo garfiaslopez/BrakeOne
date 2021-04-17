@@ -27,7 +27,8 @@ class PrinterDownload extends Component {
 
         this.state = {
             'mode': 'filtered', // 'alldata'
-            'loading': false
+            'loading': false,
+            total_precs: 0,
         };
 
         this.onClickDownload = this.onClickDownload.bind(this);
@@ -66,15 +67,26 @@ class PrinterDownload extends Component {
         }
         
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
-            if (response.json.success) {
+            
+            let suma = 0;
+            if (response.json.success) {    
+                           
+                for(let i = 0; i <= 5; i++ ){
+                    var totales = response.json.data.docs[i].total;   
+                    suma += totales;           
+
                 this.setState({
 					table_data: response.json.data.docs.map((el, index)=>({
 						...el,
 						key: index
 					})),
+
 					total_docs: response.json.data.total,
-                    loading_data: false
+                    loading_data: false,
+                    total_precs: suma
                 });
+            }
+            
             } else {
 				console.log(response.message);
 				this.setState({
@@ -157,8 +169,8 @@ class PrinterDownload extends Component {
                             )}
                             content={() => this.tableToPrint}
                         />
-                    ]}
-                    >
+                    ]}                    
+                    >                
                     <Fragment>
                         {alert}
                         <div style={styles.overflow_container}>
@@ -182,6 +194,7 @@ class PrinterDownload extends Component {
                                         emptyText: 'Sin Datos'
                                     }}
                                 />
+                                <h5>{this.state.total_docs} {this.props.model.label}</h5><h5>Total:  ${this.state.total_precs}</h5>                                
                             </div>
                         </div>
                     </Fragment>

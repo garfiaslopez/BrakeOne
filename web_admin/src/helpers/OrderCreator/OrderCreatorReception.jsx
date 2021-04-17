@@ -448,7 +448,7 @@ class OrderCreatorReception extends CrudLayout {
         this.limit = 50;
         this.page = 1;
         this.getData();
-    
+		this.getUsers();
         this.refresh_interval = setInterval(() => {
           this.getData();
         }, 10000);
@@ -1249,6 +1249,7 @@ class OrderCreatorReception extends CrudLayout {
 				  <div
 					  
 				  >
+				  
 					  {SearcherProducts}
 					  <Divider> Orden de venta </Divider>
 					  

@@ -80,8 +80,6 @@ const renderRowNumber = (text, record) => {
 
 
 class OrderCreator extends CrudLayout {
-
-
     constructor(props) {
 	
         super(props);
@@ -416,11 +414,6 @@ class OrderCreator extends CrudLayout {
         this.addRecord = this.addRecord.bind(this);
 		
     }
-
-    componentDidMount() {
-        this.getUsers();
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.price_type) {
             this.setState({
@@ -445,11 +438,9 @@ class OrderCreator extends CrudLayout {
             });
         }
     }
-
     scrollToBottom = () => {
         this.endView.scrollIntoView({ behavior: "smooth" });
     }
-    
     onChangeQuantity(value) {
         this.setState({
             selected_quantity: value
@@ -461,7 +452,6 @@ class OrderCreator extends CrudLayout {
         });
 		
     }
-
     getUsers() {
         this.setState({
 			loading_users: true,
@@ -495,144 +485,160 @@ class OrderCreator extends CrudLayout {
 			});
         });
     }
-
-    getData(search_text) {       
-
+    getData() {         
         this.setState({
 			loading_data: true,
-        });
-        
+        });             
         const urlServices = process.env.REACT_APP_API_URL + '/services';
         const urlProducts = process.env.REACT_APP_API_URL + '/products';
         const urlPackages = process.env.REACT_APP_API_URL + '/product-packages';
-
-
-        const POSTDATA = {
-            limit: 500,
-            page: 1,
-            sort_field: 'stock',
-            populate_ids: ['subsidiary_id'],
-            filters: {},
-        }
+        var POSTDATA = {
+          limit: 50,
+          page: 1,
+          sort_field: 'stock',
+          populate_ids: ['subsidiary_id'],
+          filters: {},
+        };
+          
+        
+        let num;
+        console.log("Prueba de insercción precios", num)
+    
+        FetchXHR(urlProducts, "POST", POSTDATA).then((response) => {    
+    
+            var prec1 = response.json.data.docs[0].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
+            var prec11 = response.json.data.docs[10].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
+            num = prec1 + prec2 + prec3 + prec4 + prec5 + prec6 + prec7 + prec8 + prec9 + prec10;
+            //alert(totalPrec);   
+           console.log("Precios totales", num)
+    
+        }).then (console.log(num))
+    
+        console.log(num)
+     
+    
+        this.setState({
+          loading_data: true,
+        });
+        
         if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;			
 			POSTDATA['sort_order'] = this.sort_order;			
-		} 		
-		if (search_text) {
-			POSTDATA["filters"] = {};
-			let busquedas = search_text;
-			var caracter1 = search_text.charAt(0);
-			var caracter2 = search_text.charAt(1);
-			var caracter3 = search_text.charAt(2);
-			var caracter4 = search_text.charAt(3);
-			var caracter5 = search_text.charAt(4);
-			var caracter6 = search_text.charAt(5);
-			var caracter7 = search_text.charAt(6);
-			/* var caracter8 = this.search_text.charAt(7); */
-	
-			// //2275.10
-			var iniciales = caracter1 + caracter2;
-			var letras = caracter1 + caracter2 + caracter3;
-			var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
-			var ultimas = caracter5 + caracter6 + caracter7;
-	
-			//Brembo con Xtra, Max y Normar
-			if (
-			  iniciales === "A-" ||
-			  iniciales === "I-" ||
-			  iniciales === "a-" ||
-			  iniciales === "i-"
-			) {
-			  POSTDATA["search_text"] =
-				search_text +
-				" " +
-				"&&" +
-				search_text +
-				"MAX" +
-				" " +
-				"&&" +
-				search_text +
-				"XTRA";
-			}
-			//Numeros largos Centric
-			else if (
-			  tresletras === "320." ||
-			  tresletras === "905." ||
-			  tresletras === "412." ||
-			  tresletras === "406." ||
-			  tresletras === "116." ||
-			  tresletras === "117." ||
-			  tresletras === "122." ||
-			  tresletras === "227." ||
-			  tresletras === "301." ||
-			  tresletras === "105." ||
-			  tresletras === "104." ||
-			  tresletras === "102." ||
-			  tresletras === "121." ||
-			  tresletras === "309." ||
-			  tresletras === "106." ||
-			  tresletras === "103." ||
-			  tresletras === "500." ||
-			  tresletras === "300." ||
-			  tresletras === "100." ||
-			  tresletras === "306." ||
-			  tresletras === "120." ||
-			  tresletras === "123." ||
-			  tresletras === "125." ||
-			  tresletras === "126." ||
-			  tresletras === "127." ||
-			  tresletras === "128." ||
-			  tresletras === "110." ||
-			  tresletras === "111." ||
-			  tresletras === "950." ||
-			  tresletras === "978." ||
-			  tresletras === "905." ||
-			  letras === "83." ||
-			  letras === "31." ||
-			  tresletras === "228."
-			) {
-			  POSTDATA["or_filters"]["key_id"] = busquedas;
-			}
-			//Brembo numeros largos
-			else if (letras === "09." || letras === "08." || letras === "14.") {
-			  bremLarge.forEach(function(numLargos, indice, array) {
-				if (busquedas === numLargos) {
-				  POSTDATA["filters"]["key_id"] = busquedas;
-				}
-			  });
-			 
-			} else if(caracter5 === '.'){
-				bremCort08.forEach(function(numLargos, indice, array) {
-					if (busquedas === numLargos) {
-					  POSTDATA["filters"]["key_id"] = '08.' + busquedas;
-					}else{
-						bremCort09.forEach(function(numLargos, indice, array) {
-							if (busquedas === numLargos) {
-							  POSTDATA["filters"]["key_id"] = '09.' + busquedas;
-							}else{
-								bremCorto14.forEach(function(numLargos, indice, array) {		
-									if(busquedas === numLargos ){			
-										POSTDATA['filters']['key_id'] = '14.' + busquedas;				
-									}else{									
-										
-									}
-								})
-							}
-	
-						  })
-					}
-				  });
-												   
-			}else{
-			  POSTDATA["search_text"] = search_text;
-			}
-		}	
-		
-
-        FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
+		} 
+    
+       
+          if(this.search_text) {
+            POSTDATA["or_filters"] = {};
+            let busquedas = this.search_text;
+            var caracter1 = this.search_text.charAt(0);
+            var caracter2 = this.search_text.charAt(1);
+            var caracter3 = this.search_text.charAt(2);
+            var caracter4 = this.search_text.charAt(3);
+            var caracter5 = this.search_text.charAt(4);
+            var caracter6 = this.search_text.charAt(5);
+            var caracter7 = this.search_text.charAt(6);		
+    
+            var iniciales = caracter1 + caracter2;
+            var letras = caracter1 + caracter2 + caracter3;
+            var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
+            var ultimas = caracter5 + caracter6 + caracter7;
+    
+            //Brembo con Xtra, Max y Normar
+            if (
+              iniciales === "A-" ||
+              iniciales === "I-" ||
+              iniciales === "a-" ||
+              iniciales === "i-"
+            ) {
+              POSTDATA["search_text"] =
+                this.search_text +
+                " " +
+                "&&" +
+                this.search_text +
+                "MAX" +
+                " " +
+                "&&" +
+                this.search_text +
+                "XTRA";
+            }
+            //Numeros largos Centric
+            else if (
+              tresletras === "320." ||
+              tresletras === "905." ||
+              tresletras === "412." ||
+              tresletras === "406." ||
+              tresletras === "116." ||
+              tresletras === "117." ||
+              tresletras === "122." ||
+              tresletras === "227." ||
+              tresletras === "301." ||
+              tresletras === "105." ||
+              tresletras === "104." ||
+              tresletras === "102." ||
+              tresletras === "121." ||
+              tresletras === "309." ||
+              tresletras === "106." ||
+              tresletras === "103." ||
+              tresletras === "500." ||
+              tresletras === "300." ||
+              tresletras === "100." ||
+              tresletras === "306." ||
+              tresletras === "120." ||
+              tresletras === "123." ||
+              tresletras === "125." ||
+              tresletras === "126." ||
+              tresletras === "127." ||
+              tresletras === "128." ||
+              tresletras === "110." ||
+              tresletras === "111." ||
+              tresletras === "950." ||
+              tresletras === "978." ||
+              tresletras === "905." ||
+              letras === "83." ||
+              letras === "31." ||
+              tresletras === "228."
+            ) {
+              POSTDATA["or_filters"]["key_id"] = busquedas;
+            }
+            //Brembo numeros largos
+            else if (letras === "09." || letras === "08." || letras === "14.") {
+              bremLarge.forEach(function(numLargos, indice, array) {
+                if (busquedas === numLargos) {
+                  POSTDATA["or_filters"]["key_id"] = busquedas;
+                }
+              });
+             
+            } else if(caracter5 === '.'){
+                bremCort08.forEach(function(numLargos, indice, array) {
+                    if (busquedas === numLargos) {
+                      POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
+                    }else{
+                        bremCort09.forEach(function(numLargos, indice, array) {
+                            if (busquedas === numLargos) {
+                              POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
+                            }else{
+                                bremCorto14.forEach(function(numLargos, indice, array) {		
+                                    if(busquedas === numLargos ){			
+                                        POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
+                                    }else{									
+                                        
+                                    }
+                                })
+                            }
+    
+                          })
+                    }
+                  });
+                                                   
+            }else{
+              POSTDATA["search_text"] = this.search_text;
+            }
+          }
+    
+          FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
             if (responseServices.json.success) {
                 FetchXHR(urlProducts, 'POST', POSTDATA).then((responseProducts) => {
                     if (responseProducts.json.success) {
@@ -702,6 +708,24 @@ class OrderCreator extends CrudLayout {
             this.props.onError(onError.message);
         });
     }
+	componentDidMount() {
+		this.limit = 50;
+		this.page = 1;
+		this.getData();
+		this.getUsers();
+		this.refresh_interval = setInterval(() => {
+			this.getData();
+		}, 10000);
+	}
+	refreshTable = () => {
+		this.getData();
+	};
+		onClickSearch = (search_text) => {                 
+		this.search_text = search_text;
+		setTimeout(() => {
+		this.getData();
+		}, 1000);
+	};
 
     sendToOnChange( actual_products, actual_total) {
         // split the arrays and do calculation for total:
@@ -728,7 +752,6 @@ class OrderCreator extends CrudLayout {
             total: actual_total,
         });
     }
-
     // update actual list product stock, minus selected quantity.
     // 
 	addRecord(record) {
@@ -810,7 +833,6 @@ class OrderCreator extends CrudLayout {
             this.props.onError('No se pueden seleccionar productos de otra sucursal.');
         }
 	}
-	
 	//Porcentaje a precios de balatas u otros 
     updateRecord = (row) => {
         console.log("updateRecord", row);
@@ -839,7 +861,6 @@ class OrderCreator extends CrudLayout {
         });
         this.sendToOnChange(newData, newTotal);
 	}
-
 	updatePrec = (row) => {
         console.log("updateRecord", row);
         const newData = [...this.state.selected_data];
@@ -865,9 +886,6 @@ class OrderCreator extends CrudLayout {
         });
         this.sendToOnChange(newData, newTotal);
 	}
-
-
-
     deleteRecord(record) {
 
 		if(true){
@@ -998,225 +1016,221 @@ class OrderCreator extends CrudLayout {
 		  client_phone: phone,
 		  price_type: client.price_type
 		});
-	  }
-  
-  
-  
-  
-	  render() {		
-		  let widthTable = (window.innerWidth/2) - 60;
-		  if (this.props.disabled) {
-			  widthTable = window.innerWidth;
-		  }
-		  const OptionsUsers = this.state.users.map((item, index) => {
-			  return (
-				  <Select.Option 
-					  value={item._id}
-					  key={`${item._id} - ${index}`} 
-				  >
-					  {item.name}
-				  </Select.Option>
-			  );
-		  });
-  
-		  let SearcherProducts = <div></div>;
-		 
-			  SearcherProducts = (
-				  
-				  <Fragment>
-					  <Divider> Buscar y seleccionar productos: </Divider>
-					  <div
-						  style={styles.columnContainer}
-					  >
-						  <div
-							  style={styles.rowContainer}
-						  >
-							<AutoComplete
-								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-								autoFocus
-								backfill
-								placeholder={'Buscador...'}
-								onSearch={this.getData}
-								onSelect={(value) => { this.getData() }}
-								value={this.state.client_name}
-								onChange={(value) => {
-									this.onChangeFieldName(value, 'client_name');
+	}
+	render() {		
+		let widthTable = (window.innerWidth/2) - 60;
+		if (this.props.disabled) {
+			widthTable = window.innerWidth;
+		}
+		const OptionsUsers = this.state.users.map((item, index) => {
+			return (
+				<Select.Option 
+					value={item._id}
+					key={`${item._id} - ${index}`} 
+				>
+					{item.name}
+				</Select.Option>
+			);
+		});
+
+		let SearcherProducts = <div></div>;
+		
+			SearcherProducts = (
+				
+				<Fragment>
+					<Divider> Buscar y seleccionar productos: </Divider>
+					<div
+						style={styles.columnContainer}
+					>
+						<div
+							style={styles.rowContainer}
+						>
+						<AutoComplete
+							disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+							autoFocus
+							backfill
+							placeholder={'Buscador...'}
+							onSearch={this.onClickSearch}
+							onSelect={(value) => { this.onClickSearch() }}
+							value={this.state.client_name}
+							onChange={(value) => {
+								this.onChangeFieldName(value, 'client_name');
+							}}
+							dataSource={this.state.name_clients}
+							style={styles.inputElement}
+						/>
+							<div style={styles.groupLabel}>
+								<p style={styles.quantityLabel}>Cantidad (#)</p>
+								<InputNumber
+									style={styles.rowElementQuantity}
+									placeholder="Cantidad (#)"
+									value={this.state.selected_quantity}
+									onChange={this.onChangeQuantity}
+									size="100%"
+									step={1}
+									min={1}
+								/>
+							</div>
+							<div style={styles.groupLabel}>
+								<p style={styles.quantityLabel}>Usuario</p>
+								<Select
+									style={styles.rowElementUser}
+									value={this.state.selected_user._id}
+									showSearch
+									optionFilterProp="children"
+									placeholder="Usuario"                                    
+									onChange={this.onChangeUser}
+								>
+										{OptionsUsers}
+								</Select>
+							</div>     													                     
+						</div>
+
+						<div
+							style={styles.rowContainer}
+						>
+							<Table
+								bordered
+								loading={this.state.loading_data}
+								size="small"
+								scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
+								style={styles.tableLayout}
+								columns={this.table_columns_results}
+								dataSource={this.state.results_data}
+								locale={{
+								filterTitle: "Filtro",
+								filterConfirm: "Ok",
+								filterReset: "Limpiar",
+								emptyText: "Sin Datos",
 								}}
-								dataSource={this.state.name_clients}
-								style={styles.inputElement}
+								pagination={false}
+								onRow={(record) => {
+									return {
+										onClick: () => {
+											this.addRecord(record);
+										},
+									};
+								}}
 							/>
-							  <div style={styles.groupLabel}>
-								  <p style={styles.quantityLabel}>Cantidad (#)</p>
-								  <InputNumber
-									  style={styles.rowElementQuantity}
-									  placeholder="Cantidad (#)"
-									  value={this.state.selected_quantity}
-									  onChange={this.onChangeQuantity}
-									  size="100%"
-									  step={1}
-									  min={1}
-								  />
-							  </div>
-							  <div style={styles.groupLabel}>
-								  <p style={styles.quantityLabel}>Usuario</p>
-								  <Select
-									  style={styles.rowElementUser}
-									  value={this.state.selected_user._id}
-									  showSearch
-									  optionFilterProp="children"
-									  placeholder="Usuario"                                    
-									  onChange={this.onChangeUser}
-								  >
-										  {OptionsUsers}
-								  </Select>
-							  </div>     													                     
-						  </div>
-  
-						  <div
-							  style={styles.rowContainer}
-						  >
-							  <Table
-								  bordered
-								  loading={this.state.loading_data}
-								  size="small"
-								  scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
-								  style={styles.tableLayout}
-								  columns={this.table_columns_results}
-								  dataSource={this.state.results_data}
-								  locale={{
-									filterTitle: "Filtro",
-									filterConfirm: "Ok",
-									filterReset: "Limpiar",
-									emptyText: "Sin Datos",
-								  }}
-								  pagination={false}
-								  onRow={(record) => {
-									  return {
-										  onClick: () => {
-											  this.addRecord(record);
-										  },
-									  };
-								  }}
-							  />
-						  </div>
-					  </div>
-				  </Fragment>
-			  );
-		  
-  
-		  const components = {
-			  body: {
-				  row: EditableFormRow,
-				  cell: EditableCell,
-			  }
-		  };
-  
-  
-		  ////////////////////////////////////////////
-  
-		  const columns = this.table_columns_selected.map((col) => {
-			  if (!col.editable) {
-				return col;
-			  }
-			  return {
-				  ...col,
-				  onCell: record => {
-					  if (Number(record.key) > this.state.initial_length_data) {
-						  return ({
-							  record,
-							  editable: col.editable,
-							  dataIndex: col.dataIndex,
-							  title: col.title,
-							  handleSave: this.updateRecord,
-						  });
-					  }
-					  return ({
-						  record,
-						  editable: false,
-						  dataIndex: col.dataIndex,
-						  title: col.title,
-						  handleSave: this.updateRecord,
-					  });
-				  },
-			  };
-		  });
-		  
-  
-  
-  
-  
-		  const columns1 = this.table_columns_selected.map((col) => {
-			  if (!col.editable) {
-				return col;
-			  }
-			  return {
-				  ...col,
-				  onCell: record => {
-					  if (Number(record.key) > this.state.initial_length_data) {
-						  return ({
-							  record,
-							  editable: col.editable,
-							  dataIndex: col.dataIndex,
-							  title: col.title,
-							  handleSave: this.updateRecord,
-						  });
-					  }
-					  return ({
-						  record,
-						  editable: false,
-						  dataIndex: col.dataIndex,
-						  title: col.title,
-						  handleSave: this.updateRecord,
-					  });
-				  },
-			  };
-		  });
-  
-  
-  
-  
-  
-  
-		  return (
-			  <Fragment>
-				  <div
-					  
-				  >
-					  {SearcherProducts}
-					  <Divider> Orden de venta </Divider>
-					  <div                      
-					  >
-						  <Table
-							  components={components}
-							  rowClassName={() => 'editable-row'}
-							  bordered
-							  columns={columns}
-							  size="small"
-							  scroll={{ y: 500 }}
-							  style={styles.tableLayout}
-							  dataSource={this.state.selected_data}
-							  locale={{
-								  filterTitle: 'Filtro',
-								  filterConfirm: 'Ok',
-								  filterReset: 'Reset',
-								  emptyText: 'Sin Datos'
-							  }}
-							  pagination={false}
-						  />
-					  </div>
-					  <div style={styles.labelContainer}>
-						  <p style={styles.labelTitle}> Total de compra: </p>
-						  <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
-					  </div>
-					  <div 
-						  ref={(el) => { this.endView = el; }} 
-					  >
-  
-					  </div>
-				  </div>
-			  </Fragment>
-		  );
-	  }
+						</div>
+					</div>
+				</Fragment>
+			);
+		
+
+		const components = {
+			body: {
+				row: EditableFormRow,
+				cell: EditableCell,
+			}
+		};
+
+
+		////////////////////////////////////////////
+
+		const columns = this.table_columns_selected.map((col) => {
+			if (!col.editable) {
+			return col;
+			}
+			return {
+				...col,
+				onCell: record => {
+					if (Number(record.key) > this.state.initial_length_data) {
+						return ({
+							record,
+							editable: col.editable,
+							dataIndex: col.dataIndex,
+							title: col.title,
+							handleSave: this.updateRecord,
+						});
+					}
+					return ({
+						record,
+						editable: false,
+						dataIndex: col.dataIndex,
+						title: col.title,
+						handleSave: this.updateRecord,
+					});
+				},
+			};
+		});
+		
+
+
+
+
+		const columns1 = this.table_columns_selected.map((col) => {
+			if (!col.editable) {
+			return col;
+			}
+			return {
+				...col,
+				onCell: record => {
+					if (Number(record.key) > this.state.initial_length_data) {
+						return ({
+							record,
+							editable: col.editable,
+							dataIndex: col.dataIndex,
+							title: col.title,
+							handleSave: this.updateRecord,
+						});
+					}
+					return ({
+						record,
+						editable: false,
+						dataIndex: col.dataIndex,
+						title: col.title,
+						handleSave: this.updateRecord,
+					});
+				},
+			};
+		});
+
+
+
+
+
+
+		return (
+			<Fragment>
+				<div
+					
+				>
+					{SearcherProducts}
+					<Divider> Orden de venta </Divider>
+					<div                      
+					>
+						<Table
+							components={components}
+							rowClassName={() => 'editable-row'}
+							bordered
+							columns={columns}
+							size="small"
+							scroll={{ y: 500 }}
+							style={styles.tableLayout}
+							dataSource={this.state.selected_data}
+							locale={{
+								filterTitle: 'Filtro',
+								filterConfirm: 'Ok',
+								filterReset: 'Reset',
+								emptyText: 'Sin Datos'
+							}}
+							pagination={false}
+						/>
+					</div>
+					<div style={styles.labelContainer}>
+						<p style={styles.labelTitle}> Total de compra: </p>
+						<p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+					</div>
+					<div 
+						ref={(el) => { this.endView = el; }} 
+					>
+
+					</div>
+				</div>
+			</Fragment>
+		);
+	}
 }
 
 // wrap a HOC to handle the inject of the fields?

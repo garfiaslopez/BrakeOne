@@ -43,6 +43,7 @@ class CrudLayout extends Component {
       columnKey: "denomination",
     },
     open_custom_modal: undefined,
+    total_precs: 0,
   };
  
 
@@ -54,7 +55,7 @@ class CrudLayout extends Component {
 
     this.refresh_interval = setInterval(() => {
       this.getData();
-    }, 60000);
+    }, 20000);
   }
 
   componentWillUnmount() {
@@ -62,8 +63,8 @@ class CrudLayout extends Component {
   }
 
   // GET DATA
-  getData() {            
-      
+  getData() {        
+
     this.setState({
       loading_data: true,
     });
@@ -88,8 +89,7 @@ class CrudLayout extends Component {
         POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
       } else if (this.model.name === "sell") {
         POSTDATA["or_filters"] = {};
-        POSTDATA["or_filters"]["folio"] = Number(this.search_text);
-        POSTDATA["or_filters"]["$text"] = { $search: this.search_text };               
+        POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
 
       } else if (this.model.name === "reception") {
         POSTDATA["or_filters"] = {};
@@ -246,41 +246,34 @@ class CrudLayout extends Component {
         }
       });
     }
-    FetchXHR(url, "POST", POSTDATA)
-      .then((response) => {
+    FetchXHR(url, "POST", POSTDATA).then((response) => {
         if (response.json.success) {
-          let next_folio = undefined;
-          if (
-            response.json.data.docs.length > 0 &&
-            response.json.data.docs[0].folio
-          ) {
-            
-          /*  alert(response.json.data.docs[0].total);
-           alert(response.json.data.docs[1].total);
-           alert(response.json.data.docs[2].total);           
-            */
-           /* alert(response.data.docs.total);
-           let total = response.data.docs.total;
+          let next_folio = undefined;       
+          if (response.json.data.docs.length > 0 && response.json.data.docs[0].folio) {
+         
+            next_folio = response.json.data.docs[0].folio + 1;            
 
-           let sum = total.reduce((accomulator, currentValue) => {
-            return accomulator + currentValue, 0;
-           });
-           alert(sum);
-           console.log(sum);
- */
+          }
+          
+          let suma = 0;
+          for(let i = 0; i <= 1; i++ ){
+           
+            var totales = response.json.data.docs[0].total;                       
+            suma += totales;            
           
 
-            next_folio = response.json.data.docs[0].folio + 1;
-          }
           this.setState({
+            
             table_data: response.json.data.docs.map((el, index) => ({
               ...el,
               key: index,
             })),
             next_folio,
             total_docs: response.json.data.total,
+            total_precs: 1,
             loading_data: false,            
-          });
+          });     
+        }
         } else {
           this.setState({
             loading_data: false,
@@ -294,6 +287,7 @@ class CrudLayout extends Component {
           error: onError.message,
         });
       });
+      return;
   }
 
   // MODAL FORM:
@@ -861,7 +855,7 @@ onChangeFieldName(value, key) {
           {Add_Button}
         </div>
         <Divider dashed={true} orientation="left">
-          {"[" + formatNumber(this.state.total_docs) + "]   "} Resultados.
+          { formatNumber(this.state.total_docs)} {this.model.label}
         </Divider>        
         <Table
           bordered
@@ -893,8 +887,7 @@ onChangeFieldName(value, key) {
               },
             };
           }}
-        />
-        Total {formatNumber(this.state.total_docs)}       
+        />         
       </Fragment>
     );
   }
