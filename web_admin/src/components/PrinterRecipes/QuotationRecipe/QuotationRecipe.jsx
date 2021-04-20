@@ -32,7 +32,7 @@ const defaultProps = {
         title: 'Concepto',
         dataIndex: 'description',
         key: 'description',
-        render: RenderRows.renderRowTextTruncateDesc,
+        /* render: RenderRows.renderRowTextTruncateDesc, */
     }, 
     {
         title: 'Cantidad',
