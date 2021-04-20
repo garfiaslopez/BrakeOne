@@ -42,6 +42,10 @@ var ProductTransactionSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    product_key: {
+        type: String,
+        ref: 'Product'
     }
 });
 
