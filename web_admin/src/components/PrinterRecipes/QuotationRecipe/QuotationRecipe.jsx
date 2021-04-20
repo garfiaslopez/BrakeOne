@@ -20,34 +20,40 @@ const defaultProps = {
         title: 'Nombre',
         dataIndex: 'name',
         key: 'name',
+        width: "10%",
     },
    
     quotationColumns: [
     {
         title: 'Clave',
         dataIndex: 'key_id',
-        key: 'key_id',       
+        key: 'key_id',    
+        width: "6%",   
     }, 
     {
         title: 'Concepto',
         dataIndex: 'description',
         key: 'description',
+        width: "25%",
         /* render: RenderRows.renderRowTextTruncateDesc, */
     }, 
     {
         title: 'Cantidad',
         dataIndex: 'quantity',
         key: 'quantity',
+        width: "8%",
         render: RenderRows.renderRowQuantity,
     },{
         title: 'Precio',
+        width: "8%",
         dataIndex: 'price',
-        key: 'price',
+        key: 'price', 
         render: RenderRows.renderRowNumber,
     }, {
         title: 'Importe',
         dataIndex: 'total',
         key: 'total',
+        width: "8%",
         render: RenderRows.renderRowNumber,
     }]
 };
@@ -90,9 +96,7 @@ const QuotationRecipe = ({
         <p><b>TEL: </b> {client_phone}</p><br></br>
         <p><b>Direccion: </b> 
        {client_address_city} {client_address_country} C.P. {client_address_cp} {client_address_state}</p>
-        </ul>
-
-        <p>Por este medio me permito presentar a su amable consideración el presupuesto para la reparación de la siguiente unidad:</p>
+        </ul>        
        
         <ul className="recipe__flex-container">
            
@@ -120,8 +124,7 @@ const QuotationRecipe = ({
                 <h3 className="recipe__item__title">Kms</h3>
                 <span>{vehicle.kms}</span>
             </li>
-        </ul>
-        <p className="Detalle">Detalle de mano de obra y refacciones:</p>
+        </ul>       
         <Table
             size="small"
             indentSize={0}
@@ -149,7 +152,7 @@ const QuotationRecipe = ({
         </ul>
         {/* <p>Agradeciendo la atención que sirva brindar a la presente y en espera de su favorable respuesta, quedo de usted.</p> */}
         {/* <h2>Atentamente</h2> */}
-        <p className="Detalle">GARANTIA RECTIFICADO DISCOS: 5 DIAS, GARANTIA BALATAS: 30 DIAS O KM 1,000 LO QUE OCURRA PRIMERO, SOBRE DEFECTO DE FABRICACION, RECOMENDACIÓN: NO ABUSE DE LOS FRENOS DURANTE LOS PRIMEROS KM 200-300</p>
+        <p>GARANTIA RECTIFICADO DISCOS: 5 DIAS, GARANTIA BALATAS: 30 DIAS O KM 1,000 LO QUE OCURRA PRIMERO, SOBRE DEFECTO DE FABRICACION, RECOMENDACIÓN: NO ABUSE DE LOS FRENOS DURANTE LOS PRIMEROS KM 200-300</p>
         <footer className="recipe__footer">
             <p>Saratoga #313-C,
                 Col. Portales Norte
