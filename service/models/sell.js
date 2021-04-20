@@ -18,8 +18,7 @@
             ref: 'Client'
         },
         client_name: { 
-            type: String,
-            ref: 'User'
+            type: String,        
         },       
         client_phone: {
             type: String,

@@ -21,7 +21,8 @@ class Receptions extends CrudLayout {
 			'open_create_payment': CreatePaymentReception
 		}
 		this.state = { // render vars:
-			filters_layout: ['search','date_range']
+			filters_layout: ['search'],
+			async_data: ['providers']
 		};
         this.model = {
 			name: 'reception',
