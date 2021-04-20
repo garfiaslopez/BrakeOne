@@ -46,6 +46,18 @@ var ProductTransactionSchema = new Schema({
     product_key: {
         type: String,
         ref: 'Product'
+    },
+    product_fmsi: {
+        type: String,
+        ref: 'Product'
+    },
+    user_name: {
+        type: String,
+        ref: 'User'
+    },
+    client_name: {
+        type: String,       
+        ref: 'Sell'
     }
 });
 

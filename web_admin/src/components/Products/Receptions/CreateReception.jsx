@@ -254,7 +254,11 @@ class CreateReception extends Component {
                                     total: p.total,
                                     type: 'RECEPCION',
                                     date: moment().toISOString(),
-                                    product_key: p.key_id
+                                    product_key: p.key_id,
+                                    product_fmsi: p.fmsi,
+                                    user_name: p.name,
+                                    client_name: p.client_name
+
                                 }
                                 console.log(new_transaction);
                                 //te creas! :'v
