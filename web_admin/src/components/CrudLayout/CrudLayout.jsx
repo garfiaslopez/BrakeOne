@@ -9,7 +9,9 @@ import {
   DatePicker,
   Divider,
   Table,  
-  AutoComplete
+  AutoComplete,
+  Select,
+  Spin
 } from "antd";
 
 import isEmpty from "lodash/isEmpty";
@@ -327,6 +329,7 @@ class CrudLayout extends Component {
       const i = newArray.findIndex(
         (el) => el._id === this.state.selected_data._id
       );
+      console.log(i)
       newArray[i] = {
         ...new_obj,
         key: i,
@@ -336,7 +339,7 @@ class CrudLayout extends Component {
         ...new_obj,
         key: newArray.length,
       });
-    }
+    }    
     this.setState({
       table_data: newArray,
       total_docs: newArray.length,
@@ -562,23 +565,58 @@ class CrudLayout extends Component {
     this.getData();
   };
 
+  onSelectClient(client_name) {
+    console.log('Llegaste aqui');
+    const client = this.state.clients.find((el) => (el.name === client_name));
+    
+    console.log(client);
+    let phone = client.phone_mobil;
+    if (phone === "") {
+        phone = client.phone_number;
+        if (phone === "") {
+            phone = client.phone_office;
+        }
+    }
+    this.setState({
+        openCarDropdown: true,
+        search_text: client.name,
+        client_id: client,
+        client_name: client.name,
+        client_phone: phone,
+        price_type: client.price_type
+    });
+}
+
   renderFilters = () => {
-    const SearchFilter = (
-		<AutoComplete
-      disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-      autoFocus
-      backfill
-      placeholder={'Buscador...'}
-      onSearch={this.onClickSearch}
-      onSelect={(value) => { this.onClickSearch(value) }}
-      value={this.state.client_name}
-      onChange={(value) => {
-          this.onChangeFieldName(value, 'client_name');
-      }}
-      dataSource={this.state.name_clients}
-      style={styles.inputElement}
-  />
+
+    const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
+      (item, index) => {
+        return (
+          <Select.Option value={item} key={`${item} - ${index}`}>
+            {item}
+          </Select.Option>
+        );
+      }
     );
+
+    var prueba = ["D340", "P85075N", "A-6100", "PRUEBA"];
+    const SearchFilter = (
+
+      <AutoComplete
+        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+        autoFocus
+        backfill
+        placeholder={'Buscador...'}
+        onSearch={this.onClickSearch}
+        onSelect={(value) => { this.onClickSearch(value)}}     
+        onChange={(value) => {
+          this.onClickSearch(value)
+        }}
+        dataSource={prueba.map((el)=> {return el})}
+        style={styles.inputElement}
+      />               
+    );
+
     const DateRangeFilter = (
       <DatePicker.RangePicker
         key="date_range_filter"
@@ -594,6 +632,7 @@ class CrudLayout extends Component {
             return SearchFilter;
           case "date_range":
             return DateRangeFilter;
+          
         }
       });
     }
@@ -646,6 +685,7 @@ onChangeFieldName(value, key) {
 
 
   render() {
+    
     let title = "Agregar " + this.model.label;
     if (this.state.selectedData) {
       title = "Editar " + this.model.label;
