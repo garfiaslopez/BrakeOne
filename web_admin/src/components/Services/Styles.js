@@ -60,6 +60,11 @@ export default {
         paddingRight:5,
         paddingLeft: 5
     },
+    inputSearchCli: {
+        width: 300,
+        paddingRight:5,
+        paddingLeft: 5
+    },
     buttonHistory: {
         width: 100,
         paddingRight:5,

@@ -536,16 +536,17 @@ class CreateService extends CrudLayoutClientsSell {
             ];
         } */
 
-        const OptionsClients = this.state.clients.map((item, index) => {
+        const OptionsClients = this.state.clients.map((item, index) => {  
+         
             return (
-                <Select.Option 
-                    value={item._id}
-                    key={`${item._id} - ${index}`} 
-                >
-                    {item.name}
-                </Select.Option>
+              <Select.Option value={item._id} key={`${item._id} - ${index}`}>
+                {item.name}
+              </Select.Option>
             );
-        });
+          }
+      );
+
+
 
         const OptionsCars = [];
         if (this.state.client_id.cars) {
@@ -805,22 +806,34 @@ class CreateService extends CrudLayoutClientsSell {
                                                 onSearch={this.getQuotations}
                                                 style={styles.inputSearch}
                                             />
+                                            
                                             <Select
-                                                disabled={ this.props.is_disabled || this.props.fields ? true : false }
-                                                
                                                 showSearch
+                                                onFocus={() => {
+                                                
+                                                }}
+                                                disabled={
+                                                this.props.is_disabled ||
+                                                (this.props.fields && this.props.session.user.rol !== "ADMIN")
+                                                }
                                                 value={this.state.client_id.name}
-                                                placeholder={'Buscar Cliente...'}
-                                                style={styles.inputSearch}
-                                                defaultActiveFirstOption={false}
-                                                showArrow={false}
-                                                filterOption={false}
-                                                onSearch={(value) => { this.getClients(value) }}
-                                                onChange={(value) => { this.onChangeClient(value) }}
-                                                notFoundContent={this.state.loading_clients ? <Spin size="small" /> : null}
+                                                style={styles.inputSearchCli}
+                                                placeholder="Buscar cliente..."
+                                                optionFilterProp="children"
+                                                onSearch={(value) => {
+                                                this.getClients(value);
+                                                }}
+                                                onChange={(value) => {
+                                                this.onChangeClient(value);
+                                                }}
+                                                notFoundContent={
+                                                this.state.loading_clients ? (
+                                                    <Spin size="small" />
+                                                ) : true
+                                                }
                                             >
-                                                {OptionsClients}
-                                            </Select>
+                                                {OptionsClients}                            
+                                             </Select>
                                             <Select
                                                 disabled={ this.props.is_disabled }
                                                 style={styles.inputSearch}
