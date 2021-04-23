@@ -28,7 +28,7 @@ const defaultProps = {
         title: 'Clave',
         dataIndex: 'key_id',
         key: 'key_id',    
-        width: "6%",   
+        width: "8%",   
     }, 
     {
         title: 'Concepto',

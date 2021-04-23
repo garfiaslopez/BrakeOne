@@ -59,6 +59,7 @@ class CreateSell extends Component {
       total: 0,
       payments: [],
       total_payments: 0,
+      prueba: '',
     };
 
     if (props.fields) {
@@ -173,25 +174,37 @@ class CreateSell extends Component {
       search_text,
     };
 
-    FetchXHR(url, "POST", POSTDATA)
-      .then((response) => {
-        if (response.json.success) {
+    FetchXHR(url, "POST", POSTDATA).then((response) => {
+     response.json.data.docs.map((el) => {
+      if(el.name.search(search_text) != -1){
+         console.log("Cliente: ", el.name) 
+      }
+     })
+    }).catch(err => console.log(err))
+
+
+
+    FetchXHR(url, "POST", POSTDATA).then((response) => {
+
+      var el3 = '';
+     /*  response.json.data.docs.map((el2, index2) => {
+        console.log('----------------');
+        console.log("Listado clientes: ", el2.name);        
+      }) */
+        if(true){
+          
           this.setState({
             clients: response.json.data.docs.map((el, index) => ({
               ...el,
-              key: index,
+              key: index === 2,
             })),
-            loading_users: false,
-          });
-        } else {
-          this.scrollToAlert();
-          this.setState({
-            loading_clients: false,
-            error: response.message,
-          });
+            prueba: false,
+          })
         }
-      })
-      .catch((onError) => {
+      
+
+      }).catch((onError) => {
+        console.log('Error: ', onError);
         this.scrollToAlert();
         this.setState({
           loading_clients: false,
@@ -253,9 +266,7 @@ class CreateSell extends Component {
       });
   }
 
-  onChangeClientInfo(key, value) {
-    console.log(key, value);
-    console.log(this.state.client_id);
+  onChangeClientInfo(key, value) {   
     const newUser = JSON.parse(JSON.stringify(this.state.client_id));
     newUser[key] = value;
     this.setState({
@@ -625,22 +636,16 @@ class CreateSell extends Component {
         Guardar
       </Button>,
     ];
-/* 
-    if (this.props.is_disabled) {
-      ModalButtons = [
-        <Button key="cancel" onClick={this.onClose}>
-          Cerrar
-        </Button>,
-      ];
-    } */
 
-    const OptionsClients = this.state.clients.map((item, index) => {
-      return (
-        <Select.Option value={item._id} key={`${item._id} - ${index}`}>
-          {item.name}
-        </Select.Option>
-      );
-    });
+    const optionClients = this.state.clients.map((item, index) => {  
+         
+          return (
+            <Select.Option value={item._id} key={`${item._id} - ${index}`}>
+              {item.name}
+            </Select.Option>
+          );
+        }
+    );
 
     const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
       (item, index) => {
@@ -658,6 +663,9 @@ class CreateSell extends Component {
         Favor de buscar y seleccionar un cliente.{" "}
       </div>
     );
+
+
+    //Validación para mostrar la info del cliente segun su _id
     if (this.state.client_id._id) {
       CardContent = (
         <Fragment>
@@ -695,7 +703,7 @@ class CreateSell extends Component {
           <Select
             showSearch
             onFocus={() => {
-              console.log(this);
+              
             }}
             disabled={
               this.props.is_disabled ||
@@ -709,8 +717,10 @@ class CreateSell extends Component {
               this.onChangeDropdown(value, "price_type");
             }}
           >
-            {OptionsTypes}
+            {OptionsTypes}           
+           
           </Select>
+
           </Card.Grid>
 
           <Card.Grid style={styles.grid_element}>
@@ -829,7 +839,7 @@ class CreateSell extends Component {
               filterReset: "Reset",
               emptyText: "Sin Datos",
             }}
-          />
+          />          
         </Fragment>
       );
     }
@@ -860,47 +870,51 @@ class CreateSell extends Component {
                 <Card
                   title="Información de cliente"
                   extra={
-                    <Fragment>
-                    <Select
-                        disabled={
-                          false
-                        }
-                        showSearch
-                        value={this.state.client_id.name}
-                        placeholder={"Buscar Cliente..."}
-                        style={styles.inputSearchClient}
-                        defaultActiveFirstOption={false}
-                        showArrow={false}
-                        filterOption={false}
-                        onSearch={(value) => {
-                          this.getClients(value);
-                        }}
-                        onChange={(value) => {
-                          this.onChangeClient(value);
-                        }}
-                        notFoundContent={
-                          this.state.loading_clients ? (
-                            <Spin size="small" />
-                          ) : true
-                        }
-                      >
-                        {OptionsClients}
-                      </Select>
-                      
-                      <Input.Search
-                        disabled={
-                          this.props.is_disabled || this.props.fields
-                            ? true
-                            : false
-                        }
-                        key="search_filter"
-                        placeholder="Folio"
-                        enterButton="Buscar"
-                        onSearch={this.getQuotations}
-                        style={styles.inputSearch}
-                      />
-                    </Fragment>
+                    <Fragment>                        
+                          <Select
+                            showSearch
+                            onFocus={() => {
+                              
+                            }}
+                            disabled={
+                              this.props.is_disabled ||
+                              (this.props.fields && this.props.session.user.rol !== "ADMIN")
+                            }
+                            value={this.state.client_id.name}
+                            style={styles.inputSearchClient}
+                            placeholder="Buscar cliente..."
+                            optionFilterProp="children"
+                            onSearch={(value) => {
+                              this.getClients(value);
+                            }}
+                            onChange={(value) => {
+                              this.onChangeClient(value);
+                            }}
+                            notFoundContent={
+                              this.state.loading_clients ? (
+                                <Spin size="small" />
+                              ) : true
+                            }
+                          >
+                           {optionClients}
+           
+                          </Select>
+                          <Input.Search
+                            disabled={
+                              this.props.is_disabled || this.props.fields
+                                ? true
+                                : false
+                            }
+                            key="search_filter"
+                            placeholder="Folio"
+                            enterButton="Buscar"
+                            onSearch={this.getQuotations}
+                            style={styles.inputSearch}
+                          />
+                                            
+                      </Fragment>
                   }
+
                   style={styles.cardContainer}
                   bodyStyle={styles.cardBody}
                 >
