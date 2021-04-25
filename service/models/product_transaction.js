@@ -8,6 +8,9 @@ var ProductTransactionSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Subsidiary'
     },
+    old_stock: { 
+        type: Number 
+    },
     product_id: {
         type: Schema.ObjectId,
         ref: 'Product'
@@ -43,21 +46,8 @@ var ProductTransactionSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    product_key: {
-        type: String,
-        ref: 'Product'
-    },
-    product_fmsi: {
-        type: String,
-        ref: 'Product'
-    },
-    user_name: {
-        type: String,
-        ref: 'User'
-    },
-    client_name: {
-        type: String,       
-        ref: 'Sell'
+    prueba: {
+        type: String
     }
 });
 
