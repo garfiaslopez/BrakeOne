@@ -61,7 +61,8 @@ var ReceptionSchema = new Schema({
         price: { type: Number },
         quantity: { type: Number },
         discount: { type: Number },
-        total: { type: Number }
+        total: { type: Number },
+        old_stock: {type: Number},
     }],
     payed: {
         type: Number,
