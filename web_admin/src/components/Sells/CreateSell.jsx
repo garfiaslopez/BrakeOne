@@ -395,6 +395,7 @@ class CreateSell extends Component {
                   const new_transaction = {
                     subsidiary_id: this.props.session.subsidiary._id,
                     product_id: p.id,
+                    old_stock: p.old_stock,
                     user_id: p.user_id,
                     quantity: p.quantity,                    
                     price: p.price,

@@ -147,7 +147,21 @@ class ProductService extends CrudLayout {
 				key: 'total',							
 				render: renderRowTextSells,
 				width: '10%',
-			}
+			},
+			{
+            	title: 'Old Stock',
+            	dataIndex: 'old_stock',
+				key: 'old_stock',				
+				render: renderRowTextSells,
+				width: '10%',
+			},
+			{
+            	title: 'Actual Stock',
+            	dataIndex: 'product_id.stock',
+				key: 'product_id.stock',				
+				render: renderRowTextSells,
+				width: '10%',
+			},
 		];
 	}
 }
