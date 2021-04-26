@@ -247,14 +247,13 @@ class CreateReception extends Component {
                                 const new_transaction = {
                                     subsidiary_id: this.props.session.subsidiary._id,
                                     product_id: p.id,                                   
-                                    user_id: p.user_id,
-                                    /* provider_id: this.state.provider_id._id,
-                                    provider_name: this.state.provider_id.name, */
+                                    user_id: p.user_id,                                    
+                                    key_id: p.key_id,
+                                    fmsi: p.fmsi,
+                                    provider_name: this.state.provider_id.name,
                                     quantity: p.quantity,
-                                    price: p.price,
-                                   /*  prueba: "Angel Saldivar", */
-                                    old_stock: p.old_stock,
-                                    product_key: p.key_id,
+                                    price: p.price,                                   
+                                    old_stock: p.old_stock,                                    
                                     discount: p.discount,
                                     total: p.total,
                                     type: 'RECEPCION',

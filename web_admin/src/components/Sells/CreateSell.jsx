@@ -396,7 +396,9 @@ class CreateSell extends Component {
                     subsidiary_id: this.props.session.subsidiary._id,
                     product_id: p.id,
                     user_id: p.user_id,
-                    /* client_name: this.state.client_id.name,    */                 
+                    key_id: p.key_id,
+                    fmsi: p.fmsi,
+                    client_name:this.state.client_id.name,                     
                     old_stock: p.old_stock,
                     quantity: p.quantity,                    
                     price: p.price,
