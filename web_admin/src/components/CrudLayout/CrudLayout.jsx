@@ -599,7 +599,7 @@ class CrudLayout extends Component {
       }
     );
 
-    var prueba = ["D340", "P85075N", "A-6100", "PRUEBA"];
+    var prueba = [];
     const SearchFilter = (
 
       <AutoComplete

@@ -41,6 +41,7 @@ module.exports = (method, model) => {
                 return next(new errs.InternalServerError(err));
             } else {
                 if (newObj) {
+                    console.log('Read of CRUDController');
                     console.log(req.params.object_id);
                     return res.json({ success: true , obj: newObj });                                                         
                 } else {
@@ -74,6 +75,7 @@ module.exports = (method, model) => {
                                 if (err_populated){
                                     return next(new errs.InternalServerError(err_populated));
                                 } else {
+                                    console.log("Update CRUDController");
                                     return res.json({ success: true, message: "Succesfully updated.", obj: populated_doc });
                                 }
                             });
@@ -93,6 +95,7 @@ module.exports = (method, model) => {
 			if(err){
 				return next(new errs.InternalServerError(err));
 			} else if (newObj) {
+                console.log('Delete CRUDController');
                 return res.json({ success: true, message: "Succesfully deleted.", obj: newObj });
             } else {
                 return next(new errs.BadRequestError("El elemento no existe."));
@@ -123,17 +126,19 @@ module.exports = (method, model) => {
         // FOR FILTER
         var Filter = {}
         if (req.body.account_id != undefined) {
+            console.log('Busqueda 3'); 
             Filter['account_id'] = req.body.account_id
         }
         if (req.body.subsidiary_id != undefined) {
+            console.log('Busqueda 4'); 
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) {
-            console.log('Busqueda de productos');
-            console.log(req.body.search_text);
+            console.log('Busqueda de productos');           
             Filter['$text'] = { '$search': req.body.search_text};
         };          
         if (req.body.filters != undefined) {
+            console.log('Busqueda 2');  
             Object.keys(req.body.filters).forEach((filter_key)  => { 
                 Filter[filter_key] = req.body.filters[filter_key];                
             });
