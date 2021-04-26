@@ -14,6 +14,9 @@ var ProductTransactionSchema = new Schema({
     fmsi: {
         type: String
     },
+    provider_name: {
+        type:String
+    },
     client_name: {
         type:String
     },
