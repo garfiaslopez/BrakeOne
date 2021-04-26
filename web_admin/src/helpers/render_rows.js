@@ -98,7 +98,7 @@ export default {
             color = 'blue';
         }
         return ({
-            children: <p style={{color, fontSize}}>{text}</p>,
+            children: <p style={{color, fontSize}}>{text && text.substring(0,30) + '...'}</p>,
         });
     },
     renderRowDateSells: (text, record) => {
@@ -125,6 +125,21 @@ export default {
             children: <p style={{color, fontSize}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
         });
     },
+
+    //Numeros
+    renderRowNumbers: (text, record) => {
+        let color = 'black';
+        if (!record.is_payed) {
+            color = 'red';
+        }
+        if (!record.is_finished) {
+            color = 'blue';
+        }
+        return ({
+            children: <p style={{color, fontSize}}>{text}</p>,
+        });
+    },
+
     renderRowPercentSells: (text, record) => {
         let color = 'black';
         if (!record.is_finished) {

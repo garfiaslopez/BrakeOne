@@ -50,7 +50,7 @@ class Services extends CrudLayout {
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
-				render: RenderRows.renderRowTextSells,
+				render: RenderRows.renderRowNumbers,
 				width: '10%'
 			},
 			{
@@ -73,11 +73,18 @@ class Services extends CrudLayout {
 				width: '10%'
 			},
 			{
-            	title: 'Carro',
-            	dataIndex: 'car_id',
-				key: 'car_id',
+            	title: 'Marca',
+            	dataIndex: 'car_brand',
+				key: 'car_brand',
 				width: '10%',
-				render: RenderRows.renderCarServices
+				render: RenderRows.renderRowTextSells
+			},
+			{
+            	title: 'Modelo',
+            	dataIndex: 'car_model',
+				key: 'car_model',
+				width: '10%',
+				render: RenderRows.renderRowTextSells
 			},
 			{
             	title: 'Total',

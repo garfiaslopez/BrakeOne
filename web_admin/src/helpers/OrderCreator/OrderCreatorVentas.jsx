@@ -71,7 +71,7 @@ const renderTruncateRow = (text, record) => {
         props: {
             style: { background: record.subsidiary_id ? record.subsidiary_id.color : '#8FC7FF'  },
         },
-        children: <p style={{fontSize: FontTable}}>{text}</p>,
+        children: <p style={{fontSize: FontTable}}>{text && text.substring(0,20)}</p>,
     });
 }
 

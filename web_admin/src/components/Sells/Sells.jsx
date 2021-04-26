@@ -43,7 +43,7 @@ class Sells extends CrudLayout {
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
-				render: RenderRows.renderRowTextSells,
+				render: RenderRows.renderRowNumbers,
 				width: '5%'
 			},
 			{
@@ -58,14 +58,14 @@ class Sells extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',
 				render: RenderRows.renderRowDateSells,
-				width: '12%'
+				width: '10%'
 			},
 			{
             	title: 'Dias de credito',
 				dataIndex: 'client_id.credit_days',
 				key: 'client_id.credit_days',
-				render: RenderRows.renderRowTextSells,
-				width: '8%'
+				render: RenderRows.renderRowNumbers,
+				width: '6%'
 			},			
 			{
             	title: 'Estatus',
@@ -81,10 +81,10 @@ class Sells extends CrudLayout {
 			},
 			{
             	title: 'Cliente',
-            	dataIndex: 'client_id.name',
-				key: 'client_id.name',
+            	dataIndex: 'client_name',
+				key: 'client_name',
 				render: RenderRows.renderRowTextSells,
-				width: '15%'
+				width: '19%'
 			},
 			{
             	title: 'Pagado',
@@ -105,7 +105,7 @@ class Sells extends CrudLayout {
 				key: 'total',
 				render: RenderRows.renderRowNumberSells,
 				width: '8%'
-			}
+			},			
 		];
 		if (this.props.session.user.rol === 'ADMIN' 
 		&& this.props.session.user.branch === "ADMIN" 

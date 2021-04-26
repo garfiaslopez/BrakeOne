@@ -37,7 +37,7 @@ class Receptions extends CrudLayout {
 		this.additional_submit_data = {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
-        this.table_columns = [
+		this.table_columns = [
 			{
             	title: 'Fecha',
             	dataIndex: 'date',
@@ -49,7 +49,7 @@ class Receptions extends CrudLayout {
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
-				render: RenderRows.renderRowTextSells,
+				render: RenderRows.renderRowNumbers,
 				width: '5%'
 			},
 			{
