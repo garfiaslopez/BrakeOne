@@ -8,6 +8,15 @@ var ProductTransactionSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Subsidiary'
     },
+    key_id: {
+        type: String
+    },
+    fmsi: {
+        type: String
+    },
+    client_name: {
+        type:String
+    },
     old_stock: { 
         type: Number 
     },
