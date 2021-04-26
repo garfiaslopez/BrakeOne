@@ -26,6 +26,7 @@ import isEmpty from "lodash/isEmpty";
 const FontTable = 12;
 const round2 = (number) => (Math.round(number * 100) / 100);
 
+
 const renderRowSmall = (text, record) => {
     return ({
         children: <p style={{fontSize: FontTable}}>{text}</p>,
@@ -49,13 +50,11 @@ const renderRowSmallPrec = (text, record) => {
         children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
 }
-
 const renderRowSmallNumber = (text, record) => {
     return ({
         children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
     });
 }
-
 const renderRow = (text, record) => {
     return ({
         props: {
@@ -86,7 +85,6 @@ const renderRowNumber = (text, record) => {
 
 
 class OrderCreatorVentas extends CrudLayout {
-
 
 	//Contiene las tablas para agregar nuevas ventas
     constructor(props) {
@@ -131,19 +129,19 @@ class OrderCreatorVentas extends CrudLayout {
                 width: '8%',               
             },
             {
+                title: <div style={{ fontSize: FontTable }}>Clave</div>,
+                  dataIndex: 'key_id',
+                        key: 'key_id',
+                render: renderRow,
+                width: '8%'
+              },
+            {
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 			      	key: 'fmsi',
               render: renderTruncateRow,
               width: '8%'
-            },
-            {
-              title: <div style={{ fontSize: FontTable }}>Clave</div>,
-            	dataIndex: 'key_id',
-				      key: 'key_id',
-              render: renderRow,
-              width: '8%'
-            },
+            },    
             {
               title: <div style={{ fontSize: FontTable }}>Linea</div>,
             	dataIndex: 'line',
@@ -324,9 +322,9 @@ class OrderCreatorVentas extends CrudLayout {
         this.addRecord = this.addRecord.bind(this);
 		
     }
-	//Funcion para arrastrar productos a Orden de Venta
+	//No entiendo para que funcione
     componentWillReceiveProps(nextProps) {
-
+        
         if (nextProps.price_type) {
             this.setState({
                 price_type: nextProps.price_type
@@ -334,16 +332,30 @@ class OrderCreatorVentas extends CrudLayout {
         }
         if (nextProps.update_data) {
             const init_selected_data = [];
-            if (nextProps.update_data.products) {
+/* 
+            var prod_fmsi = '';
+            var prod_key_id = '';
+            const pru = nextProps.update_data.products.forEach((el) => {
+                prod_fmsi.push(el.fmsi);
+                prod_key_id.push(el.key_id)
+            })
+            console.log(prod_fmsi);
+            console.log(prod_key_id);   
+            if(prod_fmsi === ""){console.log('El producto no cuenta con fmsi');
+            if(prod_key_id === ""){console.log('El producto no cuenta con clave')}
+
+
+
+
+
+            }else */
+            if (nextProps.update_data.products ) {
                 nextProps.update_data.products.forEach((el, index) => {init_selected_data.push({key: index, ...el, type: el.fmsi ? 'product' : 'service'})});
             }
             if (nextProps.update_data.services) {
 
                 nextProps.update_data.services.forEach((el, index) => {init_selected_data.push({key: init_selected_data.length + index, ...el, type: el.fmsi ? 'product' : 'service'})});
-            }
-
-            console.log("INITIAL STATE DATA");
-            console.log(init_selected_data);
+            }                      
             this.setState({
                 selected_data: init_selected_data,
                 total: nextProps.update_data.total
@@ -380,6 +392,7 @@ class OrderCreatorVentas extends CrudLayout {
             page: 1,
             search_text: this.state.search_user
 		}
+        
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
             if (response.json.success) {
                 this.setState({
@@ -418,24 +431,7 @@ class OrderCreatorVentas extends CrudLayout {
           populate_ids: ['subsidiary_id'],
           filters: {},
         };
-          
-        
-        let num;
-        console.log("Prueba de insercción precios", num)
-    
-        FetchXHR(urlProducts, "POST", POSTDATA).then((response) => {    
-    
-            var prec1 = response.json.data.docs[0].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
-            var prec11 = response.json.data.docs[10].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
-            num = prec1 + prec2 + prec3 + prec4 + prec5 + prec6 + prec7 + prec8 + prec9 + prec10;
-            //alert(totalPrec);   
-           console.log("Precios totales", num)
-    
-        }).then (console.log(num))
-    
-        console.log(num)
-     
-    
+
         this.setState({
           loading_data: true,
         });
@@ -557,8 +553,9 @@ class OrderCreatorVentas extends CrudLayout {
             }
           }
     
+          //Cuando buscas el producto se encarga de mostrarlo por pantalla          
           FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
-            if (responseServices.json.success) {
+            if (responseServices.json.success) {                
                 FetchXHR(urlProducts, 'POST', POSTDATA).then((responseProducts) => {
                     if (responseProducts.json.success) {
                         FetchXHR(urlPackages, 'POST', POSTDATA).then((responsePackages) => {
@@ -590,7 +587,7 @@ class OrderCreatorVentas extends CrudLayout {
                                     loading_data: false
                                 });
                             } else {
-                                console.log(responsePackages.message);
+                                //console.log(responsePackages.message);
                                 this.setState({
                                     loading_data: false
                                 });
@@ -638,8 +635,9 @@ class OrderCreatorVentas extends CrudLayout {
     }
 
     refreshTable = () => {
-    this.getData();
+        this.getData();
     };
+    //Busqueda de productos en tiempo real
     onClickSearch = (search_text) => {                 
     this.search_text = search_text;
     setTimeout(() => {
@@ -647,23 +645,30 @@ class OrderCreatorVentas extends CrudLayout {
     }, 1000);
     };
 	//Al arrastrar los productos a la Orden de Venta
-    sendToOnChange( actual_products, actual_total) {
+    sendToOnChange( actual_products, actual_total) {       
+
         // split the arrays and do calculation for total:
         const p = [];
         const s = [];
         actual_products.forEach((el) => {
+            
             const newEl = Object.assign({}, el);
+           
             if (newEl.subsidiary_id) {
                 newEl.subsidiary_id = newEl.subsidiary_id._id;
             }
-            if (newEl.type === 'product') {
+            if (newEl.type === 'product' && el.fmsi && el.key_id) {
+                console.log("Llegaste a 1")
                 delete newEl.key;
                 delete newEl.type;
                 p.push(newEl);
-            } else if (newEl.type === 'service') {
+            } else if (newEl.type === 'service' && el.fmsi && el.key_id) {
+                console.log("Llegaste a 2");
                 delete newEl.key;
                 delete newEl.type;
                 s.push(newEl);
+            } else {
+                alert("Producto sin fmsi o clave");
             }
         });
         this.props.onChange({
@@ -673,76 +678,89 @@ class OrderCreatorVentas extends CrudLayout {
         });
     }
     // update actual list product stock, minus selected quantity.
-    // 
+    // Arrastra lo productos a la orden de venta
     addRecord(record) {
+
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0) {
-                if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0 ) {
+                if (this.state.selected_quantity > 0 && this.state.selected_user != '') {   
+                    if(record.fmsi){
+                        if(record.key_id){
+                    
+                            setTimeout(() => {
 
-                    let actualProducts = Object.assign([] ,this.state.selected_data);
+                                let actualProducts = Object.assign([] ,this.state.selected_data);
 
-                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
-                    // actualProducts[id].stock -= record.quantity;
+                                // let id = this.state.products.findIndex((el)=>(el.id === record.id));
+                                // actualProducts[id].stock -= record.quantity;
 
-                    // Price selector:
-                    let Price = Number(record.price_public);
-					let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
-					
+                                // Price selector:
+                                let Price = Number(record.price_public);
+                                let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
+                                
 
-                    if (this.state.price_type === 'PUBLICO') {
-                        Price = Number(record.price_public);
-                    } else if (this.state.price_type === 'MAYOREO') {
-                        Price = Number(record.price_wholesale);
-                    } else if (this.state.price_type === 'TALLER' ) {
-                        Price = Number(record.price_workshop);
-					}
-					else if (this.state.price_type === 'CREDITO TALLER' ) {
-                        Price = Number(record.price_credit_workshop);
+                                if (this.state.price_type === 'PUBLICO') {
+                                    Price = Number(record.price_public);
+                                } else if (this.state.price_type === 'MAYOREO') {
+                                    Price = Number(record.price_wholesale);
+                                } else if (this.state.price_type === 'TALLER' ) {
+                                    Price = Number(record.price_workshop);
+                                }
+                                else if (this.state.price_type === 'CREDITO TALLER' ) {
+                                    Price = Number(record.price_credit_workshop);
+                                }
+
+                                if (this.props.is_reception) {
+                                    Discount = 0;
+                                }
+
+                                // total price:
+                                const P = Number(this.state.selected_quantity) * Price;
+                                if (Discount) {
+                                    Discount = (P * Number(Discount)) / 100;
+
+                                }
+                                
+                                const new_total = (this.state.total + Math.ceil(P - Discount));
+                                console.log(record._id);
+                
+                                actualProducts.push({
+                                    key: this.state.selected_data.length + 1,
+                                    type: record.fmsi ? 'product' : 'service',
+                                    id: record._id,
+                                    user_id: this.state.selected_user._id,
+                                    user_name: this.state.selected_user.name,
+                                    subsidiary_id: record.subsidiary_id,
+                                    fmsi: record.fmsi,
+                                    brand: record.brand,
+                                    line: record.line,
+                                    description: record.description,
+                                    key_id: record.key_id,
+                                    price_type: this.state.price_type | 'PUBLICO',
+                                    price: Price,
+                                    quantity: this.state.selected_quantity,
+                                    discount: Discount,
+                                    discount1: Discount,
+                                    total: Math.ceil(P - Discount),
+                                    old_stock: record.stock,
+                                });
+
+                                this.setState({
+                                    selected_data: actualProducts,
+                                    selected_quantity: 1,
+                                    selected_fmsi: 5,
+                                    selected_discount: undefined,
+                                    total: new_total
+                                });
+                                this.sendToOnChange(actualProducts, new_total);//Checar aqui
+                                this.scrollToBottom();
+                            },500)
+                         } else {
+                            this.props.onError('El procucto no cuenta con clave');
+                         }
+                    } else {
+                     this.props.onError('El producto no cuenta con fmsi');
                     }
-
-                    if (this.props.is_reception) {
-                        Discount = 0;
-                    }
-
-                    // total price:
-                    const P = Number(this.state.selected_quantity) * Price;
-                    if (Discount) {
-						Discount = (P * Number(Discount)) / 100;
-
-					}
-					
-                    const new_total = (this.state.total + Math.ceil(P - Discount));
-    
-                    actualProducts.push({
-                        key: this.state.selected_data.length + 1,
-                        type: record.fmsi ? 'product' : 'service',
-                        id: record._id,
-                        user_id: this.state.selected_user._id,
-                        user_name: this.state.selected_user.name,
-                        subsidiary_id: record.subsidiary_id,
-                        fmsi: record.fmsi,
-                        brand: record.brand,
-                        line: record.line,
-                        description: record.description,
-                        key_id: record.key_id,
-                        price_type: this.state.price_type | 'PUBLICO',
-                        price: Price,
-                        quantity: this.state.selected_quantity,
-						discount: Discount,
-						discount1: Discount,
-                        total: Math.ceil(P - Discount),
-                        old_stock: record.stock,
-                    });
-
-                    this.setState({
-                        selected_data: actualProducts,
-                        selected_quantity: 1,
-						selected_fmsi: 5,
-                        selected_discount: undefined,
-                        total: new_total
-                    });
-                    this.sendToOnChange(actualProducts, new_total);//Checar aqui
-                    this.scrollToBottom();
                 } else {
                     this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
                 }
@@ -764,7 +782,7 @@ class OrderCreatorVentas extends CrudLayout {
 		
 		const precDesc = Math.ceil(rowTotal - ((rowTotal * Number(row.discount)) / 100) + precXtra) ;
 		const newTotalRow =Math.ceil(precDesc);
-		console.log("newTotalRow",newTotalRow)		
+		//console.log("newTotalRow",newTotalRow)		
         newData.splice(index, 1, {
           ...item,
           ...row,
@@ -772,8 +790,8 @@ class OrderCreatorVentas extends CrudLayout {
         });
         const newTotal = (this.state.total - item.total + newTotalRow);
 
-        console.log("ACTUALPRODUCTS", newData);
-        console.log("new_total", newTotal);
+        //console.log("ACTUALPRODUCTS", newData);
+        //console.log("new_total", newTotal);
 
         this.setState({
             total: newTotal,
@@ -788,9 +806,9 @@ class OrderCreatorVentas extends CrudLayout {
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
 		const rowTotal = (Number(row.price) * Number(row.quantity));
-		console.log(row.quantity);
+		//console.log(row.quantity);
         const newTotalRow = Math.ceil(rowTotal + Number(row.discount));
-		console.log("newTotalRow",newTotalRow)
+		//console.log("newTotalRow",newTotalRow)
         newData.splice(index, 1, {
           ...item,
           ...row,
@@ -798,8 +816,8 @@ class OrderCreatorVentas extends CrudLayout {
         });
         const newTotal = (this.state.total - item.total + newTotalRow);
 
-        console.log("ACTUALPRODUCTS", newData);
-        console.log("new_total", newTotal);
+       /*  console.log("ACTUALPRODUCTS", newData);
+        console.log("new_total", newTotal); */
 
         this.setState({
             total: newTotal,
@@ -920,14 +938,12 @@ class OrderCreatorVentas extends CrudLayout {
 	
 		}
     }
-
     onChangeFieldName(value, key) {
       console.log(value)
       let obj = {};
       obj[key] = value;
       this.setState(obj);
     }
-
     onSelectClient(client_name) {
       const client = this.state.products.find((el) => (el.key_id === client_name));
       let phone = client.phone_mobil;
@@ -946,9 +962,6 @@ class OrderCreatorVentas extends CrudLayout {
         price_type: client.price_type
       });
     }
-
-
-
 
     render() {		
         let widthTable = (window.innerWidth/2) - 60;
@@ -1088,42 +1101,6 @@ class OrderCreatorVentas extends CrudLayout {
             };
 		});
 		
-
-
-
-
-		const columns1 = this.table_columns_selected.map((col) => {
-            if (!col.editable) {
-              return col;
-            }
-            return {
-                ...col,
-                onCell: record => {
-                    if (Number(record.key) > this.state.initial_length_data) {
-                        return ({
-                            record,
-                            editable: col.editable,
-                            dataIndex: col.dataIndex,
-                            title: col.title,
-							handleSave: this.updateRecord,
-                        });
-                    }
-                    return ({
-                        record,
-                        editable: false,
-                        dataIndex: col.dataIndex,
-                        title: col.title,
-                        handleSave: this.updateRecord,
-                    });
-                },
-            };
-        });
-
-
-
-
-
-
         return (
             <Fragment>
                 <div

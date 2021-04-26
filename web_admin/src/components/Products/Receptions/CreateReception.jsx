@@ -29,7 +29,7 @@ class CreateReception extends Component {
             provider_id: {},
             providers: [],
             notes: '',
-            products: [],
+            products: [],            
             services: [],
             total: 0,
             payments: [],
@@ -246,20 +246,18 @@ class CreateReception extends Component {
                                 //create transaction obj...
                                 const new_transaction = {
                                     subsidiary_id: this.props.session.subsidiary._id,
-                                    product_id: p.id,
-                                    old_stock: p.old_stock,
+                                    product_id: p.id,                                   
                                     user_id: p.user_id,
+                                    provider_id: p.provider_id._id,
                                     quantity: p.quantity,
                                     price: p.price,
+                                    prueba: "Angel Saldivar",
+                                    old_stock: p.old_stock,
+                                    product_key: p.key_id,
                                     discount: p.discount,
                                     total: p.total,
                                     type: 'RECEPCION',
-                                    date: moment().toISOString(),
-                                    product_key: p.key_id,
-                                    product_fmsi: p.fmsi,
-                                    user_name: p.name,
-                                    client_name: p.client_name
-
+                                    date: moment().toISOString()
                                 }
                                 console.log(new_transaction);
                                 //te creas! :'v
