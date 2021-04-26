@@ -29,7 +29,7 @@ class CreateReception extends Component {
             provider_id: {},
             providers: [],
             notes: '',
-            products: [],            
+            products: [],
             services: [],
             total: 0,
             payments: [],
@@ -248,11 +248,11 @@ class CreateReception extends Component {
                                     subsidiary_id: this.props.session.subsidiary._id,
                                     product_id: p.id,                                   
                                     user_id: p.user_id,
-                                    provider_id: this.state.provider_id._id,
-                                    provider_name: this.state.provider_id.name,
+                                    /* provider_id: this.state.provider_id._id,
+                                    provider_name: this.state.provider_id.name, */
                                     quantity: p.quantity,
                                     price: p.price,
-                                    prueba: "Angel Saldivar",
+                                   /*  prueba: "Angel Saldivar", */
                                     old_stock: p.old_stock,
                                     product_key: p.key_id,
                                     discount: p.discount,

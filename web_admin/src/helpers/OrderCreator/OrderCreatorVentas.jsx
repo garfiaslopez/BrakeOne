@@ -647,23 +647,29 @@ class OrderCreatorVentas extends CrudLayout {
     }, 1000);
     };
 	//Al arrastrar los productos a la Orden de Venta
-    sendToOnChange( actual_products, actual_total) {
+    sendToOnChange( actual_products, actual_total) {       
         // split the arrays and do calculation for total:
         const p = [];
         const s = [];
         actual_products.forEach((el) => {
+            
             const newEl = Object.assign({}, el);
+           
             if (newEl.subsidiary_id) {
                 newEl.subsidiary_id = newEl.subsidiary_id._id;
             }
-            if (newEl.type === 'product') {
+            if (newEl.type === 'product' && el.fmsi && el.key_id) {
+                console.log("Llegaste a 1")
                 delete newEl.key;
                 delete newEl.type;
                 p.push(newEl);
-            } else if (newEl.type === 'service') {
+            } else if (newEl.type === 'service' && el.fmsi && el.key_id) {
+                console.log("Llegaste a 2");
                 delete newEl.key;
                 delete newEl.type;
                 s.push(newEl);
+            } else {
+                alert("Producto sin fmsi o clave");
             }
         });
         this.props.onChange({
@@ -675,74 +681,87 @@ class OrderCreatorVentas extends CrudLayout {
     // update actual list product stock, minus selected quantity.
     // 
     addRecord(record) {
+
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
-            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0) {
-                if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
+            if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock >= 0 && (record.stock - this.state.selected_quantity)) >= 0 ) {
+                if (this.state.selected_quantity > 0 && this.state.selected_user != '') {   
+                    if(record.fmsi){
+                        if(record.key_id){
+                    
+                            setTimeout(() => {
 
-                    let actualProducts = Object.assign([] ,this.state.selected_data);
+                                let actualProducts = Object.assign([] ,this.state.selected_data);
 
-                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
-                    // actualProducts[id].stock -= record.quantity;
+                                // let id = this.state.products.findIndex((el)=>(el.id === record.id));
+                                // actualProducts[id].stock -= record.quantity;
 
-                    // Price selector:
-                    let Price = Number(record.price_public);
-					let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
-					
+                                // Price selector:
+                                let Price = Number(record.price_public);
+                                let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
+                                
 
-                    if (this.state.price_type === 'PUBLICO') {
-                        Price = Number(record.price_public);
-                    } else if (this.state.price_type === 'MAYOREO') {
-                        Price = Number(record.price_wholesale);
-                    } else if (this.state.price_type === 'TALLER' ) {
-                        Price = Number(record.price_workshop);
-					}
-					else if (this.state.price_type === 'CREDITO TALLER' ) {
-                        Price = Number(record.price_credit_workshop);
+                                if (this.state.price_type === 'PUBLICO') {
+                                    Price = Number(record.price_public);
+                                } else if (this.state.price_type === 'MAYOREO') {
+                                    Price = Number(record.price_wholesale);
+                                } else if (this.state.price_type === 'TALLER' ) {
+                                    Price = Number(record.price_workshop);
+                                }
+                                else if (this.state.price_type === 'CREDITO TALLER' ) {
+                                    Price = Number(record.price_credit_workshop);
+                                }
+
+                                if (this.props.is_reception) {
+                                    Discount = 0;
+                                }
+
+                                // total price:
+                                const P = Number(this.state.selected_quantity) * Price;
+                                if (Discount) {
+                                    Discount = (P * Number(Discount)) / 100;
+
+                                }
+                                
+                                const new_total = (this.state.total + Math.ceil(P - Discount));
+                                console.log(record._id);
+                
+                                actualProducts.push({
+                                    key: this.state.selected_data.length + 1,
+                                    type: record.fmsi ? 'product' : 'service',
+                                    id: record._id,
+                                    user_id: this.state.selected_user._id,
+                                    user_name: this.state.selected_user.name,
+                                    subsidiary_id: record.subsidiary_id,
+                                    fmsi: record.fmsi,
+                                    brand: record.brand,
+                                    line: record.line,
+                                    description: record.description,
+                                    key_id: record.key_id,
+                                    price_type: this.state.price_type | 'PUBLICO',
+                                    price: Price,
+                                    quantity: this.state.selected_quantity,
+                                    discount: Discount,
+                                    discount1: Discount,
+                                    total: Math.ceil(P - Discount),
+                                    old_stock: record.stock,
+                                });
+
+                                this.setState({
+                                    selected_data: actualProducts,
+                                    selected_quantity: 1,
+                                    selected_fmsi: 5,
+                                    selected_discount: undefined,
+                                    total: new_total
+                                });
+                                this.sendToOnChange(actualProducts, new_total);//Checar aqui
+                                this.scrollToBottom();
+                            },500)
+                         } else {
+                            this.props.onError('El procucto no cuenta con clave');
+                         }
+                    } else {
+                     this.props.onError('El producto no cuenta con fmsi');
                     }
-
-                    if (this.props.is_reception) {
-                        Discount = 0;
-                    }
-
-                    // total price:
-                    const P = Number(this.state.selected_quantity) * Price;
-                    if (Discount) {
-						Discount = (P * Number(Discount)) / 100;
-
-					}
-					
-                    const new_total = (this.state.total + Math.ceil(P - Discount));
-    
-                    actualProducts.push({
-                        key: this.state.selected_data.length + 1,
-                        type: record.fmsi ? 'product' : 'service',
-                        id: record._id,
-                        user_id: this.state.selected_user._id,
-                        user_name: this.state.selected_user.name,
-                        subsidiary_id: record.subsidiary_id,
-                        fmsi: record.fmsi,
-                        brand: record.brand,
-                        line: record.line,
-                        description: record.description,
-                        key_id: record.key_id,
-                        price_type: this.state.price_type | 'PUBLICO',
-                        price: Price,
-                        quantity: this.state.selected_quantity,
-						discount: Discount,
-						discount1: Discount,
-                        total: Math.ceil(P - Discount),
-                        old_stock: record.stock,
-                    });
-
-                    this.setState({
-                        selected_data: actualProducts,
-                        selected_quantity: 1,
-						selected_fmsi: 5,
-                        selected_discount: undefined,
-                        total: new_total
-                    });
-                    this.sendToOnChange(actualProducts, new_total);//Checar aqui
-                    this.scrollToBottom();
                 } else {
                     this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
                 }
