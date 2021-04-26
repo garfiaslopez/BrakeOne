@@ -17,6 +17,9 @@ var ReceptionSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Provider'
     },
+    provider_name: {
+        type:String
+    },
     folio: {
         type: Number
     },

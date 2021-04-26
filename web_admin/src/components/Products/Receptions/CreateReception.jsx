@@ -184,6 +184,7 @@ class CreateReception extends Component {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
                     provider_id: this.state.provider_id._id,
+                    provider_name: this.state.provider_id.name,
                     notes: this.state.notes,
                     products: this.state.products,
                     invoice_folio: this.state.invoice_folio,
