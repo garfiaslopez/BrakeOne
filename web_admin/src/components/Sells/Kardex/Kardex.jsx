@@ -44,7 +44,7 @@ class ProductService extends CrudLayout {
             	title: 'Folio',
             	dataIndex: 'folio',
 				key: 'folio',
-				render: RenderRows.renderRowTextSells,
+				render: RenderRows.renderRowNumbers,
 				width: '5%'
 			},
 			{
