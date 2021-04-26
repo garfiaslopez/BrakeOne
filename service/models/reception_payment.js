@@ -13,6 +13,14 @@ var ReceptionPaymentSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Provider'
 	},
+	provider_name: {
+		type: String,
+		ref: 'Provider'
+	},
+	client_name: {
+		type:String,
+		ref: 'Client'
+	},
 	user_id: {
 		type: Schema.ObjectId,
 		ref: 'User'
