@@ -5,7 +5,15 @@
     flex-direction: column;
     height: 27cm;
 }
-
+.sell-ticket__QR_Services{
+    margin-left: 250px;
+    text-align: center;
+    width: 180px;
+}
+.textCalf{
+    margin-left: 250px;
+    color: black;
+}
 .quotation-recipe h2,
 .quotation-recipe h1 {
     font-weight: bold;

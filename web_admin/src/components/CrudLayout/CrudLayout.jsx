@@ -2,6 +2,10 @@ import React, { Component, Fragment } from "react";
 import styles from "./CrudLayoutStyles";
 import moment from "moment";
 import { FetchXHR } from "../../helpers/generals";
+import codigos from './bd_claves_products/claves_products';
+import clients from './bd_clients/clients';
+import TextField from '@material-ui/core/TextField';
+/* import Autocomplete from '@material-ui/lab/Autocomplete'; */
 
 import {
   Button,
@@ -20,14 +24,18 @@ import FormGenerator from "../FormGenerator/FormGenerator";
 import PrinterDownload from "../PrinterDownload/PrinterDownload";
 import PrinterRecipes from "../PrinterRecipes/PrinterRecipes";
 import { formatNumber } from "../../helpers/generals";
+import claves from "./bd_claves_products/claves_products";
 
 class CrudLayout extends Component {
   state = {
+    prueba: '',    
     data: [],
+    clients: [],
     next_folio: undefined,
     selected_data: undefined,
     loading_data: false,
     loading_submit: false,
+    loading_clients: false,
     error: undefined,
     search_text: undefined,
     initial_date: undefined,
@@ -47,9 +55,6 @@ class CrudLayout extends Component {
     open_custom_modal: undefined,
     total_precs: 0,
   };
- 
-
-
   componentDidMount() {
     this.limit = 50;
     this.page = 1;
@@ -58,14 +63,28 @@ class CrudLayout extends Component {
     this.refresh_interval = setInterval(() => {
       this.getData();
     }, 20000);
-  }
 
+  }
   componentWillUnmount() {
     clearInterval(this.refresh_interval);
   }
+  // GET DATA FILTERS
+  getData() {            
 
-  // GET DATA
-  getData() {        
+    /* const url_clients = process.env.REACT_APP_API_URL + "/providers";
+    const POSTDATA_CLIENTS = {
+      limit: 500,
+      page: 1,
+    };
+
+    FetchXHR(url_clients, "POST", POSTDATA_CLIENTS).then((response) => {
+      response.json.data.docs.map((el) => {
+          var names = []
+          names = el.name
+          console.log(names)
+      })
+     }).catch(err => console.log(err)) */
+
 
     this.setState({
       loading_data: true,
@@ -87,30 +106,40 @@ class CrudLayout extends Component {
     if (!isEmpty(this.search_text)) {
       if (this.model.name === "quotation") {
         POSTDATA["or_filters"] = {};
-        POSTDATA["or_filters"]["folio"] = Number(this.search_text);
-        POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
+        POSTDATA["or_filters"]["folio"] = Number(this.search_text);      
+        POSTDATA["or_filters"]["client_name"] = this.search_text;    
       } else if (this.model.name === "sell") {
-        POSTDATA["or_filters"] = {};
-        POSTDATA["or_filters"]["$text"] = { $search: this.search_text };
-
+          POSTDATA["or_filters"] = {};
+          POSTDATA["or_filters"]["folio"] = Number(this.search_text);      
+          POSTDATA["or_filters"]["client_name"] = this.search_text;      
       } else if (this.model.name === "reception") {
         POSTDATA["or_filters"] = {};
         POSTDATA["or_filters"]["folio"] = Number(this.search_text);
-        POSTDATA["or_filters"]["provider_id"] = this.search_text;
-      }else if(this.model.name === "product-transactions"){
-        POSTDATA["search_text"] = this.search_text;        
-      } 
-      else if (this.model.name === "payment") {
+        POSTDATA["or_filters"]["provider_name"] = this.search_text;
+        POSTDATA["or_filters"]["invoice_folio"] = this.search_text;
+      }else if(this.model.name === "product_transaction"){        
         POSTDATA["or_filters"] = {};
-        POSTDATA["or_filters"]["folio"] = Number(this.search_text);
-      } else if (this.model.name === "reception-payment") {
+        /*  POSTDATA["or_filters"]["folio"] = Number(this.search_text);  */     
+        POSTDATA["or_filters"]["key_id"] = this.search_text;
+        POSTDATA["or_filters"]["fmsi"] = this.search_text;
+        POSTDATA["or_filters"]["client_name"] = this.search_text;
+        POSTDATA["or_filters"]["provider_name"] = this.search_text;
+      }else if (this.model.name === "service") {
         POSTDATA["or_filters"] = {};
-        POSTDATA["or_filters"]["folio"] = Number(this.search_text);
-      } else if (this.model.name === "client") {
-
-        POSTDATA["search_text"] = this.search_text;        
-
-      } else if (this.model.name === "product") {
+        POSTDATA["or_filters"]["folio"] = Number(this.search_text);      
+        POSTDATA["or_filters"]["client_name"] = this.search_text;      
+      }else if (this.model.name === "payment") {
+        POSTDATA["or_filters"] = {};
+        POSTDATA["or_filters"]["folio"] = Number(this.search_text);      
+        POSTDATA["or_filters"]["client_name"] = this.search_text;      
+      }else if (this.model.name === "client") {
+        POSTDATA["or_filters"] = {};             
+        POSTDATA["or_filters"]["name"] = this.search_text;  
+      }else if (this.model.name === "provider") {
+        POSTDATA["or_filters"] = {};             
+        POSTDATA["or_filters"]["name"] = this.search_text;  
+      }else if (this.model.name === "product") {
+     
         POSTDATA["or_filters"] = {};
         let busquedas = this.search_text;
         var caracter1 = this.search_text.charAt(0);
@@ -217,6 +246,7 @@ class CrudLayout extends Component {
           POSTDATA["search_text"] = this.search_text;
         }
       }
+    
     }
     if (this.initial_date && this.final_date) {
       POSTDATA["date"] = [
@@ -248,6 +278,8 @@ class CrudLayout extends Component {
         }
       });
     }
+
+
     FetchXHR(url, "POST", POSTDATA).then((response) => {
         if (response.json.success) {
           let next_folio = undefined;       
@@ -255,27 +287,17 @@ class CrudLayout extends Component {
          
             next_folio = response.json.data.docs[0].folio + 1;            
 
-          }
-          
-          let suma = 0;
-          for(let i = 0; i <= 1; i++ ){
-           
-            var totales = response.json.data.docs[0].total;                       
-            suma += totales;            
-          
-
-          this.setState({
-            
+          }                  
+          this.setState({            
             table_data: response.json.data.docs.map((el, index) => ({
               ...el,
               key: index,
             })),
             next_folio,
-            total_docs: response.json.data.total,
-            total_precs: 1,
+            total_docs: response.json.data.total,           
             loading_data: false,            
           });     
-        }
+        
         } else {
           this.setState({
             loading_data: false,
@@ -289,21 +311,16 @@ class CrudLayout extends Component {
           error: onError.message,
         });
       });
-      return;
   }
-
   // MODAL FORM:
-
   refreshTable = () => {
     this.getData();
   };
-
   onOpenSubmitForm = () => {
     this.setState({
       opened_submit: true,
     });
   };
-
   onCloseSubmitForm = () => {
     this.setState({
       opened_submit: false,
@@ -311,15 +328,13 @@ class CrudLayout extends Component {
       selected_data: undefined,
     });
   };
-
   onCloseViewForm = () => {
     this.setState({
       opened_view: false,
       error: undefined,
       selected_data: undefined,
     });
-  };
-
+  }
   onCustomSubmitForm = (new_obj) => {
     this.setState({
       loading_submit: true,
@@ -349,8 +364,6 @@ class CrudLayout extends Component {
       selected_data: undefined,
     });
   };
-
-  // CREATE NORMAL SUBMIT:
   onSubmitForm = async (values, nested_values) => {
     console.log("onSubmitForm", values, nested_values);
 
@@ -432,21 +445,18 @@ class CrudLayout extends Component {
         });
       });
   };
-
   onView = (record) => {
     this.setState({
       selected_data: record,
       opened_view: true,
     });
   };
-
   onEdit = (record) => {
     this.setState({
       selected_data: record,
       opened_submit: true,
     });
   };
-
   onDelete = async (record) => {
     const url =
       process.env.REACT_APP_API_URL +
@@ -488,7 +498,6 @@ class CrudLayout extends Component {
         });
       });
   };
-
   onPrint = (record, type) => {
     this.setState({
       selected_data: record,
@@ -496,19 +505,12 @@ class CrudLayout extends Component {
       selected_type_recipes: type,
     });
   };
-
-  // ACTIONS HANDLERS:
-
-  // COMPONENTS HANDLERS:
-  // SEARCH TEXT:
   onClickSearch = (search_text) => {
     this.search_text = search_text;
     setTimeout(() => {
     this.getData();
   }, 1000);
   };
-
-  // RANGES DATE:
   onChangeRangeDate = (date, date_string) => {
     // parse only the day ?
     if (date.length > 0) {
@@ -520,34 +522,11 @@ class CrudLayout extends Component {
     }
     this.getData();
   };
-  
-  onSelectClient(client_name) {
-	const client = this.state.products.find((el) => (el.key_id === client_name));
-	let phone = client.phone_mobil;
-	if (phone === "") {
-		phone = client.phone_number;
-		if (phone === "") {
-			phone = client.phone_office;
-		}
-	}
-	this.setState({
-		openCarDropdown: true,
-		search_text: client.name,
-		client_id: client,
-		client_name: client.name,
-		client_phone: phone,
-		price_type: client.price_type
-	});
-}
-
-  // TABLE:
-  //PAGINATOR:
   onChangePagination = (current, page_size) => {
     this.limit = page_size;
     this.page = current;
     this.getData();
   };
-
   onChangeTable = (pagination, filters, sorter) => {
     if (pagination.current) {
       this.limit = pagination.pageSize;
@@ -564,44 +543,103 @@ class CrudLayout extends Component {
     }
     this.getData();
   };
-
-  onSelectClient(client_name) {
-    console.log('Llegaste aqui');
-    const client = this.state.clients.find((el) => (el.name === client_name));
-    
-    console.log(client);
-    let phone = client.phone_mobil;
-    if (phone === "") {
-        phone = client.phone_number;
-        if (phone === "") {
-            phone = client.phone_office;
-        }
-    }
+  onChangeDropdown(value, key) {
+    let obj = {};
+    obj[key] = value;
+    this.setState(obj);
+  }
+  onChangeClient(client_id) {
     this.setState({
-        openCarDropdown: true,
-        search_text: client.name,
-        client_id: client,
-        client_name: client.name,
-        client_phone: phone,
-        price_type: client.price_type
+      client_id: this.state.clients.find((el) => el._id === client_id),
     });
-}
+  }
+  getClients(search_text) {
+    this.setState({
+      loading_clients: true,
+    });
+    const url = process.env.REACT_APP_API_URL + "/clients";
+    const POSTDATA = {
+      limit: 100,
+      page: 1,
+      search_text,
+    };
 
-  renderFilters = () => {
-
-    const OptionsTypes = ["PUBLICO", "MAYOREO", "CREDITO TALLER", "TALLER"].map(
-      (item, index) => {
-        return (
-          <Select.Option value={item} key={`${item} - ${index}`}>
-            {item}
-          </Select.Option>
-        );
+    FetchXHR(url, "POST", POSTDATA).then((response) => {
+     response.json.data.docs.map((el) => {
+      if(el.name.search(search_text) != -1){
+         console.log("Cliente: ", el.name) 
       }
+     })
+    }).catch(err => console.log(err))
+
+
+
+    FetchXHR(url, "POST", POSTDATA).then((response) => {
+
+        if(true){
+          
+          this.setState({
+            clients: response.json.data.docs.map((el, index) => ({
+              ...el,
+              key: index === 2,
+            })),
+            prueba: false,
+          })
+        }
+      
+
+      }).catch((onError) => {
+        console.log('Error: ', onError);
+        this.scrollToAlert();
+        this.setState({
+          loading_clients: false,
+          error: onError.message,
+        });
+      });
+  }
+  renderFilters = () => {    
+    console.log('Total docs: ', this.state.total_docs);
+  
+    var users1 = ["ANGEL", "LEO", "TOÑO", "CARLOS", "GERMAN", "MICHEL", "ROBERTO"];
+
+   const optionClients = clients.map((item, index, array) => {
+
+      return (
+        
+        <Select.Option 
+          value={item} 
+          key={`${item} - ${index}`}>
+          {item}
+        </Select.Option>
+     
+      );
+
+    });
+
+    const SearchFilter = (
+      
+      <Select
+        showSearch
+        onFocus={() => {          
+        }}
+        style={styles.inputElement}
+        placeholder="Buscar..."
+        optionFilterProp="children"        
+        onSearch={this.onClickSearch}
+        onSelect={(value) => { this.onClickSearch(value)}}     
+        onChange={(value) => {
+            this.onChangeDropdown(value)
+          }}
+      >
+      {optionClients}
+
+    </Select>
+        
     );
 
     var prueba = [];
-    const SearchFilter = (
-
+    const SearchFilterProducts = (
+      
       <AutoComplete
         disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
         autoFocus
@@ -614,8 +652,10 @@ class CrudLayout extends Component {
         }}
         dataSource={prueba.map((el)=> {return el})}
         style={styles.inputElement}
-      />               
+      />    
+        
     );
+
 
     const DateRangeFilter = (
       <DatePicker.RangePicker
@@ -638,55 +678,59 @@ class CrudLayout extends Component {
     }
     return [SearchFilter, DateRangeFilter];
   };
+  renderFiltersProducts = () => {    
 
-  getClients(search_text) {
-	this.setState({
-		loading_clients: true,
-		search_text
-	});
-	const url = process.env.REACT_APP_API_URL + '/products';
-	const POSTDATA = {
-		limit: 100,
-		page: 1,
-		search_text
-	}
-	console.log(POSTDATA);
-	FetchXHR(url, 'POST', POSTDATA).then((response) => {
-		console.log(response);
-		if (response.json.success) {
-			this.setState({
-				name_clients: response.json.data.docs.map((el)=>(el.key_id)),
-				clients: response.json.data.docs.map((el, index)=>({
-					...el,
-					key: index
-				})),
-				loading_users: false
-			});
-		} else {
-			this.setState({
-				loading_clients: false,
-				error: response.message
-			});
-		}
-	}).catch((onError) => {
-		this.setState({
-			loading_clients: false,
-			error: onError.message
-		});
-	});
-}
-
-onChangeFieldName(value, key) {
-	console.log(value)
-	let obj = {};
-	obj[key] = value;
-	this.setState(obj);
-}
+    var prueba = [];
+    const SearchFilterProducts = (
+      
+      <AutoComplete
+        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+        autoFocus
+        backfill
+        placeholder={'Buscador...'}
+        onSearch={this.onClickSearch}
+        onSelect={(value) => { this.onClickSearch(value)}}     
+        onChange={(value) => {
+          this.onClickSearch(value)
+        }}
+        dataSource={prueba.map((el)=> {return el})}
+        style={styles.inputElement}
+      />    
+        
+    );
 
 
+    const DateRangeFilter = (
+      <DatePicker.RangePicker
+        key="date_range_filter"
+        style={styles.inputRangedate}
+        onChange={this.onChangeRangeDate}
+        locale={locale_es}
+      />
+    );
+    if (this.state.filters_layout) {
+      return this.state.filters_layout.map((f) => {
+        switch (f) {
+          case "search":
+            return SearchFilterProducts;
+          case "date_range":
+            return DateRangeFilter;
+          
+        }
+      });
+    }
+    return [SearchFilterProducts, DateRangeFilter];
+  };
+  onChangeFieldName(value, key) {
+    console.log(value)
+    let obj = {};
+    obj[key] = value;
+    this.setState(obj);
+  }
   render() {
-    
-    let title = "Agregar " + this.model.label;
+    if(this.model.name === 'product'){
+
+      let title = "Agregar " + this.model.label;
     if (this.state.selectedData) {
       title = "Editar " + this.model.label;
     }
@@ -891,7 +935,7 @@ onChangeFieldName(value, key) {
         <div style={styles.actions}>
           {PrinterDownloadButton}
           {RenderActions}
-          {this.renderFilters()}
+          {this.renderFiltersProducts()} 
           {Add_Button}
         </div>
         <Divider dashed={true} orientation="left">
@@ -930,6 +974,254 @@ onChangeFieldName(value, key) {
         />         
       </Fragment>
     );
+    } 
+    else {
+      //payment, spend, warranty, service, product_transaction, reception, client, provider
+      let title = "Agregar " + this.model.label;
+      if (this.state.selectedData) {
+        title = "Editar " + this.model.label;
+      }
+      let form = "";
+  
+      if (this.schema) {
+        if (this.state.opened_submit) {
+          form = (
+            <FormGenerator
+              session={this.props.session}
+              key={"Create_Form"}
+              is_disabled={false}
+              title={title}
+              open={this.state.opened_submit}
+              loading={this.state.loading_submit}
+              onClose={this.onCloseSubmitForm}
+              onSubmit={this.onSubmitForm}
+              onCustomSubmit={this.onCustomSubmitForm}
+              schema={this.schema}
+              error={this.state.error}
+              dismissError={() => {
+                this.setState({ error: undefined });
+              }}
+              fields={this.state.selected_data}
+              next_folio={this.state.next_folio}
+            />
+          );
+        } else if (this.state.opened_view) {
+          form = (
+            <FormGenerator
+              key={"View_Form"}
+              is_disabled={true}
+              title={title}
+              open={this.state.opened_view}
+              onClose={this.onCloseViewForm}
+              schema={this.schema}
+              error={this.state.error}
+              dismissError={() => {
+                this.setState({ error: undefined });
+              }}
+              fields={this.state.selected_data}
+              session={this.props.session}
+            />
+          );
+        }
+      } else {
+        if (this.state.opened_submit && this.custom_submit) {
+          form = (
+            <this.custom_submit
+              key={"Create_Custom_Form"}
+              title={title}
+              is_disabled={false}
+              fields={this.state.selected_data}
+              open={this.state.opened_submit}
+              loading={this.state.loading_submit}
+              onClose={this.onCloseSubmitForm}
+              onSubmit={this.onSubmitForm}
+              onCustomSubmit={this.onCustomSubmitForm}
+              schema={this.schema}
+              error={this.state.error}
+              dismissError={() => {
+                this.setState({ error: undefined });
+              }}
+              session={this.props.session}
+              next_folio={this.state.next_folio}
+            />
+          );
+        } else if (this.state.opened_view) {
+          form = (
+            <this.custom_submit
+              key={"View_Custom_Form"}
+              is_disabled={true}
+              fields={this.state.selected_data}
+              title={title}
+              open={this.state.opened_view}
+              onClose={this.onCloseViewForm}
+              schema={this.schema}
+              error={this.state.error}
+              dismissError={() => {
+                this.setState({ error: undefined });
+              }}
+              session={this.props.session}
+            />
+          );
+        }
+      }
+  
+      if (this.state.opened_print) {
+        form = (
+          <PrinterDownload
+            key={"Print_Form"}
+            title={"Imprimir o Descargar"}
+            onClose={() => {
+              this.setState({
+                opened_print: false,
+              });
+            }}
+            schema={this.schema}
+            model={this.model}
+            additional_get_data={this.additional_get_data}
+            search_text={this.search_text}
+            initial_date={this.initial_date}
+            final_date={this.final_date}
+            sort_field={this.sort_field}
+            sort_order={this.sort_order}
+            populate_ids={this.populate_ids}
+            table_columns={this.table_columns.filter((el) => el.key != "action")}
+          />
+        );
+      }
+  
+      if (this.state.opened_printer_recipes) {
+        form = (
+          <PrinterRecipes
+            record={this.state.selected_data}
+            type={this.state.selected_type_recipes}
+            key={"Print_Form_Recipe"}
+            title={"Imprimir PDF"}
+            onClose={() => {
+              this.setState({
+                opened_printer_recipes: false,
+                selected_data: undefined,
+                selected_type_recipes: undefined,
+              });
+            }}
+          />
+        );
+      }
+  
+      let PrinterDownloadButton = "";
+      if (
+        this.props.session.user.rol === "ADMIN" ||
+        this.props.session.user.rol === "MANAGER"
+      ) {
+        PrinterDownloadButton = (
+          <Button.Group>
+            <Button
+              onClick={() => {
+                this.setState({
+                  opened_print: true,
+                });
+              }}
+              type="primary"
+              icon="printer"
+            >
+              Imprimir O Descargar
+            </Button>
+          </Button.Group>
+        );
+      }
+  
+      if (this.state.open_custom_modal) {
+        const ComponentToOpen = this.custom_modals[this.state.open_custom_modal];
+        form = (
+          <ComponentToOpen
+            key={"CustomForm"}
+            fields={this.state.selected_data}
+            onClose={() => {
+              this.setState({ open_custom_modal: undefined });
+            }}
+            refreshTable={this.refreshTable}
+            error={this.state.error}
+            dismissError={() => {
+              this.setState({ error: undefined });
+            }}
+            session={this.props.session}
+          />
+        );
+      }
+      let Add_Button = "";
+      if (!this.no_render_add) {
+        Add_Button = (
+          <Button type="primary" onClick={this.onOpenSubmitForm}>
+            <Icon type="plus-circle-o" />
+            Agregar Nuevo
+          </Button>
+        );
+      }
+  
+      let RenderActions = "";
+      if (this.actions) {
+        RenderActions = this.actions.map((action) => {
+          return (
+            <Button
+              type="primary"
+              onClick={() => {
+                action.func();
+              }}
+            >
+              <Icon type={action.icon} />
+              {action.label}
+            </Button>
+          );
+        });
+      }
+      return (
+        <Fragment>
+          {form}
+          <Divider dashed={true} orientation="left">
+            Acciones
+          </Divider>
+          <div style={styles.actions}>
+            {PrinterDownloadButton}
+            {RenderActions}
+            {this.renderFilters()} 
+            {Add_Button}
+          </div>
+          <Divider dashed={true} orientation="left">
+            { formatNumber(this.state.total_docs)} {this.model.label}
+          </Divider>        
+          <Table
+            bordered
+            style={styles.tableLayout}
+            scroll={{ y: window.innerHeight - 155 }}
+            onChange={this.onChangeTable}
+            columns={this.table_columns}
+            dataSource={this.state.table_data}
+            loading={this.state.loading_data}
+            size="small"
+            pagination={{
+              showSizeChanger: true,
+              defaultCurrent: this.page,
+              total: this.state.total_docs,
+              defaultPageSize: 200,
+              pageSize: 50,
+              pageSizeOptions: ["50", "100", "200"],
+            }}
+            locale={{
+              filterTitle: "Filtro",
+              filterConfirm: "Ok",
+              filterReset: "Limpiar",
+              emptyText: "Sin Datos",
+            }}
+            onRow={(record) => {
+              return {
+                onClick: () => {
+                  this.onView(record);
+                },
+              };
+            }}
+          />         
+        </Fragment>
+      );
+      } 
   }
 }
 

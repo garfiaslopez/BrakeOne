@@ -88,7 +88,7 @@ const QuotationRecipe = ({
 
         {/* Date */}
         <p className="quotation-recipe__date">
-           <b>Fecha:</b> {moment().format('MM-DD-YYYY')}
+           <b>Fecha:</b> {moment().format('DD-MM-YYYY')}
         </p>
         {/* Client Name */}
         <ul className="recipe__flex-container">
@@ -153,11 +153,18 @@ const QuotationRecipe = ({
         {/* <p>Agradeciendo la atención que sirva brindar a la presente y en espera de su favorable respuesta, quedo de usted.</p> */}
         {/* <h2>Atentamente</h2> */}
         <p>GARANTIA RECTIFICADO DISCOS: 5 DIAS, GARANTIA BALATAS: 30 DIAS O KM 1,000 LO QUE OCURRA PRIMERO, SOBRE DEFECTO DE FABRICACION, RECOMENDACIÓN: NO ABUSE DE LOS FRENOS DURANTE LOS PRIMEROS KM 200-300</p>
+        <footer className="sell-ticket__footer">       
+            <center><p class="textCalf">Califica nuestro servicio: </p></center>
+            <img
+                className="sell-ticket__QR_Services"
+                src="/images/QRComents.png"
+            />
+        </footer>
         <footer className="recipe__footer">
             <p>Saratoga #313-C,
                 Col. Portales Norte
                 C.p. 03300
-A               lcaldía Benito Juárez, CDMX.</p>
+                Alcaldía Benito Juárez, CDMX.</p>
             <p>Tels. (55) 4563 – 2063
                     (55) 6840 – 2850
                     (55) 7653 – 6116
