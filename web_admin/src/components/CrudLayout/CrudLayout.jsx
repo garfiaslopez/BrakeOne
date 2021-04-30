@@ -4,7 +4,6 @@ import moment from "moment";
 import { FetchXHR } from "../../helpers/generals";
 import clients from './bd_clients/clients';
 
-
 import {
   Button,
   Icon,
@@ -22,7 +21,6 @@ import FormGenerator from "../FormGenerator/FormGenerator";
 import PrinterDownload from "../PrinterDownload/PrinterDownload";
 import PrinterRecipes from "../PrinterRecipes/PrinterRecipes";
 import { formatNumber } from "../../helpers/generals";
-import claves from "./bd_claves_products/claves_products";
 
 class CrudLayout extends Component {
   state = {
