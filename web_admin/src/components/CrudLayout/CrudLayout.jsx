@@ -2,10 +2,8 @@ import React, { Component, Fragment } from "react";
 import styles from "./CrudLayoutStyles";
 import moment from "moment";
 import { FetchXHR } from "../../helpers/generals";
-import codigos from './bd_claves_products/claves_products';
 import clients from './bd_clients/clients';
-import TextField from '@material-ui/core/TextField';
-/* import Autocomplete from '@material-ui/lab/Autocomplete'; */
+
 
 import {
   Button,
