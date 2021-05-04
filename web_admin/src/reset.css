@@ -46,8 +46,8 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+    background-color: #d1d1d127;
 }
-
 .label {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
@@ -91,14 +91,6 @@ table {
     flex-wrap: wrap;
 }
 
-.recipe__flex-container h2,
-.recipe__column-container h2 {
-    min-width: 100%;
-    text-transform: uppercase;
-    font-weight: bold;
-    margin-bottom: 10pt;
-}
-
 .recipe__column-container {
     text-align: left;
 }
@@ -132,17 +124,8 @@ table {
 }
 
 .recipe__footer p {
-    margin: 0;
-    line-height: 1.7;
-    font-size: .9em;
+    color: black;
 }
-
-/* .ant-table td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-} */
-
 
 .editable-cell {
     position: relative;
@@ -154,7 +137,7 @@ table {
 }
 
 .editable-row:hover .editable-cell-value-wrap {
-    border: 1px solid #d9d9d9;
+    border: 1px solid #000;
     border-radius: 4px;
     padding: 4px 11px;
 }
@@ -169,7 +152,7 @@ table {
 
 .imgLogo{
     width: 500px;
-    margin-left: 100px;
+    margin-left: 225px;
     margin-bottom: 30px;
 }
 
@@ -182,5 +165,5 @@ table {
     font-size: 20px;
 }
 .detalle {
-    font-size: 15px;
+    font-size: 12px;
 }
