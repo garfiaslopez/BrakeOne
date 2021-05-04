@@ -24,7 +24,7 @@
 
 .sell-recipe
 .recipe__flex-container {
-    border: 1px solid #e8e8e8;
+    border: 1px solid #000000;
     border-radius: 4px 1px 1px;
     padding: 5pt;
 }

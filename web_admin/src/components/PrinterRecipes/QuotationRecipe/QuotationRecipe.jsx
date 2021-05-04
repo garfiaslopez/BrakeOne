@@ -97,7 +97,7 @@ const QuotationRecipe = ({
     <section className="quotation-recipe">
         <header className="">
             <img className="imgLogo" src="/images/BrakeOneBrembo.png" />
-            <b><p className='rem'>Remisión</p></b>       
+            <b><p className='rem'>Remisión</p></b>
         </header>
         
         {/* Title */}
