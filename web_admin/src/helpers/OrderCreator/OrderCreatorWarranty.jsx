@@ -34,19 +34,19 @@ const renderRowSmall = (text, record) => {
 const renderRowSmallTruncate = (text, record) => {
     if (text) {
         return ({
-            children: <p style={{fontSize: FontTable}}>{text.length > 15 ? text.substring(0,25) + '...' : text}</p>,
+            children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
         });
     }
     return '';
 }
 const renderRowSmallPercent = (text, record) => {
     return ({
-        children: <p style={{fontSize: FontTable}}>%{String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
+        children: <p style={{fontSize: FontTable}}>%{text}</p>,
     });
 }
 const renderRowSmallPrec = (text, record) => {
     return ({
-        children: <p style={{fontSize: FontTable}}>${String(round2(text ? text : 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>,
+        children: <p style={{fontSize: FontTable}}>${text}</p>,
     });
 }
 
@@ -70,7 +70,7 @@ const renderTruncateRow = (text, record) => {
         props: {
             style: { background: record.subsidiary_id ? record.subsidiary_id.color : '#8FC7FF'  },
         },
-        children: <p style={{fontSize: FontTable}}>{text.length > 16 ? text.substring(0,16) + '...' : text}</p>,
+        children: <p style={{fontSize: FontTable}}>{text}</p>,
     });
 }
 
@@ -87,7 +87,6 @@ const renderRowNumber = (text, record) => {
 class OrderCreatorWarranty extends CrudLayout {
 
 
-	//Contiene las tablas para agregar nuevas ventas
     constructor(props) {
 	
         super(props);
@@ -120,143 +119,276 @@ class OrderCreatorWarranty extends CrudLayout {
 		
 
         this.scroll_table = 300;
-        this.table_columns_results = [
-            {
-            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-            	dataIndex: 'subsidiary_id.denomination',
-				key: 'subsidiary_id.denomination',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-            	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
-            	dataIndex: 'fmsi',
-				key: 'fmsi',
-                render: renderTruncateRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Clave</div>,
-            	dataIndex: 'key_id',
-				key: 'key_id',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Linea</div>,
-            	dataIndex: 'line',
-				key: 'line',
-                render: renderRow,
-                width: '8%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Marca</div>,
-            	dataIndex: 'brand',
-				key: 'brand',
-                render: renderRow,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-            	dataIndex: 'description',
-				key: 'description',
-                render: renderTruncateRow,
-                width: '15%'
-            },
-            {
-                title: <div style={{ fontSize: FontTable }}>Costo</div>,
-            	dataIndex: 'price',
-            	key: 'price',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Publico</div>,
-            	dataIndex: 'price_public',
-            	key: 'price_public',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Taller</div>,
-            	dataIndex: 'price_workshop',
-            	key: 'price_workshop',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
-            	dataIndex: 'price_wholesale',
-            	key: 'price_wholesale',
-                render: renderRowNumber,
-                width: '8%'
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Stock</div>,
-            	dataIndex: 'stock',
-				key: 'stock',
-                render: renderRow,
-                width: '15%'
-			}
-        ];
+		if(this.props.session.user.address_state === 'QRO'){			
+			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: renderTruncateRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Clave</div>,
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Linea</div>,
+					dataIndex: 'line',
+					key: 'line',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Marca</div>,
+					dataIndex: 'brand',
+					key: 'brand',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+					dataIndex: 'description',
+					key: 'description',
+					render: renderTruncateRow,
+					width: '15%'
+				},
+				/* {
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				}, */
+				{
+					title: <div style={{ fontSize: FontTable }}>Publico</div>,
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Taller</div>,
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Stock</div>,
+					dataIndex: 'stock',
+					key: 'stock',
+					render: renderRow,
+					width: '10%'
+				}
+			];
+		}else{
+			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
+					dataIndex: 'fmsi',
+					key: 'fmsi',
+					render: renderTruncateRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Clave</div>,
+					dataIndex: 'key_id',
+					key: 'key_id',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Linea</div>,
+					dataIndex: 'line',
+					key: 'line',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Marca</div>,
+					dataIndex: 'brand',
+					key: 'brand',
+					render: renderRow,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+					dataIndex: 'description',
+					key: 'description',
+					render: renderTruncateRow,
+					width: '15%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Costo</div>,
+					dataIndex: 'price',
+					key: 'price',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Publico</div>,
+					dataIndex: 'price_public',
+					key: 'price_public',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Taller</div>,
+					dataIndex: 'price_workshop',
+					key: 'price_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Credito Taller</div>,
+					dataIndex: 'price_credit_workshop',
+					key: 'price_credit_workshop',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Mayoreo</div>,
+					dataIndex: 'price_wholesale',
+					key: 'price_wholesale',
+					render: renderRowNumber,
+					width: '8%'
+				},
+				{
+					title: <div style={{ fontSize: FontTable }}>Stock</div>,
+					dataIndex: 'stock',
+					key: 'stock',
+					render: renderRow,
+					width: '10%'
+				}
+			];
+		}
 
-        this.table_columns_selected = [                      
-			{
+			
+		this.table_columns_selected = [
+			
+		
+		   {
+			   title: <div style={{ fontSize: FontTable }}>Clave</div>,
+			   dataIndex: 'key_id',
+			   key: 'key_id',
+			   render: renderRowSmall,
+			   width: '8%'
+		   }
+	   ];
+
+        this.table_columns_selected = [
+			
+             /*  {
+                title: <div style={{ fontSize: FontTable }}>Usuario</div>,
+                render: renderRowSmall,
+            	dataIndex: 'user_name',
+                key: 'user_name',
+                width: '5%'
+            }, */    
+            {
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
-                width: '10%'
-            },
-            {
+                width: '8%'
+			},
+			{
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
                 render: renderRowSmallTruncate,
-                width: '10%'
-            },  
+                width: '8%'
+			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
-                render: renderRowSmallTruncate,
-            	dataIndex: 'description',
+				dataIndex: 'description',
                 key: 'description',
-                width: '20%',
-				editable: props.can_edit_disccount,
-            },    
+				width: '25%',
+				editable: props.can_edit_disccount,			
+			},
 			{
-                title: <div style={{ fontSize: FontTable }}>Cant.</div>,
+                title: <div style={{ fontSize: FontTable }}>Cantidad</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '10%',
+                width: '6%',
                 editable: props.can_edit_quantity,
-            },     
+			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Precio</div>,
-                render: renderRowSmallPrec,
+                render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '10%',
+                width: '8%',
                 editable: props.can_edit_price,
-			}, 
+			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Descuento</div>,
                 render: renderRowSmallPercent,
             	dataIndex: 'discount',
                 key: 'discount',
-                width: '10%',
+                width: '8%',
                 editable: props.can_edit_disccount,
-			},                      				                      
+			},
+			{
+                title: <div style={{ fontSize: FontTable }}>Costo Extra</div>,
+                render: renderRowSmallPrec,
+            	dataIndex: 'discount1',
+                key: 'discount',
+                width: '8%',
+                editable: props.can_edit_disccount,
+			},	
+           /*  {
+                title: <div style={{ fontSize: FontTable }}>Linea</div>,
+            	dataIndex: 'line',
+				key: 'line',
+                render: renderRowSmall,
+                width: '8%'
+            }, */
+           /*  {
+                title: <div style={{ fontSize: FontTable }}>Marca</div>,
+            	dataIndex: 'brand',
+				key: 'brand',
+                render: renderRowSmall,
+                width: '8%'
+			}, */
+			/* {
+                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
+                render: renderRowSmallTruncate,
+            	dataIndex: 'description',
+                key: 'description',
+                width: '12%'
+            }, */                       
+					
 			{
                 title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '10%'
+                width: '7%'
 			}
         ];
+		
 
-        if (this.props.is_quotation) {
+        /* if (this.props.is_quotation) {
             this.table_columns_selected.unshift({
             	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
             	dataIndex: 'subsidiary_id.denomination',
@@ -264,18 +396,18 @@ class OrderCreatorWarranty extends CrudLayout {
                 render: renderRow,
                 width: '5%'
             });
-        }
-
-     
-			//Acciones al arrastrar productos a Orden de venta
-            this.table_columns_selected.push({
-                title: <div style={{ fontSize: FontTable }}>Acciones</div>,
-                key: 'action',
-                width: '40%',
-                render: (text, record) => {
-                    if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {						
-                        return (
-                            <span>
+        }*/
+       // if (!props.disabled) {
+		this.table_columns_selected.push({
+			
+			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
+			key: 'action',
+			width: '90px',
+			render: (text, record) => {
+				if("Hola") {
+					return (
+						<div style={{}}>
+						<span>									
                                <Popconfirm
 								onClick={(event)=> {
 									event.stopPropagation();
@@ -298,44 +430,22 @@ class OrderCreatorWarranty extends CrudLayout {
 									icon="minus"
 								/>
 							</Popconfirm>	
-							<Divider type="vertical" />	                            	
-                            </span>
-                        );
-                    }else{
-						return (
-                            <span>
-                               {/* Eliminar de la lista y sumar stock */}
-
-							<Popconfirm
-								onClick={(event)=> {
-									event.stopPropagation();
-								}}
-								title="¿Estas seguro de eliminar?" 
-								okText="De acuerdo"
-								cancelText="Cancelar"
-								onCancel={(event) => {
-									event.stopPropagation();
-								}}
-								onConfirm={(event) => {
-									event.stopPropagation();
-									this.deleteRecord(record);
-								}}
-							>
-							<b>Eliminar</b>
-								<Button 								    
-									type="danger" 
-									shape="circle"
-									icon="delete"
-								/>
-							</Popconfirm>		
 							<Divider type="vertical" />	
-                            </span>
-                        );
-					}
-                    return <div></div>;
-                },
-		  	});
 
+                            {/* Eliminar de la lista y sumar stock */}
+
+							<Divider type="vertical" />						
+							
+						</span>
+						</div>
+						
+					);
+					
+				}
+				return <div></div>;
+			},
+		  });         
+       // }
 
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
 		
@@ -354,9 +464,7 @@ class OrderCreatorWarranty extends CrudLayout {
         this.getUsers();
     }
 
-	//Funcion para arrastrar productos a Orden de Venta
     componentWillReceiveProps(nextProps) {
-
         if (nextProps.price_type) {
             this.setState({
                 price_type: nextProps.price_type
@@ -381,18 +489,15 @@ class OrderCreatorWarranty extends CrudLayout {
         }
     }
 
-	//Desplazamiento hacia abajo
     scrollToBottom = () => {
         this.endView.scrollIntoView({ behavior: "smooth" });
     }
     
-	//Cambio de la cantidad
     onChangeQuantity(value) {
         this.setState({
             selected_quantity: value
         });
     }
-	//Cambio de usuario
     onChangeUser(user_id) {
         this.setState({
             selected_user: this.state.users.find((el) => (el._id === user_id))
@@ -400,7 +505,6 @@ class OrderCreatorWarranty extends CrudLayout {
 		
     }
 
-	//Busqueda de usuarios
     getUsers() {
         this.setState({
 			loading_users: true,
@@ -435,7 +539,6 @@ class OrderCreatorWarranty extends CrudLayout {
         });
     }
 
-	//Filtros busquedas de productos
     getData(search_text) {       
 
         this.setState({
@@ -448,7 +551,7 @@ class OrderCreatorWarranty extends CrudLayout {
 
 
         const POSTDATA = {
-            limit: 1000,
+            limit: 500,
             page: 1,
             sort_field: 'stock',
             populate_ids: ['subsidiary_id'],
@@ -643,7 +746,6 @@ class OrderCreatorWarranty extends CrudLayout {
         });
     }
 
-	//Al arrastrar los productos a la Orden de Venta
     sendToOnChange( actual_products, actual_total) {
         // split the arrays and do calculation for total:
         const p = [];
@@ -678,6 +780,9 @@ class OrderCreatorWarranty extends CrudLayout {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
 
                     let actualProducts = Object.assign([] ,this.state.selected_data);
+
+                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
+                    // actualProducts[id].stock -= record.quantity;
 
                     // Price selector:
                     let Price = Number(record.price_public);
@@ -924,218 +1029,239 @@ class OrderCreatorWarranty extends CrudLayout {
 
 
 
-    render() {
-        let widthTable = (window.innerWidth/2) - 60;
-        if (this.props.disabled) {
-            widthTable = window.innerWidth;
-        }
-        const OptionsUsers = this.state.users.map((item, index) => {
-            return (
-                <Select.Option 
-                    value={item._id}
-                    key={`${item._id} - ${index}`} 
-                >
-                    {item.name}
-                </Select.Option>
-            );
-        });
-
-        let SearcherProducts = <div></div>;
-       
-            SearcherProducts = (
-                <Fragment>
-                    <Divider> Buscar y seleccionar productos: </Divider>
-                    <div
-                        style={styles.columnContainer}
-                    >
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Input.Search
-                                onFocus={() => {
-                                    this.scrollToBottom();
-                                }}
-                                style={styles.rowSearchElement}
-                                placeholder="Buscar..."
-                                onSearch={(value) => {
-                                    this.getData(value);
-                                    this.scrollToBottom();
-                                }}
-                                enterButton
-                            />
-                            <div style={styles.groupLabel}>
-                                <p style={styles.quantityLabel}>Cantidad (#)</p>
-                                <InputNumber
-                                    style={styles.rowElementQuantity}
-                                    placeholder="Cantidad (#)"
-                                    value={this.state.selected_quantity}
-                                    onChange={this.onChangeQuantity}
-                                    size="100%"
-                                    step={1}
-                                    min={1}
-                                />
-                            </div>
-                            <div style={styles.groupLabel}>
-                                <p style={styles.quantityLabel}>Usuario </p>
-                                <Select
-                                    style={styles.rowElementUser}
-                                    value={this.state.selected_user._id}
-                                    showSearch
-                                    optionFilterProp="children"
-                                    placeholder="Usuario"
-                                    
-                                    onChange={this.onChangeUser}
-                                >
-                                        {OptionsUsers}
-                                </Select>
-                            </div>                        
-                        </div>
-
-                        <div
-                            style={styles.rowContainer}
-                        >
-                            <Table
-                                bordered
-                                loading={this.state.loading_data}
-                                size="small"
-                                scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
-                                style={styles.tableLayout}
-                                columns={this.table_columns_results}
-                                dataSource={this.state.results_data}
-                                locale={{
-                                    filterTitle: 'Filtro',
-                                    filterConfirm: 'Ok',
-                                    filterReset: 'Reset',
-                                    emptyText: 'Sin Datos'
-                                }}
-                                pagination={false}
-                                onRow={(record) => {
-                                    return {
-                                        onClick: () => {
-                                            this.addRecord(record);
-                                        },
-                                    };
-                                }}
-                            />
-                        </div>
-                    </div>
-                </Fragment>
-            );
-        
-
-        const components = {
-            body: {
-                row: EditableFormRow,
-                cell: EditableCell,
-            }
-        };
-
-
-		////////////////////////////////////////////
-
-        const columns = this.table_columns_selected.map((col) => {
-            if (!col.editable) {
-              return col;
-            }
-            return {
-                ...col,
-                onCell: record => {
-                    if (Number(record.key) > this.state.initial_length_data) {
-                        return ({
-                            record,
-                            editable: col.editable,
-                            dataIndex: col.dataIndex,
-                            title: col.title,
-							handleSave: this.updateRecord,
-                        });
-                    }
-                    return ({
-                        record,
-                        editable: false,
-                        dataIndex: col.dataIndex,
-                        title: col.title,
-                        handleSave: this.updateRecord,
-                    });
-                },
-            };
+	onSelectClient(client_name) {
+		const client = this.state.products.find((el) => (el.key_id === client_name));
+		let phone = client.phone_mobil;
+		if (phone === "") {
+		  phone = client.phone_number;
+		  if (phone === "") {
+			phone = client.phone_office;
+		  }
+		}
+		this.setState({
+		  openCarDropdown: true,
+		  search_text: client.name,
+		  client_id: client,
+		  client_name: client.name,
+		  client_phone: phone,
+		  price_type: client.price_type
 		});
-		
-
-
-
-
-		const columns1 = this.table_columns_selected.map((col) => {
-            if (!col.editable) {
-              return col;
-            }
-            return {
-                ...col,
-                onCell: record => {
-                    if (Number(record.key) > this.state.initial_length_data) {
-                        return ({
-                            record,
-                            editable: col.editable,
-                            dataIndex: col.dataIndex,
-                            title: col.title,
-							handleSave: this.updateRecord,
-                        });
-                    }
-                    return ({
-                        record,
-                        editable: false,
-                        dataIndex: col.dataIndex,
-                        title: col.title,
-                        handleSave: this.updateRecord,
-                    });
-                },
-            };
-        });
-
-
-
-
-
-
-        return (
-            <Fragment>
-                <div
-                    
-                >
-                    {SearcherProducts}
-                    <Divider> Orden de venta </Divider>
-                    <div                      
-                    >
-                        <Table
-                            components={components}
-                            rowClassName={() => 'editable-row'}
-                            bordered
-                            columns={columns}
-                            size="small"
-                            scroll={{ y: 500 }}
-                            style={styles.tableLayout}
-                            dataSource={this.state.selected_data}
-                            locale={{
-                                filterTitle: 'Filtro',
-                                filterConfirm: 'Ok',
-                                filterReset: 'Reset',
-                                emptyText: 'Sin Datos'
-                            }}
-                            pagination={false}
-                        />
-                    </div>
-                    <div style={styles.labelContainer}>
-                        <p style={styles.labelTitle}> Total de compra: </p>
-                        <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
-                    </div>
-                    <div 
-                        ref={(el) => { this.endView = el; }} 
-                    >
-
-                    </div>
-                </div>
-            </Fragment>
-        );
-    }
+	  }
+  
+	  render() {		
+		  let widthTable = (window.innerWidth/2) - 60;
+		  if (this.props.disabled) {
+			  widthTable = window.innerWidth;
+		  }
+		  const OptionsUsers = this.state.users.map((item, index) => {
+			  return (
+				  <Select.Option 
+					  value={item._id}
+					  key={`${item._id} - ${index}`} 
+				  >
+					  {item.name}
+				  </Select.Option>
+			  );
+		  });
+  
+		  let SearcherProducts = <div></div>;
+		 
+			  SearcherProducts = (
+				  
+				  <Fragment>
+					  <Divider> Buscar y seleccionar productos: </Divider>
+					  <div
+						  style={styles.columnContainer}
+					  >
+						  <div
+							  style={styles.rowContainer}
+						  >
+							  <AutoComplete
+								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+								autoFocus
+								backfill
+								placeholder={'Buscador...'}
+								onSearch={this.getData}
+								onSelect={(value) => { this.getData() }}
+								value={this.state.client_name}
+								onChange={(value) => {
+									this.onChangeFieldName(value, 'client_name');
+								}}
+								dataSource={this.state.name_clients}
+								style={styles.inputElement}
+							/>
+							  <div style={styles.groupLabel}>
+								  <p style={styles.quantityLabel}>Cantidad (#)</p>
+								  <InputNumber
+									  style={styles.rowElementQuantity}
+									  placeholder="Cantidad (#)"
+									  value={this.state.selected_quantity}
+									  onChange={this.onChangeQuantity}
+									  size="100%"
+									  step={1}
+									  min={1}
+								  />
+							  </div>
+							  <div style={styles.groupLabel}>
+								  <p style={styles.quantityLabel}>Usuario</p>
+								  <Select
+									  style={styles.rowElementUser}
+									  value={this.state.selected_user._id}
+									  showSearch
+									  optionFilterProp="children"
+									  placeholder="Usuario"                                    
+									  onChange={this.onChangeUser}
+								  >
+										  {OptionsUsers}
+								  </Select>
+							  </div>     													                     
+						  </div>
+  
+						  <div
+							  style={styles.rowContainer}
+						  >
+							  <Table
+								  bordered
+								  loading={this.state.loading_data}
+								  size="small"
+								  scroll={{ y: 700 }}//Tamaño de tabla al crear una venta o servicio
+								  style={styles.tableLayout}
+								  columns={this.table_columns_results}
+								  dataSource={this.state.results_data}
+								  locale={{
+									filterTitle: "Filtro",
+									filterConfirm: "Ok",
+									filterReset: "Limpiar",
+									emptyText: "Sin Datos",
+								  }}
+								  pagination={false}
+								  onRow={(record) => {
+									  return {
+										  onClick: () => {
+											  this.addRecord(record);
+										  },
+									  };
+								  }}
+							  />
+						  </div>
+					  </div>
+				  </Fragment>
+			  );
+		  
+  
+		  const components = {
+			  body: {
+				  row: EditableFormRow,
+				  cell: EditableCell,
+			  }
+		  };
+  
+  
+		  ////////////////////////////////////////////
+  
+		  const columns = this.table_columns_selected.map((col) => {
+			  if (!col.editable) {
+				return col;
+			  }
+			  return {
+				  ...col,
+				  onCell: record => {
+					  if (Number(record.key) > this.state.initial_length_data) {
+						  return ({
+							  record,
+							  editable: col.editable,
+							  dataIndex: col.dataIndex,
+							  title: col.title,
+							  handleSave: this.updateRecord,
+						  });
+					  }
+					  return ({
+						  record,
+						  editable: false,
+						  dataIndex: col.dataIndex,
+						  title: col.title,
+						  handleSave: this.updateRecord,
+					  });
+				  },
+			  };
+		  });
+		  
+  
+  
+  
+  
+		  const columns1 = this.table_columns_selected.map((col) => {
+			  if (!col.editable) {
+				return col;
+			  }
+			  return {
+				  ...col,
+				  onCell: record => {
+					  if (Number(record.key) > this.state.initial_length_data) {
+						  return ({
+							  record,
+							  editable: col.editable,
+							  dataIndex: col.dataIndex,
+							  title: col.title,
+							  handleSave: this.updateRecord,
+						  });
+					  }
+					  return ({
+						  record,
+						  editable: false,
+						  dataIndex: col.dataIndex,
+						  title: col.title,
+						  handleSave: this.updateRecord,
+					  });
+				  },
+			  };
+		  });
+  
+  
+  
+  
+  
+  
+		  return (
+			  <Fragment>
+				  <div
+					  
+				  >
+					  {SearcherProducts}
+					  <Divider> Orden de venta </Divider>
+					  <div                      
+					  >
+						  <Table
+							  components={components}
+							  rowClassName={() => 'editable-row'}
+							  bordered
+							  columns={columns}
+							  size="small"
+							  scroll={{ y: 500 }}
+							  style={styles.tableLayout}
+							  dataSource={this.state.selected_data}
+							  locale={{
+								  filterTitle: 'Filtro',
+								  filterConfirm: 'Ok',
+								  filterReset: 'Reset',
+								  emptyText: 'Sin Datos'
+							  }}
+							  pagination={false}
+						  />
+					  </div>
+					  <div style={styles.labelContainer}>
+						  <p style={styles.labelTitle}> Total de compra: </p>
+						  <p style={styles.labelValue}> {`$ ${round2(this.state.total)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+					  </div>
+					  <div 
+						  ref={(el) => { this.endView = el; }} 
+					  >
+  
+					  </div>
+				  </div>
+			  </Fragment>
+		  );
+	  }
 }
 
 // wrap a HOC to handle the inject of the fields?
