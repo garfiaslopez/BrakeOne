@@ -99,11 +99,11 @@ table {
     margin-bottom: 8pt;
 }
 
-.recipe__item__title {
+/* .recipe__item__title {
     font-size: 0.8em;
     color: rgba(0,0,0,0.30);
     text-transform: uppercase;
-}
+} */
 
 .recipe__item__data {
     text-transform: uppercase;
