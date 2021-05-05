@@ -92,8 +92,6 @@ const QuotationRecipe = ({
        {client_address_city} {client_address_country} C.P. {client_address_cp} {client_address_state}</p>
         </ul>
 
-        <p>Por este medio me permito presentar a su amable consideración el presupuesto para la reparación de la siguiente unidad:</p>
-       
         <ul className="recipe__flex-container">
            
             <li>
@@ -121,7 +119,7 @@ const QuotationRecipe = ({
                 <span>{vehicle.kms}</span>
             </li>
         </ul>
-        <p className="Detalle">Detalle de mano de obra y refacciones:</p>
+                
         <Table
             size="small"
             indentSize={0}
