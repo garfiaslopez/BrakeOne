@@ -151,8 +151,8 @@ table {
 }
 
 .imgLogo{
-    width: 500px;
-    margin-left: 225px;
+    width: 400px;
+    margin-left: 330px;
     margin-bottom: 30px;
 }
 
@@ -165,5 +165,5 @@ table {
     font-size: 20px;
 }
 .detalle {
-    font-size: 12px;
+    font-size: 14px;
 }
