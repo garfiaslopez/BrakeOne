@@ -104,6 +104,12 @@ var Models = [
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
+        model_name: 'missing',
+        singular: 'missing',
+        plural: 'missings',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
         model_name: 'spend',
         singular: 'spend',
         plural: 'spends',
