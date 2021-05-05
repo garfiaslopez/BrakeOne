@@ -10,6 +10,7 @@ import ReceptionPayments from '../Products/ReceptionPayments/ReceptionPayments';
 import Kardex from '../Products/Kardex/Kardex';
 import KardexSell from '../Sells/Kardex/Kardex';
 import Warranty from '../Products/Warranty/warranty';
+import Missing from '../Products/missing/missingProducts';
 import Paysheet from '../Paysheet/Paysheet';
 import Clients from '../Clients/Clients';
 import Cashdrawer from '../Cashdrawer/Cashdrawer';
@@ -69,6 +70,11 @@ const adminMenu = [
                 'name': 'Garantias',
                 'icon': 'rest',
                 'component': Warranty
+            },
+            {
+                'name': 'Faltantes',
+                'icon': 'rest',
+                'component': Missing
             },
             {
                 'name': 'Servicios',
