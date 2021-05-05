@@ -31,6 +31,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+    
     client: {
         title: 'Nombre',
         dataIndex: 'name',
