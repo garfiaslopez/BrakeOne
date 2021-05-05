@@ -189,6 +189,11 @@ const managerMenu = [
                 'component': Warranty
             },
             {
+                'name': 'Faltantes',
+                'icon': 'rest',
+                'component': Missing
+            },
+            {
                 'name': 'Servicios',
                 'icon': 'tool',
                 'component': ProductServices,
@@ -299,6 +304,11 @@ const userMenu = [
                 'name': 'Garantias',
                 'icon': 'rest',
                 'component': Warranty
+            },
+            {
+                'name': 'Faltantes',
+                'icon': 'rest',
+                'component': Missing
             },
             {
                 'name': 'Servicios',
