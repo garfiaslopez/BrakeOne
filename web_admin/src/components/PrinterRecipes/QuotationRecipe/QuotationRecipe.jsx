@@ -86,9 +86,9 @@ const QuotationRecipe = ({
         </p>
         {/* Client Name */}
         <ul className="recipe__flex-container">
-        <p><b>CLIENTE:</b> {client}</p>
-        <p><b>TEL: </b> {client_phone}</p><br></br>
-        <p><b>Direccion: </b> 
+        <p className="text_title"><b>CLIENTE:</b> {client}</p>
+        <p className="text_title"><b>TEL: </b> {client_phone}</p><br></br>
+        <p className="text_title"><b>Direccion: </b> 
        {client_address_city} {client_address_country} C.P. {client_address_cp} {client_address_state}</p>
         </ul>
 

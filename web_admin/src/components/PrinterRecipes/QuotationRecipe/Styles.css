@@ -37,9 +37,10 @@
 }
 
 .quotation-recipe__date {
-    
     margin-top: 40pt;
     text-align: right;
+    color: black;
+    font-size: 14px;
 }
 .recipe__flex-container_serv{
     display: flex;
@@ -54,4 +55,8 @@
 .sell-ticket__QR_Services {
     width: 120px;
     margin-left: 22px;
+}
+.text_title{
+    color: black;
+    font-size: 14px;
 }
