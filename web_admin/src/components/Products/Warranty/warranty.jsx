@@ -38,14 +38,7 @@ class warranty extends CrudLayout {
 				key: 'date',
 				render: RenderRows.renderRowDate,
 				width: '10%'
-			},
-			{
-            	title: 'Sucursal',
-            	dataIndex: 'subsidiary_id.denomination',
-				key: 'subsidiary_id.denomination',
-				render: RenderRows.renderRowText,
-				width: '10%'
-			},
+			},			
 			{
             	title: 'Folio',
             	dataIndex: 'folio',
@@ -54,12 +47,12 @@ class warranty extends CrudLayout {
 				width: '5%'
 			},
 			{
-            	title: 'Cliente',
-            	dataIndex: 'client_name',
-				key: 'client_name',
-				render: RenderRows.renderRowText,
-				width: '20%'
-			},
+				title: 'Clave',
+				dataIndex: 'fmsi',
+				key: 'products.key_id',
+				render: RenderRows.renderRowTextFMSI,
+				width: '10%'
+			},			
 			{
 				title: 'FMSI',
 				dataIndex: 'fmsi',
@@ -68,33 +61,55 @@ class warranty extends CrudLayout {
 				width: '10%'
 			},
 			{
+				title: 'Marca',
+				dataIndex: 'fmsi',
+				key: 'products.brand',
+				render: RenderRows.renderRowTextFMSI,
+				width: '10%'
+			},
+			{
+            	title: 'Detalle garantia',
+            	dataIndex: 'notes',
+				key: 'notes',
+				render: RenderRows.renderRowText,
+				width: '30%'
+			},
+			{
+            	title: 'Cliente',
+            	dataIndex: 'client_name',
+				key: 'client_name',
+				render: RenderRows.renderRowText,
+				width: '12%'
+			},
+			
+			/* {
             	title: 'Marca',
             	dataIndex: 'car_brand',
 				key: 'car_brand',
 				render: RenderRows.renderRowText,
 				width: '10%'
-			},
-			{
+			}, */
+			/* {
             	title: 'Modelo',
             	dataIndex: 'car_model',
 				key: 'car_model',
 				render: RenderRows.renderRowText,
 				width: '5%'
-			},
-			{
+			}, */
+			/* {
             	title: 'Año',
             	dataIndex: 'car_year',
 				key: 'car_year',
 				render: RenderRows.renderRowText,
 				width: '5%'
-			},
-			{
+			}, */
+			/* {
             	title: 'Total',
             	dataIndex: 'total',
 				key: 'total',
 				render: RenderRows.renderRowNumber,
 				width: '7%'
-			}
+			} */
 		];
 
 		if (this.props.session.user.rol === 'ADMIN' ||
@@ -170,7 +185,7 @@ class warranty extends CrudLayout {
 			});
 		}
 
-		this.table_columns.push({
+	/* 	this.table_columns.push({
 			title: '¿Es Venta?',
 			dataIndex: 'converted_to_sell',
 			key: 'converted_to_sell',
@@ -180,7 +195,7 @@ class warranty extends CrudLayout {
 				{ text: 'Ventas', value: true },
 				{ text: 'No Ventas', value: false},
 			],
-		});
+		}); */
 	}
 }
 
