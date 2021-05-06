@@ -97,7 +97,7 @@ var warrantyProductSchema = new Schema({
 warrantyProductSchema.plugin(mongoosePaginate);
 
 warrantyProductSchema.plugin(autoIncrement.plugin, {
-    model: 'Warranty',
+    model: 'warrantyProduct',
     field: 'folio',
     startAt: 1
 });
@@ -110,4 +110,4 @@ warrantyProductSchema.index({
 });
 
 //Return the module
-module.exports = mongoose.model("Warranty", warrantyProductSchema);
+module.exports = mongoose.model("warrantyProduct", warrantyProductSchema);
