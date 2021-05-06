@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
 var autoIncrement = require('mongoose-plugin-autoinc');
 
-var warrantySchema = new Schema({
+var warrantyProductSchema = new Schema({
     subsidiary_id: {
         type: Schema.ObjectId,
         ref: 'Subsidiary'
@@ -94,15 +94,15 @@ var warrantySchema = new Schema({
     }
 });
 
-warrantySchema.plugin(mongoosePaginate);
+warrantyProductSchema.plugin(mongoosePaginate);
 
-warrantySchema.plugin(autoIncrement.plugin, {
+warrantyProductSchema.plugin(autoIncrement.plugin, {
     model: 'Missing',
     field: 'folio',
     startAt: 1
 });
 
-warrantySchema.index({
+warrantyProductSchema.index({
     car_brand: 'text',
     car_model: 'text',
     client_name: 'text',
@@ -110,4 +110,4 @@ warrantySchema.index({
 });
 
 //Return the module
-module.exports = mongoose.model("Warranty", warrantySchema);
+module.exports = mongoose.model("Warranty", warrantyProductSchema);

@@ -14,9 +14,9 @@ var Models = [
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
-        model_name: 'warranty',
-        singular: 'warranty',
-        plural: 'warrantys',
+        model_name: 'warrantyProduct',
+        singular: 'warrantyProduct',
+        plural: 'warrantyProducts',
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {

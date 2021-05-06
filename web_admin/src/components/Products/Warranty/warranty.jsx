@@ -22,9 +22,9 @@ class warranty extends CrudLayout {
 			filters_layout: ['search','date_range']
 		};
         this.model = {
-			name: 'warranty',
-			singular: 'warranty',
-			plural: 'warrantys',
+			name: 'warrantyProduct',
+			singular: 'warrantyProduct',
+			plural: 'warrantyProducts',
 			label: 'Garantias'
 		};
 		this.additional_submit_data = {
