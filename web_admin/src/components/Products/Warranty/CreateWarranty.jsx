@@ -287,6 +287,10 @@ class createWarranty extends Component {
                         car_kms: this.state.car_kms,                 
                         notes: this.state.notes,
                         products: this.state.products,
+                        fmsi: this.state.fmsi,
+                        brand: this.state.brand,
+                        line: this.state.line,
+                        key_id: this.state.key_id,                        
                         services: this.state.services,
                         total: this.state.total,
                         date: moment().toISOString()
