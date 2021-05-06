@@ -27,7 +27,8 @@ class createWarranty extends Component {
             loading: this.props.loading,
             price_type: undefined,
             client_name: '',
-            client_phone: '',            
+            fmsi: '',
+            client_phone: '',
             client_job: '',
             car_brand: '',
             car_model: '',
@@ -45,10 +46,6 @@ class createWarranty extends Component {
             carsdb_makes: [],
             carsdb_models: [],
             carsdb_trims: [],
-            fmsi: '',
-            brand: '',
-            line: '',
-            key_id: ''
         };
         if (props.fields) {
             if (props.fields.price_type) {
@@ -199,7 +196,7 @@ class createWarranty extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
+        if (this.state.client_name !== '' && this.state.client_phone !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
                 console.log("CLIENT", this.state.client_id);
                 if(!this.state.client_id._id) {
@@ -278,6 +275,7 @@ class createWarranty extends Component {
                         subsidiary_id: this.props.session.subsidiary._id,
                         user_id: this.props.session.user._id,
                         price_type: this.state.price_type,
+                        fmsi: this.state.products.fmsi,
                         client_id: this.state.client_id,
                         client_name: this.state.client_name,
                         client_phone: this.state.client_phone,
@@ -291,10 +289,6 @@ class createWarranty extends Component {
                         car_kms: this.state.car_kms,                 
                         notes: this.state.notes,
                         products: this.state.products,
-                        fmsi: this.state.fmsi,
-                        brand: this.state.brand,
-                        line: this.state.line,
-                        key_id: this.state.key_id,                        
                         services: this.state.services,
                         total: this.state.total,
                         date: moment().toISOString()
@@ -303,12 +297,12 @@ class createWarranty extends Component {
                 }
             } else {
                 this.setState({
-                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
+                    error: 'Agregar algun producto a la garantia!'
                 });
             }
         } else {
             this.setState({
-                error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
+                error: 'Rellenar los campos obligatorios (*) para guardar.'
             });
         }
     }
@@ -532,27 +526,7 @@ class createWarranty extends Component {
                             >
                                 <Card
                                     title="Información de cliente"
-                                    extra={
-                                        <Fragment>                                           
-                                            <Select
-                                                open={this.state.openCarDropdown}
-                                                disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                                style={styles.inputSearch}
-                                                value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
-                                                showSearch
-                                                optionFilterProp="children"
-                                                placeholder="SELECCIONAR AUTO"
-                                                onChange={this.onChangeCar}
-                                                onMouseEnter={()=>{
-                                                    this.setState({
-                                                        openCarDropdown: true,
-                                                    })
-                                                }}
-                                            >
-                                                {OptionsCars}
-                                            </Select>
-                                        </Fragment>
-                                    }
+                                  
                                     style={styles.cardContainer}
                                     bodyStyle={styles.cardBody}
                                 >
@@ -609,137 +583,11 @@ class createWarranty extends Component {
                                             {OptionsTypes}
                                         </Select>
 
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            backfill
-                                            placeholder="MARCA"
-                                            onSearch={(value) => { this.filterCarMakes(value) }}
-                                            onSelect={(value) => { this.onSelectBrand(value) }}
-                                            value={this.state.car_brand !== "" ? this.state.car_brand : undefined}
-                                            dataSource={this.state.filtered_car_makes}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_brand');
-                                            }}
-                                        />
-
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            backfill
-                                            placeholder="MODELO"
-                                            onSearch={(value) => { this.filterCarModels(value) }}
-                                            onSelect={(value) => { this.onSelectModel(value) }}
-                                            value={this.state.car_model !== "" ? this.state.car_model : undefined}
-                                            dataSource={this.state.filtered_car_models}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_model');
-                                            }}
-                                        />
-
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            backfill
-                                            placeholder="DETALLE"
-                                            onSearch={(value) => { this.filterCarTrims(value) }}
-                                            value={this.state.car_trim !== "" ? this.state.car_trim : undefined}
-                                            dataSource={this.state.filtered_car_trims}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_trim');
-                                            }}
-                                        />
                                     </div>
                                 </div>
                                 <div
                                     style={styles.inputsRowContainer}
-                                >
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_year}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_year');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="AÑO (*)"
-                                        
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_color}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_color');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="COLOR"
-                                        
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_plates}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_plates');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="PLACAS"
-                                        
-                                    />
-
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_vin}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_vin');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="VIN"
-                                        
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_kms}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_kms');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="KILOMETROS"
-                                        
-                                    />
+                                >                                                                                                          
                                 </div>
                                 <div
                                     style={styles.inputsRowContainer}
@@ -749,7 +597,7 @@ class createWarranty extends Component {
                                         style={styles.inputElement}
                                         value={this.state.notes}
                                         autosize={{ minRows: 2, maxRows: 6 }}
-                                        placeholder="Notas adicionales..."
+                                        placeholder="Anotar motivos de la garantia..."
                                         
                                         onChange={(value) => {
                                             this.onChangeField(value, 'notes');
@@ -761,11 +609,10 @@ class createWarranty extends Component {
                             </div>
                         </div>
                         
-
-                        <OrderCreatorWarranty
-                            can_edit_disccount={this.props.is_disabled ? false : true }
-                            is_quotation={true}
-                            disabled={this.props.is_disabled}
+                        <OrderCreatorWarranty                                              
+                            can_edit_description  
+                            can_edit_quantity={true}
+                            can_edit_disccount={true}
                             onError={this.onErrorOrderCreatorWarranty}
                             onChange={this.onChangeOrderCreatorWarranty}
                             price_type={this.state.price_type}
