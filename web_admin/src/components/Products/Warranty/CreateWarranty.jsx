@@ -27,7 +27,7 @@ class createWarranty extends Component {
             loading: this.props.loading,
             price_type: undefined,
             client_name: '',
-            client_phone: '',
+            client_phone: '',            
             client_job: '',
             car_brand: '',
             car_model: '',
@@ -45,6 +45,10 @@ class createWarranty extends Component {
             carsdb_makes: [],
             carsdb_models: [],
             carsdb_trims: [],
+            fmsi: '',
+            brand: '',
+            line: '',
+            key_id: ''
         };
         if (props.fields) {
             if (props.fields.price_type) {
