@@ -97,7 +97,7 @@ var warrantyProductSchema = new Schema({
 warrantyProductSchema.plugin(mongoosePaginate);
 
 warrantyProductSchema.plugin(autoIncrement.plugin, {
-    model: 'Missing',
+    model: 'Warranty',
     field: 'folio',
     startAt: 1
 });
