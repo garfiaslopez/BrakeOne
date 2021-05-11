@@ -26,6 +26,7 @@ import PrinterDownload from '../PrinterDownload/PrinterDownload';
 import CrudLayoutClientsSell from '../CrudLayout/CrudLayoutClientsSell';
 import OrderCreatorClients from '../../helpers/OrderCreator/OrderCreatorClients';
 import OrderReception from "../../helpers/OrderCreator/OrderReception";
+import OrderCreatorProducts from '../../helpers/OrderCreator/OrderCreatorProducts';
 
 class CreateSell extends Component {
   
@@ -1001,6 +1002,7 @@ class CreateSell extends Component {
                       total: this.state.total,
                     }}
                 />
+                
               </div>
             <OrderCreatorVentas
               isSell

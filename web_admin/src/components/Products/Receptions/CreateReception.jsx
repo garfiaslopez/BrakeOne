@@ -16,12 +16,15 @@ import { FetchXHR } from '../../../helpers/generals';
 import isEmpty from 'lodash/isEmpty';
 import OrderCreatorReception from '../../../helpers/OrderCreator/OrderCreatorReception';
 import RenderRows from '../../../helpers/render_rows';
+import OrderReception from '../../../helpers/OrderCreator/OrderReception';
 import async from 'async';
 import moment from 'moment';
+import OrderCreatorProducts from '../../../helpers/OrderCreator/OrderCreatorProducts';
 
 class CreateReception extends Component {
     constructor(props) {
         super(props);
+   
         let initial_state = {
             error: this.props.error,
             open: this.props.open,
@@ -565,6 +568,35 @@ class CreateReception extends Component {
                             />
                         </div>
                     </div>
+                    <OrderCreatorProducts
+                    isSell
+                    can_edit_price                           
+                    can_edit_description  
+                    can_edit_quantity={true}
+                    can_edit_disccount={true}
+                    is_recovered={this.state.quotation_folio !== "" ? true : false}
+                    disabled={this.props.is_disabled}
+                    onError={this.onErrorOrderCreatorVentas}
+                    onChange={this.onChangeOrderCreatorVentas}
+                    price_type={this.state.price_type}
+                    session={this.props.session}
+                    init_data={{
+                      products: this.props.fields
+                        ? this.props.fields.products
+                        : this.state.products,
+                      services: this.props.fields
+                        ? this.props.fields.services
+                        : this.state.services,
+                      total: this.props.fields
+                        ? this.props.fields.total
+                        : this.state.total,
+                    }}
+                    update_data={{
+                      products: this.state.products,
+                      services: this.state.services,
+                      total: this.state.total,
+                    }}
+                />
                         {/*Aqui se ocupa la tabla de OrderCreatorReception*/}
                         <OrderCreatorReception
                             is_reception
@@ -587,7 +619,11 @@ class CreateReception extends Component {
                                 services: this.state.services,
                                 total: this.state.total
                             }}
-                        />                                                                  
+                        />    
+                         <div style={styles.cardInitialText}>
+                                
+              </div>
+                                                                          
                         {PaymentsModel}
                         
 
