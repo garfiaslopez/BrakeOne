@@ -27,24 +27,11 @@ class createMissing extends Component {
             loading: this.props.loading,
             price_type: undefined,
             client_name: '',
+            line: '',
+            brand: '',
             client_phone: '',
-            client_job: '',
-            car_brand: '',
-            car_model: '',
-            car_year: '',
-            car_vin: '',
-            car_color: '',
-            car_plates: '',
-            car_trim:'',
-            notes: '',
-            client_id: {},
-            clients: [],
-            car_id: '',
-            selected_car: undefined,
-            openCarDropdown: false,
-            carsdb_makes: [],
-            carsdb_models: [],
-            carsdb_trims: [],
+            client_job: '',            
+            notes: '',                                           
         };
         if (props.fields) {
             if (props.fields.price_type) {
@@ -102,26 +89,16 @@ class createMissing extends Component {
         
         this.state = initial_state;
         this.getClients = this.getClients.bind(this);
-
         this.onChangeField = this.onChangeField.bind(this);
-        this.onChangeDropdown = this.onChangeDropdown.bind(this);
-        this.onChangeCar = this.onChangeCar.bind(this);
-        this.onSelectBrand = this.onSelectBrand.bind(this);
-        this.onSelectModel = this.onSelectModel.bind(this);
-
+        this.onChangeDropdown = this.onChangeDropdown.bind(this);        
         this.onErrorOrderCreatorMissing = this.onErrorOrderCreatorMissing.bind(this);
         this.onChangeOrderCreatorMissing = this.onChangeOrderCreatorMissing.bind(this);
-
-        this.filterCarMakes = this.filterCarMakes.bind(this);
-        this.filterCarModels = this.filterCarModels.bind(this);
-        this.filterCarTrims = this.filterCarTrims.bind(this);
     }
     componentDidMount() {
         FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_makes', 'POST', {}).then((response) => {
             if(response.json.objs) {
                 this.setState({
-                    carsdb_makes: response.json.objs.filter((e)=>(e!="")),
-                    filtered_car_makes: response.json.objs.filter((e)=>(e!="")),
+                  
                 })
             }
         });
@@ -155,43 +132,6 @@ class createMissing extends Component {
         this.setState(obj);
     }
 
-    onSelectBrand(value) {
-        this.setState({
-            car_brand: value,
-            car_model: '',
-            car_trim: '',
-        });
-        FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_models', 'POST', {
-            make: value
-        }).then((response) => {
-            if(response.json.objs) {
-                this.setState({
-                    carsdb_models: response.json.objs.filter((e)=>(e!="")),
-                    filtered_car_models: response.json.objs.filter((e)=>(e!="")),
-                });
-            }
-        });
-    }
-
-    onSelectModel(value) {
-        this.setState({
-            car_model: value,
-            car_trim: '',
-        });
-        FetchXHR(process.env.REACT_APP_API_URL + '/helpers/car_trims', 'POST', {
-            make: this.state.car_brand,
-            model: value
-        }).then((response) => {
-            console.log(response.json.objs)
-            if(response.json.objs) {
-                this.setState({
-                    carsdb_trims: response.json.objs.filter((e)=>(e!="")),
-                    filtered_car_trims: response.json.objs.filter((e)=>(e!="")),
-                })
-            }
-        });
-    }
-
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
@@ -218,16 +158,7 @@ class createMissing extends Component {
                         phone_office: '',
                         email: '',
                         contacts: [],
-                        cars: [{
-                            legacy_id: '',
-                            plates: this.state.car_plates,
-                            economic_number: '',
-                            brand: this.state.car_brand,
-                            model: this.state.car_model,
-                            year: this.state.car_year,
-                            color: this.state.car_color,
-                            vin: this.state.car_vin,
-                        }],
+                     
                     }
                     FetchXHR(process.env.REACT_APP_API_URL + '/client', 'POST', NewClient).then((response) => {
                         if (response.json.success) {
@@ -368,55 +299,12 @@ class createMissing extends Component {
             }
         }
         this.setState({
-            openCarDropdown: true,
+           
             search_text: client.name,
             client_id: client,
             client_name: client.name,
             client_phone: phone,
             price_type: client.price_type
-        });
-    }
-
-    onChangeCar(car_id) {
-        const car = this.state.client_id.cars.find((el)=>(el._id === car_id));
-        this.setState({
-            openCarDropdown: false,
-            selected_car: car,
-            car_id,
-            car_brand: car.brand,
-            car_model: car.model,
-            car_vin: car.vin,
-            car_year: car.year,
-            car_color: car.color,
-            car_plates: car.plates
-        });
-    }
-
-    filterAutocomplete(value, array) {
-        const results = [];
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].substr(0, value.length).toUpperCase() == value.toUpperCase()) {
-                results.push(array[i]);
-            }
-        }
-        return results;
-    }
-
-    filterCarMakes(value) {
-        this.setState({
-            filtered_car_makes: this.filterAutocomplete(value, this.state.carsdb_makes)
-        });
-    }
-
-    filterCarModels(value) {
-        this.setState({
-            filtered_car_models: this.filterAutocomplete(value, this.state.carsdb_models)
-        });
-    }
-
-    filterCarTrims(value) {
-        this.setState({
-            filtered_car_trims: this.filterAutocomplete(value, this.state.carsdb_trims)
         });
     }
 
@@ -479,22 +367,10 @@ class createMissing extends Component {
         }
 
         const OptionsCars = [];
-        if (this.state.client_id.cars) {
-            this.state.client_id.cars.forEach((item, index) => {
-                OptionsCars.push(
-                    <Select.Option 
-                        value={item._id}
-                        key={`${item._id} - ${index}`} 
-                    >
-                        {item.model + ' - ' + item.plates}
-                    </Select.Option>
-                );
-            });
-        }
-
-        let title = "Nueva Cotización";
+      
+        let title = "Nuevos faltantes";
         if(this.props.fields && this.props.fields.folio) {
-            title = 'Cotización  | FOLIO: #' + this.props.fields.folio;
+            title = 'Faltante  | FOLIO: #' + this.props.fields.folio;
         } else if (this.props.next_folio) {
             title += '    | FOLIO: #' + this.props.next_folio;
         }
@@ -523,28 +399,8 @@ class createMissing extends Component {
                                 style={styles.inputsRowContainer}
                             >
                                 <Card
-                                    title="Información de cliente"
-                                    extra={
-                                        <Fragment>                                           
-                                            <Select
-                                                open={this.state.openCarDropdown}
-                                                disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                                style={styles.inputSearch}
-                                                value={this.state.selected_car ? this.state.selected_car.brand + ' - ' + this.state.selected_car.model : undefined}
-                                                showSearch
-                                                optionFilterProp="children"
-                                                placeholder="SELECCIONAR AUTO"
-                                                onChange={this.onChangeCar}
-                                                onMouseEnter={()=>{
-                                                    this.setState({
-                                                        openCarDropdown: true,
-                                                    })
-                                                }}
-                                            >
-                                                {OptionsCars}
-                                            </Select>
-                                        </Fragment>
-                                    }
+                                    title="Información de faltantes"
+                                   
                                     style={styles.cardContainer}
                                     bodyStyle={styles.cardBody}
                                 >
@@ -553,185 +409,36 @@ class createMissing extends Component {
                                 >
                                     <div
                                         style={styles.inputsRowContainer}
-                                    >
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            autoFocus
-                                            backfill
-                                            placeholder={'BUSCAR CLIENTE...'}
-                                            onSearch={(value) => { this.getClients(value) }}
-                                            onSelect={(value) => { this.onSelectClient(value) }}
-                                            value={this.state.client_name}
-                                            onChange={(value) => {
-                                                this.onChangeFieldName(value, 'client_name');
-                                            }}
-                                            dataSource={this.state.name_clients}
-                                            style={styles.inputElement}
-                                        />
-                                        <Input
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.client_phone}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeField(value, 'client_phone');
-                                            }}
-                                            prefix={(
-                                                <Icon
-                                                    type="phone"
-                                                    className="field-icon"
-                                                />
-                                            )}
-                                            type="text"
-                                            placeholder="NUMERO TELEFONO (*)"
-                                        />
-                                        <Select
-                                            showSearch
-                                            onFocus={() => {
-                                                console.log(this);
-                                            }}
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            value={this.state.price_type}
-                                            style={styles.inputElement}
-                                            placeholder="TIPO PRECIO"
-                                            optionFilterProp="children"
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'price_type');
-                                            }}
-                                        >
-                                            {OptionsTypes}
-                                        </Select>
+                                    >                                     
+                                    <Input
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        style={styles.inputElement}
+                                        value={this.state.brand}
+                                        autosize={{ minRows: 2, maxRows: 6 }}
+                                        placeholder="MARCA"
+                                        
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'brand');
+                                        }}
+                                    />
 
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            backfill
-                                            placeholder="MARCA"
-                                            onSearch={(value) => { this.filterCarMakes(value) }}
-                                            onSelect={(value) => { this.onSelectBrand(value) }}
-                                            value={this.state.car_brand !== "" ? this.state.car_brand : undefined}
-                                            dataSource={this.state.filtered_car_makes}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_brand');
-                                            }}
-                                        />
+                                    <Input
+                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                                        style={styles.inputElement}
+                                        value={this.state.line}
+                                        autosize={{ minRows: 2, maxRows: 6 }}
+                                        placeholder="LINEA"
+                                        
+                                        onChange={(value) => {
+                                            this.onChangeField(value, 'line');
+                                        }}
+                                    />
 
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            backfill
-                                            placeholder="MODELO"
-                                            onSearch={(value) => { this.filterCarModels(value) }}
-                                            onSelect={(value) => { this.onSelectModel(value) }}
-                                            value={this.state.car_model !== "" ? this.state.car_model : undefined}
-                                            dataSource={this.state.filtered_car_models}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_model');
-                                            }}
-                                        />
-
-                                        <AutoComplete
-                                            disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                            backfill
-                                            placeholder="DETALLE"
-                                            onSearch={(value) => { this.filterCarTrims(value) }}
-                                            value={this.state.car_trim !== "" ? this.state.car_trim : undefined}
-                                            dataSource={this.state.filtered_car_trims}
-                                            style={styles.inputElement}
-                                            onChange={(value) => {
-                                                this.onChangeDropdown(value, 'car_trim');
-                                            }}
-                                        />
                                     </div>
                                 </div>
                                 <div
                                     style={styles.inputsRowContainer}
-                                >
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_year}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_year');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="AÑO (*)"
-                                        
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_color}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_color');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="COLOR"
-                                        
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_plates}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_plates');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="PLACAS"
-                                        
-                                    />
-
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_vin}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_vin');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="VIN"
-                                        
-                                    />
-                                    <Input
-                                        disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-                                        value={this.state.car_kms}
-                                        style={styles.inputElement}
-                                        onChange={(value) => {
-                                            this.onChangeField(value, 'car_kms');
-                                        }}
-                                        prefix={(
-                                            <Icon
-                                                type="car"
-                                                className="field-icon"
-                                            />
-                                        )}
-                                        type="text"
-                                        placeholder="KILOMETROS"
-                                        
-                                    />
+                                >                                                                                                    
                                 </div>
                                 <div
                                     style={styles.inputsRowContainer}

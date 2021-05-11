@@ -1228,7 +1228,7 @@ class OrderCreatorMissing extends CrudLayout {
 					  
 				  >
 					  {SearcherProducts}
-					  <Divider> Orden de venta </Divider>
+					  <Divider> Orden de faltantes</Divider>
 					  <div                      
 					  >
 						  <Table
