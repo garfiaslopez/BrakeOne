@@ -27,11 +27,27 @@ class createMissing extends Component {
             loading: this.props.loading,
             price_type: undefined,
             client_name: '',
-            line: '',
-            brand: '',
+            fmsi: '',
             client_phone: '',
-            client_job: '',            
-            notes: '',                                           
+            client_job: '',
+            car_brand: '',
+            car_model: '',
+            car_year: '',
+            car_vin: '',
+            car_color: '',
+            car_plates: '',
+            car_trim:'',
+            notes: '',
+            client_id: {},
+            clients: [],
+            car_id: '',
+            selected_car: undefined,
+            openCarDropdown: false,
+            carsdb_makes: [],
+            carsdb_models: [],
+            carsdb_trims: [],
+            brand: '',
+            line: ''                                       
         };
         if (props.fields) {
             if (props.fields.price_type) {
@@ -134,7 +150,8 @@ class createMissing extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        // do validations:       
+        // do validations:
+        if (this.state.brand !== '') {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
                 console.log("CLIENT", this.state.client_id);
                 if(!this.state.client_id._id) {
@@ -142,22 +159,8 @@ class createMissing extends Component {
                     const NewClient = {
                         account_id: this.props.session.subsidiary.account_id,
                         name: this.state.client_name,
-                        rfc: '',
-                        curp: '',
-                        credit_days: 0,
+                        brand: this.state.brand,                                            
                         sells: 0,
-                        price_type: this.state.price_type,
-                        address: '',
-                        address_city: '',
-                        address_country: '',
-                        address_state: '',
-                        address_cp: '',
-                        phone_number: '',
-                        phone_mobil: this.state.client_phone,
-                        phone_office: '',
-                        email: '',
-                        contacts: [],
-                     
                     }
                     FetchXHR(process.env.REACT_APP_API_URL + '/client', 'POST', NewClient).then((response) => {
                         if (response.json.success) {
@@ -182,6 +185,8 @@ class createMissing extends Component {
                                 products: this.state.products,
                                 services: this.state.services,
                                 total: this.state.total,
+                                brand: this.state.brand,
+                                line: this.state.line,
                                 date: moment().toISOString()
                             }
                             this.props.onSubmit(Quotation);
@@ -204,6 +209,7 @@ class createMissing extends Component {
                         subsidiary_id: this.props.session.subsidiary._id,
                         user_id: this.props.session.user._id,
                         price_type: this.state.price_type,
+                        fmsi: this.state.products.fmsi,
                         client_id: this.state.client_id,
                         client_name: this.state.client_name,
                         client_phone: this.state.client_phone,
@@ -219,16 +225,22 @@ class createMissing extends Component {
                         products: this.state.products,
                         services: this.state.services,
                         total: this.state.total,
+                        brand: this.state.brand,
+                        line: this.state.line,
                         date: moment().toISOString()
                     }
                     this.props.onSubmit(Quotation);
                 }
             } else {
                 this.setState({
-                    error: 'Agregar algun producto o servicio o paquete a la cotización.'
+                    error: 'Agregar algun producto a la garantia!'
                 });
             }
-       
+        } else {
+            this.setState({
+                error: 'Rellenar los campos obligatorios (*) para guardar.'
+            });
+        }
     }
 
     onErrorOrderCreatorMissing(err) {

@@ -9,19 +9,32 @@ var MissingSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Subsidiary'
     },
-    brand: {
-        type: String,
-        required: true
-    },
-    line: {
-        type: String,
-        required: true
-    },
+    fmsi: { type: String },
+    brand: { type: String },
+    line: { type: String },
+    key_id: { type: String },    
     user_id: {
         type: Schema.ObjectId,
         ref: 'User'
     },
- 
+    brand: {
+        type: String,        
+    },
+    line: {
+        type: String
+    },
+    client_id: {
+        type: Schema.ObjectId,
+        ref: 'Client'
+    },
+    sell_id: {
+        type: Schema.ObjectId,
+        ref: 'Sell'
+    },
+    price_type: { type: String },
+    client_name: { type: String },
+    client_phone: { type: String },
+    client_job: { type: String },
     folio: {
         type: Number
     },
@@ -29,7 +42,14 @@ var MissingSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    
+    car_brand: { type: String },
+    car_model: { type: String },
+    car_year: { type: String },
+    car_vin: { type: String },
+    car_plates: { type: String },
+    car_color: { type: String },
+    car_kms: { type: String },
+    car_trim: { type: String },
     notes: {
         type: String
     },
@@ -58,7 +78,23 @@ var MissingSchema = new Schema({
         discount: { type: Number },
         total: { type: Number }
     }],
-    
+    services: [{
+        id: {
+            type: Schema.ObjectId,
+            ref: 'Service'
+        },
+        user_id: {
+            type: Schema.ObjectId,
+            ref: 'User'
+        },
+        user_name: { type: String },
+        description: { type: String },
+        price_type: { type: String },
+        price: { type: Number },
+        quantity: { type: Number },
+        discount: { type: Number },
+        total: { type: Number }
+    }],
     total: {
         type: Number
     },
