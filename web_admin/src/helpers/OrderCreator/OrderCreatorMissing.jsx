@@ -86,7 +86,6 @@ const renderRowNumber = (text, record) => {
 
 class OrderCreatorMissing extends CrudLayout {
 
-
     constructor(props) {
 	
         super(props);
