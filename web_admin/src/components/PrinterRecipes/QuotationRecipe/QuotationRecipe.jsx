@@ -145,8 +145,6 @@ const QuotationRecipe = ({
                 </span>
             </li>
         </ul>
-        {/* <p>Agradeciendo la atención que sirva brindar a la presente y en espera de su favorable respuesta, quedo de usted.</p> */}
-        {/* <h2>Atentamente</h2> */}
         <p className="Detalle">GARANTIA RECTIFICADO DISCOS: 5 DIAS, GARANTIA BALATAS: 30 DIAS O KM 1,000 LO QUE OCURRA PRIMERO, SOBRE DEFECTO DE FABRICACION, RECOMENDACIÓN: NO ABUSE DE LOS FRENOS DURANTE LOS PRIMEROS KM 200-300</p>
         <footer className="recipe__footer">
 
@@ -169,10 +167,8 @@ const QuotationRecipe = ({
               <li>
                   <h3 className="recipe__item__title">
                       <p class="text_cond">▢ Recibí en buenas condiciones el vehículo<br></br><br></br>
-                      ▢ Falto algo de tu vehiculo?<br></br><br></br>
-                          
+                      ▢ Falto algo de tu vehiculo?<br></br><br></br>                          
                           Anotar faltantes: </p><br></br><br></br>
-
                   </h3>                       
               </li>
               <li>
@@ -185,12 +181,12 @@ const QuotationRecipe = ({
                   <p class="firm">Firma</p>
               </li>
           </ul>
-  </footer><br></br><br></br>
+        </footer><br></br><br></br>
   
             <p>Saratoga #313-C,
                 Col. Portales Norte
                 C.p. 03300
-A               lcaldía Benito Juárez, CDMX.</p>
+                Alcaldía Benito Juárez, CDMX.</p>
             <p>Tels. (55) 4563 – 2063
                     (55) 6840 – 2850
                     (55) 7653 – 6116

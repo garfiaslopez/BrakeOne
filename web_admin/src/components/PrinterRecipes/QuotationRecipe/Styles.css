@@ -26,7 +26,13 @@
 
 .quotation-recipe
 .recipe__flex-container {
-    border: 1px solid #e8e8e8;
+    border-bottom: 1px solid #13131383;
+    border-left: 1px solid #13131383;
+    /* box-shadow: 0px 0px 0px 0 black; */
+    /* background: linear-gradient(red, orange); *//*Usar este estilo para tablas*/
+    /* background: linear-gradient(to right, blue, red, yellow, green); */ /* Estilos que puedo usar*/
+    /* background: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1)); */ /* Estilos que puedo usar*/
+    /* background: radial-gradient(red, yellow); */ /* Estilos que puedo usar*/
     border-radius: 4px;
     padding: 5pt;
     margin: 20pt 0;
@@ -46,8 +52,7 @@
     display: flex;
     justify-content: space-between;
     text-align: left;
-    flex-wrap: wrap;
-    border-bottom: 1px solid #5c5c5c6e;
+    flex-wrap: wrap;    
 }
 .flecha {
     margin-left: 75px;
