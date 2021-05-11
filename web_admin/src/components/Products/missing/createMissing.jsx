@@ -134,8 +134,7 @@ class createMissing extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        // do validations:
-        if (this.state.client_name !== '' && this.state.client_phone !== '' && this.state.car_brand !== '' && this.state.car_model !== '') {
+        // do validations:       
             if (this.state.products.length > 0 || this.state.services.length > 0) {
                 console.log("CLIENT", this.state.client_id);
                 if(!this.state.client_id._id) {
@@ -229,11 +228,7 @@ class createMissing extends Component {
                     error: 'Agregar algun producto o servicio o paquete a la cotización.'
                 });
             }
-        } else {
-            this.setState({
-                error: 'Rellenar los campos obligatorios (*) de carro y usuario para guardar.'
-            });
-        }
+       
     }
 
     onErrorOrderCreatorMissing(err) {
