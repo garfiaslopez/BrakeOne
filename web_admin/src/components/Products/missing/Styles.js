@@ -4,16 +4,14 @@ export default {
     modalContainer: {
         width: '100%',
         height: 'calc(100vh - 120px)',
-        overflowY: 'scroll',
-        padding: 0,
+        overflowY: 'scroll'
     },
     modalBodyContainer: {
         width: '100%',
         top: 0,
-        padding: 0
     },
-    cardInitialText: {
-        margin: 24,
+    modalInBodyContainer: {
+        height: '100%'
     },
     inputsContainer: {
         display: 'flex',
@@ -23,7 +21,11 @@ export default {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        paddingBottom: 5,
+        paddingBottom: 24,
+    },
+    inputsColumnContainer: {
+        display: 'flex',
+        flexDirection: 'column',
     },
     inputElement: {
         marginLeft: 10,
@@ -32,26 +34,36 @@ export default {
     },
     cardContainer: {
         width: '100%',
+        marginLeft: 10,
+        marginRight: 10,
     },
     cardBody: {
         padding: 0,
-        paddingTop: 15
+    },
+    cardInitialText: {
+        margin: 24,
     },
     grid_element: {
-        width: '20%',
-        height: 100,
+        height: 50,
+        width: '25%',
+        padding: 0,
+        paddingRight: 10,
+        paddingLeft: 10,
         textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end'
     },
     inputSearch: {
-        margin: -10,
-        width: 300,
-        paddingRight:15,
-        paddingLeft: 15
+        width: 400
     },
-    buttonHistory: {
-        width: 100,
-        paddingRight:5,
-        paddingLeft: 5
+    inputSearchCard: {
+        display: 'flex',
+        alignSelf: 'center',
+        width: '80%',
+        height: 35,
+        marginLeft: 10,
     },
     label_title: {
         fontWeight: 'bold'

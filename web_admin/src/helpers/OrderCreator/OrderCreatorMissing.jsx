@@ -86,6 +86,8 @@ const renderRowNumber = (text, record) => {
 
 class OrderCreatorMissing extends CrudLayout {
 
+
+   
     constructor(props) {
 	
         super(props);
@@ -293,28 +295,20 @@ class OrderCreatorMissing extends CrudLayout {
 		   }
 	   ];
 
-        this.table_columns_selected = [
-			
-             /*  {
-                title: <div style={{ fontSize: FontTable }}>Usuario</div>,
-                render: renderRowSmall,
-            	dataIndex: 'user_name',
-                key: 'user_name',
-                width: '5%'
-            }, */    
+        this.table_columns_selected = [		
             {
                 title: <div style={{ fontSize: FontTable }}>Clave</div>,
             	dataIndex: 'key_id',
 				key: 'key_id',
                 render: renderRowSmall,
-                width: '8%'
+                width: '10%'
 			},
 			{
             	title: <div style={{ fontSize: FontTable }}>FMSI</div>,
             	dataIndex: 'fmsi',
 				key: 'fmsi',
                 render: renderRowSmallTruncate,
-                width: '8%'
+                width: '10%'
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
@@ -322,13 +316,14 @@ class OrderCreatorMissing extends CrudLayout {
                 key: 'description',
 				width: '25%',
 				editable: props.can_edit_disccount,			
+				render: renderRowMin,
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Cantidad</div>,
             	dataIndex: 'quantity',
                 key: 'quantity',
                 render: renderRowSmall,
-                width: '6%',
+                width: '12%',
                 editable: props.can_edit_quantity,
 			},
 			{
@@ -336,7 +331,7 @@ class OrderCreatorMissing extends CrudLayout {
                 render: renderRowSmallNumber,
             	dataIndex: 'price',
                 key: 'price',
-                width: '8%',
+                width: '10%',
                 editable: props.can_edit_price,
 			},
 			{
@@ -346,64 +341,24 @@ class OrderCreatorMissing extends CrudLayout {
                 key: 'discount',
                 width: '8%',
                 editable: props.can_edit_disccount,
-			},
-			{
-                title: <div style={{ fontSize: FontTable }}>Costo Extra</div>,
-                render: renderRowSmallPrec,
-            	dataIndex: 'discount1',
-                key: 'discount',
-                width: '8%',
-                editable: props.can_edit_disccount,
-			},	
-           /*  {
-                title: <div style={{ fontSize: FontTable }}>Linea</div>,
-            	dataIndex: 'line',
-				key: 'line',
-                render: renderRowSmall,
-                width: '8%'
-            }, */
-           /*  {
-                title: <div style={{ fontSize: FontTable }}>Marca</div>,
-            	dataIndex: 'brand',
-				key: 'brand',
-                render: renderRowSmall,
-                width: '8%'
-			}, */
-			/* {
-                title: <div style={{ fontSize: FontTable }}>Descripción</div>,
-                render: renderRowSmallTruncate,
-            	dataIndex: 'description',
-                key: 'description',
-                width: '12%'
-            }, */                       
-					
+			},	           		
 			{
                 title: <div style={{ fontSize: FontTable }}>Importe</div>,
                 render: renderRowSmallNumber,
             	dataIndex: 'total',
                 key: 'total',
-                width: '7%'
+                width: '10%'
 			}
         ];
 		
-
-        /* if (this.props.is_quotation) {
-            this.table_columns_selected.unshift({
-            	title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
-            	dataIndex: 'subsidiary_id.denomination',
-				key: 'subsidiary_id.denomination',
-                render: renderRow,
-                width: '5%'
-            });
-        }*/
        // if (!props.disabled) {
 		this.table_columns_selected.push({
 			
 			title: <div style={{ fontSize: FontTable}}>Acciones</div>,
 			key: 'action',
-			width: '90px',
+			width: '30px',
 			render: (text, record) => {
-				if("Hola") {
+				if((this.props.is_quotation) || this.props.is_recovered || (!record._id)) {
 					return (
 						<div style={{}}>
 						<span>									
@@ -429,17 +384,42 @@ class OrderCreatorMissing extends CrudLayout {
 									icon="minus"
 								/>
 							</Popconfirm>	
-							<Divider type="vertical" />	
-
-                            {/* Eliminar de la lista y sumar stock */}
-
-							<Divider type="vertical" />						
-							
+							<Divider type="vertical" />	                                                     							
 						</span>
 						</div>
 						
 					);
 					
+				}else{
+					return (
+						<span>
+						   {/* Eliminar de la lista y sumar stock */}
+
+						<Popconfirm
+							onClick={(event)=> {
+								event.stopPropagation();
+							}}
+							title="¿Estas seguro de eliminar?" 
+							okText="De acuerdo"
+							cancelText="Cancelar"
+							onCancel={(event) => {
+								event.stopPropagation();
+							}}
+							onConfirm={(event) => {
+								event.stopPropagation();
+								this.deleteRecordCom(record);
+							}}
+						>
+						<b>Eliminar</b>
+							<Button 								    
+								type="danger" 
+								shape="circle"
+								icon="delete"
+							/>
+						</Popconfirm>		
+						<Divider type="vertical" />	
+						</span>
+					);
 				}
 				return <div></div>;
 			},
@@ -458,10 +438,27 @@ class OrderCreatorMissing extends CrudLayout {
         this.addRecord = this.addRecord.bind(this);
 		
     }
-
-    componentDidMount() {
-        this.getUsers();
+	//Refresca tabla
+	componentDidMount() {
+        this.limit = 50;
+        this.page = 1;
+        this.getData();
+		this.getUsers();
+        this.refresh_interval = setInterval(() => {
+          this.getData();
+        }, 10000);
     }
+
+	refreshTable = () => {
+        this.getData();
+    };
+
+	  onClickSearch = (search_text) => {                 
+        this.search_text = search_text;
+        setTimeout(() => {
+        this.getData();
+      }, 1000);
+      };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.price_type) {
@@ -538,143 +535,160 @@ class OrderCreatorMissing extends CrudLayout {
         });
     }
 
-    getData(search_text) {       
-
+	getData() {         
         this.setState({
 			loading_data: true,
-        });
-        
+        });             
         const urlServices = process.env.REACT_APP_API_URL + '/services';
         const urlProducts = process.env.REACT_APP_API_URL + '/products';
         const urlPackages = process.env.REACT_APP_API_URL + '/product-packages';
-
-
-        const POSTDATA = {
-            limit: 500,
-            page: 1,
-            sort_field: 'stock',
-            populate_ids: ['subsidiary_id'],
-            filters: {},
-        }
+        var POSTDATA = {
+          limit: 50,
+          page: 1,
+          sort_field: 'stock',
+          populate_ids: ['subsidiary_id'],
+          filters: {},
+        };
+          
+        
+        let num;
+        console.log("Prueba de insercción precios", num)
+    
+        FetchXHR(urlProducts, "POST", POSTDATA).then((response) => {    
+    
+            var prec1 = response.json.data.docs[0].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
+            var prec11 = response.json.data.docs[10].total;var prec2 = response.json.data.docs[1].total;var prec3 = response.json.data.docs[2].total;var prec4 = response.json.data.docs[3].total;var prec5 = response.json.data.docs[4].total;var prec6 = response.json.data.docs[5].total;var prec7 = response.json.data.docs[6].total;var prec8 = response.json.data.docs[7].total;var prec9 = response.json.data.docs[8].total;var prec10 = response.json.data.docs[9].total;
+            num = prec1 + prec2 + prec3 + prec4 + prec5 + prec6 + prec7 + prec8 + prec9 + prec10;
+            //alert(totalPrec);   
+           console.log("Precios totales", num)
+    
+        }).then (console.log(num))
+    
+        console.log(num)
+     
+    
+        this.setState({
+          loading_data: true,
+        });
+        
         if (this.additional_get_data) {
 			POSTDATA['filters'] = this.additional_get_data;
 		}
 		if (this.sort_field) {
 			POSTDATA['sort_field'] = this.sort_field;			
 			POSTDATA['sort_order'] = this.sort_order;			
-		} 		
-		if (search_text) {
-			POSTDATA["filters"] = {};
-			let busquedas = search_text;
-			var caracter1 = search_text.charAt(0);
-			var caracter2 = search_text.charAt(1);
-			var caracter3 = search_text.charAt(2);
-			var caracter4 = search_text.charAt(3);
-			var caracter5 = search_text.charAt(4);
-			var caracter6 = search_text.charAt(5);
-			var caracter7 = search_text.charAt(6);
-			/* var caracter8 = this.search_text.charAt(7); */
-	
-			// //2275.10
-			var iniciales = caracter1 + caracter2;
-			var letras = caracter1 + caracter2 + caracter3;
-			var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
-			var ultimas = caracter5 + caracter6 + caracter7;
-	
-			//Brembo con Xtra, Max y Normar
-			if (
-			  iniciales === "A-" ||
-			  iniciales === "I-" ||
-			  iniciales === "a-" ||
-			  iniciales === "i-"
-			) {
-			  POSTDATA["search_text"] =
-				search_text +
-				" " +
-				"&&" +
-				search_text +
-				"MAX" +
-				" " +
-				"&&" +
-				search_text +
-				"XTRA";
-			}
-			//Numeros largos Centric
-			else if (
-			  tresletras === "320." ||
-			  tresletras === "905." ||
-			  tresletras === "412." ||
-			  tresletras === "406." ||
-			  tresletras === "116." ||
-			  tresletras === "117." ||
-			  tresletras === "122." ||
-			  tresletras === "227." ||
-			  tresletras === "301." ||
-			  tresletras === "105." ||
-			  tresletras === "104." ||
-			  tresletras === "102." ||
-			  tresletras === "121." ||
-			  tresletras === "309." ||
-			  tresletras === "106." ||
-			  tresletras === "103." ||
-			  tresletras === "500." ||
-			  tresletras === "300." ||
-			  tresletras === "100." ||
-			  tresletras === "306." ||
-			  tresletras === "120." ||
-			  tresletras === "123." ||
-			  tresletras === "125." ||
-			  tresletras === "126." ||
-			  tresletras === "127." ||
-			  tresletras === "128." ||
-			  tresletras === "110." ||
-			  tresletras === "111." ||
-			  tresletras === "950." ||
-			  tresletras === "978." ||
-			  tresletras === "905." ||
-			  letras === "83." ||
-			  letras === "31." ||
-			  tresletras === "228."
-			) {
-			  POSTDATA["or_filters"]["key_id"] = busquedas;
-			}
-			//Brembo numeros largos
-			else if (letras === "09." || letras === "08." || letras === "14.") {
-			  bremLarge.forEach(function(numLargos, indice, array) {
-				if (busquedas === numLargos) {
-				  POSTDATA["filters"]["key_id"] = busquedas;
-				}
-			  });
-			 
-			} else if(caracter5 === '.'){
-				bremCort08.forEach(function(numLargos, indice, array) {
-					if (busquedas === numLargos) {
-					  POSTDATA["filters"]["key_id"] = '08.' + busquedas;
-					}else{
-						bremCort09.forEach(function(numLargos, indice, array) {
-							if (busquedas === numLargos) {
-							  POSTDATA["filters"]["key_id"] = '09.' + busquedas;
-							}else{
-								bremCorto14.forEach(function(numLargos, indice, array) {		
-									if(busquedas === numLargos ){			
-										POSTDATA['filters']['key_id'] = '14.' + busquedas;				
-									}else{									
-										
-									}
-								})
-							}
-	
-						  })
-					}
-				  });
-												   
-			}else{
-			  POSTDATA["search_text"] = search_text;
-			}
-		}	
-		
-
-        FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
+		} 
+    
+       
+          if(this.search_text) {
+            POSTDATA["or_filters"] = {};
+            let busquedas = this.search_text;
+            var caracter1 = this.search_text.charAt(0);
+            var caracter2 = this.search_text.charAt(1);
+            var caracter3 = this.search_text.charAt(2);
+            var caracter4 = this.search_text.charAt(3);
+            var caracter5 = this.search_text.charAt(4);
+            var caracter6 = this.search_text.charAt(5);
+            var caracter7 = this.search_text.charAt(6);		
+    
+            var iniciales = caracter1 + caracter2;
+            var letras = caracter1 + caracter2 + caracter3;
+            var tresletras = caracter1 + caracter2 + caracter3 + caracter4;
+            var ultimas = caracter5 + caracter6 + caracter7;
+    
+            //Brembo con Xtra, Max y Normar
+            if (
+              iniciales === "A-" ||
+              iniciales === "I-" ||
+              iniciales === "a-" ||
+              iniciales === "i-"
+            ) {
+              POSTDATA["search_text"] =
+                this.search_text +
+                " " +
+                "&&" +
+                this.search_text +
+                "MAX" +
+                " " +
+                "&&" +
+                this.search_text +
+                "XTRA";
+            }
+            //Numeros largos Centric
+            else if (
+              tresletras === "320." ||
+              tresletras === "905." ||
+              tresletras === "412." ||
+              tresletras === "406." ||
+              tresletras === "116." ||
+              tresletras === "117." ||
+              tresletras === "122." ||
+              tresletras === "227." ||
+              tresletras === "301." ||
+              tresletras === "105." ||
+              tresletras === "104." ||
+              tresletras === "102." ||
+              tresletras === "121." ||
+              tresletras === "309." ||
+              tresletras === "106." ||
+              tresletras === "103." ||
+              tresletras === "500." ||
+              tresletras === "300." ||
+              tresletras === "100." ||
+              tresletras === "306." ||
+              tresletras === "120." ||
+              tresletras === "123." ||
+              tresletras === "125." ||
+              tresletras === "126." ||
+              tresletras === "127." ||
+              tresletras === "128." ||
+              tresletras === "110." ||
+              tresletras === "111." ||
+              tresletras === "950." ||
+              tresletras === "978." ||
+              tresletras === "905." ||
+              letras === "83." ||
+              letras === "31." ||
+              tresletras === "228."
+            ) {
+              POSTDATA["or_filters"]["key_id"] = busquedas;
+            }
+            //Brembo numeros largos
+            else if (letras === "09." || letras === "08." || letras === "14.") {
+              bremLarge.forEach(function(numLargos, indice, array) {
+                if (busquedas === numLargos) {
+                  POSTDATA["or_filters"]["key_id"] = busquedas;
+                }
+              });
+             
+            } else if(caracter5 === '.'){
+                bremCort08.forEach(function(numLargos, indice, array) {
+                    if (busquedas === numLargos) {
+                      POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
+                    }else{
+                        bremCort09.forEach(function(numLargos, indice, array) {
+                            if (busquedas === numLargos) {
+                              POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
+                            }else{
+                                bremCorto14.forEach(function(numLargos, indice, array) {		
+                                    if(busquedas === numLargos ){			
+                                        POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
+                                    }else{									
+                                        
+                                    }
+                                })
+                            }
+    
+                          })
+                    }
+                  });
+                                                   
+            }else{
+              POSTDATA["search_text"] = this.search_text;
+            }
+          }
+    
+          FetchXHR(urlServices, 'POST', POSTDATA).then((responseServices) => {
             if (responseServices.json.success) {
                 FetchXHR(urlProducts, 'POST', POSTDATA).then((responseProducts) => {
                     if (responseProducts.json.success) {
@@ -754,15 +768,17 @@ class OrderCreatorMissing extends CrudLayout {
             if (newEl.subsidiary_id) {
                 newEl.subsidiary_id = newEl.subsidiary_id._id;
             }
-            if (newEl.type === 'product') {
+            if (newEl.type === 'product' && el.fmsi && el.key_id) {
                 delete newEl.key;
                 delete newEl.type;
                 p.push(newEl);
-            } else if (newEl.type === 'service') {
+            } else if (newEl.type === 'service' && el.fmsi && el.key_id) {
                 delete newEl.key;
                 delete newEl.type;
                 s.push(newEl);
-            }
+            } else {
+				alert('El producto no cuenta con fmsi o clave');
+			}
         });
         this.props.onChange({
             products: p,
@@ -774,74 +790,83 @@ class OrderCreatorMissing extends CrudLayout {
     // update actual list product stock, minus selected quantity.
     // 
     addRecord(record) {
+
         if ((this.props.is_quotation) || (record.subsidiary_id._id === this.props.session.subsidiary._id)) {
             if ((this.props.is_quotation) || (this.props.is_reception) || (record.stock > -50000 && (record.stock - this.state.selected_quantity)) > -50000) {
                 if (record._id && this.state.selected_quantity > 0 && this.state.selected_user != '') {
+					if(record.fmsi){
+						if(record.key_id){
 
-                    let actualProducts = Object.assign([] ,this.state.selected_data);
+							let actualProducts = Object.assign([] ,this.state.selected_data);
 
-                    // let id = this.state.products.findIndex((el)=>(el.id === record.id));
-                    // actualProducts[id].stock -= record.quantity;
+							// let id = this.state.products.findIndex((el)=>(el.id === record.id));
+							// actualProducts[id].stock -= record.quantity;
 
-                    // Price selector:
-                    let Price = Number(record.price_public);
-					let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
-					
+							// Price selector:
+							let Price = Number(record.price_public);
+							let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
+							
 
-                    if (this.state.price_type === 'PUBLICO') {
-                        Price = Number(record.price_public);
-                    } else if (this.state.price_type === 'MAYOREO') {
-                        Price = Number(record.price_wholesale);
-                    } else if (this.state.price_type === 'TALLER' ) {
-                        Price = Number(record.price_workshop);
+							if (this.state.price_type === 'PUBLICO') {
+								Price = Number(record.price_public);
+							} else if (this.state.price_type === 'MAYOREO') {
+								Price = Number(record.price_wholesale);
+							} else if (this.state.price_type === 'TALLER' ) {
+								Price = Number(record.price_workshop);
+							}
+							else if (this.state.price_type === 'CREDITO TALLER' ) {
+								Price = Number(record.price_credit_workshop);
+							}
+
+							if (this.props.is_reception) {
+								Discount = 0;
+							}
+
+							// total price:
+							const P = Number(this.state.selected_quantity) * Price;
+							if (Discount) {
+								Discount = (P * Number(Discount)) / 100;
+
+							}
+							
+							const new_total = (this.state.total + Math.ceil(P - Discount));
+			
+							actualProducts.push({
+								key: this.state.selected_data.length + 1,
+								type: record.fmsi ? 'product' : 'service',
+								id: record._id,
+								user_id: this.state.selected_user._id,
+								user_name: this.state.selected_user.name,
+								subsidiary_id: record.subsidiary_id,
+								fmsi: record.fmsi,
+								brand: record.brand,
+								line: record.line,
+								description: record.description,
+								key_id: record.key_id,
+								price_type: this.state.price_type,
+								price: Price,
+								quantity: this.state.selected_quantity,
+								discount: Discount,
+								discount1: Discount,
+								total: Math.ceil(P - Discount),
+								old_stock: record.stock,
+							});
+
+							this.setState({
+								selected_data: actualProducts,
+								selected_quantity: 1,
+								selected_fmsi: 5,
+								selected_discount: undefined,
+								total: new_total
+							});
+							this.sendToOnChange(actualProducts, new_total);//Checar aqui
+							this.scrollToBottom();
+						} else {
+							this.props.onError('El producto no cuenta con clave');
+						}
+					}else{
+						this.props.onError('El producto no cuenta con fmsi');
 					}
-					else if (this.state.price_type === 'CREDITO TALLER' ) {
-                        Price = Number(record.price_credit_workshop);
-                    }
-
-                    if (this.props.is_reception) {
-                        Discount = 0;
-                    }
-
-                    // total price:
-                    const P = Number(this.state.selected_quantity) * Price;
-                    if (Discount) {
-						Discount = (P * Number(Discount)) / 100;
-
-					}
-					
-                    const new_total = (this.state.total + Math.ceil(P - Discount));
-    
-                    actualProducts.push({
-                        key: this.state.selected_data.length + 1,
-                        type: record.fmsi ? 'product' : 'service',
-                        id: record._id,
-                        user_id: this.state.selected_user._id,
-                        user_name: this.state.selected_user.name,
-                        subsidiary_id: record.subsidiary_id,
-                        fmsi: record.fmsi,
-                        brand: record.brand,
-                        line: record.line,
-                        description: record.description,
-                        key_id: record.key_id,
-                        price_type: this.state.price_type,
-                        price: Price,
-                        quantity: this.state.selected_quantity,
-						discount: Discount,
-						discount1: Discount,
-                        total: Math.ceil(P - Discount),
-                        old_stock: record.stock,
-                    });
-
-                    this.setState({
-                        selected_data: actualProducts,
-                        selected_quantity: 1,
-						selected_fmsi: 5,
-                        selected_discount: undefined,
-                        total: new_total
-                    });
-                    this.sendToOnChange(actualProducts, new_total);//Checar aqui
-                    this.scrollToBottom();
                 } else {
                     this.props.onError('Favor de rellenar todos los campos necesarios para agregar un producto.');
                 }
@@ -1023,11 +1048,6 @@ class OrderCreatorMissing extends CrudLayout {
 		}
     }
 
-
-
-
-
-
 	onSelectClient(client_name) {
 		const client = this.state.products.find((el) => (el.key_id === client_name));
 		let phone = client.phone_mobil;
@@ -1045,7 +1065,10 @@ class OrderCreatorMissing extends CrudLayout {
 		  client_phone: phone,
 		  price_type: client.price_type
 		});
-	  }
+	}
+  
+  
+  
   
 	  render() {		
 		  let widthTable = (window.innerWidth/2) - 60;
@@ -1080,8 +1103,8 @@ class OrderCreatorMissing extends CrudLayout {
 								autoFocus
 								backfill
 								placeholder={'Buscador...'}
-								onSearch={this.getData}
-								onSelect={(value) => { this.getData() }}
+								onSearch={this.onClickSearch}
+								onSelect={(value) => { this.onClickSearch() }}
 								value={this.state.client_name}
 								onChange={(value) => {
 									this.onChangeFieldName(value, 'client_name');
@@ -1226,8 +1249,10 @@ class OrderCreatorMissing extends CrudLayout {
 				  <div
 					  
 				  >
+				  
 					  {SearcherProducts}
-					  <Divider> Orden de faltantes</Divider>
+					  <Divider> Orden de venta </Divider>
+					  
 					  <div                      
 					  >
 						  <Table
