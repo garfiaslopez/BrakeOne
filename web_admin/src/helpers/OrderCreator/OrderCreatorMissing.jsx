@@ -316,7 +316,7 @@ class OrderCreatorMissing extends CrudLayout {
                 key: 'description',
 				width: '25%',
 				editable: props.can_edit_disccount,			
-				render: renderRowMin,
+				render: renderRowSmallTruncate,
 			},
 			{
                 title: <div style={{ fontSize: FontTable }}>Cantidad</div>,
@@ -407,10 +407,10 @@ class OrderCreatorMissing extends CrudLayout {
 							}}
 							onConfirm={(event) => {
 								event.stopPropagation();
-								this.deleteRecordCom(record);
+								this.deleteList(record);
 							}}
 						>
-						<b>Eliminar</b>
+						<b>Eliminar de lista</b>
 							<Button 								    
 								type="danger" 
 								shape="circle"
@@ -1033,12 +1033,11 @@ class OrderCreatorMissing extends CrudLayout {
 				if (index != -1) {				
 					actualProducts.splice(index, 1);				
 			}
-				
+				//
 				const new_total = this.state.total - (record.total);
 
 				console.log("ACTUALPRODUCTS", actualProducts);
 				console.log("new_total", new_total);
-
 				this.setState({
 					total: new_total,
 					selected_data: actualProducts,
@@ -1239,19 +1238,13 @@ class OrderCreatorMissing extends CrudLayout {
 			  };
 		  });
   
-  
-  
-  
-  
-  
 		  return (
 			  <Fragment>
 				  <div
 					  
-				  >
-				  
+				  >				  
 					  {SearcherProducts}
-					  <Divider> Orden de venta </Divider>
+					  <Divider> productos faltantes: </Divider>
 					  
 					  <div                      
 					  >

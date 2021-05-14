@@ -52,13 +52,20 @@ class missingProducts extends CrudLayout {
 				key: 'folio',
 				render: RenderRows.renderRowNumbers,
 				width: '5%'
-			},			
+			},						
 			{
-            	title: 'Estatus',
-            	dataIndex: 'status',
-				key: 'status',
+				title: 'Marca',
+				dataIndex: 'brand',
+				key: 'brand',
 				render: RenderRows.renderRowTextSells,
-				width: '8%',
+				width: '6%'
+			},
+			{
+				title: 'Linea',
+				dataIndex: 'line',
+				key: 'line',
+				render: RenderRows.renderRowTextSells,
+				width: '6%',
 				filters: [
 					{ text: 'NORMAL', value: 'NORMAL' },
 					{ text: 'PAGADA', value: 'PAGADA'},
@@ -66,25 +73,18 @@ class missingProducts extends CrudLayout {
 				],
 			},
 			{
-				title: 'Marca',
-				dataIndex: 'brand',
-				key: 'brand',
+				title: 'Detalle de faltante',
+				dataIndex: 'notes',
+				key: 'notes',
 				render: RenderRows.renderRowTextSells,
-				width: '12%'
-			},
-			{
-				title: 'Linea',
-				dataIndex: 'line',
-				key: 'line',
-				render: RenderRows.renderRowTextSells,
-				with: '12%'
+				width: '15%'
 			},
 			{
             	title: 'Proovedor',
             	dataIndex: 'provider_id.name',
 				key: 'provider_id.name',
 				render: RenderRows.renderRowTextSells,
-				width: '20%'
+				width: '10%'
 			},			
 			{
             	title: 'Total',
@@ -99,31 +99,28 @@ class missingProducts extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '10%',
+				width: '8%',
             	render: (text, record) => {
 					let PayButton = '';
-					if (!record.is_payed) {
+					if (true) {
 						PayButton = (
 							<Fragment>
-								<Button 
-									type="primary" 
-									shape="circle" 
-									icon="credit-card"
-									onClick={(event)=> {
-										event.stopPropagation();
-										this.setState({
-											selected_data: record,
-											open_custom_modal: 'open_create_payment'
-										});
-									}}
-								/>
-								<Divider type="vertical" />
+							<Button 
+							type="primary" 
+							shape="circle"
+							icon="printer"
+							onClick={(event)=> {
+								event.stopPropagation();
+								this.onPrint(record, 'QUOTATION');
+							}}
+						/>
+						<Divider type="vertical" />															
 							</Fragment>
 						);
 					};
 					let CancelButton = '';
 					let EditButton = '';
-					if (!record.is_canceled) {
+					if (true) {
 						EditButton = (
 							<Fragment>
 								<Button 
@@ -163,8 +160,8 @@ class missingProducts extends CrudLayout {
 						);
 					};
 					let DeleteButton = '';
-					if (record.is_canceled) {
-						DeleteButton = (
+					if (true) {
+						DeleteButton = (							
 							<Popconfirm
 								onClick={(event)=> {
 									event.stopPropagation();
@@ -190,10 +187,8 @@ class missingProducts extends CrudLayout {
 					};
 
 					return (
-						<span>
-							{PayButton}
-							{EditButton}
-							{CancelButton}
+						<span>							
+							{EditButton}							
 							{DeleteButton}
 						</span>
 					);

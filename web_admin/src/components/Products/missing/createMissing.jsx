@@ -20,6 +20,7 @@ import OrderReception from '../../../helpers/OrderCreator/OrderReception';
 import async from 'async';
 import moment from 'moment';
 import OrderCreatorProducts from '../../../helpers/OrderCreator/OrderCreatorProducts';
+import OrderCreatorMissing from '../../../helpers/OrderCreator/OrderCreatorMissing';
 
 class CreateMissing extends Component {
     constructor(props) {
@@ -47,6 +48,12 @@ class CreateMissing extends Component {
             }
             if (props.fields.notes) {
                 initial_state.notes = props.fields.notes;
+            }
+            if(props.fields.brand){
+                initial_state.brand = props.fields.brand
+            }
+            if(props.fields.line){
+                initial_state.line = props.fields.line
             }
             if (props.fields.products) {
                 initial_state.products = props.fields.products;
@@ -218,65 +225,6 @@ class CreateMissing extends Component {
                         const OperationsProducts = [];
                         let mapped_products_stock = {}; // product_id -> sum_quantity.
                         let actual_max_stock = {};
-                        this.state.products.forEach((p) => {
-                            if (!p._id) {
-                                if (mapped_products_stock[p.id]) {
-                                    mapped_products_stock[p.id] += p.quantity;
-                                } else {
-                                    mapped_products_stock[p.id] = p.quantity;
-                                }
-
-                                if (actual_max_stock[p.id]) {
-                                    actual_max_stock[p.id] = Math.max(actual_max_stock[p.id], p.old_stock);
-                                } else {
-                                    actual_max_stock[p.id] = p.old_stock;
-                                }
-                            }
-                        });
-
-                        Object.keys(mapped_products_stock).forEach((el) => {
-                           
-                            OperationsProducts.push((callback) => {
-                                const new_p = {
-                                    stock: actual_max_stock[el] + Number(mapped_products_stock[el])
-                                }
-                                const url_put_product = process.env.REACT_APP_API_URL + '/product/' + el;
-                                FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
-                                    if (response_p.json.success) {
-                                        callback(null, response_p.json.obj);
-                                    }
-                                });
-                            });
-                        });
-
-                        this.state.products.forEach((p) => {
-                            OperationsProducts.push((callback) => {
-                                //create transaction obj...
-                                const new_transaction = {
-                                    subsidiary_id: this.props.session.subsidiary._id,
-                                    product_id: p.id,                                   
-                                    user_id: p.user_id,                                    
-                                    key_id: p.key_id,
-                                    fmsi: p.fmsi,
-                                    provider_name: this.state.provider_id.name,
-                                    quantity: p.quantity,
-                                    price: p.price,                                   
-                                    old_stock: p.old_stock,                                    
-                                    discount: p.discount,
-                                    total: p.total,
-                                    type: 'FALTANTES',
-                                    date: moment().toISOString()
-                                }
-                                console.log(new_transaction);
-                                //te creas! :'v
-                                /* const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
-                                FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
-                                    if (response_pt.json.success) {
-                                        callback(null, response_pt.json.obj);
-                                    }
-                                }); */
-                            });
-                        });
 
                         async.series(OperationsProducts,(err, responses) => {
                             console.log('Llegaste aqui 2');
@@ -394,11 +342,7 @@ class CreateMissing extends Component {
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Nombre: </p>
                         <p style={styles.label_value} >{this.state.provider_id.name}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >RFC:</p>
-                        <p style={styles.label_value}>{this.state.provider_id.rfc}</p>
-                    </Card.Grid>
+                    </Card.Grid>                    
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Email:</p>
                         <p style={styles.label_value} >{this.state.provider_id.email}</p>
@@ -410,26 +354,19 @@ class CreateMissing extends Component {
                     <Card.Grid style={styles.grid_element}>
                         <p style={styles.label_title} >Número Móvil:</p>
                         <p style={styles.label_value}>{this.state.provider_id.phone_mobil}</p>
-                    </Card.Grid>
+                    </Card.Grid>                                     
                     <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Compras:</p>
-                        <p style={styles.label_value}>${this.state.provider_id.buys}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Días Crédito:</p>
-                        <p style={styles.label_value}>{this.state.provider_id.credit_days}</p>
-                    </Card.Grid>
-                    <Card.Grid style={styles.grid_element}>
-                        <p style={styles.label_title} >Marca: </p>
+                        <p style={styles.label_title} >Marca: </p>                    
                         <Input
                             disabled={this.props.is_disabled}
                             key="brand"
                             placeholder="Marca"
                             style={styles.inputSearchCard}
                             value={this.state.brand}
-                            onChange={(e) => {
-                                this.onChangeField(e, 'brand');
+                            onChange={(value) => {
+                                this.onChangeField(value, 'brand');
                             }}
+                            
                         />
                     </Card.Grid>
                     <Card.Grid style={styles.grid_element}>
@@ -577,7 +514,7 @@ class CreateMissing extends Component {
                                 style={styles.inputElement}
                                 value={this.state.notes}
                                 autosize={{ minRows: 2, maxRows: 6 }}
-                                placeholder="Notas adicionales..."
+                                placeholder="Agregar descripción de faltantes..."
                                 
                                 onChange={(value) => {
                                     this.onChangeField(value, 'notes');
@@ -615,7 +552,7 @@ class CreateMissing extends Component {
                     }}
                 />
                         {/*Aqui se ocupa la tabla de OrderCreatorReception*/}
-                        <OrderCreatorReception
+                        <OrderCreatorMissing
                             is_reception
                             can_edit_description
                             is_reception
