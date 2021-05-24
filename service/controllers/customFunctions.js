@@ -127,7 +127,75 @@ module.exports =  {
         } else {
             return res.json({ success: false, message: "Missing fields." });
         }
-    },    
+    },       
+    update_stockCosto:  (req, res, next) => {
+
+        const objectModel = require("../models/product");
+
+        let Filter = {
+            subsidiary_id: req.body.subsidiary_id,
+        };
+        let NewProperties = {};
+
+        if (req.body.brand && req.body.quantity_percent) { // update by brand 
+            Filter.brand = req.body.brand;
+
+            const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
+           
+            NewProperties.price_wholesale = Math.round(multiplier);
+            
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        } else {
+            return res.json({ success: false, message: "Missing fields." });
+        }
+    },
+    update_stockCPTCM:  (req, res, next) => {
+
+        const objectModel = require("../models/product");
+
+        let Filter = {
+            subsidiary_id: req.body.subsidiary_id,
+        };
+        let NewProperties = {};
+
+        if (req.body.brand && req.body.quantity_percent) { // update by brand 
+            Filter.brand = req.body.brand;            
+
+            const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
+            NewProperties.price =  Math.round(multiplier);
+            NewProperties.price_credit_workshop =  Math.round(multiplier);
+            NewProperties.price_public =  Math.round(multiplier);
+            NewProperties.price_wholesale =  Math.round(multiplier);
+            NewProperties.price_workshop =  Math.round(multiplier);
+            
+            
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        } else {
+            return res.json({ success: false, message: "Missing fields." });
+        }
+    },   
 
     car_makes:  (req, res, next) => {
         const objectModel = require("../models/car");

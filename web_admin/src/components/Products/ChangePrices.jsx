@@ -8,7 +8,8 @@ import {
     Select,
     Spin,
     Card,
-    InputNumber
+    InputNumber,
+    Divider
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
@@ -229,6 +230,88 @@ class ChangePrices extends Component {
             });
         }
     }
+    onSubmit5 = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,
+                    quantity_percent: this.state.percent5,
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatestockCosto';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        alert('Precios actualizados');
+                        this.props.refreshTable();
+                       /*  this.props.onClose(); */
+                    } else {
+                        alert('No se realizo la actualización');                       
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    onSubmit6 = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,
+                    quantity_percent: this.state.percent6,
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatestockCPTCM';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        alert('Precios actualizados');
+                        this.props.refreshTable();
+                       /*  this.props.onClose(); */
+                    } else {
+                        alert('No se realizo la actualización');                       
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
 
 
     getProducts() {
@@ -353,6 +436,31 @@ class ChangePrices extends Component {
                             <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
                             
                         </div>
+                        <p>Costo</p>
+                        <InputNumber
+                                disabled={this.props.is_disabled}
+                                value= {this.props.percent5}
+                                style={styles.inputElement2}
+                                onChange={(value) => {
+                                    this.onChangeFieldNumber(value, 'percent5');
+                                }}
+                                prefix={(
+                                    <Icon
+                                        type="dollar"
+                                        className="field-icon"
+                                    />
+                                )}
+                                type="text"
+                                placeholder="Descuento Costo"                                
+                            />
+                            <Button 
+                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary"                                
+                                onClick={this.onSubmit5}
+                                 >
+                                 Aplicar
+                             </Button>,     
                         <p>Publico / Mostrador</p>
 
                         <InputNumber
@@ -455,7 +563,33 @@ class ChangePrices extends Component {
                                 onClick={this.onSubmit4}
                                  >
                                  Aplicar
-                             </Button>,                              
+                             </Button>,     
+                             <Divider></Divider>
+                             <p>Actualizar precios desde costo hasta mayoreo</p>
+                        <InputNumber
+                                disabled={this.props.is_disabled}
+                                value= {this.props.percent6}
+                                style={styles.inputElement2}
+                                onChange={(value) => {
+                                    this.onChangeFieldNumber(value, 'percent6');
+                                }}
+                                prefix={(
+                                    <Icon
+                                        type="dollar"
+                                        className="field-icon"
+                                    />
+                                )}
+                                type="text"
+                                placeholder="Descuento..."                                
+                            />
+                            <Button 
+                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                key="submit"
+                                type="primary"                                
+                                onClick={this.onSubmit6}
+                                 >
+                                 Aplicar
+                             </Button>,                           
                     </div>
                 </Modal>
             </Fragment>
