@@ -142,7 +142,7 @@ module.exports =  {
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
-            Math.round(NewProperties.price) = multiplier;
+            NewProperties.price = Math.round(multiplier);
             
             objectModel.update(
                 Filter,
