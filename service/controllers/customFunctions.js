@@ -178,8 +178,7 @@ module.exports =  {
             NewProperties.price_public =  Math.round(multiplier);
             NewProperties.price_wholesale =  Math.round(multiplier);
             NewProperties.price_workshop =  Math.round(multiplier);
-            
-            
+                        
             objectModel.update(
                 Filter,
                 { $mul: NewProperties },
