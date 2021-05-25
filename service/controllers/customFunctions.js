@@ -147,6 +147,7 @@ module.exports =  {
             objectModel.update(
                 Filter,
                 { $mul: NewProperties },
+                {$round: [NewProperties, -1]},
                 { multi: true },
                 (err, response) => {
                     if(err){
