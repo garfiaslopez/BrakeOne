@@ -46,7 +46,7 @@ module.exports =  {
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
-            NewProperties.price_workshop = Math.round(multiplier);
+            NewProperties.price_workshop = multiplier;
             
             objectModel.update(
                 Filter,
@@ -78,7 +78,7 @@ module.exports =  {
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
-            NewProperties.price_credit_workshop = Math.round(multiplier);
+            NewProperties.price_credit_workshop = multiplier;
             
             objectModel.update(
                 Filter,
@@ -110,7 +110,7 @@ module.exports =  {
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
-            NewProperties.price_wholesale = Math.round(multiplier);
+            NewProperties.price_wholesale = multiplier;
             
             objectModel.update(
                 Filter,
@@ -173,11 +173,11 @@ module.exports =  {
             Filter.brand = req.body.brand;            
 
             const multiplier = (Number(req.body.quantity_percent) / 100);
-            NewProperties.price =  Math.round(multiplier);
-            NewProperties.price_credit_workshop =  Math.round(multiplier);
-            NewProperties.price_public =  Math.round(multiplier);
-            NewProperties.price_wholesale =  Math.round(multiplier);
-            NewProperties.price_workshop =  Math.round(multiplier);
+            NewProperties.price =  multiplier;
+            NewProperties.price_credit_workshop =  multiplier;
+            NewProperties.price_public =  multiplier;
+            NewProperties.price_wholesale =  multiplier;
+            NewProperties.price_workshop =  Mmultiplier;
                         
             objectModel.update(
                 Filter,
