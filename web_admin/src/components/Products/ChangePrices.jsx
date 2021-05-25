@@ -274,13 +274,15 @@ class ChangePrices extends Component {
     onSubmit6 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.products.length > 0) {
+            if (this.state.percent !== undefined) {
+                
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
                     brand: this.state.brand,
-                    quantity_percent: this.state.percent6,
+                    quantity_percent: this.state.percent,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
@@ -291,7 +293,7 @@ class ChangePrices extends Component {
                         this.props.refreshTable();
                         this.props.onClose();
                     } else {
-                        alert('No se realizo la actualización');                       
+                        console.log(response_update);
                         this.setState({
                             error: response_update.json.message,
                             loading_submit: false
@@ -304,13 +306,16 @@ class ChangePrices extends Component {
                         loading_submit: false
                     });
                 });
-           
+            } else {
+                this.setState({
+                    error: 'Agregar un porcentaje.'
+                });
+            }
         } else {
             this.setState({
                 error: 'Favor de buscar una marca.'
             });
-        }
-    }
+    }}
 
 
     getProducts() {
