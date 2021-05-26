@@ -152,22 +152,15 @@ class CrudLayout extends Component {
         var ultimas = caracter5 + caracter6 + caracter7;
 
         //Brembo con Xtra, Max y Normar
-        if (
-          iniciales === "A-" ||
-          iniciales === "I-" ||
-          iniciales === "a-" ||
-          iniciales === "i-"
-        ) {
-          POSTDATA["search_text"] =
-            this.search_text +
-            " " +
-            "&&" +
-            this.search_text +
-            "MAX" +
-            " " +
-            "&&" +
-            this.search_text +
-            "XTRA";
+        if (iniciales === "A-" || iniciales === "I-" || iniciales === "a-" || iniciales === "i-" ) {
+          POSTDATA["search_text"] = this.search_text + " " + "&&" + this.search_text + "MAX" + " " + "&&" + this.search_text + "XTRA";
+        }
+        if(iniciales === "BD") {
+          POSTDATA["search_text"] = this.search_text + " " + "&&" + this.search_text + "DS" + " " + "&&" + this.search_text + "DV"
+          + " " + "&&" + this.search_text + "DVD" + " " + "&&" + this.search_text + "DVT" + " " + "&&" + this.search_text + "DST"
+          + " " + "&&" + this.search_text + "DTV" + " " + "&&" + this.search_text + "RV" + " " + "&&" + this.search_text + "T" 
+          + " " + "&&" + this.search_text + "DTS" + " " + "&&" + this.search_text + "TR" + " " + "&&" + this.search_text + "TI"
+          + " " + "&&" + this.search_text + "DV" + " " + "&&" + this.search_text + "TT";
         }
         //Numeros largos Centric
         else if (
@@ -210,35 +203,30 @@ class CrudLayout extends Component {
         }
         //Brembo numeros largos
         else if (letras === "09." || letras === "08." || letras === "14.") {
-          bremLarge.forEach(function(numLargos, indice, array) {
-            if (busquedas === numLargos) {
-              POSTDATA["or_filters"]["key_id"] = busquedas;
-            }
-		  });
-		 
+          POSTDATA["or_filters"]["key_id"] = busquedas;  
         } else if(caracter5 === '.'){
-			bremCort08.forEach(function(numLargos, indice, array) {
-				if (busquedas === numLargos) {
-				  POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
-				}else{
-					bremCort09.forEach(function(numLargos, indice, array) {
-						if (busquedas === numLargos) {
-						  POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
-						}else{
-							bremCorto14.forEach(function(numLargos, indice, array) {		
-								if(busquedas === numLargos ){			
-									POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
-								}else{									
-									
-								}
-							})
-						}
+        bremCort08.forEach(function(numLargos, indice, array) {
+          if (busquedas === numLargos) {
+            POSTDATA["or_filters"]["key_id"] = '08.' + busquedas;
+          }else{
+            bremCort09.forEach(function(numLargos, indice, array) {
+              if (busquedas === numLargos) {
+                POSTDATA["or_filters"]["key_id"] = '09.' + busquedas;
+              }else{
+                bremCorto14.forEach(function(numLargos, indice, array) {		
+                  if(busquedas === numLargos ){			
+                    POSTDATA['or_filters']['key_id'] = '14.' + busquedas;				
+                  }else{									
+                    
+                  }
+                })
+              }
 
-					  })
-				}
-			  });
+              })
+          }
+          });
 						  					 
-		}else{
+		    }else{
           POSTDATA["search_text"] = this.search_text;
         }
       }
@@ -2580,6 +2568,7 @@ const bremCort08 = [
   "N258.21",
   "R101.11",
 ];
+
 const bremCort09 = [
   "3090.10",
   "3090.1X",
@@ -3345,6 +3334,7 @@ const bremCort09 = [
   "R122.11",
   "R124.21",
 ];
+
 const bremCorto14 = [
   "3219.10",
   "3220.10",
