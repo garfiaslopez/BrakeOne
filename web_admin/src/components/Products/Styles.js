@@ -49,6 +49,11 @@ export default {
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
+    inputsDesc: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
     inputsColumnContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -56,7 +61,7 @@ export default {
     inputElement: {
         marginLeft: 10,
         marginRight: 10,
-        width: '100%'
+        width: '30%'
     },
     inputLabel: {
         fontSize:15,
