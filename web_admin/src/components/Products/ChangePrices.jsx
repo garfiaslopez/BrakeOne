@@ -274,15 +274,13 @@ class ChangePrices extends Component {
     onSubmit6 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {
-            if (this.state.percent !== undefined) {
-                
+        if (this.state.products.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
                     brand: this.state.brand,
-                    quantity_percent: this.state.percent,
+                    quantity_percent: this.state.percent5,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
@@ -290,10 +288,11 @@ class ChangePrices extends Component {
         
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
                     if (response_update.json.success) {
+                        alert('Precios actualizados');
                         this.props.refreshTable();
-                        this.props.onClose();
+                       /*  this.props.onClose(); */
                     } else {
-                        console.log(response_update);
+                        alert('No se realizo la actualización');                       
                         this.setState({
                             error: response_update.json.message,
                             loading_submit: false
@@ -306,16 +305,13 @@ class ChangePrices extends Component {
                         loading_submit: false
                     });
                 });
-            } else {
-                this.setState({
-                    error: 'Agregar un porcentaje.'
-                });
-            }
+           
         } else {
             this.setState({
                 error: 'Favor de buscar una marca.'
             });
-    }}
+        }
+    }
 
 
     getProducts() {
@@ -378,16 +374,7 @@ class ChangePrices extends Component {
                 onClick={this.props.onClose}
             >
                 Cerrar
-            </Button>,
-           /*  <Button 
-                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                key="submit"
-                type="primary" 
-                loading={this.state.loading_submit}
-                onClick={this.onSubmit}
-            >
-                Aplicar
-            </Button>, */
+            </Button>,           
         ];
 
         return (
@@ -440,161 +427,180 @@ class ChangePrices extends Component {
                             <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
                             
                         </div>
-                        <p>Costo</p>
-                        <InputNumber
-                                disabled={this.props.is_disabled}
-                                value= {this.props.percent5}
-                                style={styles.inputElement2}
-                                onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent5');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="dollar"
-                                        className="field-icon"
-                                    />
-                                )}
-                                type="text"
-                                placeholder="Descuento Costo"                                
-                            />
-                            <Button 
-                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary"                                
-                                onClick={this.onSubmit5}
-                                 >
-                                 Aplicar
-                             </Button>,     
-                        <p>Publico / Mostrador</p>
+                        <Divider></Divider>
+                        <div
+ 	                        style={styles.inputsDesc}
+                        >  
 
-                        <InputNumber
-                                disabled={this.props.is_disabled}
-                                value= {this.props.percent}
-                                style={styles.inputElement2}
-                                onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="dollar"
-                                        className="field-icon"
+                        <div>     
+                            <h5>Costo</h5>
+                                <InputNumber
+                                    disabled={this.props.is_disabled}
+                                    value= {this.props.percent5}
+                                    style={styles.inputElement2}
+                                    onChange={(value) => {
+                                        this.onChangeFieldNumber(value, 'percent5');
+                                    }}
+                                    prefix={(
+                                        <Icon
+                                            type="dollar"
+                                            className="field-icon"
+                                        />
+                                    )}
+                                        type="text"
+                                        placeholder="Descuento Costo"                                
                                     />
-                                )}
-                                type="text"
-                                placeholder="Descuento Precio Publico"                                
-                            />
-                            <Button 
-                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary"                                
-                                onClick={this.onSubmit}
-                                 >
-                                 Aplicar
-                             </Button>
-                            <p>Taller / Tienda en linea</p>
-                            <InputNumber
-                                disabled={this.props.is_disabled}
-                                value= {this.props.percent2}
-                                style={styles.inputElement2}
-                                onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent2');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="dollar"
-                                        className="field-icon"
-                                    />
-                                )}
-                                type="text"
-                                placeholder="Descuento Precio Taller"                                                                
-                            />   
-                             <Button 
-                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary"                                
-                                onClick={this.onSubmit2}
-                                 >
-                                 Aplicar
-                             </Button>
+                                    <Button 
+                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmit5}
+                                        >
+                                        Aplicar
+                                    </Button>, 
+                        </div>
 
-                        <p>Credito Taller</p>
-                        <InputNumber
-                                disabled={this.props.is_disabled}
-                                value= {this.props.percent3}
-                                style={styles.inputElement2}
-                                onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent3');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="dollar"
-                                        className="field-icon"
-                                    />
-                                )}
-                                type="text"
-                                placeholder="Descuento Credito Taller"                                
-                            />
-                            <Button 
-                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary"                                
-                                onClick={this.onSubmit3}
-                                 >
-                                 Aplicar
-                             </Button>
+                        <div>    
+                            <h5>Publico / Mostrador</h5>
 
-                             <p>Mayoreo</p>
-                        <InputNumber
-                                disabled={this.props.is_disabled}
-                                value= {this.props.percent4}
-                                style={styles.inputElement2}
-                                onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent4');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="dollar"
-                                        className="field-icon"
+                                <InputNumber
+                                        disabled={this.props.is_disabled}
+                                        value= {this.props.percent}
+                                        style={styles.inputElement2}
+                                        onChange={(value) => {
+                                            this.onChangeFieldNumber(value, 'percent');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="dollar"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Descuento Precio Publico"                                
                                     />
-                                )}
-                                type="text"
-                                placeholder="Descuento Mayoreo"                                
-                            />
-                            <Button 
-                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary"                                
-                                onClick={this.onSubmit4}
-                                 >
-                                 Aplicar
-                             </Button>,     
-                             <Divider></Divider>
-                             <p>Actualizar precios desde costo hasta mayoreo</p>
-                        <InputNumber
-                                disabled={this.props.is_disabled}
-                                value= {this.props.percent6}
-                                style={styles.inputElement2}
-                                onChange={(value) => {
-                                    this.onChangeFieldNumber(value, 'percent6');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="dollar"
-                                        className="field-icon"
+                                    <Button 
+                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmit}
+                                        >
+                                        Aplicar
+                                    </Button>
+                        </div>
+                        
+                        <div> 
+                            <h5>Taller / Tienda en linea</h5>
+                                <InputNumber
+                                    disabled={this.props.is_disabled}
+                                    value= {this.props.percent2}
+                                    style={styles.inputElement2}
+                                    onChange={(value) => {
+                                        this.onChangeFieldNumber(value, 'percent2');
+                                    }}
+                                    prefix={(
+                                        <Icon
+                                            type="dollar"
+                                            className="field-icon"
+                                        />
+                                    )}
+                                    type="text"
+                                    placeholder="Descuento Precio Taller"                                                                
+                                />   
+                                <Button 
+                                    is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                    key="submit"
+                                    type="primary"                                
+                                    onClick={this.onSubmit2}
+                                    >
+                                    Aplicar
+                                </Button>
+                        </div>
+
+                        <div>
+                            <h5>Credito Taller</h5>
+                                <InputNumber
+                                        disabled={this.props.is_disabled}
+                                        value= {this.props.percent3}
+                                        style={styles.inputElement2}
+                                        onChange={(value) => {
+                                            this.onChangeFieldNumber(value, 'percent3');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="dollar"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Descuento Credito Taller"                                
                                     />
-                                )}
-                                type="text"
-                                placeholder="Descuento..."                                
-                            />
-                            <Button 
-                                is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
-                                key="submit"
-                                type="primary"                                
-                                onClick={this.onSubmit6}
-                                 >
-                                 Aplicar
-                             </Button>,                           
-                    </div>
+                                    <Button 
+                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmit3}
+                                        >
+                                        Aplicar
+                                    </Button>
+                        </div>
+
+                        <div>
+                            <h5>Mayoreo</h5>
+                                <InputNumber
+                                        disabled={this.props.is_disabled}
+                                        value= {this.props.percent4}
+                                        style={styles.inputElement2}
+                                        onChange={(value) => {
+                                            this.onChangeFieldNumber(value, 'percent4');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="dollar"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Descuento Mayoreo"                                
+                                    />
+                                    <Button 
+                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmit4}
+                                        >
+                                        Aplicar
+                                    </Button>,  
+                        </div>  
+
+                        </div> 
+                            <Divider></Divider>
+                             <h5>Actualizar precios desde costo hasta mayoreo</h5>
+                                <InputNumber
+                                        disabled={this.props.is_disabled}
+                                        value= {this.props.percent6}
+                                        style={styles.inputElement}
+                                        onChange={(value) => {
+                                            this.onChangeFieldNumber(value, 'percent6');
+                                        }}
+                                        prefix={(
+                                            <Icon
+                                                type="dollar"
+                                                className="field-icon"
+                                            />
+                                        )}
+                                        type="text"
+                                        placeholder="Descuento..."                                
+                                    />
+                                    <Button 
+                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmit6}
+                                        >
+                                        Aplicar
+                                    </Button>,                                                      
+                        </div>
                 </Modal>
             </Fragment>
         );
