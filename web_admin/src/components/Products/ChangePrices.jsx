@@ -30,6 +30,8 @@ class ChangePrices extends Component {
             percent2:undefined,
             percent3:undefined,
             percent4:undefined,
+            percent5: undefined,
+            percent6: undefined
         };
         this.state = initial_state;
         this.getProducts = this.getProducts.bind(this);
@@ -280,7 +282,7 @@ class ChangePrices extends Component {
                 });
                 let POSTDATA = {
                     brand: this.state.brand,
-                    quantity_percent: this.state.percent5,
+                    quantity_percent: this.state.percent6,
                     subsidiary_id: this.props.session.subsidiary._id
                 }
                 let method = 'POST';
@@ -312,8 +314,6 @@ class ChangePrices extends Component {
             });
         }
     }
-
-
     getProducts() {
         this.setState({
 			loading_products: true,
