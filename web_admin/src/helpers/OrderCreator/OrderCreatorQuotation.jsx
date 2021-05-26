@@ -600,6 +600,13 @@ class OrderCreatorQuotation extends CrudLayout {
 				search_text +
 				"XTRA";
 			}
+			if(iniciales === "BD") {
+				POSTDATA["search_text"] = this.search_text + " " + "&&" + this.search_text + "DS" + " " + "&&" + this.search_text + "DV"
+				+ " " + "&&" + this.search_text + "DVD" + " " + "&&" + this.search_text + "DVT" + " " + "&&" + this.search_text + "DST"
+				+ " " + "&&" + this.search_text + "DTV" + " " + "&&" + this.search_text + "RV" + " " + "&&" + this.search_text + "T" 
+				+ " " + "&&" + this.search_text + "DTS" + " " + "&&" + this.search_text + "TR" + " " + "&&" + this.search_text + "TI"
+				+ " " + "&&" + this.search_text + "DV" + " " + "&&" + this.search_text + "TT";
+			  }
 			//Numeros largos Centric
 			else if (
 			  tresletras === "320." ||
