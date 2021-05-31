@@ -820,7 +820,7 @@ class CrudLayout extends Component {
           sort_order={this.sort_order}
           populate_ids={this.populate_ids}
           table_columns={this.table_columns.filter((el) => el.key != "action")}
-        />,        
+        />    
       );
     }
 
