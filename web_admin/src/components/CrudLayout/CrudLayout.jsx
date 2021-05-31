@@ -19,7 +19,6 @@ import isEmpty from "lodash/isEmpty";
 import locale_es from "antd/lib/date-picker/locale/es_ES";
 import FormGenerator from "../FormGenerator/FormGenerator";
 import PrinterDownload from "../PrinterDownload/PrinterDownload";
-import PrinterDownloadDesc from "../PrinterDownload/PrinterDownloadDesc";
 import PrinterRecipes from "../PrinterRecipes/PrinterRecipes";
 import { formatNumber } from "../../helpers/generals";
 
@@ -821,26 +820,7 @@ class CrudLayout extends Component {
           sort_order={this.sort_order}
           populate_ids={this.populate_ids}
           table_columns={this.table_columns.filter((el) => el.key != "action")}
-        />,
-        <PrinterDownloadDesc
-          key={"Print_Form"}
-          title={"Calcular precios"}
-          onClose={() => {
-            this.setState({
-              opened_print: false,
-            });
-          }}
-          schema={this.schema}
-          model={this.model}
-          additional_get_data={this.additional_get_data}
-          search_text={this.search_text}
-          initial_date={this.initial_date}
-          final_date={this.final_date}
-          sort_field={this.sort_field}
-          sort_order={this.sort_order}
-          populate_ids={this.populate_ids}
-          table_columns={this.table_columns.filter((el) => el.key != "action")}
-        />
+        />,        
       );
     }
 
@@ -1087,26 +1067,7 @@ class CrudLayout extends Component {
             sort_order={this.sort_order}
             populate_ids={this.populate_ids}
             table_columns={this.table_columns.filter((el) => el.key != "action")}
-          />,
-          <PrinterDownloadDesc
-          key={"Print_Form"}
-          title={"Calcular porcentaje"}
-          onClose={() => {
-            this.setState({
-              opened_print: false,
-            });
-          }}
-          schema={this.schema}
-          model={this.model}
-          additional_get_data={this.additional_get_data}
-          search_text={this.search_text}
-          initial_date={this.initial_date}
-          final_date={this.final_date}
-          sort_field={this.sort_field}
-          sort_order={this.sort_order}
-          populate_ids={this.populate_ids}
-          table_columns={this.table_columns.filter((el) => el.key != "action")}
-        />
+          />          
         );
       }
   
