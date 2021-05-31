@@ -19,6 +19,7 @@ import isEmpty from "lodash/isEmpty";
 import locale_es from "antd/lib/date-picker/locale/es_ES";
 import FormGenerator from "../FormGenerator/FormGenerator";
 import PrinterDownload from "../PrinterDownload/PrinterDownload";
+import PrinterDownloadDesc from "../PrinterDownload/PrinterDownloadDesc";
 import PrinterRecipes from "../PrinterRecipes/PrinterRecipes";
 import { formatNumber } from "../../helpers/generals";
 
@@ -154,8 +155,7 @@ class CrudLayout extends Component {
         //Brembo con Xtra, Max y Normar
         if (iniciales === "A-" || iniciales === "I-" || iniciales === "a-" || iniciales === "i-" ) {
           POSTDATA["search_text"] = this.search_text + " " + "&&" + this.search_text + "MAX" + " " + "&&" + this.search_text + "XTRA";
-        }
-        if(iniciales === "BD") {
+        }else if(iniciales === "BD") {
           POSTDATA["search_text"] = this.search_text + " " + "&&" + this.search_text + "DS" + " " + "&&" + this.search_text + "DV"
           + " " + "&&" + this.search_text + "DVD" + " " + "&&" + this.search_text + "DVT" + " " + "&&" + this.search_text + "DST"
           + " " + "&&" + this.search_text + "DTV" + " " + "&&" + this.search_text + "RV" + " " + "&&" + this.search_text + "T" 
@@ -229,8 +229,7 @@ class CrudLayout extends Component {
 		    }else{
           POSTDATA["search_text"] = this.search_text;
         }
-      }
-    
+      }    
     }
     if (this.initial_date && this.final_date) {
       POSTDATA["date"] = [
@@ -241,7 +240,6 @@ class CrudLayout extends Component {
     if (this.populate_ids) {
       POSTDATA["populate_ids"] = this.populate_ids;
     }
-
     // WUATEFOK HERE!
     if (this.table_filters) {
       Object.keys(this.table_filters).forEach((f) => {
@@ -441,6 +439,7 @@ class CrudLayout extends Component {
       opened_submit: true,
     });
   };
+
   onDelete = async (record) => {
     const url =
       process.env.REACT_APP_API_URL +
@@ -822,6 +821,25 @@ class CrudLayout extends Component {
           sort_order={this.sort_order}
           populate_ids={this.populate_ids}
           table_columns={this.table_columns.filter((el) => el.key != "action")}
+        />,
+        <PrinterDownloadDesc
+          key={"Print_Form"}
+          title={"Calcular precios"}
+          onClose={() => {
+            this.setState({
+              opened_print: false,
+            });
+          }}
+          schema={this.schema}
+          model={this.model}
+          additional_get_data={this.additional_get_data}
+          search_text={this.search_text}
+          initial_date={this.initial_date}
+          final_date={this.final_date}
+          sort_field={this.sort_field}
+          sort_order={this.sort_order}
+          populate_ids={this.populate_ids}
+          table_columns={this.table_columns.filter((el) => el.key != "action")}
         />
       );
     }
@@ -1069,7 +1087,26 @@ class CrudLayout extends Component {
             sort_order={this.sort_order}
             populate_ids={this.populate_ids}
             table_columns={this.table_columns.filter((el) => el.key != "action")}
-          />
+          />,
+          <PrinterDownloadDesc
+          key={"Print_Form"}
+          title={"Calcular porcentaje"}
+          onClose={() => {
+            this.setState({
+              opened_print: false,
+            });
+          }}
+          schema={this.schema}
+          model={this.model}
+          additional_get_data={this.additional_get_data}
+          search_text={this.search_text}
+          initial_date={this.initial_date}
+          final_date={this.final_date}
+          sort_field={this.sort_field}
+          sort_order={this.sort_order}
+          populate_ids={this.populate_ids}
+          table_columns={this.table_columns.filter((el) => el.key != "action")}
+        />
         );
       }
   
