@@ -289,7 +289,7 @@ module.exports =  {
         
         const objectModel = require("../models/product");
         if (req.body._id) {
-            objectModel.remove({ _id: req.body._id }, (err, response) => {
+            objectModel.findByIdAndRemove({ _id: req.body._id }, (err, response) => {
                 if(err){
                     return next(new errs.InternalServerError(err));
                 } else if (response) {
@@ -319,7 +319,7 @@ module.exports =  {
                     return next(new errs.BadRequestError("El elemento no existe."));
                 }
             });
-            
+
         }
         
     },
