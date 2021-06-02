@@ -20,7 +20,7 @@ import Spends from '../Spends/Spends';
 import Services from '../Services/Services';
 import Payments from '../Payments/Payments';
 
-const adminMenu = [
+const adminMenu = [    
     {
         'name': 'Cotizaciones',
         'icon': 'file-search',

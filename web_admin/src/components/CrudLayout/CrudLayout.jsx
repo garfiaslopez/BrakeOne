@@ -450,8 +450,7 @@ class CrudLayout extends Component {
       await FetchXHR(
         process.env.REACT_APP_API_URL + "/helpers/delete_product",
         "POST",
-        {
-          key_id: record.key_id,
+        {        
           _id: record._id,
         }
       );
