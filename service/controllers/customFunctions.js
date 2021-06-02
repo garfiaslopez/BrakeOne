@@ -293,7 +293,7 @@ module.exports =  {
                 if(err){
                     return next(new errs.InternalServerError(err));
                 } else if (response) {
-                    return res.status(200).json({ success: true, message: "Succesfully deleted." });                                      
+                    return res.json({ success: true, message: "Succesfully deleted." });                                      
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));                   
                 }
