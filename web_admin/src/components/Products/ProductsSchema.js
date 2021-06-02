@@ -210,23 +210,31 @@ const Lines = [
 		denomination: 'ZAPATA'
 	}
 ];
+const percent = 5/2;
 
-//try render here the array;
 export default [
-	[
+	[	
+		/* {
+			id: 'p',
+			type: 'String',
+			placeholder: percent,
+			default: percent, 			
+			rules: Rules['string'],
+			canEdit: ['ADMIN']
+		}, */
 		{
 			id: 'key_id',
 			type: 'String',
 			placeholder: 'Clave',
 			prefixIcon: 'key',
-			rules: Rules['string']
+			rules: Rules['clav']
 		},
 		{
 			id: 'fmsi',
 			type: 'String',
 			placeholder: 'FMSI',
 			prefixIcon: 'idcard',
-			rules: Rules['string']
+			rules: Rules['clav']
 		},
 		{
 			id: 'line',
@@ -300,10 +308,10 @@ export default [
 		{
 			id: 'price',
 			type: 'Number_Money',
-			placeholder: 'Costo Neto',
+			placeholder: 'Costo',			
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number'],
+			rules: Rules['prices'],
 			canEdit: ['ADMIN']
 		},
 		{
@@ -312,7 +320,7 @@ export default [
 			placeholder: 'Precio Público',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number'],
+			rules: Rules['prices'],
 			canEdit: ['ADMIN']
 		},
 		{
@@ -321,7 +329,7 @@ export default [
 			placeholder: 'Precio Taller',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number'],
+			rules: Rules['prices'],
 			canEdit: ['ADMIN']
 		},
 		{
@@ -330,7 +338,7 @@ export default [
 			placeholder: 'Taller Crédito',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number'],
+			rules: Rules['prices'],
 			canEdit: ['ADMIN']
 		},
 		{
@@ -339,10 +347,53 @@ export default [
 			placeholder: 'Precio Mayoreo',
 			prefixIcon: 'dollar',
 			options: { min: 0, step: 1 },
-			rules: Rules['number'],
+			rules: Rules['prices'],
 			canEdit: ['ADMIN']
-		}
+		},		
 	],
+	/* [
+		{
+			id: 'p',
+			type: 'Number_Money',
+			placeholder: 'Utilidad',			
+			prefixIcon: 'dollar',
+			disabled: false,
+			options: percent,
+			rules: Rules['number'],
+		},
+		{
+			id: 'p',
+			type: 'Number_Money',
+			placeholder: 'Utilidad',			
+			prefixIcon: 'dollar',
+			options: percent,
+			rules: Rules['number'],
+		},
+		{
+			id: 'p',
+			type: 'Number_Money',
+			placeholder: 'Utilidad',			
+			prefixIcon: 'dollar',
+			options: percent,
+			rules: Rules['number'],
+		},
+		{
+			id: 'p',
+			type: 'Number_Money',
+			placeholder: 'Utilidad',			
+			prefixIcon: 'dollar',
+			options: percent,
+			rules: Rules['number'],
+		},
+		{
+			id: 'p',
+			type: 'Number_Money',
+			placeholder: 'Utilidad',			
+			prefixIcon: '%',
+			options: percent,
+			rules: Rules['number'],
+		},
+	], */
 	[
 		{
 			id: 'div1',
