@@ -213,15 +213,7 @@ const Lines = [
 const percent = 5/2;
 
 export default [
-	[	
-		/* {
-			id: 'p',
-			type: 'String',
-			placeholder: percent,
-			default: percent, 			
-			rules: Rules['string'],
-			canEdit: ['ADMIN']
-		}, */
+	[		
 		{
 			id: 'key_id',
 			type: 'String',
@@ -351,49 +343,41 @@ export default [
 			canEdit: ['ADMIN']
 		},		
 	],
-	/* [
+	[
 		{
-			id: 'p',
+			id: 'percent_public',
 			type: 'Number_Money',
-			placeholder: 'Utilidad',			
+			placeholder: '% Publico',			
 			prefixIcon: 'dollar',
 			disabled: false,
 			options: percent,
 			rules: Rules['number'],
 		},
 		{
-			id: 'p',
+			id: 'percent_workshop',
 			type: 'Number_Money',
-			placeholder: 'Utilidad',			
+			placeholder: '% Taller',			
 			prefixIcon: 'dollar',
 			options: percent,
 			rules: Rules['number'],
 		},
 		{
-			id: 'p',
+			id: 'percent_credit_workshop',
 			type: 'Number_Money',
-			placeholder: 'Utilidad',			
+			placeholder: '% Credito',			
 			prefixIcon: 'dollar',
 			options: percent,
 			rules: Rules['number'],
 		},
 		{
-			id: 'p',
+			id: 'percent_wholesale',
 			type: 'Number_Money',
-			placeholder: 'Utilidad',			
+			placeholder: '% Mayoreo',			
 			prefixIcon: 'dollar',
 			options: percent,
 			rules: Rules['number'],
-		},
-		{
-			id: 'p',
-			type: 'Number_Money',
-			placeholder: 'Utilidad',			
-			prefixIcon: '%',
-			options: percent,
-			rules: Rules['number'],
-		},
-	], */
+		},	
+	],
 	[
 		{
 			id: 'div1',

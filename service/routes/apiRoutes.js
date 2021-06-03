@@ -148,7 +148,7 @@ module.exports = function(server) {
         server.del('/' + model.singular + '/:object_id', CRUDController('delete', model.model_name));
         server.post('/' + model.plural, CRUDController('search', model.model_name));
     });
-
+    server.post('/helpers/updatePercent', CustomFunctions.update_percent);
     server.post('/helpers/updatestockPublico', CustomFunctions.update_stockPublico);
     server.post('/helpers/updatestockTaller', CustomFunctions.update_stockTaller);
     server.post('/helpers/updatestockCredito', CustomFunctions.update_stockCredito);

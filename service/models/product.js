@@ -61,6 +61,18 @@ var ProductSchema = new Schema({
     price_wholesale: {
         type: Number
     },
+    percent_public: {
+        type: Number
+    },
+    percent_workshop: {
+        type: Number
+    },
+    percent_credit_workshop: {
+        type: Number
+    },
+    percent_wholesale: {
+        type: Number
+    },
     legacy_id: {
 		type: String
 	},

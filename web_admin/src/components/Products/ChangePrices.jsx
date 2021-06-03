@@ -314,6 +314,48 @@ class ChangePrices extends Component {
             });
         }
     }
+    onSubmit7 = (event) => {
+        event.preventDefault();
+        // do validations:
+        if (this.state.products.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,
+                 /*    quantity_percent: this.state.percent6, */
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/updatePercent';
+        
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        alert('Se agregaron correctamente las utilidades por producto');
+                        this.props.refreshTable();
+                        this.props.onClose();
+                    } else {
+                        alert('No se realizo la tarea');                       
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    
     getProducts() {
         this.setState({
 			loading_products: true,
@@ -572,10 +614,10 @@ class ChangePrices extends Component {
                                         Aplicar
                                     </Button>,  
                         </div>  
-
                         </div> 
-                            <Divider></Divider>
-                             <h5>Actualizar precios desde costo hasta mayoreo</h5>
+                        <br /><br />
+                            <Divider>Actualizar precios desde costo hasta mayoreo</Divider>
+                             <h5></h5>
                                 <InputNumber
                                         disabled={this.props.is_disabled}
                                         value= {this.props.percent6}
@@ -599,7 +641,21 @@ class ChangePrices extends Component {
                                         onClick={this.onSubmit6}
                                         >
                                         Aplicar
-                                    </Button>,                                                      
+                                    </Button>,   
+                                    
+                                    <Divider></Divider>
+                                        <br /><br /> 
+
+                                    <Divider>Agregar utilidades a productos</Divider>                                                           
+                                        <Button 
+                                            is_disabled={this.state.products.length <= 0}
+                                            key="submit"
+                                            type="primary"                                
+                                            onClick={this.onSubmit7}
+                                            >
+                                            Aplicar
+                                        </Button>,   
+                                    <Divider></Divider>                                                  
                         </div>
                 </Modal>
             </Fragment>
