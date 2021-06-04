@@ -62,7 +62,8 @@ var ProductSchema = new Schema({
         type: Number
     },
     percent_public: {
-        type: Number
+        type: Number,
+        default: 2
     },
     percent_workshop: {
         type: Number
