@@ -253,26 +253,14 @@ module.exports =  {
             } });
         } */
 
-        if (req.body.brand) { // update by brand 
+        if (req.body.brand === 'AIMCO') { // update by brand 
             Filter.brand = req.body.brand;            
 
-
-            const product = objectModel.find(req.body.brand);                                                 
-
-            console.log(product.Schema.obj);
-
-
-            const multiplierPublic = NewProperties.price_public;            
-            const multiplierWorkshop = NewProperties.price_workshop;  
-            const multiplier_credit_workshop = NewProperties.price_credit_workshop;  
-            const multiplier_wholesale = NewProperties.price_wholesale;  
-
-            NewProperties.percent_public = multiplierPublic;
-            NewProperties.percent_workshop = multiplierWorkshop;
-            NewProperties.percent_credit_workshop = multiplier_credit_workshop;
-            NewProperties.percent_wholesale = multiplier_wholesale;  
-                      
-                        
+            NewProperties.percent_public = 68;
+            NewProperties.percent_workshop = 40;
+            NewProperties.percent_credit_workshop = 61;
+            NewProperties.percent_wholesale = 29;  
+                                              
             objectModel.update(
                 Filter,
                 { $mul: NewProperties },
