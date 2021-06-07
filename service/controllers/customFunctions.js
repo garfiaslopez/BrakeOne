@@ -210,7 +210,7 @@ module.exports =  {
             const multiplierPublic = 1 * 5;
             
            
-            NewProperties.percent_public = 5;
+            NewProperties.price_credit_workshop = 5;
                       
                         
             objectModel.update(
