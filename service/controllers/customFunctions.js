@@ -162,12 +162,6 @@ module.exports =  {
     },
     update_stockCPTCM:  (req, res, next) => {
 
-
-        const url_get_product = process.env.REACT_APP_API_URL + '/product/' + req.brand;	
-        FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
-            console.log(response_actual_p);
-        });
-
         const objectModel = require("../models/product");
 
         let Filter = {
@@ -259,6 +253,13 @@ module.exports =  {
             } });
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
+
+            
+        const url_get_product = process.env.REACT_APP_API_URL + '/product/' + req.brand;	
+        FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
+            console.log(response_actual_p);
+        });
+        
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 68;
