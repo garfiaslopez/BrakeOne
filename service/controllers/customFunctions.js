@@ -210,12 +210,12 @@ module.exports =  {
             const multiplierPublic = 1 * 5;
             
            
-            NewProperties.percent_public = multiplierPublic;
+            NewProperties.percent_public = 5;
                       
                         
             objectModel.update(
                 Filter,
-                { $sum: NewProperties },
+                { $mul: NewProperties },
                 { multi: true },
                 (err, response) => {
                     if(err){
