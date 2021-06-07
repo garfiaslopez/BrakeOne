@@ -257,12 +257,13 @@ module.exports =  {
             Filter.brand = req.body.brand;            
 
 
-            const product = objectModel.find(req.body.brand, (res)  => {                
-               product.price_public.map(res => {
-                   console.log(res);
-               })
+            const product = objectModel.find(req.body.brand);            
+                         
+            product.map(res => {
+                console.log(res.price_public);
             });
-            console.log(product.price_public);
+
+            console.log(product);
 
 
             const multiplierPublic = NewProperties.price_public;            
