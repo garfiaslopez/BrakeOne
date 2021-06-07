@@ -257,8 +257,8 @@ module.exports =  {
             Filter.brand = req.body.brand;            
 
 
-            const product = objectModel.findById(req.body.id);
-            console.log(product.brand);
+            const product = objectModel.findById({});
+            console.log(product);
 
 
             const multiplierPublic = NewProperties.price_public;            
