@@ -254,9 +254,9 @@ module.exports =  {
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
             
-            const product = await objectModel.findById({id: '60ad4565537d590d0ff2311a'});
+          /*   const product = await objectModel.findById({id: '60ad4565537d590d0ff2311a'});
             console.log(product);
-
+ */
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 68;
