@@ -257,7 +257,9 @@ module.exports =  {
             Filter.brand = req.body.brand;            
 
             const multiplierPublic = ((NewProperties.price_public / NewProperties.price) * 100) + 100;
-            console.log('Percent Public: ', NewProperties.price_public);
+            console.log('Percent Public 1: ', req.body.percent_public);
+            console.log('Percent Public 2: ', res.percent_public);
+            console.log('Percent Public 3: ', NewProperties.price_public);
             const multiplierWorkshop = ((NewProperties.price_workshop / NewProperties.price) * 100) + 100;  
             const multiplier_credit_workshop = ((NewProperties.price_credit_workshop / NewProperties.price) * 100) + 100;  
             const multiplier_wholesale = ((NewProperties.price_wholesale / NewProperties.price) * 100) + 100;  
