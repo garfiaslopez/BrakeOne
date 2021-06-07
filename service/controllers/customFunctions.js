@@ -273,7 +273,267 @@ module.exports =  {
                     }
                 }
             );
-        } else {
+        } else if(req.body.brand === 'BREMBO') {
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 113;
+            NewProperties.percent_workshop = 78;
+            NewProperties.percent_credit_workshop = 88;
+            NewProperties.percent_wholesale = 40;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'ORIGINAL') {
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 60;
+            NewProperties.percent_workshop = 33;
+            NewProperties.percent_credit_workshop = 53;
+            NewProperties.percent_wholesale = 22;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'TEXTAR'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 68;
+            NewProperties.percent_workshop = 40;
+            NewProperties.percent_credit_workshop = 61;
+            NewProperties.percent_wholesale = 29;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'GRC'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 98;
+            NewProperties.percent_workshop = 49;
+            NewProperties.percent_credit_workshop = 71;
+            NewProperties.percent_wholesale = 24;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'FREMAX'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 80;
+            NewProperties.percent_workshop = 55;
+            NewProperties.percent_credit_workshop = 70;
+            NewProperties.percent_wholesale = 40;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'DFC'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 120;
+            NewProperties.percent_workshop = 48;
+            NewProperties.percent_credit_workshop = 68;
+            NewProperties.percent_wholesale = 35;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'TRW'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 60;
+            NewProperties.percent_workshop = 33;
+            NewProperties.percent_credit_workshop = 53;
+            NewProperties.percent_wholesale = 23;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'CENTRIC'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 68;
+            NewProperties.percent_workshop = 40;
+            NewProperties.percent_credit_workshop = 61;
+            NewProperties.percent_wholesale = 29;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'AKEBONO'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 68;
+            NewProperties.percent_workshop = 40;
+            NewProperties.percent_credit_workshop = 45;
+            NewProperties.percent_wholesale = 28;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'BEST BRAKES'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 114;
+            NewProperties.percent_workshop = 78;
+            NewProperties.percent_credit_workshop = 88;
+            NewProperties.percent_wholesale = 40;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'LIGHTNING'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 124;
+            NewProperties.percent_workshop = 68;
+            NewProperties.percent_credit_workshop = 93;
+            NewProperties.percent_wholesale = 35;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'SUPER CERAMIC'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 68;
+            NewProperties.percent_workshop = 40;
+            NewProperties.percent_credit_workshop = 61;
+            NewProperties.percent_wholesale = 29;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if(req.body.brand === 'BRAKEONE'){
+            Filter.brand = req.body.brand;            
+
+            NewProperties.percent_public = 60;
+            NewProperties.percent_workshop = 43;
+            NewProperties.percent_credit_workshop = 53;
+            NewProperties.percent_wholesale = 30;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else{      
             return res.json({ success: false, message: "Missing fields." });
         }
     },  
