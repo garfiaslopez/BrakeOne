@@ -260,7 +260,7 @@ module.exports =  {
             const product = objectModel.find(req.body.brand);            
                          
             product.map(res => {
-                console.log(res.price_public);
+                console.log(res);
             });
 
             console.log(product);
