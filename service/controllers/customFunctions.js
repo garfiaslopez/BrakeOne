@@ -207,26 +207,12 @@ module.exports =  {
         if (req.body.brand) { // update by brand 
             Filter.brand = req.body.brand;            
 
-            const multiplierPublic = 1 * 5;
-            
-           
-            NewProperties.price_credit_workshop = 5;
-                      
-                        
-            objectModel.update(
-                Filter,
-                { $mul: NewProperties },
-                { multi: true },
-                (err, response) => {
-                    if(err){
-                        return next(new errs.InternalServerError(err));
-                    } else {
-                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
-                    }
+            var data = {
+                $set : {
+                    percent_public: 1,
                 }
-            );
-        } else {
-            return res.json({ success: false, message: "Missing fields." });
+            }
+            objectModel.updateMany({}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
         }
     },  
 
