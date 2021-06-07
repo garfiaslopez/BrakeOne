@@ -257,7 +257,9 @@ module.exports =  {
             Filter.brand = req.body.brand;            
 
 
-            const product = objectModel.find(req.body.brand);
+            const product = objectModel.find(req.body.brand, (res)  => {
+                console.log(res.price_public);
+            });
             console.log(product.price_public);
 
 
