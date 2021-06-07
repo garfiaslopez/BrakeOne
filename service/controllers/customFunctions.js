@@ -212,7 +212,31 @@ module.exports =  {
                     percent_public: 1,
                 }
             }
-            objectModel.updateMany({}, data, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
+            var data_percent_workshop = {
+                $set: {
+                    percent_workshop: 1
+                }
+            }
+            var percent_credit_workshop = {
+                $set: {
+                    percent_credit_workshop: 1
+                }
+            } 
+            var percent_wholesale = {
+                $set: {
+                    percent_wholesale: 1
+                }
+            }
+            objectModel.updateMany({}, data, function(err, response) { 
+                if (err) { 
+                    return console.log('No se pudo actualizar los productos...');
+                } else { 
+                    return console.log('Se actualizo correctamente el producto..') 
+                } 
+            });
+            objectModel.updateMany({}, data_percent_workshop, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
+            objectModel.updateMany({}, percent_credit_workshop, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
+            objectModel.updateMany({}, percent_wholesale, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
         }
     },  
 
