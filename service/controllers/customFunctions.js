@@ -333,7 +333,7 @@ module.exports =  {
                     }
                 }
             );
-        }else if(req.body.brand === 'GRC'){
+        }else if(req.body.brand === 'GRC ULTRA'){
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 98;
@@ -493,7 +493,7 @@ module.exports =  {
                     }
                 }
             );
-        }else if(req.body.brand === 'SUPER CERAMIC'){
+        }else if(req.body.brand === 'OE SUPER CERAMIC'){
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 68;
