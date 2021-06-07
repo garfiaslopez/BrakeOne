@@ -63,19 +63,22 @@ var ProductSchema = new Schema({
     },
     percent_public: {
         type: Number,
-        default: 2
+        default: 1
     },
     percent_workshop: {
-        type: Number
+        type: Number,
+        default: 1
     },
     percent_credit_workshop: {
-        type: Number
+        type: Number,
+        default: 1
     },
     percent_wholesale: {
-        type: Number
+        type: Number,
+        default: 1
     },
     legacy_id: {
-		type: String
+		type: String  
 	},
 	created: {
 		type: Date,
