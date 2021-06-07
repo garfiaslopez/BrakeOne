@@ -255,11 +255,11 @@ module.exports =  {
         if (req.body.brand === 'ANGEL') { // update by brand 
 
             
-        const url_get_product = process.env.REACT_APP_API_URL + '/product/' + req.brand;	
+        const url_get_product = process.env.REACT_APP_API_URL + '/product/' + '60ad4565537d590d0ff2311a'	
         FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
-            console.log(response_actual_p);
+            console.log(response_actual_p.price_public);
         });
-        
+
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 68;
