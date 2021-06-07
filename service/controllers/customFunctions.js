@@ -195,7 +195,7 @@ module.exports =  {
             return res.json({ success: false, message: "Missing fields." });
         }
     },   
-    update_percent:  (req, res, next) => {
+    update_percent:  async (req, res, next) => {
 
         const objectModel = require("../models/product");
 
@@ -256,10 +256,16 @@ module.exports =  {
         if (req.body.brand) { // update by brand 
             Filter.brand = req.body.brand;            
 
+
+            const product = await objectModel.findById(req.body.id);
+
+
             const multiplierPublic = ((NewProperties.price_public / NewProperties.price) * 100) + 100;
             console.log('Percent Public 1: ', req.body.percent_public);
             console.log('Percent Public 2: ', res.percent_public);
             console.log('Percent Public 3: ', NewProperties.price_public);
+            console.log('Percent Public 4: ', product.percent_public);
+
             const multiplierWorkshop = ((NewProperties.price_workshop / NewProperties.price) * 100) + 100;  
             const multiplier_credit_workshop = ((NewProperties.price_credit_workshop / NewProperties.price) * 100) + 100;  
             const multiplier_wholesale = ((NewProperties.price_wholesale / NewProperties.price) * 100) + 100;  
