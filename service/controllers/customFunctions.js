@@ -195,7 +195,7 @@ module.exports =  {
             return res.json({ success: false, message: "Missing fields." });
         }
     },   
-    update_percent:  async (req, res, next) => {
+    update_percent: (req, res, next) => {
 
         const objectModel = require("../models/product");
 
@@ -257,7 +257,7 @@ module.exports =  {
             Filter.brand = req.body.brand;            
 
 
-            const product = await objectModel.findById(req.body.id);
+            const product = objectModel.findById(req.body.id);
 
 
             const multiplierPublic = ((NewProperties.price_public / NewProperties.price) * 100) + 100;
