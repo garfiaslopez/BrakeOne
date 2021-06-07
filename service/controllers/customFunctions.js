@@ -207,7 +207,7 @@ module.exports =  {
         if (req.body.brand) { // update by brand 
             Filter.brand = req.body.brand;            
 
-            const multiplierPublic = 1 + 1;
+            const multiplierPublic = 1 * 5;
             
            
             NewProperties.percent_public = multiplierPublic;
@@ -215,7 +215,7 @@ module.exports =  {
                         
             objectModel.update(
                 Filter,
-                { $mul: NewProperties },
+                { $sum: NewProperties },
                 { multi: true },
                 (err, response) => {
                     if(err){
