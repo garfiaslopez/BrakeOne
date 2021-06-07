@@ -162,6 +162,12 @@ module.exports =  {
     },
     update_stockCPTCM:  (req, res, next) => {
 
+
+        const url_get_product = process.env.REACT_APP_API_URL + '/product/' + req.brand;	
+        FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
+            console.log(response_actual_p);
+        });
+
         const objectModel = require("../models/product");
 
         let Filter = {
@@ -252,8 +258,27 @@ module.exports =  {
                     return console.log('Se actualizo correctamente el producto') 
             } });
         } */
+        if (req.body.brand === 'ANGEL') { // update by brand 
+            Filter.brand = req.body.brand;            
 
-        if (req.body.brand === 'AIMCO') { // update by brand 
+            NewProperties.percent_public = 68;
+            NewProperties.percent_workshop = 40;
+            NewProperties.percent_credit_workshop = 61;
+            NewProperties.percent_wholesale = 29;  
+                                              
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        }else if (req.body.brand === 'AIMCO') { // update by brand 
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 68;
