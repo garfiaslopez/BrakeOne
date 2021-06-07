@@ -204,7 +204,8 @@ module.exports =  {
         };
         let NewProperties = {};
 
-        if (req.body.brand) { // update by brand 
+        //Update percents 
+      /*   if (req.body.brand) { 
             Filter.brand = req.body.brand;            
 
             var data = {
@@ -234,9 +235,52 @@ module.exports =  {
                     return console.log('Se actualizo correctamente el producto..') 
                 } 
             });
-            objectModel.updateMany({}, data_percent_workshop, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
-            objectModel.updateMany({}, percent_credit_workshop, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
-            objectModel.updateMany({}, percent_wholesale, function(err, response) { if (err) { return console.log('No se pudo actualizar el producto') } else { return console.log('Se actualizo correctamente el producto') } });
+            objectModel.updateMany({}, data_percent_workshop, function(err, response) { 
+                if (err) { 
+                    return console.log('No se pudo actualizar el producto') 
+                } else { return console.log('Se actualizo correctamente el producto') 
+            } });
+            objectModel.updateMany({}, percent_credit_workshop, function(err, response) { 
+                if (err) { 
+                    return console.log('No se pudo actualizar el producto') 
+                } else { return console.log('Se actualizo correctamente el producto') 
+            } });
+            objectModel.updateMany({}, percent_wholesale, function(err, response) { 
+                if (err) {
+                     return console.log('No se pudo actualizar el producto') 
+                } else { 
+                    return console.log('Se actualizo correctamente el producto') 
+            } });
+        } */
+
+        if (req.body.brand) { // update by brand 
+            Filter.brand = req.body.brand;            
+
+            const multiplierPublic = ((NewProperties.price_public / NewProperties.price) * 100) + 100;
+            const multiplierWorkshop = ((NewProperties.price_workshop / NewProperties.price) * 100) + 100;  
+            const multiplier_credit_workshop = ((NewProperties.price_credit_workshop / NewProperties.price) * 100) + 100;  
+            const multiplier_wholesale = ((NewProperties.price_wholesale / NewProperties.price) * 100) + 100;  
+
+            NewProperties.percent_public = multiplierPublic;
+            NewProperties.percent_workshop = multiplierWorkshop;
+            NewProperties.percent_credit_workshop = multiplier_credit_workshop;
+            NewProperties.percent_wholesale = multiplier_wholesale;  
+                      
+                        
+            objectModel.update(
+                Filter,
+                { $mul: NewProperties },
+                { multi: true },
+                (err, response) => {
+                    if(err){
+                        return next(new errs.InternalServerError(err));
+                    } else {
+                        return res.json({ success: true, message: "Succesfully updated.", obj: response });
+                    }
+                }
+            );
+        } else {
+            return res.json({ success: false, message: "Missing fields." });
         }
     },  
 
