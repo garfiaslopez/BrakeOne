@@ -254,12 +254,7 @@ module.exports =  {
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
         
-            const url = process.env.REACT_APP_API_URL + "/products/" + "60ac0dcc3644b940a2e00a7e";
-            const POSTDATA = {
-                limit: 100,
-                page: 1,
-                search_text,
-            };
+            const url = process.env.REACT_APP_API_URL + "/products/" + "60ac0dcc3644b940a2e00a7e";            
 
             FetchXHR(url, "POST").then((response) => {
                 response.json.data.docs.map((el) => {
