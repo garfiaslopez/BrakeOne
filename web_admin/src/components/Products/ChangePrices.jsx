@@ -357,6 +357,7 @@ class ChangePrices extends Component {
     }
     
     getProducts() {
+        
         this.setState({
 			loading_products: true,
 		});
@@ -366,6 +367,41 @@ class ChangePrices extends Component {
             page: 1,
             filters: {
                 brand: this.state.brand
+            }
+        }
+        FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            if (response.json.success) {
+                this.setState({
+					products: response.json.data.docs.map((el, index)=>({
+						...el,
+						key: index
+                    })),
+                    loading_products: false
+                });
+            } else {
+				this.setState({
+                    loading_products: false,
+                    error: response.message
+				});
+            }
+        }).catch((onError) => {
+			this.setState({
+                loading_products: false,
+                error: onError.message
+			});
+        });
+    }
+    getProductsKey_ID() {
+        
+        this.setState({
+			loading_products: true,
+		});
+		const url = process.env.REACT_APP_API_URL + '/products';
+        const POSTDATA = {
+            limit: 50000,
+            page: 1,
+            filters: {
+                key_id: this.state.key_id
             }
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
@@ -461,6 +497,40 @@ class ChangePrices extends Component {
                                 disabled={this.state.brand === undefined ? true : false}
                                 type="primary"
                                 onClick={this.getProducts}
+                                style={styles.buttonHistory}
+                                loading={this.state.loading_products}
+                            >
+                                Buscar
+                            </Button>
+                            <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
+                            
+                        </div>
+                        <Divider></Divider>
+                        <div
+                            style={styles.inputsRowContainer}
+                        >
+                            <Input
+                                disabled={this.props.is_disabled}
+                                value={this.state.key_id}
+                                style={styles.inputElement}
+                                onChange={(value) => {
+                                    this.onChangeField(value, 'key_id');
+                                }}
+                                prefix={(
+                                    <Icon
+                                        type="car"
+                                        className="field-icon"
+                                    />
+                                )}
+                                type="text"
+                                placeholder="CLAVE"
+                                
+                            />
+                            <Button
+                                icon="search"
+                                disabled={this.state.brand === undefined ? true : false}
+                                type="primary"
+                                onClick={this.getProductsKey_ID}
                                 style={styles.buttonHistory}
                                 loading={this.state.loading_products}
                             >

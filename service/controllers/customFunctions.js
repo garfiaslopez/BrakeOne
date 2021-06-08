@@ -254,11 +254,9 @@ module.exports =  {
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
                     
-            objectModel.find({key_id: "ANGEL"}, (res) => {
-                res.json.data.docs.map((el) => {
-                    console.log(el.price_public);
-                })
-            })
+            console.log('Llegaste aqui...');
+
+            
                                               
             objectModel.findOneAndUpdate(
                 Filter,
