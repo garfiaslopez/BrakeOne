@@ -254,16 +254,20 @@ module.exports =  {
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
         
-            Filter.brand = req.body.brand;            
+            const url = process.env.REACT_APP_API_URL + "/products/" + "60ac0dcc3644b940a2e00a7e";
+            const POSTDATA = {
+                limit: 100,
+                page: 1,
+                search_text,
+            };
 
-            NewProperties.percent_public = 68;
-            NewProperties.percent_workshop = 40;
-            NewProperties.percent_credit_workshop = 61;
-            NewProperties.percent_wholesale = 29;  
-
-            objectModel.find({key_id: "ANGEL"},(res) => {
-                console.log('Busqueda: ', res);
-            })
+            FetchXHR(url, "POST").then((response) => {
+                response.json.data.docs.map((el) => {
+                    if(el.name.search(search_text) != -1){
+                        console.log("Cliente: ", el.key_id) 
+                    }
+                })
+            }).catch(err => console.log(err))
                                               
             objectModel.findOneAndUpdate(
                 Filter,

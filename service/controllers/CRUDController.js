@@ -1,19 +1,16 @@
 var errs = require('restify-errors');
 
 module.exports = (method, model) => {
-    var objectModel = require('../models/' + model);   
-    console.log('objectModel', objectModel);
+    var objectModel = require('../models/' + model);    
 
     let Create = (req, res, next) => {       
         let obj = new objectModel();
-        let modelFields = Object.keys(obj.schema.obj);
-        console.log(modelFields);
+        let modelFields = Object.keys(obj.schema.obj);     
         modelFields.forEach((field) => {
             if (req.body[field] !== undefined) {
                 obj[field] = req.body[field];
             }
-        });
-        console.log('Guardado de objeto');
+        });    
         obj.save((err, savedObj) => {
             if (err) {
                 if (err.code == 11000) {
@@ -42,9 +39,7 @@ module.exports = (method, model) => {
             if (err) {
                 return next(new errs.InternalServerError(err));
             } else {
-                if (newObj) {
-                    console.log('Read of CRUDController');
-                    console.log(req.params.object_id);
+                if (newObj) {               
                     return res.json({ success: true , obj: newObj });                                                         
                 } else {
                     return next(new errs.BadRequestError("El elemento no existe."));
@@ -55,14 +50,12 @@ module.exports = (method, model) => {
     }
 
 
-    let Update = (req, res, next) => {
-        console.log('Update Metod');
+    let Update = (req, res, next) => {   
         objectModel.findById(req.params.object_id, (err, obj) => {
             
             if (err) {
                 return next(new errs.InternalServerError(err));
-            } else if (obj) {
-                console.log('Obejeto metodo update: ', obj);
+            } else if (obj) {               
 
                 let modelFields = Object.keys(obj.schema.obj);
                 modelFields.forEach((field) => {
@@ -79,7 +72,7 @@ module.exports = (method, model) => {
                                 if (err_populated){
                                     return next(new errs.InternalServerError(err_populated));
                                 } else {
-                                    console.log("Update CRUDController");
+                                
                                     return res.json({ success: true, message: "Succesfully updated.", obj: populated_doc });
                                 }
                             });
@@ -94,13 +87,11 @@ module.exports = (method, model) => {
         });
     }
 
-    let Delete = (req, res, next) => {
-        console.log('Metodo delete');
+    let Delete = (req, res, next) => {      
         objectModel.findOneAndRemove({ _id: req.params.object_id }, (err, newObj) => {
 			if(err){
 				return next(new errs.InternalServerError(err));
-			} else if (newObj) {
-                console.log('Delete CRUDController');
+			} else if (newObj) {               
                 return res.json({ success: true, message: "Succesfully deleted.", obj: newObj });
             } else {
                 return next(new errs.BadRequestError("El elemento no existe."));
@@ -130,24 +121,17 @@ module.exports = (method, model) => {
 
         // FOR FILTER
         var Filter = {}
-        if (req.body.account_id != undefined) {
-            console.log('Acount_id: ', req.body.account_id);
-            console.log('Busqueda 3'); 
+        if (req.body.account_id != undefined) {            
             Filter['account_id'] = req.body.account_id
         }
-        if (req.body.subsidiary_id != undefined) {
-            console.log('subsidiary_id: ', req.body.subsidiary_id);
-            console.log('Busqueda 4'); 
+        if (req.body.subsidiary_id != undefined) {            
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
-        if (req.body.search_text != undefined) {        
-            console.log('Busqueda de productos: ', req.body.search_text);           
+        if (req.body.search_text != undefined) {                        
             Filter['$text'] = { '$search': req.body.search_text};
         };          
-        if (req.body.filters != undefined) {
-            console.log('Busqueda 2');  
-            Object.keys(req.body.filters).forEach((filter_key)  => { 
-                console.log('Filter_ key: ', filter_key);
+        if (req.body.filters != undefined) {         
+            Object.keys(req.body.filters).forEach((filter_key)  => {                 
                 Filter[filter_key] = req.body.filters[filter_key];                
             });
         }
@@ -157,15 +141,12 @@ module.exports = (method, model) => {
 
         if (req.body.or_filters != undefined) {
             const or_array = [];
-            Object.keys(req.body.or_filters).forEach((filter_key)  => {
-                console.log('Filter_ key: ', filter_key);
+            Object.keys(req.body.or_filters).forEach((filter_key)  => {               
                 let new_or = {};
                 new_or[filter_key] = req.body.or_filters[filter_key];
-                or_array.push(new_or); 
-                console.log(or_array.push(new_or));
+                or_array.push(new_or);              
             });
-            if (or_array.length > 0) {
-                console.log(or_array);
+            if (or_array.length > 0) {               
                 Filter['$or'] = or_array;
             }
         }
