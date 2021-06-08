@@ -253,16 +253,12 @@ module.exports =  {
             } });
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
-        
-            const url = process.env.REACT_APP_API_URL + "/products/" + "60ac0dcc3644b940a2e00a7e";            
-
-            FetchXHR(url, "POST").then((response) => {
-                response.json.data.docs.map((el) => {
-                    if(el.name.search(search_text) != -1){
-                        console.log("Cliente: ", el.key_id) 
-                    }
+                    
+            objectModel.find({key_id: "ANGEL"}, (res) => {
+                res.json.data.docs.map((el) => {
+                    console.log(el.price_public);
                 })
-            }).catch(err => console.log(err))
+            })
                                               
             objectModel.findOneAndUpdate(
                 Filter,
