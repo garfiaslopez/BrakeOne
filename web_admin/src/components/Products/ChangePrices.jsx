@@ -26,6 +26,7 @@ class ChangePrices extends Component {
             loading_submit: false,
             products: [],
             brand: undefined,
+            key_id: undefined,
             percent: undefined,
             percent2:undefined,
             percent3:undefined,
