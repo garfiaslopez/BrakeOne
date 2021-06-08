@@ -261,7 +261,7 @@ module.exports =  {
             NewProperties.percent_credit_workshop = 61;
             NewProperties.percent_wholesale = 29;  
 
-            objectModel.findById({key_id: "ANGEL"},(res) => {
+            objectModel.find({key_id: "ANGEL"},(res) => {
                 console.log(res);
             })
                                               
