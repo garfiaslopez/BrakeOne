@@ -262,10 +262,10 @@ module.exports =  {
             NewProperties.percent_wholesale = 29;  
 
             objectModel.find({key_id: "ANGEL"},(res) => {
-                console.log(res);
+                console.log('Busqueda: ', res);
             })
                                               
-            objectModel.update(
+            objectModel.findOneAndUpdate(
                 Filter,
                 { $mul: NewProperties },
                 { multi: true },
