@@ -253,16 +253,17 @@ module.exports =  {
             } });
         } */
         if (req.body.brand === 'ANGEL') { // update by brand 
-            
-          /*   const product = await objectModel.findById({id: '60ad4565537d590d0ff2311a'});
-            console.log(product);
- */
+        
             Filter.brand = req.body.brand;            
 
             NewProperties.percent_public = 68;
             NewProperties.percent_workshop = 40;
             NewProperties.percent_credit_workshop = 61;
             NewProperties.percent_wholesale = 29;  
+
+            objectModel.findById({_id: '60bfc8d9a25179017d321ec1'},(res) => {
+                console.log(res.brand);
+            })
                                               
             objectModel.update(
                 Filter,
