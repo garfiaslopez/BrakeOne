@@ -262,7 +262,7 @@ module.exports =  {
             NewProperties.percent_wholesale = 29;  
 
             objectModel.findById({key_id: "ANGEL"},(res) => {
-                console.log(res.brand);
+                console.log(res);
             })
                                               
             objectModel.update(
