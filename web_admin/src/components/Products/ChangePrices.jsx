@@ -23,8 +23,10 @@ class ChangePrices extends Component {
             error: this.props.error,
             open: this.props.open,
             loading_products: false,
+            loading_productsKey: false, 
             loading_submit: false,
             products: [],
+            productKey: [],
             brand: undefined,
             key_id: undefined,
             percent: undefined,
@@ -32,10 +34,26 @@ class ChangePrices extends Component {
             percent3:undefined,
             percent4:undefined,
             percent5: undefined,
-            percent6: undefined
+            percent6: undefined,
+            percent_public: 0,
+            percent_taller: 0,
+            percent_credito: 0,
+            percent_mayoreo: 0,
+            price_price: 0,
+            price_public: 0,
+            price_taller: 0,
+            price_credito: 0,
+            price_mayoreo: 0,
+            product_key: '',
+            bodyPrice: undefined,
+            body_percentP: undefined,
+            body_percentT: undefined,
+            body_percentC: undefined,
+            body_percentM: undefined
         };
         this.state = initial_state;
         this.getProducts = this.getProducts.bind(this);
+        this.getProductsKey = this.getProductsKey.bind(this);
         this.onChangeField = this.onChangeField.bind(this);
         this.onChangeFieldNumber = this.onChangeFieldNumber.bind(this);
     }
@@ -113,7 +131,7 @@ class ChangePrices extends Component {
     onSubmit2 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.productsKey.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -276,6 +294,7 @@ class ChangePrices extends Component {
     }
     onSubmit6 = (event) => {
         event.preventDefault();
+       
         // do validations:
         if (this.state.products.length > 0) {                                      
                 this.setState({
@@ -315,28 +334,132 @@ class ChangePrices extends Component {
             });
         }
     }
-    onSubmit7 = (event) => {
+    //Inserccion de productos
+    onSubmitInserccion = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.productsKey.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
                 let POSTDATA = {
-                    brand: this.state.brand,
-                 /*    quantity_percent: this.state.percent6, */
+                    brand: this.state.brand, 
+                    fmsi: 'ANGEL PRUEBA',  
+                    key_id: 'ANGEL123',    
+                    brand: 'BREMBO',
+                    description: 'INSERCCIÓN DE BALATAS DESDE API REST',
+                    price: 425,
+                    price_credit_workshop: 730,
+                    price_public: 845,
+                    price_wholesale: 530,
+                    price_workshop: 635,
+                    provider_id: "60a58aa51032c17226d1fc2b",
+                    stock: 0,
+                    stock_ideal: 1,
+                    subsidiary_id: "5b79c3755526c91360058101",
+                    units: "SET",
+                    barcode: "SPC-82Y2-Z",
+                    line: 'BALATAS PRUEBA',
+                    localization: "A001",
                     subsidiary_id: this.props.session.subsidiary._id
                 }
-                let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/helpers/updatePercent';
+                let method_POST = 'POST';
+                let method_PUT = 'PUT';
+
+                let url = process.env.REACT_APP_API_URL + '/product/';
         
-                FetchXHR(url, method, POSTDATA).then((response_update) => {
-                    if (response_update.json.success) {
-                        alert('Se agregaron correctamente las utilidades por producto');
-                        this.props.refreshTable();
-                        this.props.onClose();
+                FetchXHR(url, method_POST, POSTDATA).then((res) => {
+                    if (res.json.success) {                       
+
+                        res.json.data.docs.map(res => {
+                            const new_p = {
+                                price_public: res.price + 1000000
+                            }
+                            console.log(res.price);
+                            const url_put_product = process.env.REACT_APP_API_URL + '/products/';
+                            /* FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {                                
+                                console.log(response_p);
+                                this.props.refreshTable();
+                                 this.props.onClose();                                 
+                            }); */
+                        })
+
                     } else {
                         alert('No se realizo la tarea');                       
+                        this.setState({
+                            error: res.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    onSubmit7 = (event) => {
+        event.preventDefault();
+       
+        // do validations:
+        if (this.state.productKey.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    key_id: this.state.key_id,
+                    /* quantity_percent: this.state.percent6, */
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+
+                let method = 'POST';
+                let method_PUT = 'PUT';
+                let url = process.env.REACT_APP_API_URL + '/products/';
+
+                FetchXHR(url, method, {filters: { key_id: this.state.key_id}, subsidiary_id: this.props.session.subsidiary._id })
+                .then((response_update) => {
+                    
+                    if (response_update.json.success) {        
+                        
+                        console.log(response_update.json.data.docs.map( res => res._id)); 
+                        
+                        response_update.json.data.docs.map(product => {
+                            
+                            const url_products = process.env.REACT_APP_API_URL + '/product/' + product._id;
+
+                            let percentP = product.percent_public / 100; let priceP = product.price * percentP; 
+                            let totalP = Math.round(product.price + priceP); 
+                            let percentT = product.percent_workshop / 100; let priceT = product.price * percentT; 
+                            let totalT = Math.round(product.price + priceT);
+                            let percentC = product.percent_credit_workshop / 100;  let priceC = product.price * percentC; 
+                            let totalC = Math.round(product.price + priceC);
+                            let percentM = product.percent_wholesale / 100; let priceM = product.price * percentM; 
+                            let totalM = Math.round(product.price + priceM); 
+                            let price = Math.round(product.price);
+
+                            let POSDATA_PRODUCTS = {
+                                price: price,
+                                price_public: totalP,
+                                price_workshop: totalT,
+                                price_credit_workshop: totalC,                               
+                                price_wholesale: totalM,
+                            }
+
+                            FetchXHR(url_products, method_PUT, POSDATA_PRODUCTS).then( res => {                                                                
+                                this.props.refreshTable();                                                                                              
+                            }).catch(err => console.log(err));
+
+                        })
+                       
+                    } else {
+                        alert('No se realizo la actualización');                       
                         this.setState({
                             error: response_update.json.message,
                             loading_submit: false
@@ -356,13 +479,101 @@ class ChangePrices extends Component {
             });
         }
     }
-    
-    getProducts() {
+    onSubmitPrices = (event) => {
+        event.preventDefault();
+       
+        // do validations:
+        if (this.state.products.length > 0) {                                      
+                this.setState({
+                    loading_submit: true
+                });
+                let POSTDATA = {
+                    brand: this.state.brand,   
+                    body_Price: this.state.bodyPrice,
+                    body_PercentP: this.state.body_percentP,
+                    body_PercentT: this.state.body_percentT,
+                    body_PercentC: this.state.body_PercentC,
+                    body_PercentM: this.state.body_percentM,         
+                    subsidiary_id: this.props.session.subsidiary._id
+                }
+                let method = 'POST';
+                let url = process.env.REACT_APP_API_URL + '/helpers/update_prices';
         
+                FetchXHR(url, method, POSTDATA).then((response_update) => {
+                    if (response_update.json.success) {
+                        alert('Precios actualizados correctamente...');
+                        this.props.refreshTable();
+                       /*  this.props.onClose(); */
+                    } else {
+                        alert('No se realizo la actualización...');                       
+                        this.setState({
+                            error: response_update.json.message,
+                            loading_submit: false
+                        });
+                    }
+                }).catch((onError) => {
+                    console.log(onError);
+                    this.setState({
+                        error: onError.message,
+                        loading_submit: false
+                    });
+                });
+           
+        } else {
+            this.setState({
+                error: 'Favor de buscar una marca.'
+            });
+        }
+    }
+    getProducts() {
+
+        let method = 'POST';             
+
         this.setState({
 			loading_products: true,
 		});
-		const url = process.env.REACT_APP_API_URL + '/products';
+
+        const url_key = process.env.REACT_APP_API_URL + '/products/';
+
+        const POSDATA_PRO = {
+            limit: 10,
+            page: 1,
+            filters: {
+                brand: this.state.brand
+            },
+            subsidiary_id: this.props.session.subsidiary._id
+        }
+
+        FetchXHR(url_key, method, POSDATA_PRO).then((res) => {                              
+
+            let clave = res.json.data.docs[0].key_id;
+            let percentP =  res.json.data.docs[0].percent_public;
+            let percentT = res.json.data.docs[0].percent_workshop;
+            let percentC = res.json.data.docs[0].percent_credit_workshop;
+            let percentM = res.json.data.docs[0].percent_wholesale;
+            let pricePrice = res.json.data.docs[0].price;
+            let priceP = res.json.data.docs[0].price_public;
+            let priceT = res.json.data.docs[0].price_workshop;
+            let priceC = res.json.data.docs[0].price_credit_workshop;
+            let priceM = res.json.data.docs[0].price_wholesale;
+            this.setState({
+                loading_data: false,
+                percent_public: percentP,
+                percent_taller: percentT,
+                percent_credito: percentC,
+                percent_mayoreo: percentM,
+                price_price: pricePrice,
+                price_public: priceP,
+                price_taller: priceT,
+                price_credito: priceC,
+                price_mayoreo: priceM,
+                product_key: clave
+
+            })
+            
+        });
+
+		const url = process.env.REACT_APP_API_URL + '/products/';
         const POSTDATA = {
             limit: 50000,
             page: 1,
@@ -371,9 +582,12 @@ class ChangePrices extends Component {
             }
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
+            response.json.data.docs.map((res) => {
+               console.log(res);
+            })
             if (response.json.success) {
                 this.setState({
-					products: response.json.data.docs.map((el, index)=>({
+					products: response.json.data.docs.map((el, index)=>({                        
 						...el,
 						key: index
                     })),
@@ -392,12 +606,55 @@ class ChangePrices extends Component {
 			});
         });
     }
-    getProductsKey_ID() {
-        
+    getProductsKey() {
+
+        let method = 'POST';             
+
         this.setState({
-			loading_products: true,
+			loading_productsKey: true,
 		});
-		const url = process.env.REACT_APP_API_URL + '/products';
+
+        const url_key = process.env.REACT_APP_API_URL + '/products/';
+
+        const POSDATA_PRO = {
+            limit: 10,
+            page: 1,
+            filters: {
+                key_id: this.state.key_id
+            },
+            subsidiary_id: this.props.session.subsidiary._id
+        }
+
+        FetchXHR(url_key, method, POSDATA_PRO).then((res) => {                              
+
+            let clave = res.json.data.docs[0].key_id;
+            let percentP =  res.json.data.docs[0].percent_public;
+            let percentT = res.json.data.docs[0].percent_workshop;
+            let percentC = res.json.data.docs[0].percent_credit_workshop;
+            let percentM = res.json.data.docs[0].percent_wholesale;
+            let pricePrice = res.json.data.docs[0].price;
+            let priceP = res.json.data.docs[0].price_public;
+            let priceT = res.json.data.docs[0].price_workshop;
+            let priceC = res.json.data.docs[0].price_credit_workshop;
+            let priceM = res.json.data.docs[0].price_wholesale;
+            this.setState({
+                loading_data: false,
+                percent_public: percentP,
+                percent_taller: percentT,
+                percent_credito: percentC,
+                percent_mayoreo: percentM,
+                price_price: pricePrice,
+                price_public: priceP,
+                price_taller: priceT,
+                price_credito: priceC,
+                price_mayoreo: priceM,
+                product_key: clave
+
+            })
+            
+        });
+
+		const url = process.env.REACT_APP_API_URL + '/products/';
         const POSTDATA = {
             limit: 50000,
             page: 1,
@@ -406,23 +663,24 @@ class ChangePrices extends Component {
             }
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
+           
             if (response.json.success) {
                 this.setState({
-					products: response.json.data.docs.map((el, index)=>({
+					productKey: response.json.data.docs.map((el, index)=>({                        
 						...el,
 						key: index
                     })),
-                    loading_products: false
+                    loading_productsKey: false
                 });
             } else {
 				this.setState({
-                    loading_products: false,
+                    loading_productsKey: false,
                     error: response.message
 				});
             }
         }).catch((onError) => {
 			this.setState({
-                loading_products: false,
+                loading_productsKey: false,
                 error: onError.message
 			});
         });
@@ -490,7 +748,7 @@ class ChangePrices extends Component {
                                     />
                                 )}
                                 type="text"
-                                placeholder="Marca"
+                                placeholder="MARCA"
                                 
                             />
                             <Button
@@ -505,48 +763,16 @@ class ChangePrices extends Component {
                             </Button>
                             <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
                             
-                        </div>
-                        <Divider></Divider>
-                        <div
-                            style={styles.inputsRowContainer}
-                        >
-                            <Input
-                                disabled={this.props.is_disabled}
-                                value={this.state.key_id}
-                                style={styles.inputElement}
-                                onChange={(value) => {
-                                    this.onChangeField(value, 'key_id');
-                                }}
-                                prefix={(
-                                    <Icon
-                                        type="car"
-                                        className="field-icon"
-                                    />
-                                )}
-                                type="text"
-                                placeholder="CLAVE"
-                                
-                            />
-                            <Button
-                                icon="search"
-                                disabled={this.state.brand === undefined ? true : false}
-                                type="primary"
-                                onClick={this.getProductsKey_ID}
-                                style={styles.buttonHistory}
-                                loading={this.state.loading_products}
-                            >
-                                Buscar
-                            </Button>
-                            <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
-                            
-                        </div>
+                        </div>                        
+                        <Divider>PRECIOS {this.state.product_key}</Divider>
+                        <Divider>{`COSTO: $${this.state.price_price}`} <Divider type="vertical"/> {`PUBLICO: $${this.state.price_public}`} <Divider type="vertical"/> {`TALLER: $${this.state.price_taller}`} <Divider type="vertical"/> {`CREDITO: $${this.state.price_credito}`} <Divider type="vertical"/> {`MAYOREO: $${this.state.price_mayoreo}`}</Divider>
                         <Divider></Divider>
                         <div
  	                        style={styles.inputsDesc}
                         >  
 
                         <div>     
-                            <h5>Costo</h5>
+                            <h5>Costo</h5>                
                                 <InputNumber
                                     disabled={this.props.is_disabled}
                                     value= {this.props.percent5}
@@ -713,20 +939,178 @@ class ChangePrices extends Component {
                                         >
                                         Aplicar
                                     </Button>,   
-                                    
                                     <Divider></Divider>
-                                        <br /><br /> 
+                                    <br /><br /> 
 
-                                    <Divider>Agregar utilidades a productos</Divider>                                                           
-                                        <Button 
-                                            is_disabled={this.state.products.length <= 0}
-                                            key="submit"
-                                            type="primary"                                
-                                            onClick={this.onSubmit7}
-                                            >
-                                            Aplicar
-                                        </Button>,   
-                                    <Divider></Divider>                                                  
+                                    <Divider>Agregar utilidades a productos</Divider>   
+
+                                     <div
+                                        style={styles.inputsRowContainer}
+                                    >
+                                        <Input
+                                            disabled={this.props.is_disabled}
+                                            value={this.state.key_id}
+                                            style={styles.inputElement}
+                                            onChange={(value) => {
+                                                this.onChangeField(value, 'key_id');
+                                            }}
+                                            prefix={(
+                                                <Icon
+                                                    type="car"
+                                                    className="field-icon"
+                                                />
+                                            )}
+                                            type="text"
+                                            placeholder="KEY_ID"
+                                            
+                                        />
+                                        <Button
+                                            icon="search"
+                                            disabled={this.state.key_id === undefined ? true : false}
+                                            type="primary"
+                                            onClick={this.getProductsKey}
+                                            style={styles.buttonHistory}
+                                            loading={this.state.loading_productsKey}
+                                        >
+                                            Buscar
+                                        </Button>
+                                        <p style={styles.inputLabel}>{this.state.productKey.length + ' '} Productos Encontrados. </p>
+                                        
+                                    </div>  
+                                    <><br /><br /></>
+                                    <Button 
+                                        is_disabled={this.state.productKey.length <= 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmit7}
+                                        >
+                                        Aplicar
+                                    </Button>,   
+                                    <Divider></Divider>     
+
+                                    <Divider>ACTUALIZAR PRECIOS INGRESANDO UTILIDADES</Divider>                                  
+                                    <Divider>UTILIDADES {this.state.brand}</Divider>
+                                    <Divider>{`PUBLICO: ${this.state.percent_public} %`} <Divider type="vertical"/>{`TALLER: ${this.state.percent_taller} %`} <Divider type="vertical"/> {`CREDITO: ${this.state.percent_credito} %`} <Divider type="vertical"/> {`MAYOREO: ${this.state.percent_mayoreo} %`}</Divider>                                  
+                                    <Divider>PRECIOS {this.state.product_key}</Divider>
+                                    <Divider>{`COSTO: $${this.state.price_price}`} <Divider type="vertical"/> {`PUBLICO: $${this.state.price_public}`} <Divider type="vertical"/> {`TALLER: $${this.state.price_taller}`} <Divider type="vertical"/> {`CREDITO: $${this.state.price_credito}`} <Divider type="vertical"/> {`MAYOREO: $${this.state.price_mayoreo}`}</Divider>
+                                    <Divider></Divider>           
+                                    <div
+ 	                                    style={styles.inputsDesc}
+                                    >  
+
+                                    <div>     
+                                        <h5>Costo</h5>                
+                                            <InputNumber
+                                                disabled={this.props.is_disabled}
+                                                value= {this.props.body_Price}
+                                                style={styles.inputElement2}
+                                                onChange={(value) => {
+                                                    this.onChangeFieldNumber(value, 'body_Price');
+                                                }}
+                                                prefix={(
+                                                    <Icon
+                                                        type="dollar"
+                                                        className="field-icon"
+                                                    />
+                                                )}
+                                                    type="text"
+                                                    placeholder="$"                                
+                                            />                                                 
+                                    </div>
+
+                                    <div>    
+                                        <h5>% PUBLICO</h5>
+
+                                            <InputNumber
+                                                disabled={this.props.is_disabled}
+                                                value= {this.props.body_PercentP}
+                                                style={styles.inputElement2}
+                                                onChange={(value) => {
+                                                    this.onChangeFieldNumber(value, 'body_PercentP');
+                                                }}
+                                                prefix={(
+                                                    <Icon
+                                                        type="dollar"
+                                                        className="field-icon"
+                                                    />
+                                                )}
+                                                type="text"
+                                                placeholder="%"                                
+                                            />                                               
+                                    </div>
+                        
+                                    <div> 
+                                        <h5>% TALLER</h5>
+                                            <InputNumber
+                                                disabled={this.props.is_disabled}
+                                                value= {this.props.body_PercentT}
+                                                style={styles.inputElement2}
+                                                onChange={(value) => {
+                                                    this.onChangeFieldNumber(value, 'body_PercentT');
+                                                }}
+                                                prefix={(
+                                                    <Icon
+                                                        type="dollar"
+                                                        className="field-icon"
+                                                    />
+                                                )}
+                                                type="text"
+                                                placeholder="%"                                                                
+                                            />                                             
+                                    </div>
+
+                                    <div>
+                                        <h5>% CREDITO</h5>
+                                            <InputNumber
+                                                disabled={this.props.is_disabled}
+                                                value= {this.props.body_PercentC}
+                                                style={styles.inputElement2}
+                                                onChange={(value) => {
+                                                    this.onChangeFieldNumber(value, 'body_PercentC');
+                                                }}
+                                                prefix={(
+                                                    <Icon
+                                                        type="dollar"
+                                                        className="field-icon"
+                                                    />
+                                                )}
+                                                type="text"
+                                                placeholder="%"                                
+                                            />                                               
+                                    </div>
+
+                                    <div>
+                                        <h5>% Mayoreo</h5>
+                                            <InputNumber
+                                                disabled={this.props.is_disabled}
+                                                value= {this.props.body_PercentM}
+                                                style={styles.inputElement2}
+                                                onChange={(value) => {
+                                                    this.onChangeFieldNumber(value, 'body_PercentM');
+                                                }}
+                                                prefix={(
+                                                    <Icon
+                                                        type="dollar"
+                                                        className="field-icon"
+                                                    />
+                                                )}
+                                                type="text"
+                                                placeholder="%"                                
+                                            />                                                 
+                                    </div>  
+                                    </div> 
+
+                                    <Divider></Divider>
+
+                                   <Divider><Button 
+                                        is_disabled={this.state.products.length <= 0}
+                                        key="submit"
+                                        type="primary"                                
+                                        onClick={this.onSubmitPrices}
+                                        >
+                                        Aplicar
+                                    </Button></Divider>,   
+                                    <Divider></Divider>                                               
                         </div>
                 </Modal>
             </Fragment>
