@@ -406,6 +406,7 @@ class CreateSell extends Component {
                     discount: p.discount,
                     total: p.total,
                     type: "VENTA",
+                    folio: p.folio,                    
                     date: moment().toISOString(),
                   };
                   const url_post_op =
