@@ -65,6 +65,9 @@ var ProductTransactionSchema = new Schema({
     prueba: {
         type: String
     },   
+    folio: {
+        type: Number
+    },
     invoice_folio: {
         type: String
     }

@@ -2,7 +2,7 @@
     var mongoose = require("mongoose");
     var Schema = mongoose.Schema;
     var mongoosePaginate = require('mongoose-paginate');
-    var autoIncrement = require('mongoose-plugin-autoinc');
+    /* var autoIncrement = require('mongoose-plugin-autoinc'); */
 
     var SellSchema = new Schema({
         subsidiary_id: {
@@ -189,11 +189,11 @@
 
     SellSchema.plugin(mongoosePaginate);
 
-    SellSchema.plugin(autoIncrement.plugin, {
+    /* SellSchema.plugin(autoIncrement.plugin, {
         model: 'Sell',
         field: 'folio',
         startAt: 1
-    });
+    }); */
 
     SellSchema.index({
         folio: 'text',
