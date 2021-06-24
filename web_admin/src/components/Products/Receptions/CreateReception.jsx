@@ -261,6 +261,7 @@ class CreateReception extends Component {
                                     discount: p.discount,
                                     total: p.total,
                                     type: 'RECEPCION',
+                                    invoice_folio: p.invoice_folio,
                                     date: moment().toISOString()
                                 }
                                 console.log(new_transaction);
