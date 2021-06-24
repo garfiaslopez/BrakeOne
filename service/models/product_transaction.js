@@ -2,7 +2,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
-var autoIncrement = require('mongoose-plugin-autoinc');
 
 var ProductTransactionSchema = new Schema({
     subsidiary_id: {
@@ -65,22 +64,13 @@ var ProductTransactionSchema = new Schema({
     },
     prueba: {
         type: String
-    },
-    folio: {
-        type: String
-    },
+    },   
     invoice_folio: {
         type: String
     }
 });
 
 ProductTransactionSchema.plugin(mongoosePaginate);
-
-ProductTransactionSchema.plugin(autoIncrement.plugin, {
-    model: 'product_transaction',
-    field: 'folio',
-    startAt: 890
-});
 
 //Return the module
 module.exports = mongoose.model("Product_Transaction", ProductTransactionSchema);
