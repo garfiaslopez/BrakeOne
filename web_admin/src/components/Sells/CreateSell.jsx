@@ -405,8 +405,7 @@ class CreateSell extends Component {
                     price: p.price,
                     discount: p.discount,
                     total: p.total,
-                    type: "VENTA",
-                    folio: p.folio,                    
+                    type: "VENTA",                                        
                     date: moment().toISOString(),
                   };
                   const url_post_op =
