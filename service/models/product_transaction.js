@@ -76,7 +76,7 @@ var ProductTransactionSchema = new Schema({
 
 ProductTransactionSchema.plugin(mongoosePaginate);
 
-SellSchema.plugin(autoIncrement.plugin, {
+ProductTransactionSchema.plugin(autoIncrement.plugin, {
     model: 'product_transaction',
     field: 'folio',
     startAt: 890
