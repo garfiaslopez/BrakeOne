@@ -129,7 +129,7 @@ class CreateService extends CrudLayoutClientsSell {
             page: 1,
             filters: {
                 subsidiary_id: this.props.session.subsidiary._id,
-                sell_id: this.props.fields._id,
+                service_id: this.props.fields._id,
             }
         }
         FetchXHR(url, 'POST', POSTDATA).then((response) => {
@@ -304,17 +304,17 @@ class CreateService extends CrudLayoutClientsSell {
                     populate_ids: ['client_id']
                 }
                 let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/sell';
+                let url = process.env.REACT_APP_API_URL + '/service';
                 if (this.props.fields) {
                     method = 'PUT';
-                    url = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
+                    url = process.env.REACT_APP_API_URL + '/service/' + this.props.fields._id;
                 }
 
                 // group products for calculate minus stock.... and exclude the already saved products.
                 // check for relationships and save it apart in her owns models
                 FetchXHR(url, method, POSTDATA).then((response) => {
                     if (response.json.success) {
-                        const saved_sell = response.json.obj;
+                        const saved_service = response.json.obj;
 
                         const OperationsProducts = [];
                         let mapped_products_stock = {}; // product_id -> sum_quantity.
@@ -382,8 +382,8 @@ class CreateService extends CrudLayoutClientsSell {
                         async.series(OperationsProducts,(err, responses) => {
                             if (!err) {
                                 console.log("NO ERROR");
-                                console.log(saved_sell);
-                                this.props.onCustomSubmit(saved_sell);
+                                console.log(saved_service);
+                                this.props.onCustomSubmit(saved_service);
                             } else {
                                 console.log(err);
                                 console.log("ERROR");

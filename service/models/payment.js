@@ -21,6 +21,10 @@ var PaymentSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Sell'
 	},
+	service_id: {
+		type: Schema.ObjectId,
+		ref: 'Service'
+	},
 	legacy_id: {
         type: String
 	},
