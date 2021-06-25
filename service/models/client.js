@@ -25,9 +25,6 @@ var ClientSchema = new Schema({
     sells: {
         type: Number
     },
-    services: {
-        type: Number
-    },
     price_type: {
         type: String,
         default: 'PUBLICO'
