@@ -125,7 +125,7 @@ class ProductService extends CrudLayout {
             	dataIndex: 'folio',
 				key: 'folio',				
 				render: renderRowTextSells,
-				width: '10%',
+				width: '6%',
 			},
 			{
             	title: 'Clave',
