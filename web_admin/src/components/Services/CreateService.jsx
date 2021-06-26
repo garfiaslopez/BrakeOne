@@ -269,6 +269,7 @@ class CreateService extends CrudLayoutClientsSell {
         // do validations:
         if (!isEmpty(this.state.client_id)) {
             if (this.state.products.length > 0 || this.state.services.length > 0) {
+                let initialFolio = this.props.next_folio;
                 const Sell =  {
                     subsidiary_id: this.props.session.subsidiary._id,
                     user_id: this.props.session.user._id,
@@ -291,6 +292,7 @@ class CreateService extends CrudLayoutClientsSell {
                     products: this.state.products,
                     services: this.state.services,
                     total: this.state.total,
+                    folio: initialFolio,
                     is_service: true,
                     car_id: this.state.car_id,
                     kilometers: this.state.kilometers,
@@ -364,6 +366,7 @@ class CreateService extends CrudLayoutClientsSell {
                                     price: p.price,
                                     discount: p.discount,
                                     total: p.total,
+                                    folio: initialFolio,
                                     type: 'VENTA_SERVICIO',
                                     date: moment().toISOString()
                                 }

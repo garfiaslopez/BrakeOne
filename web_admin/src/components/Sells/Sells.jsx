@@ -373,7 +373,7 @@ class Sells extends CrudLayout {
 					price: p.price,
 					discount: p.discount,
 					total: p.total,
-					type: 'CANCELADO',
+					type: 'NORMAL',
 					date: moment().toISOString()
 				}
 				const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
@@ -387,6 +387,7 @@ class Sells extends CrudLayout {
 					callback(onError);
 				});
 			});
+			console.log('Boton de cancelado');
 		});
 		
 		// GET PAYMENTS.

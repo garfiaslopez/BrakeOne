@@ -297,13 +297,20 @@ class CreateSell extends Component {
     let obj = {};
     obj[key] = value;
     this.setState(obj);
-  }
+  }  
 
   onSubmit = (event) => {
+    const url_get_product = process.env.REACT_APP_API_URL + '/product/';	
+        FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
+          console.log('Response: ', response_actual_p);
+        });
     event.preventDefault();
     // do validations:
     if (!isEmpty(this.state.client_id)) {
       if (this.state.products.length > 0 || this.state.services.length > 0) {
+        console.log();
+        let initialFolio = this.props.next_folio;                
+
         let Sell = {
           subsidiary_id: this.props.session.subsidiary._id,
           user_id: this.props.session.user._id,
@@ -322,10 +329,11 @@ class CreateSell extends Component {
           notes: this.state.notes,
           products: this.state.products,
           services: this.state.services,
-          total: this.state.total,
+          total: this.state.total,      
+          folio: initialFolio,    
           is_service: false,
           is_finished: true,
-        };
+        };       
         if (this.state.quotation_id) {
           Sell["quotation_id"] = this.state.quotation_id;
         }
@@ -390,7 +398,14 @@ class CreateSell extends Component {
                 });
               });
 
+              /* FetchXHR(process.env.REACT_APP_API_URL + "/sell/" + this.props.fields._id, 'PUT').then(resp => {
+                console.log('Respuesta: ', resp);
+              }) */
+              
               this.state.products.forEach((p) => {
+                console.log(this.state.products);
+                console.log(p.key_id);
+                console.log(p.fmsi);
                 OperationsProducts.push((callback) => {
                   //create transaction obj...
                   const new_transaction = {
@@ -405,8 +420,11 @@ class CreateSell extends Component {
                     price: p.price,
                     discount: p.discount,
                     total: p.total,
-                    type: "VENTA",                                        
+                    type: "VENTA",
+                    folio: initialFolio,
+                    invoice_folio: p.invoice_folio,
                     date: moment().toISOString(),
+
                   };
                   const url_post_op =
                     process.env.REACT_APP_API_URL + "/product-transaction";
@@ -419,7 +437,7 @@ class CreateSell extends Component {
                   );
                 });
               });
-
+              
               async.series(OperationsProducts, (err, responses) => {
                 if (!err) {
                   this.props.onCustomSubmit(saved_sell);
