@@ -98,14 +98,14 @@ class ProductService extends CrudLayout {
             	dataIndex: 'date',
 				key: 'date',				
 				render: renderRowDateSells,
-				width: '9%'
+				width: '8%'
 			},
 			{
             	title: 'Tipo de Movimiento',
             	dataIndex: 'type',
 				key: 'type',				
 				render: renderRowTextSells,
-				width: '6%',
+				width: '8%',
 				filters: [
 					{ text: 'VENTA', value: 'VENTA' },
 					{ text: 'RECEPCION', value: 'RECEPCION'},
@@ -118,7 +118,7 @@ class ProductService extends CrudLayout {
             	dataIndex: 'invoice_folio',
 				key: 'invoice_folio',				
 				render: renderRowTextSells,
-				width: '10%',
+				width: '6%',
 			},
 			{
             	title: 'Folio',
