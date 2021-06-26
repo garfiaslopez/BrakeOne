@@ -182,76 +182,8 @@ class ProductService extends CrudLayout {
 				key: 'total',							
 				render: renderRowNumberSells,
 				width: '6%',
-			},
-			/* {
-            	title: 'Old Stock',
-            	dataIndex: 'old_stock',
-				key: 'old_stock',				
-				render: renderRowTextSells,
-				width: '10%',
-			},
-			{
-            	title: 'Actual Stock',
-            	dataIndex: 'product_id.stock',
-				key: 'product_id.stock',				
-				render: renderRowTextSells,
-				width: '10%',
-			},	 */		
-		];
-		/* this.table_columns.push({
-			title: 'Acciones',
-			key: 'action',
-			width: '20%',
-			render: (text, record) => {
-				let PayButton = '';
-			
-				let CancelButton = '';
-				let EditButton = '';
-			
-				let DeleteButton = '';
-				if (true) {
-					DeleteButton = (
-						<Popconfirm
-							onClick={(event)=> {
-								event.stopPropagation();
-							}}
-							title="¿Esta seguro de eliminar?" 
-							okText="Eliminar"
-							cancelText="Cancelar"
-							onCancel={(event) => {
-								event.stopPropagation();
-							}}
-							onConfirm={(event) => {
-								event.stopPropagation();
-								this.onDelete(record);
-							}}
-						>
-							<Button 
-								type="danger" 
-								shape="circle" 
-								icon="delete"
-							/>
-						</Popconfirm>
-					);
-				}; */				
-				/* return (
-					<span>
-						<Button 
-							type="primary" 
-							shape="circle"
-							icon="printer"
-							onClick={(event)=> {
-								event.stopPropagation();
-								this.onPrint(record, 'SELL');
-							}}
-						/>						
-						{PayButton}
-						{EditButton}						
-						{DeleteButton}
-					</span>
-				);
-			},
-		}) */
+			}
+		]
 	}
 }
 
