@@ -56,6 +56,12 @@ var Models = [
         methods: ['create', 'read', 'update', 'delete', 'search']
     },
     {
+        model_name: 'serviceCar',
+        singular: 'serviceCar',
+        plural: 'serviceCars',
+        methods: ['create', 'read', 'update', 'delete', 'search']
+    },
+    {
         model_name: 'provider',
         singular: 'provider',
         plural: 'providers',

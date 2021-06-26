@@ -304,10 +304,10 @@ class CreateService extends CrudLayoutClientsSell {
                     populate_ids: ['client_id']
                 }
                 let method = 'POST';
-                let url = process.env.REACT_APP_API_URL + '/sell';
+                let url = process.env.REACT_APP_API_URL + '/serviceCar';
                 if (this.props.fields) {
                     method = 'PUT';
-                    url = process.env.REACT_APP_API_URL + '/sell/' + this.props.fields._id;
+                    url = process.env.REACT_APP_API_URL + '/serviceCar/' + this.props.fields._id;
                 }
 
                 // group products for calculate minus stock.... and exclude the already saved products.
@@ -420,7 +420,7 @@ class CreateService extends CrudLayoutClientsSell {
         }
     }
 
-    deliverService(event) {
+    deliverService(event) {//Entrega de auto
         // submit and update with changed flags and dates
         event.preventDefault();
         // do validations:

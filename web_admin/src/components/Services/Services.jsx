@@ -24,9 +24,9 @@ class Services extends CrudLayout {
 			filters_layout: ['search','date_range']
 		};
         this.model = {
-			name: 'sell',
-			singular: 'sell',
-			plural: 'sells',
+			name: 'serviceCar',
+			singular: 'serviceCar',
+			plural: 'serviceCars',
 			label: 'Servicios'
 		};
 		this.additional_get_data = {
@@ -359,7 +359,7 @@ class Services extends CrudLayout {
 
 		// 	CAMBIAR STATUS SELL A CANCELADO
 		OperationsProducts.push((callback) => {
-			const url_sell = process.env.REACT_APP_API_URL + '/sell/' + record._id;
+			const url_sell = process.env.REACT_APP_API_URL + '/serviceCar/' + record._id;
 			let new_sell = {
 				payed: 0,
 				is_canceled: true,
@@ -453,7 +453,7 @@ class Services extends CrudLayout {
 			page: 1,
 			filters: {
 				subsidiary_id: this.props.session.subsidiary._id,
-				sell_id: record._id,
+				serviceCar_id: record._id,
 			}
 		}
 		FetchXHR(url_payments, 'POST', data_payments).then((response_payments) => {
