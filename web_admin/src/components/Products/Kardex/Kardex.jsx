@@ -183,7 +183,7 @@ class ProductService extends CrudLayout {
 				render: renderRowNumberSells,
 				width: '6%',
 			},
-			{
+			/* {
             	title: 'Old Stock',
             	dataIndex: 'old_stock',
 				key: 'old_stock',				
@@ -196,7 +196,7 @@ class ProductService extends CrudLayout {
 				key: 'product_id.stock',				
 				render: renderRowTextSells,
 				width: '10%',
-			},			
+			},	 */		
 		];
 		/* this.table_columns.push({
 			title: 'Acciones',
