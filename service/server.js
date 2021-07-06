@@ -84,6 +84,6 @@ require('./config/system/models')( server );
 var port = process.env.PORT || config.port;
 
 server.listen( port, function() {
-    console.log('Puerto al que correo la aplicación: ', port);
+    /* console.log('Puerto al que correo la aplicación: ', port); */
     logger.info( 'Inicializando API url: ' + server.url + ' name: ' + server.name + ' pid: ' + process.pid + ' env: ' + process.env.NODE_ENV );
 });
