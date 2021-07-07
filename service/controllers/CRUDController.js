@@ -133,7 +133,9 @@ module.exports = (method, model) => {
         };          
         if (req.body.filters != undefined) {    
             console.log('Filters: ', req.body.filters);
-            Object.keys(req.body.filters).forEach((filter_key)  => {                 
+            Object.keys(req.body.filters).forEach((filter_key)  => { 
+                console.log('Filter key: ', Filter[filter_key]);
+                console.log('Filters key: ',  req.body.filters[filter_key])                
                 Filter[filter_key] = req.body.filters[filter_key];                
             });
         }
@@ -146,9 +148,7 @@ module.exports = (method, model) => {
             Object.keys(req.body.or_filters).forEach((filter_key)  => {   
                 console.log('Filter key: ', filter_key);            
                 let new_or = {};
-                new_or[filter_key] = req.body.or_filters[filter_key];
-                console.log( 'New or: ', new_or[filter_key] );
-                console.log( req.body.or_filters[filter_key]);
+                new_or[filter_key] = req.body.or_filters[filter_key];               
                 or_array.push(new_or);     
                 console.log(or_array.push(new_or))         
             });
