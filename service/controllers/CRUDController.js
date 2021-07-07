@@ -129,7 +129,7 @@ module.exports = (method, model) => {
         }
         if (req.body.search_text != undefined) { 
             console.log('Search Text: ', req.body.search_text);                       
-            Filter['$text'] = { '$search': req.body.search_text};
+            Filter['$text'] = { '$search': `/${this.search_text}/`};
             console.log('Filter: ', Filter);
         };          
         if (req.body.filters != undefined) {    
