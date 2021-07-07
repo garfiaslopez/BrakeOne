@@ -127,10 +127,12 @@ module.exports = (method, model) => {
         if (req.body.subsidiary_id != undefined) {            
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
-        if (req.body.search_text != undefined) {                        
+        if (req.body.search_text != undefined) { 
+            console.log('Search Text: ', req.body.search_text);                       
             Filter['$text'] = { '$search': req.body.search_text};
         };          
-        if (req.body.filters != undefined) {         
+        if (req.body.filters != undefined) {    
+            console.log('Filters: ', req.body.filters);
             Object.keys(req.body.filters).forEach((filter_key)  => {                 
                 Filter[filter_key] = req.body.filters[filter_key];                
             });
