@@ -75,5 +75,14 @@ var ProductTransactionSchema = new Schema({
 
 ProductTransactionSchema.plugin(mongoosePaginate);
 
+ProductTransactionSchema.index({
+    key_id: 'text',
+    fmsi: 'text',
+    client_name: 'text',
+    provider_name: 'text',
+    folio: 'text',
+    invoice_folio: 'text'
+})
+
 //Return the module
 module.exports = mongoose.model("Product_Transaction", ProductTransactionSchema);

@@ -93,7 +93,9 @@ ReceptionSchema.plugin(autoIncrement.plugin, {
 });
 
 ReceptionSchema.index({
-    folio: 'text'
+    folio: 'text',
+    invoice_folio: 'text',
+    provider_name: 'text'
 });
 
 //Return the module

@@ -96,6 +96,7 @@ ProductSchema.index({
     brand: 'text',
     localization: 'text',
     numero_oe: 'text',
+    description: 'text',
 });
 
 //Return the module

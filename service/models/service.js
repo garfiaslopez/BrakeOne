@@ -86,8 +86,14 @@ var ServiceSchema = new Schema({
 ServiceSchema.plugin(mongoosePaginate);
 
 
-ServiceSchema.index({
-	description: 'text'
+ServiceSchema.index({   
+	description: 'text',
+    client_name: 'text',
+    car_model: 'text',
+    car_brand: 'text',
+    car_plates: 'text',
+    car_vin: 'text',
+    car_year: 'text'
 });
 
 //Return the module

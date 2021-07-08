@@ -107,6 +107,7 @@ QuotationSchema.index({
     car_model: 'text',
     client_name: 'text',
     car_plates: 'text',
+    folio: 'text'
 });
 
 //Return the module

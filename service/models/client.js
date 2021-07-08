@@ -111,7 +111,17 @@ ClientSchema.index({
 	name: 'text', 
     email: 'text',
     rfc: 'text',
-    'cars.plates': 'text'
+    'cars.plates': 'text',
+    phone_number: 'text',
+    phone_mobil: 'text',
+    phone_office: 'text',
+    email: 'text',
+    curp: 'text',
+    rfc: 'text',
+    address: 'text',
+    address_country: 'text',
+    address_state: 'text',
+    address_cp: 'text'
 });
 
 module.exports = mongoose.model("Client", ClientSchema);
