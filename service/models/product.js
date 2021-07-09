@@ -16,9 +16,7 @@ var ProductSchema = new Schema({
         type: String,
     },
     description: {
-        type: String,
-        unique: true, 
-        sparse: true
+        type: String,     
     },
     barcode: {
         type: String
@@ -91,13 +89,7 @@ var ProductSchema = new Schema({
 ProductSchema.plugin(mongoosePaginate);
 
 ProductSchema.index({
-    key_id: 'text',
-    barcode: 'text',
-    fmsi: 'text',
-    line: 'text',
-    brand: 'text',
-    localization: 'text',
-    numero_oe: 'text',    
+    description: 'text',  
 });
 
 //Return the module

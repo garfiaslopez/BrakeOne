@@ -128,14 +128,15 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) { 
-            console.log('Search Text: ', req.body.search_text);                       
-            Filter['$text'] = { '$search': req.body.search_text};
+            console.log('Search Text: ', req.body.search_text);    
+            var text = req.body.search_text;                
+            Filter['$text'] = { description: {'$regex': new RegExp(text)}};
             console.log('Filter: ', Filter);
         };       
         
         /*Filtros de busquedas*/
         if (req.body.filters != undefined) {    
-            console.log('Filters: ', req.body.filters);
+            console.log('Filters: ', req.body.filters);            
             Object.keys(req.body.filters).forEach((filter_key)  => {                           
                 Filter[filter_key] = req.body.filters[filter_key];                
             });
