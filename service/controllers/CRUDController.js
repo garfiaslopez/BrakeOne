@@ -130,7 +130,7 @@ module.exports = (method, model) => {
         if (req.body.search_text != undefined) { 
             console.log('Search Text: ', req.body.search_text);     
             var textSearch = req.body.search_text;                 
-            Filter['$text'] = { '$search': new RegExp(textSearch)};
+            Filter['$text'] = { '$search': new RegExp(`(${textSearch})`, 'gi')};
             console.log('Filter: ', Filter);
         };       
         
