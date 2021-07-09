@@ -128,9 +128,9 @@ module.exports = (method, model) => {
             Filter['subsidiary_id'] = req.body.subsidiary_id
         }
         if (req.body.search_text != undefined) { 
-            console.log('Search Text: ', req.body.search_text);    
-            var text = req.body.search_text;                
-            Filter['$text'] ={ '$search': new RegExp(text)};
+            console.log('Search Text: ', req.body.search_text);     
+            var textSearch = req.body.search_text;                 
+            Filter['$text'] = { '$search': new RegExp(textSearch)};
             console.log('Filter: ', Filter);
         };       
         
@@ -146,7 +146,7 @@ module.exports = (method, model) => {
         }
 
         if (req.body.or_filters != undefined) {
-            console.log('Llegaste a or_filters!');
+            const or_array = [];
             Object.keys(req.body.or_filters).forEach((filter_key)  => {                          
                 let new_or = {};
                 new_or[filter_key] = req.body.or_filters[filter_key];               
