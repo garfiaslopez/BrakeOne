@@ -16,7 +16,9 @@ var ProductSchema = new Schema({
         type: String,
     },
     description: {
-        type: String
+        type: String,
+        unique: true, 
+        sparse: true
     },
     barcode: {
         type: String
@@ -95,8 +97,7 @@ ProductSchema.index({
     line: 'text',
     brand: 'text',
     localization: 'text',
-    numero_oe: 'text',
-    description: 'text',
+    numero_oe: 'text',    
 });
 
 //Return the module
