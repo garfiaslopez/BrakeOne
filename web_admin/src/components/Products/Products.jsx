@@ -58,7 +58,7 @@ class Products extends CrudLayout {
 			subsidiary_id: this.props.session.subsidiary._id
 		}
 		if(this.props.session.user.address_state === 'QRO'){			
-		this.table_columns = [						
+		this.table_columns = [
 			{
             	title: 'Clave',
             	dataIndex: 'key_id',

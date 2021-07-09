@@ -96,8 +96,7 @@ ProductSchema.index({
     barcode: 'text',
     fmsi: 'text',
     line: 'text',
-    brand: 'text',
-    prueba: 'text'
+    brand: 'text',    
 });
 
 //Return the module

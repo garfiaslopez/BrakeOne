@@ -215,13 +215,6 @@ const percent = 5/2;
 export default [
 	[		
 		{
-			id: 'prueba',
-			type: 'String',
-			placeholder: 'Prueba para busquedas',
-			prefixIcon: 'tool',
-			rules: Rules['clav']
-		},
-		{
 			id: 'key_id',
 			type: 'String',
 			placeholder: 'Clave',
