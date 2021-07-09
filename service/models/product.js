@@ -12,6 +12,9 @@ var ProductSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Provider'
     },
+    prueba: {
+        type: String
+    },
     numero_oe: {
         type: String,
     },
@@ -89,7 +92,12 @@ var ProductSchema = new Schema({
 ProductSchema.plugin(mongoosePaginate);
 
 ProductSchema.index({
-    description: 'text'
+    key_id: 'text',
+    barcode: 'text',
+    fmsi: 'text',
+    line: 'text',
+    brand: 'text',
+    prueba: 'text'
 });
 
 //Return the module
