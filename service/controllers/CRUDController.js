@@ -130,7 +130,7 @@ module.exports = (method, model) => {
         if (req.body.search_text != undefined) { 
             console.log('Search Text: ', req.body.search_text);    
             var text = req.body.search_text;                
-            Filter['$regex'] = new RegExp(text);
+            Filter['$text'] ={ '$search': new RegExp(text)};
             console.log('Filter: ', Filter);
         };       
         
@@ -146,7 +146,7 @@ module.exports = (method, model) => {
         }
 
         if (req.body.or_filters != undefined) {
-            const or_array = [];
+            console.log('Llegaste a or_filters!');
             Object.keys(req.body.or_filters).forEach((filter_key)  => {                          
                 let new_or = {};
                 new_or[filter_key] = req.body.or_filters[filter_key];               
