@@ -204,7 +204,7 @@ class Products extends CrudLayout {
 					dataIndex: 'brand',
 					key: 'brand',
 					render: RenderRows.renderRowTextProducts,
-					width: '10%',
+					width: '8%',
 					onCell: () => {
 						return CellStyle(120)
 					},
@@ -215,7 +215,7 @@ class Products extends CrudLayout {
 					key: 'description',
 					/* sorter: true, */
 					render: RenderRows.renderRowTextTruncateProducts,
-					width: '18%',
+					width: '16%',
 					onCell: () => {
 						return CellStyle(150)
 					},
@@ -235,7 +235,7 @@ class Products extends CrudLayout {
 					dataIndex: 'price_public',
 					key: 'price_public',
 					render: RenderRows.renderRowNumberProducts,
-					width: '14%',
+					width: '12%',
 					onCell: () => {
 						return CellStyle(100)
 					},
@@ -245,7 +245,7 @@ class Products extends CrudLayout {
 					dataIndex: 'price_workshop',
 					key: 'price_workshop',
 					render: RenderRows.renderRowNumberProducts,
-					width: '8%',
+					width: '6%',
 					onCell: () => {
 						return CellStyle(100)
 					},
@@ -255,7 +255,7 @@ class Products extends CrudLayout {
 					dataIndex: 'price_credit_workshop',
 					key: 'price_credit_workshop',
 					render: RenderRows.renderRowNumberProducts,
-					width: '8%',
+					width: '6%',
 					onCell: () => {
 						return CellStyle(100)
 					},
@@ -265,7 +265,7 @@ class Products extends CrudLayout {
 					dataIndex: 'price_wholesale',
 					key: 'price_wholesale',
 					render: RenderRows.renderRowNumberProducts,
-					width: '8%',
+					width: '6%',
 					onCell: () => {
 						return CellStyle(100)
 					},
@@ -276,7 +276,7 @@ class Products extends CrudLayout {
 					key: 'stock',
 					render: RenderRows.renderRowTextProducts,
 					sorter: true,
-					width: '8%',
+					width: '12%',
 					filters: [
 						{ text: 'En stock', value: 'stock.exists' },
 						{ text: 'Bajo stock', value: 'stock.low.exists'},	
@@ -293,7 +293,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '10%',
+				width: '16%',
 				onCell: () => {
 					return CellStyle(100)
 				},
