@@ -9,8 +9,11 @@ module.exports =  {
         };
         let NewProperties = {};
 
-        if (req.body.brand && req.body.quantity_percent) { // update by brand 
-            Filter.brand = req.body.brand;
+        if (req.body.brand && req.body.quantity_percent) { // update by brand             
+            Filter.brand = req.body.brand;     
+            Filter.price > 1000;
+            
+            console.log(Filter);
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
