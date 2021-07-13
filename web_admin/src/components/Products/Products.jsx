@@ -337,7 +337,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones prueba',
 				key: 'action',
-				width: '12%',
+				width: '16%',
 				onCell: () => {
 					return CellStyle(100)
 				},
