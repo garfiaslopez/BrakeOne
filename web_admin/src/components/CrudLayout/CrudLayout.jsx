@@ -159,7 +159,7 @@ class CrudLayout extends Component {
           + " " + "&&" + this.search_text + "DTV" + " " + "&&" + this.search_text + "RV" + " " + "&&" + this.search_text + "T" 
           + " " + "&&" + this.search_text + "DTS" + " " + "&&" + this.search_text + "TR" + " " + "&&" + this.search_text + "TI"
           + " " + "&&" + this.search_text + "DV" + " " + "&&" + this.search_text + "TT";
-        }else if(caracter1 === 'P'){
+        }else if(caracter1 === 'P' || caracter1 === 'p'){
           POSTDATA["search_text"] = this.search_text + " " + "&&" + this.search_text + "N" + " " + "&&" + this.search_text + "X";
         }
         //Numeros largos Centric
