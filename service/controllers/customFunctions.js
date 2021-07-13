@@ -13,7 +13,7 @@ module.exports =  {
             Filter.brand = req.body.brand;     
             Filter.price_public > 1000;
             
-            console.log('Filtro customFunctions: ', Filter);
+            console.log('Filtro customFunctions: ', Filter.price_public);
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
