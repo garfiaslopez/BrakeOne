@@ -1,6 +1,8 @@
 errs = require('restify-errors');
 module.exports =  {
     update_stockPublico:  (req, res, next) => {
+
+        console.log('Respuesta; ', res);
        
         const objectModel = require("../models/product");
 
