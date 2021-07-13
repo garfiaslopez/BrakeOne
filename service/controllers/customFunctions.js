@@ -11,9 +11,9 @@ module.exports =  {
 
         if (req.body.brand && req.body.quantity_percent) { // update by brand             
             Filter.brand = req.body.brand;     
-            Filter.price > 1000;
+            Filter.price_public > 1000;
             
-            console.log(Filter);
+            console.log('Filtro customFunctions: ', Filter);
 
             const multiplier = (Number(req.body.quantity_percent) / 100) + 1;
            
