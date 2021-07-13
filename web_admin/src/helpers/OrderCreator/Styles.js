@@ -56,6 +56,12 @@ export default {
         display: 'flex',
         alignSelf: 'center'
     },
+    searchLabel: {
+        fontSize: 15,
+        width: 100,
+        display: 'flex',
+        alignSelf: 'center'
+    },
     discountLabel: {
         fontSize: 13,
         width: 120,
@@ -67,6 +73,12 @@ export default {
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 10
+    },
+    autoComplete: {
+        width: 350,
+      /*   marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 10 */
     },
     rowElementUser: {
         width: 180,

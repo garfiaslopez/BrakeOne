@@ -27,6 +27,7 @@ import CrudLayoutClientsSell from '../CrudLayout/CrudLayoutClientsSell';
 import OrderCreatorClients from '../../helpers/OrderCreator/OrderCreatorClients';
 import OrderReception from "../../helpers/OrderCreator/OrderReception";
 import OrderCreatorProducts from '../../helpers/OrderCreator/OrderCreatorProducts';
+import clients from "../CrudLayout/bd_clients/clients";
 
 class CreateSell extends Component {
   
@@ -201,6 +202,7 @@ class CreateSell extends Component {
             })),
             prueba: false,
           })
+          console.log(clients);
         }
       
 

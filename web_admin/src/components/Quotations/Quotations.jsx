@@ -119,7 +119,7 @@ class Quotations extends CrudLayout {
 								this.onEdit(record);
 							}}
 						/>
-						<Divider type="vertical" />
+						{/* <Divider type="vertical" />
 						<Popconfirm
 							onClick={(event)=> {
 								event.stopPropagation();
@@ -141,7 +141,7 @@ class Quotations extends CrudLayout {
 								icon="delete"
 							/>
               			</Popconfirm>
-					</span>
+					 */}</span>
             	),
 			});
 		} else {

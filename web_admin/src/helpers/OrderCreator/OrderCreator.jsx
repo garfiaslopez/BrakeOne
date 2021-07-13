@@ -7,6 +7,7 @@ import {
     Popconfirm,
     Divider,
 	AutoComplete,
+	Input
 } from 'antd';
 import styles from './Styles';
 import { FetchXHR } from '../../helpers/generals';
@@ -111,6 +112,13 @@ class OrderCreator extends CrudLayout {
 		if(this.props.session.user.address_state === 'QRO'){			
 			this.table_columns_results = [
 				{
+					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderRow,
+					width: '8%',               
+				},
+				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
 					key: 'fmsi',
@@ -183,6 +191,13 @@ class OrderCreator extends CrudLayout {
 			];
 		}else{
 			this.table_columns_results = [
+				{
+					title: <div style={{ fontSize: FontTable }}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderRow,
+					width: '8%',               
+				},
 				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
@@ -352,7 +367,7 @@ class OrderCreator extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Quitar de lista</b>
+							<b>Eliminar</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"
@@ -777,9 +792,8 @@ class OrderCreator extends CrudLayout {
                                 // actualProducts[id].stock -= record.quantity;
 
                                 // Price selector:
-                                let Price = Number(record.price_public);
-                                let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
-                                
+                                let Price = Number(record.price);
+                                let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;                                
 
                                 if (this.state.price_type === 'PUBLICO') {
                                     Price = Number(record.price_public);
@@ -1065,20 +1079,27 @@ class OrderCreator extends CrudLayout {
 						<div
 							style={styles.rowContainer}
 						>
-						<AutoComplete
-							disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-							autoFocus
-							backfill
-							placeholder={'Buscador...'}
-							onSearch={this.onClickSearch}
-							onSelect={(value) => { this.onClickSearch() }}
-							value={this.state.client_name}
-							onChange={(value) => {
-								this.onChangeFieldName(value, 'client_name');
-							}}
-							dataSource={this.state.name_clients}
-							style={styles.inputElement}
-						/>
+						
+						<div style={styles.groupLabel}>
+                            <AutoComplete
+                              disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                              autoFocus
+                              backfill
+                              style={{
+                                width: 300,
+                              }}	                              
+                              onSearch={this.onClickSearch}
+                              onSelect={(value) => { this.onClickSearch(value)}}
+                              value={this.state.client_name}
+                              onChange={(value) => {
+                                  this.onChangeFieldName(value, 'client_name');
+                              }}
+                              dataSource={this.state.name_clients}                                                            
+                            >
+                            <Input.Search  placeholder="Buscar..." enterButton onSearch={this.onClickSearch}/>
+                            </AutoComplete>
+                            </div>
+
 							<div style={styles.groupLabel}>
 								<p style={styles.quantityLabel}>Cantidad (#)</p>
 								<InputNumber
@@ -1175,10 +1196,6 @@ class OrderCreator extends CrudLayout {
 			};
 		});
 		
-
-
-
-
 		const columns1 = this.table_columns_selected.map((col) => {
 			if (!col.editable) {
 			return col;
@@ -1205,11 +1222,6 @@ class OrderCreator extends CrudLayout {
 				},
 			};
 		});
-
-
-
-
-
 
 		return (
 			<Fragment>

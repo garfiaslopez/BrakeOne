@@ -143,7 +143,7 @@ class Receptions extends CrudLayout {
 									event.stopPropagation();
 								}}
 								title="¿Esta seguro de cancelar?" 
-								okText="Eliminar"
+								okText="Aceptar"
 								cancelText="Cancelar"
 								onCancel={(event) => {
 									event.stopPropagation();
@@ -162,7 +162,7 @@ class Receptions extends CrudLayout {
 						);
 					};
 					let DeleteButton = '';
-					if (record.is_canceled) {
+				/* 	if (record.is_canceled) {
 						DeleteButton = (
 							<Popconfirm
 								onClick={(event)=> {
@@ -186,14 +186,14 @@ class Receptions extends CrudLayout {
 								/>
 							</Popconfirm>
 						);
-					};
+					}; */
 
 					return (
 						<span>
 							{PayButton}
 							{EditButton}
 							{CancelButton}
-							{DeleteButton}
+					{/* 		{DeleteButton} */}
 						</span>
 					);
 				}
@@ -300,7 +300,7 @@ class Receptions extends CrudLayout {
 					type: 'RECEPCION_CANCELADO',
 					date: moment().toISOString()
 				}
-				const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
+				/* const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
 				FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
 					if (response_pt.json.success) {
 						callback(null, response_pt.json.obj);
@@ -309,7 +309,7 @@ class Receptions extends CrudLayout {
 					}
 				}).catch((onError) => {
 					callback(onError);
-				});
+				}); */
 			});
 		});
 		

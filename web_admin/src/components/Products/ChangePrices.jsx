@@ -25,6 +25,7 @@ class ChangePrices extends Component {
             loading_products: false,
             loading_productsKey: false, 
             loading_submit: false,
+            products_lenght: [],
             products: [],
             productKey: [],
             brand: undefined,
@@ -89,7 +90,7 @@ class ChangePrices extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                     
+        if (this.state.products_lenght.length > 0) {                                     
                 this.setState({
                     loading_submit: true
                 });
@@ -131,7 +132,7 @@ class ChangePrices extends Component {
     onSubmit2 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.productsKey.length > 0) {                                      
+        if (this.state.products_lenght.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -144,9 +145,9 @@ class ChangePrices extends Component {
                 let url = process.env.REACT_APP_API_URL + '/helpers/updatestockTaller';
         
                 FetchXHR(url, method, POSTDATA).then((response_update) => {
-                    if (response_update.json.success) {
+                    if (response_update.json.success) {                        
                         alert('Precios actualizados');
-                        this.props.refreshTable();
+                        this.props.refreshTable();                        
                        /*  this.props.onClose(); */
                     } else {
                         alert('No se realizo la actualización');                       
@@ -172,7 +173,7 @@ class ChangePrices extends Component {
     onSubmit3 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.products_lenght.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -213,7 +214,7 @@ class ChangePrices extends Component {
     onSubmit4 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.products_lenght.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -254,7 +255,7 @@ class ChangePrices extends Component {
     onSubmit5 = (event) => {
         event.preventDefault();
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.products_lenght.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -296,7 +297,7 @@ class ChangePrices extends Component {
         event.preventDefault();
        
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.products_lenght.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -483,7 +484,7 @@ class ChangePrices extends Component {
         event.preventDefault();
        
         // do validations:
-        if (this.state.products.length > 0) {                                      
+        if (this.state.products_lenght.length > 0) {                                      
                 this.setState({
                     loading_submit: true
                 });
@@ -525,13 +526,34 @@ class ChangePrices extends Component {
             });
         }
     }
-    getProducts() {
+    getProducts() {     
 
-        let method = 'POST';             
+        var brand_case = this.state.brand.toUpperCase();
+        
+        const POSDATA_PRO_LENGHT = {
+            limit: 100000,
+            page: 1,
+            filters: {
+                brand: brand_case
+            },
+            subsidiary_id: this.props.session.subsidiary._id
+        }
+
+        let method = 'POST';   
+        const url_products_length = process.env.REACT_APP_API_URL + '/products';
+        FetchXHR(url_products_length, method, POSDATA_PRO_LENGHT).then((res, req) => {            
+            this.setState({
+                products_lenght: res.json.data.docs.map((response, index) => ({
+                    ...response,
+                    /* key: index */
+                })),
+                loading_products: false
+            })           
+        })        
 
         this.setState({
 			loading_products: true,
-		});
+		});        
 
         const url_key = process.env.REACT_APP_API_URL + '/products/';
 
@@ -539,7 +561,7 @@ class ChangePrices extends Component {
             limit: 10,
             page: 1,
             filters: {
-                brand: this.state.brand
+                brand: brand_case
             },
             subsidiary_id: this.props.session.subsidiary._id
         }
@@ -573,38 +595,47 @@ class ChangePrices extends Component {
             
         });
 
-		const url = process.env.REACT_APP_API_URL + '/products/';
-        const POSTDATA = {
-            limit: 50000,
-            page: 1,
-            filters: {
-                brand: this.state.brand
-            }
-        }
-        FetchXHR(url, 'POST', POSTDATA).then((response) => {
-            response.json.data.docs.map((res) => {
-               console.log(res);
+
+        //Actualización de precios BREMBO según el precio "costo"
+        //Price > 1000
+        //Price < 1000
+        /* if(brand_case === 'BREMBO'){
+            FetchXHR(url_products_length, method, POSDATA_PRO_LENGHT).then((res, req) => {
+                res.json.data.docs.map((item, index) => {                                             
+                        if(item.price > 1000) {     
+                            //Publico: price_public
+                            //Taller: price_workshop
+                            //Credito taller: price_credit_workshop
+                            //Mayoreo: price_wholesale                                                
+
+                            let price = item.price;                    
+                            const new_price = {
+                                price_public:  Math.round(((70 / 100) * price) + price),//0.7
+                                price_workshop: Math.round(((40 / 100) * price) + price),
+                                price_credit_workshop: Math.round(((50 / 100) * price) + price),
+                                price_wholesale: Math.round(((20 / 100) * price) + price)
+                            }
+                            const url_put_product = process.env.REACT_APP_API_URL + '/product/' + item._id;
+                            FetchXHR(url_put_product, 'PUT', new_price).then((response_p) => {
+                                console.log('BIEN', index);
+                            }).catch(err => console.log(err))                
+                                    
+                        } else if(item.price < 1000){
+                            let price = item.price;                    
+                            const new_price = {
+                                price_public:  Math.round(((80 / 100) * price) + price),
+                                price_workshop: Math.round(((50 / 100) * price) + price),
+                                price_credit_workshop: Math.round(((60 / 100) * price) + price),
+                                price_wholesale: Math.round(((30 / 100) * price) + price)
+                            }
+                            const url_put_product = process.env.REACT_APP_API_URL + '/product/' + item._id;
+                            FetchXHR(url_put_product, 'PUT', new_price).then((response_p) => {
+                                console.log('BIEN', index);
+                            }).catch(err => console.log(err)) 
+                        }                            
+                }) 
             })
-            if (response.json.success) {
-                this.setState({
-					products: response.json.data.docs.map((el, index)=>({                        
-						...el,
-						key: index
-                    })),
-                    loading_products: false
-                });
-            } else {
-				this.setState({
-                    loading_products: false,
-                    error: response.message
-				});
-            }
-        }).catch((onError) => {
-			this.setState({
-                loading_products: false,
-                error: onError.message
-			});
-        });
+        } */
     }
     getProductsKey() {
 
@@ -761,7 +792,7 @@ class ChangePrices extends Component {
                             >
                                 Buscar
                             </Button>
-                            <p style={styles.inputLabel}>{this.state.products.length + ' '} Productos Encontrados. </p>
+                            <p style={styles.inputLabel}>{this.state.products_lenght.length + ' '} Productos Encontrados. </p>
                             
                         </div>                        
                         <Divider>PRECIOS {this.state.product_key}</Divider>
@@ -790,7 +821,7 @@ class ChangePrices extends Component {
                                         placeholder="Descuento Costo"                                
                                     />
                                     <Button 
-                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        is_disabled={this.state.products_lenght.length <= 0 && this.state.percent > 0}
                                         key="submit"
                                         type="primary"                                
                                         onClick={this.onSubmit5}
@@ -819,7 +850,7 @@ class ChangePrices extends Component {
                                         placeholder="Descuento Precio Publico"                                
                                     />
                                     <Button 
-                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        is_disabled={this.state.products_lenght.length <= 0 && this.state.percent > 0}
                                         key="submit"
                                         type="primary"                                
                                         onClick={this.onSubmit}
@@ -847,7 +878,7 @@ class ChangePrices extends Component {
                                     placeholder="Descuento Precio Taller"                                                                
                                 />   
                                 <Button 
-                                    is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                    is_disabled={this.state.products_lenght.length <= 0 && this.state.percent > 0}
                                     key="submit"
                                     type="primary"                                
                                     onClick={this.onSubmit2}
@@ -875,7 +906,7 @@ class ChangePrices extends Component {
                                         placeholder="Descuento Credito Taller"                                
                                     />
                                     <Button 
-                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        is_disabled={this.state.products_lenght.length <= 0 && this.state.percent > 0}
                                         key="submit"
                                         type="primary"                                
                                         onClick={this.onSubmit3}
@@ -903,7 +934,7 @@ class ChangePrices extends Component {
                                         placeholder="Descuento Mayoreo"                                
                                     />
                                     <Button 
-                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        is_disabled={this.state.products_lenght.length <= 0 && this.state.percent > 0}
                                         key="submit"
                                         type="primary"                                
                                         onClick={this.onSubmit4}
@@ -932,7 +963,7 @@ class ChangePrices extends Component {
                                         placeholder="Descuento..."                                
                                     />
                                     <Button 
-                                        is_disabled={this.state.products.length <= 0 && this.state.percent > 0}
+                                        is_disabled={this.state.products_lenght.length <= 0 && this.state.percent > 0}
                                         key="submit"
                                         type="primary"                                
                                         onClick={this.onSubmit6}
@@ -1103,7 +1134,7 @@ class ChangePrices extends Component {
                                     <Divider></Divider>
 
                                    <Divider><Button 
-                                        is_disabled={this.state.products.length <= 0}
+                                        is_disabled={this.state.products_lenght.length <= 0}
                                         key="submit"
                                         type="primary"                                
                                         onClick={this.onSubmitPrices}

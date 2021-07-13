@@ -382,7 +382,7 @@ class OrderCreatorReception extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Quitar de lista</b>
+							<b>Eliminar</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"
@@ -954,17 +954,25 @@ class OrderCreatorReception extends CrudLayout {
 
 					//////////////////////////////////////////////////////////////
 					//Elimina el producto y suma el quantity al stock del producto
-					
+					const POSTDATA = {
+						limit: 50000,
+						page: 1,
+						filters: {
+							key_id: this.state.key_id
+						}
+					}
 						
-							const url_get_product = process.env.REACT_APP_API_URL + '/product/' + record.id;	
-							FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
-								const new_p = {
+							const url_get_product = process.env.REACT_APP_API_URL + '/product';	
+							FetchXHR(url_get_product, 'GET', POSTDATA).then((response_actual_p) => {
+
+								console.log('Llegaste aqui 2: ', response_actual_p)
+								/* const new_p = {
 									stock: response_actual_p.json.obj.stock	+ record.quantity		
 								}
 								const url_put_product = process.env.REACT_APP_API_URL + '/product/' + record.id;
 								FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
 									console.log(response_actual_p.json.obj.stock);
-								})
+								}) */
 							});
 							
 				
@@ -984,6 +992,8 @@ class OrderCreatorReception extends CrudLayout {
 		}
     }
 	deleteRecordCom(record) {
+		console.log('ID productos: ', record.id);
+		console.log('MARCA productos: ', record.brand)
 
 		if(true){
 				console.log("GOING TO DETELE RECORD");
@@ -999,15 +1009,9 @@ class OrderCreatorReception extends CrudLayout {
 					//Elimina el producto y suma el quantity al stock del producto
 					
 						
-							const url_get_product = process.env.REACT_APP_API_URL + '/product/' + record.id;	
+							const url_get_product = process.env.REACT_APP_API_URL + '/product/' + 'BREMBO';	
 							FetchXHR(url_get_product, 'GET').then((response_actual_p) => {
-								const new_p = {
-									stock: response_actual_p.json.obj.stock	- record.quantity		
-								}
-								const url_put_product = process.env.REACT_APP_API_URL + '/product/' + record.id;
-								FetchXHR(url_put_product, 'PUT', new_p).then((response_p) => {
-									console.log(response_actual_p.json.obj.stock);
-								})
+								console.log('Llegaste aqui 1: ', response_actual_p)
 							});
 							
 				
@@ -1103,20 +1107,25 @@ class OrderCreatorReception extends CrudLayout {
 						  <div
 							  style={styles.rowContainer}
 						  >
-							  <AutoComplete
-								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
-								autoFocus
-								backfill
-								placeholder={'Buscador...'}
-								onSearch={this.onClickSearch}
-								onSelect={(value) => { this.onClickSearch() }}
-								value={this.state.client_name}
-								onChange={(value) => {
-									this.onChangeFieldName(value, 'client_name');
-								}}
-								dataSource={this.state.name_clients}
-								style={styles.inputElement}
-							/>
+							  <div style={styles.groupLabel}>
+                            <AutoComplete
+                              disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
+                              autoFocus
+                              backfill
+                              style={{
+                                width: 300,
+                              }}	                              
+                              onSearch={this.onClickSearch}
+                              onSelect={(value) => { this.onClickSearch(value)}}
+                              value={this.state.client_name}
+                              onChange={(value) => {
+                                  this.onChangeFieldName(value, 'client_name');
+                              }}
+                              dataSource={this.state.name_clients}                                                            
+                            >
+                            <Input.Search  placeholder="Buscar..." enterButton onSearch={this.onClickSearch}/>
+                            </AutoComplete>
+                            </div>
 							  <div style={styles.groupLabel}>
 								  <p style={styles.quantityLabel}>Cantidad (#)</p>
 								  <InputNumber
@@ -1256,7 +1265,7 @@ class OrderCreatorReception extends CrudLayout {
 				  >
 				  
 					  {SearcherProducts}
-					  <Divider> Orden de venta </Divider>
+					  <Divider> Orden de recepción </Divider>
 					  
 					  <div                      
 					  >

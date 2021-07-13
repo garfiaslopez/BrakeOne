@@ -13,10 +13,10 @@ import {
 const maxWidthTable = 120;
 const CellStyle = (width) => { 
 	return {
-		// style: {
-	  	// 	whiteSpace: 'nowrap',
-	 	// 	maxWidth: width,
-		// }
+		/*  style: {
+	  	 	whiteSpace: 'nowrap',
+	 	 	maxWidth: width,			
+		 } */
 	}
 };
 
@@ -60,39 +60,29 @@ class Products extends CrudLayout {
 		if(this.props.session.user.address_state === 'QRO'){			
 		this.table_columns = [
 			{
-            	title: 'Clave',
-            	dataIndex: 'key_id',
+				title: 'Clave',
+				dataIndex: 'key_id',
 				key: 'key_id',
 				render: RenderRows.renderRowTextProducts,
-				width: '7%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				}
 			},
 			{
-            	title: 'FMSI',
-            	dataIndex: 'fmsi',
+				title: 'FMSI',
+				dataIndex: 'fmsi',
 				key: 'fmsi',
 				render: RenderRows.renderRowTextProducts,
-				width: '6%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				},
 			},
 			{
-            	title: 'Linea',
-            	dataIndex: 'line',
+				title: 'Linea',
+				dataIndex: 'line',
 				key: 'line',
-				render: RenderRows.renderRowTextProducts,
-				width: '7%',
-				onCell: () => {
-					return CellStyle(120)
-				},
-			},
-			{
-            	title: 'Marca',
-            	dataIndex: 'brand',
-				key: 'brand',
 				render: RenderRows.renderRowTextProducts,
 				width: '8%',
 				onCell: () => {
@@ -100,49 +90,49 @@ class Products extends CrudLayout {
 				},
 			},
 			{
-            	title: 'Descripción',
-            	dataIndex: 'description',
+				title: 'Marca',
+				dataIndex: 'brand',
+				key: 'brand',
+				render: RenderRows.renderRowTextProducts,
+				width: '10%',
+				onCell: () => {
+					return CellStyle(120)
+				},
+			},
+			{
+				title: 'Descripción',
+				dataIndex: 'description',
 				key: 'description',
-				sorter: true,
+				/* sorter: true, */
 				render: RenderRows.renderRowTextTruncateProducts,
-				width: '12%',
+				width: '18%',
 				onCell: () => {
 					return CellStyle(150)
 				},
-			}, 
-			/* {
-            	title: 'Costo',
-            	dataIndex: 'price',
-				key: 'price',
-				render: RenderRows.renderRowNumberProducts,
-				width: '6%',
-				onCell: () => {
-					return CellStyle(100)
-				},
-			}, */
+			}, 			
 			{
-            	title: 'Publico/' + '\n' +'Mostrador',
-            	dataIndex: 'price_public',
+				title: 'Público / Mostrador / Tienda en línea',
+				dataIndex: 'price_public',
 				key: 'price_public',
 				render: RenderRows.renderRowNumberProducts,
-				width: '9%',
+				width: '14%',
 				onCell: () => {
 					return CellStyle(100)
 				},
 			},
 			{
-            	title: 'Taller/' + '\n' + 'Tienda en Linea',
-            	dataIndex: 'price_workshop',
+				title: 'Taller',
+				dataIndex: 'price_workshop',
 				key: 'price_workshop',
 				render: RenderRows.renderRowNumberProducts,
-				width: '10%',
+				width: '8%',
 				onCell: () => {
 					return CellStyle(100)
 				},
 			},
 			{
-            	title: 'Crédito Taller',
-            	dataIndex: 'price_credit_workshop',
+				title: 'Crédito Taller',
+				dataIndex: 'price_credit_workshop',
 				key: 'price_credit_workshop',
 				render: RenderRows.renderRowNumberProducts,
 				width: '8%',
@@ -151,8 +141,8 @@ class Products extends CrudLayout {
 				},
 			},
 			{
-            	title: 'Mayoreo',
-            	dataIndex: 'price_wholesale',
+				title: 'Mayoreo',
+				dataIndex: 'price_wholesale',
 				key: 'price_wholesale',
 				render: RenderRows.renderRowNumberProducts,
 				width: '8%',
@@ -161,15 +151,16 @@ class Products extends CrudLayout {
 				},
 			},
 			{
-            	title: 'Stock',
-            	dataIndex: 'stock',
+				title: 'Stock',
+				dataIndex: 'stock',
 				key: 'stock',
 				render: RenderRows.renderRowTextProducts,
 				sorter: true,
 				width: '8%',
 				filters: [
 					{ text: 'En stock', value: 'stock.exists' },
-					{ text: 'Bajo stock', value: 'stock.low.exists'}					
+					{ text: 'Bajo stock', value: 'stock.low.exists'},	
+					{ text: 'Sin stock', value: 'stock.no.exists'}		
 				],
 				onCell: () => {
 					return CellStyle(100)
@@ -183,7 +174,7 @@ class Products extends CrudLayout {
 					dataIndex: 'key_id',
 					key: 'key_id',
 					render: RenderRows.renderRowTextProducts,
-					width: '7%',
+					width: '8%',
 					onCell: () => {
 						return CellStyle(100)
 					}
@@ -193,7 +184,7 @@ class Products extends CrudLayout {
 					dataIndex: 'fmsi',
 					key: 'fmsi',
 					render: RenderRows.renderRowTextProducts,
-					width: '6%',
+					width: '8%',
 					onCell: () => {
 						return CellStyle(100)
 					},
@@ -203,7 +194,7 @@ class Products extends CrudLayout {
 					dataIndex: 'line',
 					key: 'line',
 					render: RenderRows.renderRowTextProducts,
-					width: '7%',
+					width: '8%',
 					onCell: () => {
 						return CellStyle(120)
 					},
@@ -213,7 +204,7 @@ class Products extends CrudLayout {
 					dataIndex: 'brand',
 					key: 'brand',
 					render: RenderRows.renderRowTextProducts,
-					width: '8%',
+					width: '10%',
 					onCell: () => {
 						return CellStyle(120)
 					},
@@ -222,9 +213,9 @@ class Products extends CrudLayout {
 					title: 'Descripción',
 					dataIndex: 'description',
 					key: 'description',
-					sorter: true,
+					/* sorter: true, */
 					render: RenderRows.renderRowTextTruncateProducts,
-					width: '12%',
+					width: '18%',
 					onCell: () => {
 						return CellStyle(150)
 					},
@@ -234,27 +225,27 @@ class Products extends CrudLayout {
 					dataIndex: 'price',
 					key: 'price',
 					render: RenderRows.renderRowNumberProducts,
-					width: '6%',
+					width: '8%',
 					onCell: () => {
 						return CellStyle(100)
 					},
 				},
 				{
-					title: 'Publico/' + '\n' +'Mostrador',
+					title: 'Público / Mostrador / Tienda en línea',
 					dataIndex: 'price_public',
 					key: 'price_public',
 					render: RenderRows.renderRowNumberProducts,
-					width: '9%',
+					width: '14%',
 					onCell: () => {
 						return CellStyle(100)
 					},
 				},
 				{
-					title: 'Taller/' + '\n' + 'Tienda en Linea',
+					title: 'Taller',
 					dataIndex: 'price_workshop',
 					key: 'price_workshop',
 					render: RenderRows.renderRowNumberProducts,
-					width: '10%',
+					width: '8%',
 					onCell: () => {
 						return CellStyle(100)
 					},
@@ -302,7 +293,7 @@ class Products extends CrudLayout {
 			this.table_columns.push({
             	title: 'Acciones',
 				key: 'action',
-				width: '25%',
+				width: '10%',
 				onCell: () => {
 					return CellStyle(100)
 				},

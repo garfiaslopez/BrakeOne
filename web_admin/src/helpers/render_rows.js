@@ -55,7 +55,7 @@ export default {
     renderRowTextTruncateProducts: (text, record) => {
         let color = record.stock < 1 ? 'red' : 'blue';
         return ({
-            children: <p style={{color, fontSize}}>{text.substring(0,20) + '...'}</p>,
+            children: <p style={{color, fontSize}}>{text.substring(0,30) + '...'}</p>,
         });
     },
     renderRowTextTruncateDesc: (text, record) => {

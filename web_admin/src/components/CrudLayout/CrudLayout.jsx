@@ -72,7 +72,6 @@ class CrudLayout extends Component {
       limit: 500,
       page: 1,
     };
-
     FetchXHR(url_clients, "POST", POSTDATA_CLIENTS).then((response) => {
       response.json.data.docs.map((el) => {
           var names = []

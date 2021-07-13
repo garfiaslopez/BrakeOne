@@ -122,6 +122,13 @@ class OrderCreatorQuotation extends CrudLayout {
 		if(this.props.session.user.address_state === 'QRO'){			
 			this.table_columns_results = [
 				{
+					title: <div style={{fontSize: FontTable}}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderTruncateRow,
+					width: '10px'
+				},
+				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
 					key: 'fmsi',
@@ -196,11 +203,18 @@ class OrderCreatorQuotation extends CrudLayout {
 					dataIndex: 'stock',
 					key: 'stock',
 					render: renderRow,
-					width: '10%'
+					width: '5%'
 				}
 			];
 		}else{
 			this.table_columns_results = [
+				{
+					title: <div style={{fontSize: FontTable}}>Sucursal</div>,
+					dataIndex: 'subsidiary_id.denomination',
+					key: 'subsidiary_id.denomination',
+					render: renderTruncateRow,
+					width: '10px'
+				},
 				{
 					title: <div style={{ fontSize: FontTable }}>FMSI</div>,
 					dataIndex: 'fmsi',
@@ -276,7 +290,7 @@ class OrderCreatorQuotation extends CrudLayout {
 					dataIndex: 'stock',
 					key: 'stock',
 					render: renderRow,
-					width: '10%'
+					width: '5%'
 				}
 			];
 		}
@@ -321,7 +335,7 @@ class OrderCreatorQuotation extends CrudLayout {
                 title: <div style={{ fontSize: FontTable }}>Concepto</div>,
 				dataIndex: 'description',
                 key: 'description',
-				width: '25%',
+				width: '30%',
 				editable: props.can_edit_disccount,			
 			},
 			{
@@ -423,7 +437,7 @@ class OrderCreatorQuotation extends CrudLayout {
 									this.deleteList(record);
 								}}
 							>
-							<b>Quitar de lista</b>
+							<b>Eliminar</b>
 								<Button 								    
 									type="danger" 
 									shape="circle"
@@ -501,8 +515,7 @@ class OrderCreatorQuotation extends CrudLayout {
     onChangeUser(user_id) {
         this.setState({
             selected_user: this.state.users.find((el) => (el._id === user_id))
-        });
-		
+        });		
     }
 
     getUsers() {
@@ -792,7 +805,7 @@ class OrderCreatorQuotation extends CrudLayout {
                     // actualProducts[id].stock -= record.quantity;
 
                     // Price selector:
-                    let Price = Number(record.price_public);
+                    let Price = Number(record.price);
 					let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
 					
 
@@ -1031,11 +1044,6 @@ class OrderCreatorQuotation extends CrudLayout {
 		}
     }
 
-
-
-
-
-
 	onSelectClient(client_name) {
 		const client = this.state.products.find((el) => (el.key_id === client_name));
 		let phone = client.phone_mobil;
@@ -1076,27 +1084,32 @@ class OrderCreatorQuotation extends CrudLayout {
 			  SearcherProducts = (
 				  
 				  <Fragment>
-					  <Divider> Buscar y seleccionar productos: </Divider>
+					  <Divider> <h2> Buscar y seleccionar productos: </h2></Divider>
 					  <div
 						  style={styles.columnContainer}
 					  >
 						  <div
 							  style={styles.rowContainer}
 						  >
-							  <AutoComplete
+						  <div style={styles.groupLabel}>							
+							<AutoComplete							  	
 								disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
 								autoFocus
 								backfill
-								placeholder={'Buscador...'}
+								style={{
+									width: 300,
+								}}								
 								onSearch={this.getData}
 								onSelect={(value) => { this.getData() }}
 								value={this.state.client_name}
 								onChange={(value) => {
 									this.onChangeFieldName(value, 'client_name');
 								}}
-								dataSource={this.state.name_clients}
-								style={styles.inputElement}
-							/>
+								dataSource={this.state.name_clients}								
+								>
+								<Input.Search  placeholder="Buscar..." enterButton onSearch={this.getData}/>
+							</AutoComplete>								
+							</div>
 							  <div style={styles.groupLabel}>
 								  <p style={styles.quantityLabel}>Cantidad (#)</p>
 								  <InputNumber
@@ -1224,18 +1237,13 @@ class OrderCreatorQuotation extends CrudLayout {
 			  };
 		  });
   
-  
-  
-  
-  
-  
 		  return (
 			  <Fragment>
 				  <div
 					  
 				  >
 					  {SearcherProducts}
-					  <Divider> Orden de venta </Divider>
+					  <Divider> Orden de cotización </Divider>
 					  <div                      
 					  >
 						  <Table

@@ -703,7 +703,7 @@ class OrderCreatorVentas extends CrudLayout {
                                 // actualProducts[id].stock -= record.quantity;
 
                                 // Price selector:
-                                let Price = Number(record.price_public);
+                                let Price = Number(record.price);
                                 let Discount = this.state.selected_discount ? Number(this.state.selected_discount) : 0;
                                 
 
@@ -973,9 +973,6 @@ class OrderCreatorVentas extends CrudLayout {
       });
     }
 
-
-
-
     render() {		
         let widthTable = (window.innerWidth/2) - 60;
         if (this.props.disabled) {
@@ -1004,20 +1001,26 @@ class OrderCreatorVentas extends CrudLayout {
                         <div
                             style={styles.rowContainer}
                         >
+                        <div style={styles.groupLabel}>
                             <AutoComplete
                               disabled={this.props.is_disabled || (this.props.fields && this.props.session.user.rol !== 'ADMIN')}
                               autoFocus
                               backfill
-                              placeholder={'Buscador...'}
+                              style={{
+                                width: 300,
+                              }}	                              
                               onSearch={this.onClickSearch}
                               onSelect={(value) => { this.onClickSearch(value)}}
                               value={this.state.client_name}
                               onChange={(value) => {
                                   this.onChangeFieldName(value, 'client_name');
                               }}
-                              dataSource={this.state.name_clients}
-                              style={styles.inputElement}
-                          />
+                              dataSource={this.state.name_clients}                                                            
+                            >
+                            <Input.Search  placeholder="Buscar..." enterButton onSearch={this.onClickSearch}/>
+                            </AutoComplete>
+                            </div>
+
                             <div style={styles.groupLabel}>
                                 <p style={styles.quantityLabel}>Cantidad (#)</p>
                                 <InputNumber
@@ -1144,11 +1147,6 @@ class OrderCreatorVentas extends CrudLayout {
                 },
             };
         });
-
-
-
-
-
 
         return (
             <Fragment>

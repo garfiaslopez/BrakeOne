@@ -12,6 +12,9 @@ export default {
     inputSearch: {
         width: 300
     },
+    filterSearch: {
+        width: 100
+    },
     inputRangedate: {
         width: 250
     },

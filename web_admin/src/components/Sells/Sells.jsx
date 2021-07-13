@@ -178,7 +178,7 @@ class Sells extends CrudLayout {
 						);
 					};
 					let DeleteButton = '';
-					if (record.is_canceled) {
+					/* if (record.is_canceled) {
 						DeleteButton = (
 							<Popconfirm
 								onClick={(event)=> {
@@ -202,7 +202,7 @@ class Sells extends CrudLayout {
 								/>
 							</Popconfirm>
 						);
-					};
+					}; */
 					{/* Ticket de venta*/}
 					return (
 						<span>
@@ -376,7 +376,7 @@ class Sells extends CrudLayout {
 					type: 'NORMAL',
 					date: moment().toISOString()
 				}
-				const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
+				/* const url_post_op = process.env.REACT_APP_API_URL + '/product-transaction';
 				FetchXHR(url_post_op, 'POST', new_transaction).then((response_pt) => {
 					if (response_pt.json.success) {
 						callback(null, response_pt.json.obj);
@@ -385,7 +385,7 @@ class Sells extends CrudLayout {
 					}
 				}).catch((onError) => {
 					callback(onError);
-				});
+				}); */
 			});
 			console.log('Boton de cancelado');
 		});

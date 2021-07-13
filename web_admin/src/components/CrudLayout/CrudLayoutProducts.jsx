@@ -786,7 +786,7 @@ onChangeFieldName(value, key) {}
       Add_Button = (
         <Button type="primary" onClick={this.onOpenSubmitForm}>
           <Icon type="plus-circle-o" />
-          Agregar Producto
+          Agregar producto nuevo
         </Button>
       );
     }
