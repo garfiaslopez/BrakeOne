@@ -17,7 +17,8 @@ export default {
         textAlign: 'center',
         fontSize: 25,
         color : 'white',
-        padding: 0
+        padding: 0,
+        background: 'linear-gradient(337deg, rgba(0,1,255,0.6811099439775911) 0%, rgba(255,0,0,0.7091211484593838) 50%, rgba(0,246,144,0.7371323529411764) 100%)'
     },
     avatar: {
         fontSize: 5,
@@ -45,5 +46,6 @@ export default {
         paddingLeft: 10,
         textAlign: 'left',
         color: 'white',
+        background: ''
     }
 }
