@@ -250,7 +250,7 @@ export default [
 			placeholder: 'Proveedor',
 			data: 'providers',
 			label: 'name',
-			rules: Rules['string']
+			rules: Rules['string_no_req']
 		}
 	],
 	[
