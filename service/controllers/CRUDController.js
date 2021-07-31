@@ -102,7 +102,7 @@ module.exports = (method, model) => {
     let Search = (req, res, next) => {    
         var Paginator = {
             page: 1,//Pagina
-            limit: 50,//Limite de la pagina
+            limit: 500,//Limite de la pagina
             sort: {
                 created: -1, // desc
             }
